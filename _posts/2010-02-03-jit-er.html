@@ -1,0 +1,42 @@
+---
+layout: post
+title: JIT-er
+date: 2010-02-03 20:41:34.000000000 +00:00
+categories: []
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  dsq_thread_id: '360551293'
+author:
+  login: LaM
+  email: lam.michal.franc@gmail.com
+  display_name: Michal Franc
+  first_name: Michal
+  last_name: Franc
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>Jak działa .Netowy mechanizm kompilacji:<br />
+1. Mamy kod napisany w wysoko abstrakcyjnym języku który jest zgodny ze standardem CLS(<a href="http://msdn.microsoft.com/en-us/library/12a7a7h3(VS.71).aspx">Common Language Specification</a>)</p>
+<p>2. Kompilator kompiluje kod źródłowy do kodu CIL(<a href="http://en.wikipedia.org/wiki/Common_Intermediate_Language">Common Intermediate Language</a>).</p>
+<p>3. W momencie uruchomienia aplikacji JIT-er pobiera kod w CIL-u i na wyjściu generuje natywny kod zoptymalizowany pod architekturę naszego systemu , procka itp [ fragmenty kodu są często cachowane zwiększając wydajność  procesu]. Kompilator nie przetwarza całego kodu. Wyciąga tylko te fragmenty , które są aktualnie używane. Proces ten różni się od mechanizmu  C++ - owego  , jeden proces kompilacji ,przetworzenie całego piku źródłowego , linkowanie i na wyjsciu plik wykonywalny. W sumie "Just in Time compialtion" jest czymś pośrednim między Kompilatorem standardowym a Interpreterem.</p>
+<p><a href="http://lammichalfranc.files.wordpress.com/2010/02/jit.jpg"><img src="assets/jit.jpg" alt="" title="JIT" width="209" height="295" class="aligncenter size-full wp-image-282" /></a></p>
+<p>Za każdym razem kompilator działający  w trybie normalnym optymalizuje proces kompilacji , dostosowywuje<br />
+go do naszego sprzętu.</p>
+<p>Mechanizmy optymalizacyjne:</p>
+<p>-<a href="//en.wikipedia.org/wiki/Constant_folding">constant folding</a><br />
+Proces upraszczania stałych w czasie kompilacji. Np kompilator wyrażenie <strong>20*20*20 </strong>zamieni na liczbe całkowita <strong>8000</strong></p>
+<p>-<a href="http://en.wikipedia.org/wiki/Copy_propagation">copy propagation</a><br />
+Wyszukiwanie przypisań bezpośrednich (np x=y) i zastępowanie ich jedną zmienną.</p>
+<p>-<a href="http://8086.blogcu.com/range-check-elimination-in-c/1595627">elimination of range checking</a><br />
+Wyłączenie sprawdzania przekroczenia zakresu np w tablicy  w miejscach gdzie to sprawdzenie jest niepotrzebne.</p>
+<p>-<a href="http://en.wikipedia.org/wiki/Common_subexpression_elimination">elimination of common subexpressions</a><br />
+Wyszukiwanie podobnych wyrażeń i zastępowanie ich jedną zmienną.</p>
+<p>-<a href="http://en.wikipedia.org/wiki/Inline_function">method inlining</a><br />
+Zastępowanie wywołania metody kodem zawartym w funkcji.</p>
+<p>Do dyspozycji prócz standardowego JIT-era mamy jeszcze.<br />
+EconoJIT -er , który nie przeprowadza optymalizacji i tym samym proces kompilacji jest znacznie szybszy. Dodatkowo można wyłączyć opcję cachowania fragmentów kodu. Jest to szczególnie ważne w sytuacji gdy mamy dostępny niewielki obszar pamięci.</p>
+<p>Ciekawym narzędziem dostępnym w ramach platformy .Net jest <a href="http://msdn.microsoft.com/en-us/library/6t9t5wcf.aspx">Ngen (Native Image Generator)</a>. Ngen kompiluje <a href="http://en.wikipedia.org/wiki/Bytecode"> kod natywny</a> i trzyma go w plikach zwanych "native images" , które wrzuca do cachu.  Dzięki temu przy uruchomeniu konkretnego programu nie musimy przeprowadzać kompilacji JIT-owej ponieważ korzystamy z tego prekompilowanego kodu.</p>
+<p>Jeżeli kogoś interesowałoby deployowanie aplikacji skompilowanej do natywnego kodu bez uzywania Jitera i bez konieczności instalowania .Net Frameworka .Istnieją narzędzia które pozwalają to zrobić np. <a href="http://www.remotesoft.com/linker/intro.html">Salamander</a></p>

@@ -1,0 +1,68 @@
+---
+layout: post
+title: Seam Carving (3)
+date: 2010-02-07 00:52:54.000000000 +00:00
+categories: []
+tags:
+- ".net"
+- c#
+- seam carving
+status: publish
+type: post
+published: true
+meta:
+  dsq_thread_id: '347991666'
+author:
+  login: LaM
+  email: lam.michal.franc@gmail.com
+  display_name: Michal Franc
+  first_name: Michal
+  last_name: Franc
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>Zupdatowałem źródło projekciku Seam Carving.</p>
+<p>Troszeczkę przesadziłem z designem aplikacji. No ale od czegoś trzeba zacząć. Już wiem z czym to się je.</p>
+<p>Aplikacja Rozdzielona jest na trzy moduły.</p>
+<p><strong>-UI w Formsach<br />
+-Silnik Algorytmu<br />
+-Silnik Graficzny</strong></p>
+<p><strong>Silnik Graficzny:</strong></p>
+<p><strong> </strong><br />
+IEnergyCalculator: - interfejs klasy liczącej energię<br />
+EnergyCalGradient - liczenie gradientu<br />
+IImageProcessor - interfejs klasy przetwarzającej obraz<br />
+GdiImageProcess - przetwarzanie przy pomocy GDI+ i LockBitów<br />
+IPixelManipulator - interfejs klasy modyfikującej pixele<br />
+PixelColor  -kolorowanie pixeli<br />
+PixelRemove - usuwanie pixeli</p>
+<p><strong>Silnik Algorytmu</strong></p>
+<p><strong> </strong><br />
+ISeamManipulator : - interfejs klasy operującej na Seamach<br />
+DynamicSeamManipulator - dynamiczne usuwanie seama<br />
+DynamicSeamManipulatorWithMark - to samo ale z zaznaczaniem seama<br />
+StaticSeamManipulator - statyczne seamy [nie obsługiwane]<br />
+StaticSeamManipulatorWithMark</p>
+<p><!--more--></p>
+<p><a href="http://lammichalfranc.files.wordpress.com/2009/12/seamcarv.jpg"><img class="aligncenter size-full wp-image-312" title="SeamCarv" src="assets/seamcarv.jpg" alt="" width="383" height="339" /></a></p>
+<p><strong>Psuedo kod aplikacji:</strong></p>
+<p><strong> </strong><br />
+for 1 to n do<br />
+{<br />
+1. Wczytanie Obrazka<br />
+2. Wybranie Parametrów przetwarzania bitmapy<br />
+3. Wywołanie algorytmu SeamCarving<br />
+4. Wywołanie metody ManipulateSeam ISeamManipulatora<br />
+5. Wyliczenie Energi Obrazka wywołanie metody Energy silnika graficznego ktora jako jeden parametr przyjmuje interfejs  IEnergyCalculator<br />
+6. Wyznaczenie Seama<br />
+7. Wywołanie silnika graficznego i metody przetwarzającej obrazek na podstawie seama.<br />
+}</p>
+<div id="_mcePaste">Zastosowanie interfejsów pozwoliło mi stworzyć mniej powiązane klasy. Teraz np jak chcę policzyć Energię inną funkcją wystarczy , że stworzę klasę i odpowiednio zaimplementuje interfejs.W paru miejscach oczywiście przesadziłem m.in łamiąc regułę  <a href="http://en.wikipedia.org/wiki/You_ain't_gonna_need_it"> YAGNI ( You Aren't Gonna Need It)</a></div>
+<p><strong>Testy</strong></p>
+<p><a href="http://lammichalfranc.files.wordpress.com/2010/02/skytower.jpg"><img class="aligncenter size-full wp-image-323" title="skytower" src="assets/skytower.jpg" alt="" width="450" height="544" /></a></p>
+<p><strong>Energia</strong></p>
+<p><a href="http://lammichalfranc.files.wordpress.com/2010/02/energia.jpg"><img class="aligncenter size-full wp-image-324" title="energia" src="assets/energia.jpg" alt="" width="450" height="566" /></a></p>
+<p><strong>Obrazek Po Skalowaniu</strong><br />
+<a href="http://lammichalfranc.files.wordpress.com/2010/02/lobrazek.jpg"><img class="aligncenter size-full wp-image-366" title="lobrazek" src="assets/lobrazek.jpg" alt="" width="238" height="408" /></a></p>
+<p>Na razie projekcik jest na wstrzymaniu. Jak ktoś ma jakieś uwagi , pytania to proszę pisać.<br />
+<a href="http://www.datafilehost.com/download-71284d0b.html">Projekt "SeamCarving"</a></p>

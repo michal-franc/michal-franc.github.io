@@ -1,0 +1,79 @@
+---
+layout: post
+title: Reloading ListBox DataSource
+date: 2010-07-29 22:58:52.000000000 +01:00
+categories: []
+tags:
+- ".net"
+- c#
+status: publish
+type: post
+published: true
+meta:
+  jabber_published: '1280444336'
+  _syntaxhighlighter_encoded: '1'
+  _edit_last: '1'
+  dsq_thread_id: '979346892'
+  _wp_old_slug: its-time-to-make-%e2%80%a6-money
+author:
+  login: LaM
+  email: lam.michal.franc@gmail.com
+  display_name: Michal Franc
+  first_name: Michal
+  last_name: Franc
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>My Little project TimeIsMoney is participating in a contest by <a href="http://www.maciejaniserowicz.com/">Maciej Aniserowicz.</a></p>
+<p>At the moment it's really simple tool used to help me with collecting and sorting various tasks.</p>
+<p><a href="http://lammichalfranc.files.wordpress.com/2010/07/timeismoney.png"><img class="aligncenter size-full wp-image-480" title="TimeIsMoney" src="assets/timeismoney.png" alt="" width="417" height="295" /></a></p>
+<p>I'm doing this just for fun. This contest will be a great motivation and good way to promote this blog :P</p>
+<p>So what's interesting in the code right now ?</p>
+<p><strong>1. ListBox DataSource Reloading</strong></p>
+<pre class="lang:default decode:true">public static class Extension
+{
+    public static void eReloadDataSource(this ListBox listbox)
+    {
+    string s = listbox.DisplayMember;
+    Object obj = listbox.DataSource;
+    listbox.DataSource = null;
+    listbox.DataSource = obj;
+    listbox.DisplayMember=s;
+    }
+}</pre>
+<p>This Extension method reloads the Data source of a ListBox. I know it looks stupid but it works :D.<br />
+Let's take a look in Reflector …. hmm</p>
+<pre class="lang:default decode:true ">public object DataSource
+{
+     [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+     get
+     {
+          return this.dataSource;
+     }
+     set
+     {
+          if (((value != null) &amp;&amp; !(value is IList)) &amp;&amp; !(value is IListSource))
+     {
+     throw new ArgumentException(SR.GetString("BadDataSourceForComplexBinding"));
+     }
+     if (this.dataSource != value)
+     {
+          try
+          {
+               this.SetDataConnection(value, this.displayMember, false);
+          }
+          catch
+          {
+               this.DisplayMember = "";
+          }
+          if (value == null)
+          {
+               this.DisplayMember = "";
+          }
+     }
+}</pre>
+<p>&nbsp;</p>
+<p>So by assigning null value i m calling the SetDataConnection(,,,) which reloads the data. Also you can easily see that we have to reasssign DisplayMember value beacuase it is set to an Empty String at the end.</p>
+<p><strong>2. GlobalKeyHook</strong></p>
+<p>To catch the key press events i am using slightly modified code from <a href="http://www.codeproject.com/KB/cs/CSLLKeyboardHook.aspx">link</a> . I made a little tweak to enable the special keys combinations , so you can catch the alt+ctrl+b sequention.</p>
+<p>That's all for now ;] If you want to check the code it is on the <a href="http://github.com/LaMik/TimeIsMoney">GitHub.</a></p>

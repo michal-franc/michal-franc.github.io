@@ -1,0 +1,104 @@
+---
+layout: post
+title: Cursors in T-SQL
+date: 2010-03-13 20:39:34.000000000 +00:00
+categories: []
+tags:
+- ".net"
+- sql
+status: publish
+type: post
+published: true
+meta:
+  dsq_thread_id: '347991690'
+  _edit_last: '1'
+author:
+  login: LaM
+  email: lam.michal.franc@gmail.com
+  display_name: Michal Franc
+  first_name: Michal
+  last_name: Franc
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>Lately, I have started an internship in one of the IT Companies located in Wroclaw. I am really happy because this is a great opportunity to catch "real job" experience. Academic projects are a different kind of story.</p>
+<p>I had a task to implement some MsSql queries and some operations on retrieved results. My first thought was to implement a simple for loop, iterate thought the result collection, do something on each result, „voila” .</p>
+<p>Sure, Easier said than done.</p>
+<p>Simple loop thought the results of SQL Query is great if we want to do something with a bunch of the data, but what should we do when with every iteration we want to do a specific operation on exactly one record. There is a problem because We would have to track the index of the current record. This would take a lot of effort to write test, etc. If you don't want to waste a lot of time try the "Cursors". They are ideal for this kind of a situation. They are similar to iterator in collections. You can fetch records, one by one and do some operations on them.</p>
+<h3>Cursors</h3>
+<p>Let's assume that we have some Table called „UserData” with typical Columns:</p>
+<ul>
+<li>ID</li>
+<li>Name</li>
+<li>Date</li>
+<li>isActive</li>
+</ul>
+<p>The simplest sql query ....</p>
+<pre class="lang:default decode:true">SELECT * FROM UserData</pre>
+<p>will return :</p>
+<ul>
+<li>1 , Michał Franc , 2008-10-10 , 1</li>
+<li>2 , Stefan Romański , 2006-01-01 , 1</li>
+<li>3 , Maria Kozłowska , 2005-04-04 , 1</li>
+</ul>
+<p>This is my test Data [Those are my secret personalities on the Net ].</p>
+<p>Let's ask for the name of the users with Date value before year 2007. This is another query falling to the „simple” category.</p>
+<p>SELECT Name FROM USerData Where DATEDIFF(day,'2007-01-01',Date) &lt; 0</p>
+<p>Result:</p>
+<ul>
+<li>Stefan Romański</li>
+<li>Maria Kozłowska</li>
+</ul>
+<p>Let's create a procedure to take an ID as a parameter and set the isActive column to 0. This procedure is used to set all users with Date before year 2007 to isActive status 0.</p>
+<p>Lets Create Query for ID's .</p>
+<p>SELECT ID FROM DaneUzytkownikow Where DATEDIFF(day,'2007-01-01',Data) &lt; 0</p>
+<p>Result:</p>
+<ul>
+<li>2</li>
+<li>3</li>
+</ul>
+<p>We have ID's of inactive users. We will use the cursors now to run a procedure for every ID.</p>
+<p>Before going further let me describe you how to use Cursors:</p>
+<ol>
+<li><em>Create temporary variables for data fetched from result row</em></li>
+<li><em>Create Cursor and assing a Select Query to it</em></li>
+<li><em>Open Cursor , this commands fils Cursor with data returned from assigned Query</em></li>
+<li><em>Iteration on records with Fetch function , assign data to temporary  variables</em></li>
+<li><em>Run procedure with temporary variables as a parameters</em></li>
+<li><em>repeat step 4 and 5</em></li>
+<li><em>Close Cursor , disposing resources</em></li>
+<li><em>Cursor Deallocation</em></li>
+</ol>
+<div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:8db1bc4e-6c66-4a6a-a698-763e4a1def35">
+<pre class="lang:default decode:true  crayon-selected">DECLARE@UserIdint 
+Declare@CursorCursor 
+Set@Cursor=CursorFORSELECT ID FROM UserData Where DATEDIFF(day,'2007-01-01',Data) &lt;0
+Open@Cursor  Fetch Next From @CursorInto @UserId  
+While (@@FETCH_STATUS=0)
+Begin
+        EXEC SetInactive @Id=@UserID Fetch Next From @CursorInto @UserID
+End
+Close @Cursor
+Deallocate @Cursor</pre>
+</div>
+<h3>1.Declaring Temporary Variable @UserId</h3>
+<p>DECLARE @UserId int - This variable on each iteration will</p>
+<h3>2.Create Cursor</h3>
+<p>Declare @Cursor Cursor</p>
+<p>Set @Cursor = Cursor</p>
+<p>For SELECT ID FROM UserData Where DATEDIFF(day,'2007-01-01',Data) &lt; 0</p>
+<p>- We have to assign sql query.</p>
+<h3>3.Open Cursor.</h3>
+<p>Open @Cursor - Assigned Query is executed.</p>
+<h3>4.Iterating through records.</h3>
+<p>We have to store data from row in temporary variable</p>
+<p><em>Fetch Next From @Cursor Into @UserId</em></p>
+<p>While (@@FETCH_STATUS = 0) - The while loop will iterate till last row returned from the query.</p>
+<h3>5.Executing Procedure with temporary variable as a parameter</h3>
+<p><em>Begin EXEC SetInactive @Id = @UserID</em></p>
+<p>After executing the procedure we need to fetch next data.</p>
+<p><em>Fetch Next From @Cursor Into @UserID End</em></p>
+<h3>7 i 8.Closing and Deallocating Cursor</h3>
+<p>Close @Cursor Deallocate @Cursor</p>
+<p>And that would be all its quite simple and easy. Cursors are very useful in lot of scenarios.</p>
+<p>Cursors are also available in  <a href="http://dev.mysql.com/doc/refman/5.0/en/cursors.html">MySql</a> and <a href="http://www.oracle-base.com/articles/misc/UsingRefCursorsToReturnRecordsets.php">Oracle</a>.</p>
