@@ -7,3 +7,4 @@
 - fix blog posts, formatting
 - disquse
 - rss
+- justowanie
