@@ -4,3 +4,6 @@
 - redirects
 - Google analytics
 - clicky
+- fix blog posts, formatting
+- disquse
+- rss

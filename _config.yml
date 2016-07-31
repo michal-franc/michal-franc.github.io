@@ -1,5 +1,5 @@
 # Build settings
-permalink   : /blog/:year/:title/
+permalink   : /blog/:title/
 markdown    : kramdown
 highlighter : pygments
 gems: [jekyll-paginate]
@@ -14,16 +14,15 @@ sass:
   style: compressed # expanded
 
 # SEO settings
-title: end2end
-description: "A free Jekyll theme for download"
-keywords: "Jekyll, theme, free, download, SEO, blog, web"
-url: http://nandomoreira.me
+title: Michal Franc
+description: "Experienced Engineer, Lead"
+keywords: "Michal Franc, Franc, Engineer, Lead"
+url: http://www.mfranc.com
 baseurl: ""
 
-# google_analytics: UA-52446115-1
-repo: http://github.com/nandomoreirame/end2end
-disqus_shortname: "nandothemes"
-disqus_site_shortname: "nandothemes"
+google_analytics: UA-15894596-3
+disqus_shortname: "MichalFranc"
+disqus_site_shortname: "thesilenceofthelams"
 
 # Author settings
 author:
@@ -31,21 +30,21 @@ author:
   job       : Lead Engineer 
   bio       : "Enthusiast performance, responsive design and usability, always looking for the best project and good coffee."
   thumb     : /images/author.jpg
-  email     : nandomoreira.me@gmail.com
-  url       : http://nandomoreira.me
-  github    : http://github.com/nandomoreirame
-  twitter   : http://twitter.com/nandomoreirame
-  facebook  : http://facebook.com/fernando.dev
-  linkedin  : http://linkedin.com/in/nandomoreirame
+  email     : lam.michal.franc@gmail.com
+  url       : http://www.mfranc.com
+  github    : http://github.com/michal-franc
+  twitter   : http://twitter.com/francmichal
+  facebook  : http://facebook.com/michal.franc.9
+  linkedin  : https://uk.linkedin.com/in/michalfranc1
 
 # navbar pages
 navbar:
   - slug: about
     title: About
-  # - slug: resume
-  #   title: Resume
-  # - slug: skills
-  #   title: Skills
+  - slug: resume
+    title: Resume
+  - slug: speaking
+    title: Speaking
   - slug: blog
     title: Blog
 
