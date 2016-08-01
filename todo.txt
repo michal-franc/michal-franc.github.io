@@ -8,6 +8,7 @@
 - disquse
 - rss
 - justowanie
+- on paginated page whole divs with post should be clickable
 5. zajawki sa za krotkie, urwane, brak czegos w stylu „read more…"
 5. brakuje formatowania kodu zrodlowego, jest nieczytelny i wyjezdza poza strone
 7 jeszcze obie zapisz zeby jakies fotki artykulow dorobic
