@@ -8,8 +8,6 @@
 - disquse
 - rss
 - justowanie
-3. na buttonach milo by widziec jakis :hover
-4. troche malo wpisow per strona przez co jest az 44 podstron (!)
 5. zajawki sa za krotkie, urwane, brak czegos w stylu „read more…"
 5. brakuje formatowania kodu zrodlowego, jest nieczytelny i wyjezdza poza strone
 7 jeszcze obie zapisz zeby jakies fotki artykulow dorobic
