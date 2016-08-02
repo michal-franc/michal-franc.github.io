@@ -9,8 +9,13 @@
 - rss
 - justowanie
 - on paginated page whole divs with post should be clickable
+- add support for custom tags to be shared through facebook, twitter
 5. zajawki sa za krotkie, urwane, brak czegos w stylu „read more…"
 5. brakuje formatowania kodu zrodlowego, jest nieczytelny i wyjezdza poza strone
 7 jeszcze obie zapisz zeby jakies fotki artykulow dorobic
 8 i potem je w og:image
 9 tak by miec twittera i fejsa wsparcie
+- support for blog series
+- support for js executable code easilly ( maybe C# )
+- support for running unit tests on blog
+- support for Q/A sessions
