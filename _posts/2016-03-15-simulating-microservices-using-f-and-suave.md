@@ -2,9 +2,10 @@
 layout: post
 title: Simulating microservices using F# and Suave.io
 date: 2016-03-15 02:21
-author: LaM
+author: Michal Franc
 comments: true
-categories: [Blog]
+summary: Brief overview of a way to deploy simple services on local machine.
+categories:
 ---
 <p>I have this small hobby project called Overseer. It is a tool used to debug and troubleshoot microservices. I was planning to use it in production, but because that is the only prototype. I decided to use it with simulated services. This way it will be a lot easier to create many different 'test' scenarios.</p>
 
@@ -14,34 +15,40 @@ categories: [Blog]
 
 <p>I want to iterate fast and create different networks of services. I need a simple way of defining the structure of the network. At the moment, I am using an array of tuples with a service name and collection of all the services it depends on. It looks like this.</p>
 
-<pre class="lang:js decode:true " >let listOfServices = [ ("GG.Web.Crowdfunding", "ms", 
-     [ "GG.Service.IdentityVerification"; "GG.Service.Project"; "GG.Service.Profile"; "GG.Service.Crm"; "GG.Service.User"; "GG.Service.Project.RiskAnalysis";
-        "GG.Imaging.Read"; "GG.Imaging.Write"; "GG.Service.Project.Registration"; "GG.Service.AB";    
-        "PayPal";  
+{% highlight csharp %}
+let listOfServices = [ ("GG.Web.Crowdfunding", "ms", 
+     [ "GG.Service.IdentityVerification"; "GG.Service.Project"; 
+       "GG.Service.Profile"; "GG.Service.Crm"; "GG.Service.Project.RiskAnalysis";
+       "GG.Imaging.Read"; "GG.Imaging.Write"; "GG.Service.Project.Registration"; 
+       "GG.Service.AB"; "PayPal"; "GG.Service.User"
      ]);
+
      ("GG.Service.IdentityVerification", "ms", [    
         "VerifyIntegrity"; "Unfido";"CreditCallService";"PayPal";"GG.Service.User"    
      ]);
-]</pre>
+]
+{% endhighlight %}
 
 <p>This array of tuples is changed to Suave web 'servers' with one endpoint.</p>
 
-<pre class="lang:c# decode:true " >let toTaskMicroServers endpoint =
-    Task.Run(fun () -&gt; startWebServer (serverConfig endpoint.port) (app endpoint))
+{% highlight csharp %}
+let toTaskMicroServers endpoint =
+    Task.Run(fun () -> startWebServer (serverConfig endpoint.port) (app endpoint))
     
 let taskList = listOfServices     
-               |&gt; createEndpoints
-               |&gt; List.map toTaskMicroServers  
-               |&gt; List.toArray 
-               |&gt; Task.WaitAll
+               |> createEndpoints
+               |> List.map toTaskMicroServers  
+               |> List.toArray 
+               |> Task.WaitAll
 
-</pre>
+{% endhighlight %}
 
 <p>The result is a list of Tasks running suave exposing one simple endpoint.</p>
 
 <h3>Endpoint list</h3>
 
-<pre class="lang:c# decode:true " >type EndpointResponse = {
+{% highlight csharp %}
+type EndpointResponse = {
     port : uint16;
     url : string;
     name : string;
@@ -49,7 +56,7 @@ let taskList = listOfServices
     status : bool;
     dependancies : EndpointResponse list
 }
-</pre>
+{% endhighlight %}
 
 <pre class="lang:c# decode:true " >let createInitialEndpoints list =
     let startPort = 3000
