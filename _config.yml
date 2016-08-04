@@ -40,13 +40,13 @@ author:
 
 # navbar pages
 navbar:
-  - slug: about
-    title: About
-  - slug: resume
-    title: Resume
-  - slug: speaking
-    title: Speaking
-  - slug: blog
+  - slug: /blog/tech
+    title: Tech
+  - slug: /blog/lead
+    title: Lead
+  - slug: /blog/devcareer
+    title: DevCareer
+  - slug: /blog
     title: Blog
 
 exclude: ["gulp", "node_modules", "bower", "bower_components", "config.rb", "src", "Gemfile", "Gemfile.lock", ".rvmrc", ".rbenv-version", "package.json", "gulpfile.js", "README.md", "Rakefile", "changelog.md"]
