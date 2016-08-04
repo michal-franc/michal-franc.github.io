@@ -1,21 +1,32 @@
-- comments
-- fix config 
+Must HAve
+- comments disqus
+- google analytics
 - meta values correct
+- support for blog series
 - redirects
-- Google analytics
 - clicky
-- fix blog posts, formatting
 - disquse
-- rss
+- rss ( test on feedly )
 - justowanie
 - on paginated page whole divs with post should be clickable
-- add support for custom tags to be shared through facebook, twitter
-5. zajawki sa za krotkie, urwane, brak czegos w stylu „read more…"
-5. brakuje formatowania kodu zrodlowego, jest nieczytelny i wyjezdza poza strone
-7 jeszcze obie zapisz zeby jakies fotki artykulow dorobic
-8 i potem je w og:image
-9 tak by miec twittera i fejsa wsparcie
-- support for blog series
+
+- fix blog posts, formatting
+	- Any nice solution to convert codes to new format ???
+- experiment with blog post pagination view like karski has
+- 3 categories
+- speaking site with engagements
+
+Nice TO HAve
+- jeszcze obie zapisz zeby jakies fotki artykulow dorobic
+- i potem je w og:image
 - support for js executable code easilly ( maybe C# )
 - support for running unit tests on blog
 - support for Q/A sessions
+
+Admin tools:
+Maybe a service called 'sharer' that would be sharing my post in multiple places ?
+- add support for custom tags to be shared through facebook, twitter
+and button to share
+- add support to share on slack
+- add support to share on reddit
+- add support to share on wykop 
