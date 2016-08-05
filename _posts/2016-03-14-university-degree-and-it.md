@@ -4,7 +4,8 @@ title: University degree and IT
 date: 2016-03-14 00:00
 author: LaM
 comments: true
-categories: [Blog]
+categories: [Career]
+tags: [learning, student]
 ---
 <p>University degree importance in IT is a big topic of many discussion around the internet, I also received a question like that.</p>
 
@@ -21,4 +22,3 @@ categories: [Blog]
 <p>Studying is important as it lets you build a base for future growth. You cant build a house without laying the foundations first. You have to start from the bottom. By learning and trying many different concepts you are training your brain to learn faster and you are creating connection in your brain that will enhance your learning capacity. Learning is something that you need to train. Also learning about new concepts is a lot easier if you already know many other things. That is why I encourage everyone to try as much as possible on UNI. Don't focus on one platform and don't focus on gaining marketable skills. The time will come for that later. Try to reach out your professors and discuss some technologies, frameworks concepts that you would want to try out. All of this will start repaying after 4-5 years in the market when you will realize that developer job is not code but find solutions and new ways to generate value for the business. You can do some work, just try to not stress out about it and don't let it become the main focus of your Uni time.</p>
 
 <p>TL;DR; You don't need degree in IT but University can be a huge catalyst for you career and growth, if you choose to use this time wisely. Can you achieve the same growth outside of university ? It depends, if you will find a group of like minded people that will help you learn then yes. Because studying is mostly about people you meet and make connections with. University environment shaped me as a mature engineer and also mature person.</p>
-
