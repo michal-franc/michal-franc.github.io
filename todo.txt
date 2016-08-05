@@ -1,4 +1,7 @@
 Must HAve
+- tags support - https://codinfox.github.io/dev/2015/03/06/use-tags-and-categories-in-your-jekyll-based-github-pages/
+- make the categories too look better
+- move posts to separate folders with categories
 - comments disqus
 - google analytics
 - meta values correct
@@ -13,8 +16,9 @@ Must HAve
 - fix blog posts, formatting
 	- Any nice solution to convert codes to new format ???
 - experiment with blog post pagination view like karski has
-- 3 categories
-- speaking site with engagements
+- speaking sub-site with engagements
+- add newsletter
+- add share buttons like with karse
 
 Nice TO HAve
 - jeszcze obie zapisz zeby jakies fotki artykulow dorobic
