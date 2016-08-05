@@ -44,8 +44,8 @@ navbar:
     title: Tech
   - slug: blog/lead
     title: Lead
-  - slug: blog/devcareer
-    title: DevCareer
+  - slug: blog/career
+    title: Dev Career
   - slug: blog
     title: Blog
 
