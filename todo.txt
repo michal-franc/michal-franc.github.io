@@ -27,6 +27,7 @@ Nice TO HAve
 - support for js executable code easilly ( maybe C# )
 - support for running unit tests on blog
 - support for Q/A sessions
+- Category the best of! 
 
 Admin tools:
 Maybe a service called 'sharer' that would be sharing my post in multiple places ?
