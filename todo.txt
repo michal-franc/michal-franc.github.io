@@ -12,6 +12,7 @@ Must HAve
 - rss ( test on feedly )
 - justowanie
 - on paginated page whole divs with post should be clickable
+- make a href more visible
 
 - fix blog posts, formatting
 	- Any nice solution to convert codes to new format ???
