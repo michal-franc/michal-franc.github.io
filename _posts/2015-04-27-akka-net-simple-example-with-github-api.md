@@ -2,9 +2,10 @@
 layout: post
 title: Akka.NET simple example with Github Api
 date: 2015-04-27 09:00
-author: LaM
+author: Michal Franc 
 comments: true
-categories: [Uncategorized]
+categories: [Tech]
+tags: [akka, .net]
 ---
 <p>In this post I want to a simple introduction to Akka.NET using an example app based on Github API. I have been diving into Akka.NET lately. My first encounter with this technology was on <a href="https://vaughnvernon.co/">Vaughn Vernon</a> workshop in Krakow. The main event had a couple of side presentation and one of them was about <a href="http://akka.io/">Akka project in Java world</a>. It was a magic to me. Couple years later, I accidentally found ( probably on twitter ) <a href="http://bartoszsypytkowski.com/blog/2014/07/09/fsharp-akka-map-reduce/">Bartosz Sypytkowski</a> blog and decided that now is the time to learn something about it.</p>
 

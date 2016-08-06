@@ -2,9 +2,10 @@
 layout: post
 title: TDD / Unit Testing big list of learning resources from basics to advanced topics
 date: 2015-05-09 00:35
-author: LaM
+author: Michal Franc
 comments: true
-categories: [TDD, Unit Test]
+categories: [Tech]
+tags: [tdd]
 ---
 One of my fellow dev friends asked about a set of links, books, screen-casts related to TDD / Unit Testing. He wants to expand his knowledge. Instead of sending him a private message, I thought that it would be great to just create a blog post with all the resources, I used in the past to learn.
 <h3>Basics</h3>
