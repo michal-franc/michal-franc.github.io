@@ -5,7 +5,7 @@ date: 2011-07-05 20:28
 author: Michal Franc
 
 comments: true
-categories: [Javascript, jquery]
+categories: []
 ---
 <h2>Problem</h2>
 By default <strong>jQuery</strong> validator  uses only validation by <strong>“dot”</strong> separator.

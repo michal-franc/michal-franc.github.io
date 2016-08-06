@@ -5,7 +5,7 @@ date: 2010-08-15 00:42
 author: Michal Franc
 
 comments: true
-categories: [Programming, Sharepoint]
+categories: []
 ---
 <h3>TL;DR; SPPersistedObject is a usefull class that can be used to store parameters for SPTimerJob in SPFarm.</h3>
 

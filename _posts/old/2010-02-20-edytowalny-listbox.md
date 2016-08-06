@@ -5,7 +5,7 @@ date: 2010-02-20 19:07
 author: Michal Franc
 
 comments: true
-categories: [.net, c#, Uncategorized, visual studio]
+categories: []
 ---
 Dużo czasu spędzam ostatnio przy mini projekcicku [więcej info wkrótce]. Potrzebowałem kontrolki listboxa ale z edytowalnymi polami.
 Jako że w .necie taka kontrolka nie jest dostępna standardowo to postanowiłem "wyciosać" własną. .Net daje nam spore pole do popisu jeżeli chodzi o tworzenie własnych "customowych" kontrolek.

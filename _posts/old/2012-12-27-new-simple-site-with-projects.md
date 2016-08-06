@@ -4,7 +4,7 @@ title: Site with project - NancyFX fun
 date: 2012-12-27 06:00
 author: Michal Franc
 comments: true
-categories: [Tech]
+categories: []
 ---
 <p>Projects, source code, different concepts. Those are the byproducts of our work . Every programmer in his carrer develops a lot of different stuff.</p>
 <p>I allways planned to host mine "toys" somewhere. Sure there there is github, assembla and other hosting possibilities, but to be honest I need more customization options, and the feeling that I can do something on my own is tempting. There is also NanyFx framework that I read good things about, I just had to try it out and created simple site <a href="http://www.projects.mfranc.com">www.projects.mfranc.com</a>.</p>

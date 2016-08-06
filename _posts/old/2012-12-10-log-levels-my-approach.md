@@ -4,7 +4,7 @@ title: Log levels - my approach
 date: 2012-12-10 20:46
 author: Michal Franc
 comments: true
-categories: [Tech]
+categories: []
 ---
 <p align="justify">There are some options available when it comes to logging mechanisms on .Net platform. Fortunately we have standarized log levels.</p>
 <p align="justify">Currently i am using mostly <a href="http://nlog-project.org/">NLog</a>,this library is very popular and at the moment has all the options i need. There is also <a href="https://nuget.org/packages/log4net">Log4Net</a> lib, bit out dated but still good, we are using it at my company mostly because it is used in open source projects integrated into our product. In this post i don’t want to go into details, I just want to talk about logging levels.</p>

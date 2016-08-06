@@ -5,7 +5,7 @@ date: 2010-08-28 08:19
 author: Michal Franc
 
 comments: true
-categories: [Uncategorized, wpf]
+categories: []
 ---
 In the first post about <strong>Activity Tracker</strong>, I have created a simple style for my application. In this post, I want to show <strong>DataBinding</strong>. With this feature, we can make a flexible connection between Model and View Layer. There is no need for code. Everything is constructed in <strong>XAML</strong> language, which is similar to the HTML Markup.
 <h3>Simple Binding - DataTemplate</h3>

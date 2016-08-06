@@ -5,7 +5,7 @@ date: 2011-05-22 20:47
 author: Michal Franc
 
 comments: true
-categories: [asp.net mvc, NUnit, Uncategorized]
+categories: []
 ---
 <p align="justify">As a part of my thesis , I am creating web app in Asp.net MVC. I m using <a href="http://nhforge.org/Default.aspx">NHibernate</a> , <a href="http://www.nunit.org/">NUnit</a> , <a href="https://github.com/hibernating-rhinos/rhino-mocks">RhinoMocks</a> , <a href="http://msdn.microsoft.com/en-us/netframework/aa663324">WCF</a> , <a href="http://ninject.org/">Ninject</a> , <a href="http://www.nuget.org/List/Packages/Glimpse">Glimpse</a> and also <a href="https://code.google.com/p/elmah/">Elmah</a> . This is a quite big project with a lot of unit tests. I am treating it as a playground.</p>
 <p align="justify">This is the the first post o  of a series about using unit tests with <a href="http://www.asp.net/mvc">MVC</a> and <a href="http://msdn.microsoft.com/en-us/netframework/aa663324">WCF</a> .</p>

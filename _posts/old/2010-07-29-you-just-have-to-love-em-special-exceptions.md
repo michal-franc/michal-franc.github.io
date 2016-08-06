@@ -5,7 +5,7 @@ date: 2010-07-29 18:12
 author: Michal Franc
 
 comments: true
-categories: [exception, insertguid, Sharepoint, Uncategorized]
+categories: []
 ---
 Today I was doing the “boring” stuff. Yeah , creating list definitions , field definitions and installing features it is … boooring. You have to “click click click”.
 

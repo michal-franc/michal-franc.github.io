@@ -4,7 +4,7 @@ title: CouchDB - First Steps
 date: 2013-04-30 12:00
 author: Michal Franc
 comments: true
-categories: [Tech]
+categories: []
 tags: [nosql]
 ---
 Long long time ago in one of the posts ... I briefly described CouchDB installation process on the local machine.

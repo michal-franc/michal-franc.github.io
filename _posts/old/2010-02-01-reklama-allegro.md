@@ -5,7 +5,7 @@ date: 2010-02-01 21:38
 author: Michal Franc
 
 comments: true
-categories: [Uncategorized]
+categories: []
 ---
 Dotarł dzisiaj do mnie zabawny link.
 

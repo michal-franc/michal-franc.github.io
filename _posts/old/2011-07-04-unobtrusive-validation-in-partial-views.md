@@ -5,7 +5,7 @@ date: 2011-07-04 18:20
 author: Michal Franc
 
 comments: true
-categories: [Javascript, jquery]
+categories: []
 ---
 <strong>TL;DR;</strong>
 

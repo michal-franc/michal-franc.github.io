@@ -5,7 +5,7 @@ date: 2011-03-20 15:23
 author: Michal Franc
 
 comments: true
-categories: [.net, Programming]
+categories: []
 ---
 <p align="justify">There are multiple scenarios in which we need to create generic classes for different objects. In this case we have two options. Either we can create generic class and specify the type/types of the object in the code  or ,  we can create a class operating on the System.Object types which are the base for every object / class in the framework.</p>
 <p align="justify">If we have two options available then  the question is which one is better ?</p>

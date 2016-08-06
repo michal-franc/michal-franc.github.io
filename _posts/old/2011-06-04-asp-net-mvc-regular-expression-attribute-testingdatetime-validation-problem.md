@@ -5,7 +5,7 @@ date: 2011-06-04 13:30
 author: Michal Franc
 
 comments: true
-categories: [Programming]
+categories: []
 ---
 <p align="justify">When developing simple validation logic in Asp.Net <a href="http://www.asp.net/mvc">Mvc</a> you can use the built in validators. One of them is the <a href="http://msdn.microsoft.com/en-us/library/system.web.ui.webcontrols.regularexpressionvalidator.aspx">RegularExpression Validator</a>. I had a simple scenario with a property of  <strong>DateTime</strong> type called <strong>StartDate</strong>. Validation format <strong>(yyyy-mm-dd).</strong> It should be a simple task , but details are always messy.</p>
 <p align="justify">I created a simple pattern and tested it with various examples in one of the Regex Editors.</p>

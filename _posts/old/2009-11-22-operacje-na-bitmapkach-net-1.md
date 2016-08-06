@@ -4,7 +4,7 @@ title: LockBits vs Get Pixel Set Pixel - Performance
 date: 2009-11-22 00:02
 author: Michal Franc
 comments: true
-categories: [Tech]
+categories: []
 ---
 <p align="justify">When using <strong>GDI+</strong> method you can <strong>optimize</strong> the process of bitmap manipulation  seven  times.I am implementing an image scaling algorithm at my University <a href="http://lammichalfranc.wordpress.com/2009/11/20/seam-carving-part-1/"><strong>Seam Carving</strong></a> . While working on this project I realized that simply accessing pixels by the <strong>GetPixel</strong> and <strong>SetPixel</strong> methods is too slow.</p>
 

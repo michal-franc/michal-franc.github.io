@@ -4,7 +4,7 @@ title: Seam Carving (2)
 date: 2009-12-01 21:05
 author: Michal Franc
 comments: true
-categories: [Tech]
+categories: []
 ---
 Po dłuższej przerwie postanowiłem ostro wziąć się do roboty za algorytm skalowania obrazków. Jest już ładna formatka [szczyt ui designu] i parę opcji. Skalowanie statycznym seamem tzn po lini prostej i skalowanie dynamicznym seamem tzn wyszukiwanie najlepszej drogi. Wszystko jak na razie działa przy pionowym skalowaniu ale wkrótce zmontuje skalowanie poziome. Pierw muszę troszeczkę przeprojektować aplikację bo wdarł się lekki chaos do kodu i kod jest "be" a ja nie na widzę brzydkiego kodu :P
 

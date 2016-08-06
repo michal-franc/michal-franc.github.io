@@ -5,7 +5,7 @@ date: 2010-03-13 20:39
 author: Michal Franc
 
 comments: true
-categories: [.net, sql, Uncategorized]
+categories: []
 ---
 Lately, I have started an internship in one of the IT Companies located in Wroclaw. I am really happy because this is a great opportunity to catch "real job" experience. Academic projects are a different kind of story.
 

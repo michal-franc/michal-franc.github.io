@@ -5,7 +5,7 @@ date: 2011-04-23 20:05
 author: Michal Franc
 
 comments: true
-categories: [FluentNHibernate, NHibernate, Uncategorized]
+categories: []
 ---
 <h1 align="justify"></h1>
 <h3 align="justify">FluentNHibernate</h3>

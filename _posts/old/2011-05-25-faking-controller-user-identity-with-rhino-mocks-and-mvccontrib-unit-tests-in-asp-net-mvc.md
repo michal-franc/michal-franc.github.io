@@ -5,7 +5,7 @@ date: 2011-05-25 20:46
 author: Michal Franc
 
 comments: true
-categories: [asp.net mvc, mvc contrib, rhino mocks, Uncategorized]
+categories: []
 ---
 <p align="justify">Some of the actions that we are writing in Asp.Net <a href="http://www.asp.net/mvc">MVC</a> contains logic which uses data from the <strong>User </strong>context eg. user authentication or user name. <strong>Controller </strong>base class contains <strong>User</strong> property which is the instance of  <strong>IPrincipal</strong> with two important properties.</p>
 

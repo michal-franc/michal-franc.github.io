@@ -5,7 +5,7 @@ date: 2010-07-29 22:58
 author: Michal Franc
 
 comments: true
-categories: [.net, c#, Uncategorized]
+categories: []
 ---
 My Little project TimeIsMoney is participating in a contest by <a href="http://www.maciejaniserowicz.com/">Maciej Aniserowicz.</a>
 

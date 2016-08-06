@@ -5,7 +5,7 @@ date: 2011-02-27 00:42
 author: Michal Franc
 
 comments: true
-categories: [.net, time management, Uncategorized, wpf]
+categories: []
 ---
 I am a time management freak. That’s why I was creating application TimeIsMoney. Currently, I m not working on this app. Instead I had another idea based on an earlier project, I m creating a new simpler app. “Desktop Todo”.
 

@@ -5,7 +5,7 @@ date: 2010-08-04 22:08
 author: Michal Franc
 
 comments: true
-categories: [career, Career, time management]
+categories: []
 ---
 <a href="http://lammichalfranc.files.wordpress.com/2010/08/image.png"><img style="border-width: 0; margin: 0 30px 0 5px;" title="image" src="http://lammichalfranc.files.wordpress.com/2010/08/image_thumb.png" alt="image" width="262" height="186" align="left" border="0" /></a>
 

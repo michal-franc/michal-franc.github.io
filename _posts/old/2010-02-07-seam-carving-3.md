@@ -5,7 +5,7 @@ date: 2010-02-07 00:52
 author: Michal Franc
 
 comments: true
-categories: [.net, c#, seam carving, Uncategorized]
+categories: []
 ---
 Zupdatowałem źródło projekciku Seam Carving.
 

@@ -5,7 +5,7 @@ date: 2010-02-23 18:27
 author: Michal Franc
 
 comments: true
-categories: [.net, c#, pdf, Uncategorized]
+categories: []
 ---
 Do dyspozycji mamy <a href="http://stackoverflow.com/questions/177/how-do-i-programmatically-create-a-pdf-in-my-net-application"> wiele bibliotek</a> tworzących , konwertujących do formatu PDF-a.Postanowiłem przetestować <a href="http://pdfsharp.com/">PDF-Sharpa</a>
 

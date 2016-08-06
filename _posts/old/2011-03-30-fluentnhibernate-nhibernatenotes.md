@@ -5,7 +5,7 @@ date: 2011-03-30 22:30
 author: Michal Franc
 
 comments: true
-categories: [FluentNH, NHibernate, Uncategorized]
+categories: []
 ---
 <p align="justify">I m currently implementing some project using the NHibernate. I dont like the mappongs stored in xml files so I am using FluentNhiberante.</p>
 <p align="justify"></p>

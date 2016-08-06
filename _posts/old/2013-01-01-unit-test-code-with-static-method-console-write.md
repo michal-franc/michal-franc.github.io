@@ -4,7 +4,7 @@ title: Unit Test code with static method Console.Write
 date: 2013-01-01 16:47
 author: Michal Franc
 comments: true
-categories: [Tech]
+categories: []
 tags: [tdd]
 ---
 <strong>tl;dr : Wrap theses methods inside the layer of abstraction. Then create a stub and use it to create test scenarios.</strong>

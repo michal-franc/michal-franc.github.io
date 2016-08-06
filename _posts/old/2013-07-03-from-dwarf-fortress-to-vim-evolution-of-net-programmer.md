@@ -4,7 +4,7 @@ title: From Dwarf Fortress to Vim - evolution of .Net programmer
 date: 2013-07-03 18:05
 author: Michal Franc
 comments: true
-categories: [Tech]
+categories: []
 tags: [vim]
 ---
 In this post, I want to write about my conversion to Vim, a complex but powerful text editor. It's learning curve is quite step but once grasped, it can increase your productivity.

@@ -5,7 +5,7 @@ date: 2010-08-14 16:25
 author: Michal Franc
 
 comments: true
-categories: [.net, c#, Uncategorized]
+categories: []
 ---
 <span style="font-size: xx-small;"><strong>What’s New</strong></span>
 <ul>

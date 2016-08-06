@@ -4,7 +4,7 @@ title: Sonar .Net installation
 date: 2012-09-26 11:43
 author: Michal Franc
 comments: true
-categories: [Tech]
+categories: []
 ---
 In this post I want to describe step by step process of Sonar installation for .Net .
 <h3>Sonar ?</h3>

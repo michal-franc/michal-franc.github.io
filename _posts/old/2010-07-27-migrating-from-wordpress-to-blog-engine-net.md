@@ -5,7 +5,7 @@ date: 2010-07-27 16:02
 author: Michal Franc
 
 comments: true
-categories: [Uncategorized]
+categories: []
 ---
 <p style="text-align:justify;">Thank God that there is such a tool like BlogML. Without it migrating from Wordpress to BlogEngine Net would be a difficult and  time-consuming task.</p>
 <p style="text-align:justify;">If you are hosting your Wordpress Blog by yourself. There are tools to import database. <a href="http://www.aghausman.net/blog-engine/Migrate_from_WordPress_to_BlogEnginenet.html">AghaUsmanAhmed</a></p>

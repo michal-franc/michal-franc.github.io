@@ -5,7 +5,7 @@ date: 2011-03-01 00:19
 author: Michal Franc
 
 comments: true
-categories: [.net, c#, Uncategorized, visual studio]
+categories: []
 ---
 While watching <a href="http://channel9.msdn.com/Blogs/matthijs/ASPNET-MVC-2-Ninja-Black-Belt-Tips-by-Scott-Hanselman">Scot Hansleman presentation about MVC</a> I discovered great feature in <strong>Visual Studio 2010</strong>. T4 is an code generation engine. It translates template files (“*.tt”) ,  using scripts created in <strong>C# or VB ,  to C# , VB , T-SQl</strong> , Txt files etc.
 

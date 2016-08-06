@@ -5,7 +5,7 @@ date: 2011-11-09 22:33
 author: Michal Franc
 
 comments: true
-categories: [Uncategorized]
+categories: []
 ---
 In one of the projects developed in my firm we had encoding set on almost all the files to Something like <strong>CodeBase 1252</strong> which supports only the limited set of characters.
 

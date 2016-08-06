@@ -5,7 +5,7 @@ date: 2010-07-29 17:28
 author: Michal Franc
 
 comments: true
-categories: [slickrun, Uncategorized]
+categories: []
 ---
 Total Commander is a great file management tool. You can download shareware version which you can use for 1 month <a href="http://www.ghisler.com/">here</a>. 
 

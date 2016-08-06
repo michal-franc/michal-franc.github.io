@@ -5,7 +5,7 @@ date: 2010-03-06 16:11
 author: Michal Franc
 
 comments: true
-categories: [.net, c#, sql, Uncategorized]
+categories: []
 ---
 <div>
 

@@ -5,7 +5,7 @@ date: 2011-05-30 18:01
 author: Michal Franc
 
 comments: true
-categories: [teched, Uncategorized]
+categories: []
 ---
 I have spent some time on the weekend watching Tech Ed on channel 9
 

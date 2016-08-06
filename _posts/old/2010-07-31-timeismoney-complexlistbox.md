@@ -5,7 +5,7 @@ date: 2010-07-31 23:42
 author: Michal Franc
 
 comments: true
-categories: [.net, c#, Uncategorized]
+categories: []
 ---
 <p style="text-align: justify; padding-left: 30px;">This is the Control I created for my mini project <strong>TimeIsMoney</strong>. It is a simple ListBox with a <strong>"complex item</strong>" creation logic . <strong>NewItemBox </strong>which is used to create new Item is modifying itself based on the Object type. The Control is used to create “TaskBins” which are containers of Tasks. The main <strong>TaskBin </strong>is our “UnsortedBin”. Here we have items waiting to be sorted. Then we can add multiple Bins which are used to store the sorted Items</p>
 <p style="text-align: justify;"></p>

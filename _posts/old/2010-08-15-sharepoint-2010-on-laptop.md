@@ -5,7 +5,7 @@ date: 2010-08-15 09:21
 author: Michal Franc
 
 comments: true
-categories: [Sharepoint, Uncategorized]
+categories: []
 ---
 <div id="scid:0767317B-992E-4b12-91E0-4F059A8CECA8:bc178ce3-5863-43a1-97c2-8887d743eea9" class="wlWriterEditableSmartContent" style="display:inline;float:none;margin:0;padding:0;">Technorati Tags: <a rel="tag" href="http://technorati.com/tags/Sharepoint">Sharepoint</a></div>
 After a couple of tries, I have finally installed the SharePoint 2010 Foundation on my laptop. I need a development environment to play around with.

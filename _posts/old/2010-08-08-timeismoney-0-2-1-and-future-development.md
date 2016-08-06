@@ -5,7 +5,7 @@ date: 2010-08-08 09:07
 author: Michal Franc
 
 comments: true
-categories: [NUnit, Uncategorized]
+categories: []
 ---
 <span style="font-size:xx-small;"><strong> </strong></span>
 

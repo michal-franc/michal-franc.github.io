@@ -5,7 +5,7 @@ date: 2010-11-13 16:37
 author: Michal Franc
 
 comments: true
-categories: [.net, papercut, Uncategorized]
+categories: []
 ---
 <p align="justify"></p>
 <p align="justify"><span style="font-size: medium;">Email is a great way to communicate something to the end user asynchronously. You can review the message anytime you want.  As Developers we often need to make some kind of logic which uses emails eg. reminders , alerts etc. While testing it is common to just send an email through smtp server. Receive it , check it etc. </span></p>

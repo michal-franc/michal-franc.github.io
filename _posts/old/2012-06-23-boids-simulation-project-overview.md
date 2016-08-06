@@ -4,7 +4,7 @@ title: Boids Simulation – Project Overview
 date: 2012-06-23 19:32
 author: Michal Franc
 comments: true
-categories: [Tech]
+categories: []
 ---
 While studying I was doing a lot of different projects. One of them was a simple simulation of bird flock movements. This will be a series of posts about changes in this project. It will contain a lot of code reviews and development information's.
 
