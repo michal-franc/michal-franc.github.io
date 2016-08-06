@@ -2,14 +2,14 @@
 layout: post
 title: University degree and IT 
 date: 2016-03-14 00:00
-author: LaM
+author: Michal Franc 
 comments: true
 categories: [Career]
 tags: [learning, student]
 ---
 <p>University degree importance in IT is a big topic of many discussion around the internet, I also received a question like that.</p>
 
-<p><strong>Q: Is University degree really that important for future career in IT sector. Wouldn't it be better to start working as soon as possible and sacrifice study time for more work experience. I am a student now, and I do feel now that studying is limiting my potential and growth. The things that, I am doing now in my work are completely unrelated to my courses on uni.</strong></p>
+<p><h5>Q: Is University degree really that important for future career in IT sector. Wouldn't it be better to start working as soon as possible and sacrifice study time for more work experience. I am a student now, and I do feel now that studying is limiting my potential and growth. The things that, I am doing now in my work are completely unrelated to my courses on uni.</h5></p>
 
 <p>Unfortunately there is no simple answer. There is no 'Yes' / 'No' here. Both more study vs more work experience have their own pros and cons. In this answer I will focus on 'Why I think university time is important'.</p>
 
