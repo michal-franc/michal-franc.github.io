@@ -3,9 +3,9 @@ layout: post
 title: Docker here docker there docker everywhere - Getting started with docker in .NET with F#
 date: 2015-02-07 09:00
 author: Michal Franc
-
 comments: true
-categories: [Blog]
+categories: [Tech]
+tags: [docker, f#]
 ---
 <p><span style="line-height: 1.5;">If you are in IT world, you surely heard or read about docker. There was / is a huge hype about this technology. It looks like this one might actually survive the initial 'It's awesome phase'. I was looking for some info about docker. It was confusing to get to know what docker really is. Too much marketing buzz words everywhere. In this post I will sum up all my notes about how to start with docker in .NET and F#. It will be like learning journey that might end as a simple tutorial on where to start.</span></p>
 

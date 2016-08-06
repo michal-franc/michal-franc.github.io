@@ -3,9 +3,8 @@ layout: post
 title: Pragmatic Developer
 date: 2014-02-27 23:36
 author: Michal Franc
-
 comments: true
-categories: [Blog, Career]
+categories: [Career]
 ---
 I have changed the Blog name from "Passionate Programmer" to "Pragmatic Developer". Why this change you could ask ? :)
 

@@ -3,7 +3,6 @@ layout: post
 title: I want to be programmer where to start ?
 date: 2015-06-01 09:00
 author: Michal Franc
-
 comments: true
 categories: [Career]
 ---

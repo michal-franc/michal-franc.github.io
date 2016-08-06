@@ -3,9 +3,9 @@ layout: post
 title: TDD – commit by commit String Calculator Kata (II)
 date: 2014-04-02 07:00
 author: Michal Franc
-
 comments: true
-categories: [TDD, TDD - String Calculator]
+categories: [Tech]
+tags: [tdd]
 ---
 <p>The previous post in the series - <a href="http://www.mfranc.com/tdd/tdd-commit-by-commit-string-calculator-i/">TDD commit by commit String Calculator (I)</a>. Last part ended with the basic functionality of string calculator. My "class" can parse numbers and sum them up. I have started with an empty project, slowly adding code with features. This post is the 2nd part of the series.</p>
 

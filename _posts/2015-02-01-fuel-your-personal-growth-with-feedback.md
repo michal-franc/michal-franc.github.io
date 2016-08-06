@@ -3,9 +3,8 @@ layout: post
 title: Fuel your personal growth with feedback
 date: 2015-02-01 16:52
 author: Michal Franc
-
 comments: true
-categories: [Uncategorized]
+categories: [Career]
 ---
 TL;DR; Feedback is crucial for your career. Be proactive, get out of your closet and ask for it!
 

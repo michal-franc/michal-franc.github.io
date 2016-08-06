@@ -3,9 +3,9 @@ layout: post
 title: TDD – commit by commit String Calculator Kata (III)
 date: 2014-05-20 09:00
 author: Michal Franc
-
 comments: true
-categories: [TDD, TDD, TDD - String Calculator]
+categories: [Tech]
+tags: [tdd]
 ---
 <p><a href="http://www.mfranc.com/tdd/tdd-commit-by-commit-string-calculator-ii/">Previous post in the series – TDD – commit by commit String Calculator Kata (II)</a> In the previous post I did a cleanup phase and added one feature to the String Calculator. The kata is not finished yet.</p>
 

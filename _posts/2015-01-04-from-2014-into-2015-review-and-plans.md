@@ -3,9 +3,8 @@ layout: post
 title: From 2014 into 2015 - tech plans
 date: 2015-01-04 23:39
 author: Michal Franc
-
 comments: true
-categories: [Uncategorized]
+categories: []
 ---
 A lot has happened in the last year 2014.
 <ul>

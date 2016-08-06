@@ -3,9 +3,9 @@ layout: post
 title: F# and Nancy - beyond Hello World
 date: 2014-11-24 08:00
 author: Michal Franc
-
 comments: true
-categories: [Blog]
+categories: [Tech]
+tags: [f#]
 ---
 <p lang="pl">
   I have been trying to find some examples on how to create a web app using F# with Nancy. Most of the tutorials on the web cover simple "Hello World!" app, only the basics. In this post, I want to go beyond "Hello World" and show real life examples.

@@ -3,9 +3,9 @@ layout: post
 title: Get out of your comfort zone - Vim the social connector
 date: 2014-06-19 08:00
 author: Michal Franc
-
 comments: true
-categories: [Uncategorized]
+categories: [Tech]
+tags: [vim]
 ---
 I am a .Net developer, mostly. Sure, I am exploring Python, node.js and other technologies, still my work is mostly related to C# and recently I am having fun with F#. I can say that as of now I am tied to one platform and I mostly attending meetups and conferences slightly related to it.
 

@@ -3,9 +3,8 @@ layout: post
 title: Boost your dev productivity with cmder + ConEmu
 date: 2015-03-09 08:00
 author: Michal Franc
-
 comments: true
-categories: [Standard, Uncategorized]
+categories: [Tech]
 ---
 <h3>Unix world and awesome tmux</h3>
 

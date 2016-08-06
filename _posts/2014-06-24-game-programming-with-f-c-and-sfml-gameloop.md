@@ -3,9 +3,9 @@ layout: post
 title: Game programming with F#, C# and SFML - GameLoop
 date: 2014-06-24 08:00
 author: Michal Franc
-
 comments: true
-categories: [Uncategorized]
+categories: [Tech]
+tags: [f#]
 ---
 I am a F# apprentice. The best way to learn new language is to do some project. That's why I have started to code one game idea that was following me for some time. 
 
