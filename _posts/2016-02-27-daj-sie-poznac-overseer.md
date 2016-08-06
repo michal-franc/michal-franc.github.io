@@ -2,9 +2,10 @@
 layout: post
 title: Daj sie poznac - Overseer
 date: 2016-02-27 20:20
-author: LaM
+author: Michal Franc
 comments: true
-categories: [Blog]
+categories: []
+tags: [community]
 ---
 <p>Polish .NET community and <a href="http://www.maciejaniserowicz.com/">Maciej Aniserowicz</a> has started another edition of "Daj sie poznac" event ( translation: something along "Show yourself!" ).</p>
 
@@ -26,7 +27,7 @@ categories: [Blog]
 <p><strong>Hobby Project - Overseer</strong><br />
 A simple microservices monitoring app that will show the graph of all the services with their dependencies. A way to check the status, traffic and maybe debug requests later on ( that would be cool ). This will be useful tool in my company and a great way to learn and do something interesting.</p>
 
-<p><strong>Things to do:</strong></p>
+<strong>Things to do:</strong>
 
 <ul>
 <li>Simulated services. I need a way to create multiple services in controlled environment. Planning to create this using F# with <a href="https://suave.io/">Suave</a>. Might add docker later.</li>
@@ -37,4 +38,3 @@ A simple microservices monitoring app that will show the graph of all the servic
 <p><a href="https://github.com/michal-franc/OverSeer">Github link for the project</a></p>
 
 <p>I am also going to stream coding sessions live using <a href="https://www.livecoding.tv/michal-franc/">livecoding.tv platform</a>.</p>
-
