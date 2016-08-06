@@ -2,14 +2,16 @@
 layout: default
 ---
 LEAD
-{% for category in site.categories %}
-	{% if category contains 'Lead' %}
-		{% for posts in category %}
-		  {% for post in posts %}
-			  {% if post.url %}
-			  <li><a href="{{ post.url }}">{{ post.title }} </a><span>{{ post.date | date_to_string }}</span></li>
-			  {% endif %}
-		  {% endfor %}
-		{% endfor %}
-	{% endif %}
-{% endfor %}
+<section class="post-list">
+	{% for category in site.categories %}
+		{% if category contains 'Lead' %}
+			{% for posts in category %}
+			  {% for post in posts %}
+				  {% if post.url %}
+						{% include article.html %}
+				  {% endif %}
+			  {% endfor %}
+			{% endfor %}
+		{% endif %}
+	{% endfor %}
+</section>
