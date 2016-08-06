@@ -7,12 +7,4 @@
       <time>{{ post.date | date: "%b %-d, %Y" }}</time>
     </div>
   </header>
-
-  <p><a href="{{ post.url | prepend: site.baseurl }}" title="Permalink to: {{ post.title }}" class="read-more">
-	  {% if post.summary %}
-		{{post.summary | truncatewords: 30}}
-	  {% else %}
-	  	{{ post.content | strip_html | truncatewords: 30 }}
-	  {% endif %}
-  </a></p>
 </article>
