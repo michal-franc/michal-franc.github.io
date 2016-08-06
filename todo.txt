@@ -1,22 +1,22 @@
 Must HAve
-- tags support - https://codinfox.github.io/dev/2015/03/06/use-tags-and-categories-in-your-jekyll-based-github-pages/
-- make the categories too look better
-- comments disqus
-- google analytics
 - meta values correct
 - support for blog series
 - redirects
 - clicky
-- disquse
-- rss ( test on feedly )
-- on paginated page whole divs with post should be clickable + better post list like minddust
 - make a href more visible
-
-- speaking sub-site with engagements
 - add newsletter
 - add share buttons like with karse
+- sub categories - better name of cateogry ( design )
+- better visible contact me button
+
+(only after prod release with new domain)
+- google analytics
+- disqus (only after production when new blog post has new domain)
+- rss ( test on feedly )
 
 Nice TO HAve
+- speaking sub-site with engagements
+- tags support - https://codinfox.github.io/dev/2015/03/06/use-tags-and-categories-in-your-jekyll-based-github-pages/
 - jeszcze obie zapisz zeby jakies fotki artykulow dorobic
 - i potem je w og:image
 - support for js executable code easilly ( maybe C# )
