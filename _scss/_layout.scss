@@ -16,6 +16,8 @@ body {
 
 .container {
   @include outer-container;
+  max-width: 1000px;
+  min-width: 300px;
   padding: {
     left: $small-spacing;
     right: $small-spacing;

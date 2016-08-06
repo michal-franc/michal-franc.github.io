@@ -1,7 +1,6 @@
 Must HAve
 - tags support - https://codinfox.github.io/dev/2015/03/06/use-tags-and-categories-in-your-jekyll-based-github-pages/
 - make the categories too look better
-- move posts to separate folders with categories
 - comments disqus
 - google analytics
 - meta values correct
@@ -10,13 +9,9 @@ Must HAve
 - clicky
 - disquse
 - rss ( test on feedly )
-- justowanie
-- on paginated page whole divs with post should be clickable
+- on paginated page whole divs with post should be clickable + better post list like minddust
 - make a href more visible
 
-- fix blog posts, formatting
-	- Any nice solution to convert codes to new format ???
-- experiment with blog post pagination view like karski has
 - speaking sub-site with engagements
 - add newsletter
 - add share buttons like with karse
@@ -28,6 +23,7 @@ Nice TO HAve
 - support for running unit tests on blog
 - support for Q/A sessions
 - Category the best of! 
+- Category Articles
 
 Admin tools:
 Maybe a service called 'sharer' that would be sharing my post in multiple places ?
