@@ -1,10 +1,5 @@
-<article class="post">
-  <header class="post-header">
-    <h1 class="post-title">
-      <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-    </h1>
-    <div class="post-meta">
-      <time>{{ post.date | date: "%b %-d, %Y" }}</time>
-    </div>
-  </header>
-</article>
+<a href="{{ post.url | prepend: site.baseurl }}">
+	<article role="pagination" class="post">
+		<h5>{{ post.title }}  <small class="text-muted">-<time>{{ post.date | date: "%b %-d, %Y" }}</time></small></h5>
+	</article>
+</a>

@@ -11,7 +11,7 @@ body {
 
 body {
   border-top: 5px solid $primary-color;
-  background: $base-background-color url("../images/bg-pattern.png");
+  //background: $base-background-color url("../images/bg-pattern.png");
 }
 
 .container {
@@ -26,8 +26,8 @@ body {
 
 .card {
   background-color: $white-color;
-  box-shadow: 0 2px 1px rgba($black-color, .1);
-  margin: 0 0 $base-spacing;
+  box-shadow: 2px 2px 2px 2px rgba($black-color, .1);
+  margin: 0 0 0.75em;
   padding: $base-spacing $small-spacing;
 
   @include media($mobile-up) {
@@ -40,7 +40,7 @@ body {
   background-color: $white-color;
   padding: $base-spacing 0;
   margin-bottom: $base-spacing;
-  border-bottom: 1px solid rgba($light-gray-color, .5);
+  border-bottom: 2px solid rgba($light-gray-color, .5);
 
   h1 {
     margin: 0;
@@ -279,6 +279,21 @@ strong {
   }
 }
 
+
+article[role="pagination"] {
+	h5 {
+		color: #666;
+		margin: 0;
+	}
+
+	&:hover {
+	  background-color: #f1f1f1;
+	}
+}
+
+.text-muted {
+	color: #818a91;
+}
 
 .social {
   @extend %clearfix;
