@@ -2,7 +2,8 @@
 layout: post
 title: DekstopTodo – Simple Todo list application
 date: 2011-02-27 00:42
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, time management, Uncategorized, wpf]
 ---
@@ -60,7 +61,8 @@ Future features :
 
 &nbsp;
 
-<a href="https://github.com/LaMik/TimeIsMoney/tree/master/TimeIsMoney/DekstopTodo">Source Code</a>
+<a href="https://github.com/Michal Franc
+ik/TimeIsMoney/tree/master/TimeIsMoney/DekstopTodo">Source Code</a>
 
 Download (Soon :P)
 

@@ -2,7 +2,8 @@
 layout: post
 title: Sharepoint - Exceptions
 date: 2010-07-29 18:12
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [exception, insertguid, Sharepoint, Uncategorized]
 ---

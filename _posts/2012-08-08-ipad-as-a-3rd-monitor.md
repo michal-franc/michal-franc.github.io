@@ -2,7 +2,8 @@
 layout: post
 title: IPad as a 3rd monitor
 date: 2012-08-08 18:37
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---

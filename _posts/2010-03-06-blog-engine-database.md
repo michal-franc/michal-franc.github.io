@@ -2,7 +2,8 @@
 layout: post
 title: BlogEngine .Net + Database
 date: 2010-03-06 16:11
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, c#, sql, Uncategorized]
 ---
@@ -27,7 +28,9 @@ BlogEngine's database code is based on the Abstract Factory pattern. The Factory
 The Provider Factory is creating DBProviderFactory Object which is used to create  Connection and Command. Those are abstract objects. Their role is to delegate our task to objects which are inheriting from them.
 
 The Concrete implementation of MSSQL logic , in the SQLCommand , inherits from DBCommand. By using the Down Cast it changes our "general" DBCommand class to more concrete and specific Object SQLCommand. By changing the Provider we are just changing the inherited class which is hidden behind the DBCommand
-<pre>string connString=ConfigurationManager.ConnectionStrings[connStringName].ConnectionString; 
+
+{% highlight csharp %}
+string connString=ConfigurationManager.ConnectionStrings[connStringName].ConnectionString; 
 
 string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName; 
 
@@ -44,7 +47,9 @@ using (DbConnection conn = provider.CreateConnection())
              cmd.ExecuteNonQuery();         
              //itd     
            } 
-    }</pre>
+    }
+{% endhighlight %}
+
 GetFactory methods decides on which provider to return back based on the parameter in Connection String. Provider creates his specific Connection and Command.
 
 We are not using concrete classes like SQLConnection or SQLcommand everything is wrapped on more  general objects  DBConnection and DBCommand .
@@ -60,7 +65,9 @@ In this case. I have implemented only Database logic . BlogEngine also supports 
 <a href="http://lammichalfranc.files.wordpress.com/2010/03/roznci-dbproviderzy1.jpg"><img class="aligncenter" title="Roznci DbProviderzy" src="http://lammichalfranc.files.wordpress.com/2010/03/roznci-dbproviderzy1.jpg" alt="" width="450" height="326" /></a>
 
 I just had to extend the partial class with my own methods.
-<pre>namespace BlogEngine.Core.Providers 
+
+{% highlight csharp %}
+namespace BlogEngine.Core.Providers 
 {
  public partial class DbBlogProvider: BlogProvider 
     { 
@@ -70,9 +77,15 @@ I just had to extend the partial class with my own methods.
          } 
       ... 
     } 
-}</pre>
-After this step we  just have to use the provider mechanism in BlogEngine.
-<pre>_provider = BlogEngine.Core.Providers.BlogService.Provider;
+}
+{% endhighlight %}
 
-_provider.CheckPoll(poll);</pre>
+After this step we  just have to use the provider mechanism in BlogEngine.
+
+{% highlight csharp %}
+_provider = BlogEngine.Core.Providers.BlogService.Provider;
+
+_provider.CheckPoll(poll);
+{% endhighlight %}
+
 </div>

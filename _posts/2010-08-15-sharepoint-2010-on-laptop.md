@@ -2,7 +2,8 @@
 layout: post
 title: SharePoint 2010 on the Laptop
 date: 2010-08-15 09:21
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Sharepoint, Uncategorized]
 ---

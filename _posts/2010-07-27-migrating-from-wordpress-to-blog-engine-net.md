@@ -2,7 +2,8 @@
 layout: post
 title: Migrating from Wordpress to Blog Engine .Net
 date: 2010-07-27 16:02
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---
@@ -31,12 +32,18 @@ There is a tool made by Goran. <a href="http://www.visualsoftware.net/Blog/post/
 Use it to Convert XML.
 
 If there is a runtime error or somekind of an Exception. Download VS 2008 solution and  change
-<pre class="brush:csharp;">          static DateTime ParseWPDate(string value)
+
+{% highlight csharp %}
+          static DateTime ParseWPDate(string value)
         {
              return DateTime.ParseExact(value, "ddd, dd MMM yyyy HH:mm:ss zz00", ci.DateTimeFormat);
-        }</pre>
+        }
+{% endhighlight %}
+
 <strong>To</strong>
-<pre class="brush:csharp;">			static DateTime ParseWPDate(string value)
+
+{% highlight csharp %}
+			static DateTime ParseWPDate(string value)
             try
             {
                 return DateTime.ParseExact(value, "ddd, dd MMM yyyy HH:mm:ss zz00", ci.DateTimeFormat);
@@ -44,7 +51,9 @@ If there is a runtime error or somekind of an Exception. Download VS 2008 soluti
             catch
             {
                 return DateTime.Now;
-            }</pre>
+            }
+{% endhighlight %}
+
 There can also be a problem with xml and some "atom" tag just delete it.
 
 <strong> </strong>

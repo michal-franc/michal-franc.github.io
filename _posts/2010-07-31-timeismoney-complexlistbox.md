@@ -2,7 +2,8 @@
 layout: post
 title: Custom ListBox - using Attributes to create dynamic Controls
 date: 2010-07-31 23:42
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, c#, Uncategorized]
 ---
@@ -21,7 +22,9 @@ categories: [.net, c#, Uncategorized]
 <h2><span style="color: #ff6600;">How Does it Work ?</span></h2>
 <p style="padding-left: 30px;">Everything is based on properties decorated by the attributes. Let's take a look at <strong>TaskBin</strong> class</p>
 
-<pre class="lang:default decode:true">[Serializable]
+
+{% highlight csharp %}
+[Serializable]
 public class TaskBin : IEditable;TaskBin;
 {
      [EditableDialogBox]
@@ -37,7 +40,7 @@ public class TaskBin : IEditable;TaskBin;
           }
      }
 
-#region IEditable&lt;TaskBin&gt; Members
+#region IEditable<TaskBin> Members
 
      public TaskBin CreateFromString(string stringObject)
      {
@@ -46,21 +49,29 @@ public class TaskBin : IEditable;TaskBin;
      }
 
 #endregion
-}</pre>
+}
+{% endhighlight %}
+
 &nbsp;
 
 As you can see Address and Name property are decorated by <strong>EditableDialogBox </strong>and <strong>EditableTextBox </strong>Attribute [This is a simple class inheriting from the Attribute class]
-<pre class="lang:default decode:true">public class EditableTextBox : Attribute
+
+{% highlight csharp %}
+public class EditableTextBox : Attribute
 {
 }
 
 public class EditableDialogBox : Attribute
 {
-}</pre>
+}
+{% endhighlight %}
+
 <p style="padding-left: 30px; text-align: justify;">Those are empty classes. You can add some logic and behaviors to them.I m just using them to mark the properties which will be represented as a TextBox in the NewItemBox. Every property with an [Editable.....] attribute will have a textbox and user will be able to edit it .The displayMember proeprty doesn't have an Attribute so it wont available for the user. It is used for DataBinding to set the displayed property name on the ListBox].</p>
 <p style="padding-left: 30px;">To check if the property has a specific attribute you need to use the Reflection mechanism.</p>
 &nbsp;
-<pre class="lang:default decode:true">foreach (PropertyInfo prop in type.GetProperties())
+
+{% highlight csharp %}
+foreach (PropertyInfo prop in type.GetProperties())
 {
      //Checking if property is decorated with EditableProperty Attribute
      if (prop.IsDefined(typeof(EditableTextBox), false))
@@ -71,10 +82,14 @@ public class EditableDialogBox : Attribute
      {
           newBox.CreateFileDialogButton(prop.Name,string.Empty);
      }
-}</pre>
+}
+{% endhighlight %}
+
 <p style="padding-left: 30px; text-align: justify;">Using reflection we are iterating through the properties of the Object and checking if they are decorated by an Attribute. To perform this check i m using the IsDefined method. There are only two attributes right now. Each of them generates different logic in the NewItemBox.</p>
 
-<pre class="lang:default decode:true">public void CreateTextBox(string name)
+
+{% highlight csharp %}
+public void CreateTextBox(string name)
 {
     this.Controls.Add(new Label() { Text = name, Location = new Point(0, y) });
     this.Controls.Add(new TextBox() { Location = new Point(0, y + 20) });
@@ -89,11 +104,15 @@ public void CreateFileDialogButton(string name, string filter)
     dialogText.Location = Location = new Point(0, y + 20);
     this.Controls.Add(dialogText);
     y += 40;
-}</pre>
+}
+{% endhighlight %}
+
 <p style="padding-left: 30px; text-align: justify;">Property with EditableTextBox attribute generates a simple Label with its name and TextBox. EditableDialogBox generates label, textbox and creates an Event Handler handled by the click Event. „dialog_Click” event summons the FileDialogBox which is used to set The TaskBin physical path.</p>
 <p style="padding-left: 30px; text-align: justify;">We have a code to create a dynamic edit box but how to pass this data further to our main lists. To do this I created I mechanism which converts all the data from the controls to the string.</p>
 
-<pre class="lang:default decode:true  crayon-selected">public string GenerateStringObject()
+
+{% highlight csharp %}
+public string GenerateStringObject()
 {
     string returnString = String.Empty;
 
@@ -103,11 +122,15 @@ public void CreateFileDialogButton(string name, string filter)
      }
 
      return returnString;
-}</pre>
+}
+{% endhighlight %}
+
 Class which is on the list, implements an IEditable Interface.
 
 &nbsp;
-<pre class="lang:default decode:true">#region IEditable&lt;TaskBin&gt; Members
+
+{% highlight csharp %}
+#region IEditable<TaskBin> Members
 
 public TaskBin CreateFromString(string stringObject)
 {
@@ -115,10 +138,10 @@ public TaskBin CreateFromString(string stringObject)
     return new TaskBin() { Address = datas[1], Name = datas[3] };
 }
 
-#endregion</pre>
+#endregion
+{% endhighlight %}
+
 <h2><span style="color: #ff6600;">How can I use it ?</span></h2>
 <p style="padding-left: 30px;"><span style="color: #ff6600;">
 </span></p>
 <p style="padding-left: 30px;">In MainForm initialize the control with DataSource and Object type. Control saves changes directly to the specified DataSource</p>
-
-<pre class="lang:default decode:true">this.complexListBox.SetData(set.Lists,typeof(TaskBin));</pre>

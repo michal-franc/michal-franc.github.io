@@ -2,7 +2,8 @@
 layout: post
 title: Testing email logic in .Net with Papercut
 date: 2010-11-13 16:37
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, papercut, Uncategorized]
 ---
@@ -29,13 +30,17 @@ categories: [.net, papercut, Uncategorized]
 <p align="justify"><span style="font-size: medium;">Let’s test <a href="http://papercut.codeplex.com/"><span style="font-size: medium;"><strong>Papercut</strong></span></a> with a simple app. </span></p>
 <p align="justify"></p>
 
-<pre class="lang:default decode:true ">public static void Main(string[] args) 
+
+{% highlight csharp %}
+public static void Main(string[] args) 
 { 
     SmtpClient client = new SmtpClient("192.168.0.128",25); 
     MailMessage msg = new MailMessage("michal.franc@mfranc.pl", "test@test.com",  
        "Testing mail", "Testing Body"); 
     client.Send(msg);
-}</pre>
+}
+{% endhighlight %}
+
 &nbsp;
 <p align="justify"><span style="font-size: medium;"><a href="http://papercut.codeplex.com/"><span style="font-size: medium;"><strong>Papercut</strong></span></a> works in the background. When the message is received you get a nice popup, and you can check the message.</span></p>
 <p align="justify"></p>

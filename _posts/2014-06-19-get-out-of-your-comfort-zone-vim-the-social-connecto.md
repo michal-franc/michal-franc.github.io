@@ -2,7 +2,8 @@
 layout: post
 title: Get out of your comfort zone - Vim the social connector
 date: 2014-06-19 08:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---

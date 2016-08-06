@@ -2,7 +2,8 @@
 layout: post
 title: Interesting Links
 date: 2012-07-28 11:09
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---

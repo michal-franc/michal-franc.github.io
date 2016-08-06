@@ -2,7 +2,8 @@
 layout: post
 title: TDD - commit by commit String Calculator (I)
 date: 2014-03-10 08:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [TDD, TDD - String Calculator]
 ---
@@ -24,7 +25,9 @@ categories: [TDD, TDD - String Calculator]
 
 <p><a href="https://github.com/michal-franc/BlogStuff/commit/0ad433b022b131f056c67336881f15a71b314fb4">Simple solution to the first requirement.</a></p>
 
-<pre class="lang:c# decode:true">[Test]
+
+{% highlight csharp %}
+[Test]
 public void ICanParseString_AndSumUpValues()
 {
    var input = "1,2,3,4,5";
@@ -32,10 +35,12 @@ public void ICanParseString_AndSumUpValues()
 
    var values = input.Split(',');
 
-   var actualSum = values.Select(x =&gt; int.Parse(x)).Sum();
+   var actualSum = values.Select(x => int.Parse(x)).Sum();
 
    Assert.That(actualSum, Is.EqualTo(expectedSum));
-}</pre>
+}
+{% endhighlight %}
+
 
 <p>The code uses Split method on string to get all the values. Values are then parsed and summed up. Beacuse, at this moment I don't care about the edge cases, the "Parse" method is used instead of "TryParse". This is just a start, a first step that will influence next steps. Right now I want to start as simple as possible and prove that solution like this works and I do have a meaningfull result.</p>
 
@@ -45,14 +50,18 @@ public void ICanParseString_AndSumUpValues()
 
 <p><a href="https://github.com/michal-franc/BlogStuff/commit/8341b36964b192214c246c3189cbc2ee0017b189">Commit</a></p>
 
-<pre class="lang:c# decode:true">public class StringCalculator
+
+{% highlight csharp %}
+public class StringCalculator
 {
     public object SumFromString(string input)
     {
        var values = input.Split(',');
-       return values.Select(x =&gt; int.Parse(x)).Sum();
+       return values.Select(x => int.Parse(x)).Sum();
     }
-}</pre>
+}
+{% endhighlight %}
+
 
 <p>This is a start. With class in place I can think of some simple edge cases.</p>
 
@@ -62,7 +71,9 @@ public void ICanParseString_AndSumUpValues()
 
 <p><a href="https://github.com/michal-franc/BlogStuff/commit/c1c173a5c1a7aeb3c95f9bf2e2cfe4d717289efb">Commit</a></p>
 
-<pre class="lang:c# decode:true">[Test]
+
+{% highlight csharp %}
+[Test]
         public void IfInputNullEmptyWhiteSpace_Return_0()
         {
             var input = string.Empty;
@@ -71,7 +82,9 @@ public void ICanParseString_AndSumUpValues()
             var actualSum = new StringCalculator().SumFromString(input);
 
             Assert.That(actualSum, Is.EqualTo(expectedSum));
-        }</pre>
+        }
+{% endhighlight %}
+
 
 <p>These is the test. Right now it is failing, to make it green I just added simple if clause. Due to simplicity no code in here</p>
 
@@ -83,29 +96,37 @@ public void ICanParseString_AndSumUpValues()
 
 <p><a href="https://github.com/michal-franc/BlogStuff/commit/6233dc9a063bb6b31318e9c0a80f2cc5d776946b">Commit</a></p>
 
-<pre class="lang:c# decode:true">[Test]
+
+{% highlight csharp %}
+[Test]
 public void IfInputNotFormatted_throws()
 {
     var input = "1,2,3,4,,,5";
 
-    Assert.Throws&lt;InputStringNotFormatedProperly&gt;(
-         () =&gt; new StringCalculator().SumFromString(input));
-}</pre>
+    Assert.Throws<InputStringNotFormatedProperly>(
+         () => new StringCalculator().SumFromString(input));
+}
+{% endhighlight %}
+
 
 <p>As you can see the test is expecting custom exception. To be honest. I don't know if the CustomException is needed here, maybe it would be better to just have a FormatException throwed here.</p>
 
 <p><a href="https://github.com/michal-franc/BlogStuff/commit/ee3ebc827ed9ce8a61acc02bfaef4a25a5635ae2">Commit</a></p>
 
-<pre class="lang:c# decode:true">try
+
+{% highlight csharp %}
+try
 {
      var values = input.Split(',');
-     return values.Select(x =&gt; int.Parse(x)).Sum();
+     return values.Select(x => int.Parse(x)).Sum();
 }
 catch (FormatException ex)
 {
       throw new InputStringNotFormatedProperly(
          string.Format("Unexpected format input - {0}", input), ex);
-}</pre>
+}
+{% endhighlight %}
+
 
 <h4>Things To note</h4>
 

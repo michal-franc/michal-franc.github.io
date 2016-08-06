@@ -2,7 +2,8 @@
 layout: post
 title: TDD – commit by commit String Calculator Kata (II)
 date: 2014-04-02 07:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [TDD, TDD - String Calculator]
 ---
@@ -12,7 +13,9 @@ categories: [TDD, TDD - String Calculator]
 
 <p>Before I can start adding new stuff, I need to make a little re-factorization. There are a couple of issues in the code.</p>
 
-<pre class="lang:c# decode:true ">public class StringCalculator
+
+{% highlight csharp %}
+public class StringCalculator
 {
    public object SumFromString(string input)
    {
@@ -21,14 +24,16 @@ categories: [TDD, TDD - String Calculator]
       try
       {
          var values = input.Split(',');
-         return values.Select(x =&gt; int.Parse(x)).Sum();
+         return values.Select(x => int.Parse(x)).Sum();
       }
       catch (FormatException ex)
       {
         throw new InputStringNotFormatedProperly(string.Format("Unexpected format input - {0}", input), ex);
       }
    }
-}</pre>
+}
+{% endhighlight %}
+
 
 <h4>R#, var and other fun</h4>
 
@@ -58,7 +63,9 @@ Finally, the split is finished and I am happy ;)</p>
 
 <p>The new requirement, allow the new lines between the number (instead of commas). Treat them as deli-meters. Simple example: for input "1\n2,3\n4", calculator should return "10".</p>
 
-<pre class="lang:c# decode:true">[Test]
+
+{% highlight csharp %}
+[Test]
 public void Newline_character_treated_as_delimeter()
 {
     var input = "1\n2,3\n4";
@@ -67,12 +74,12 @@ public void Newline_character_treated_as_delimeter()
     int actualSum = stringCalculator.SumFromString(input);
 
     Assert.That(actualSum, Is.EqualTo(expectedSum));
-}</pre>
+}
+{% endhighlight %}
+
 
 <p><a href="https://github.com/michal-franc/BlogStuff/commit/b8eed2dea2b2f2d3a6f1a2612e18d6df2dd4e753">Commit - Newline character test</a><br />
 The test is pretty straightforward, nothing to explain here. This now throws my custom exception, the input is not correct due to the "\n" characters.</p>
-
-<pre class="lang:c# decode:true">var values = input.Split(',','\n');</pre>
 
 <p><a href="https://github.com/michal-franc/BlogStuff/commit/705dc92b91e3c9df4a4eab8c7e2438c73fd68504">Commit - Newline character test</a><br />
 Implementation is very simple. Do I need to create fancy code with "sparkles"? Not for this requirement. The split function accepts more separators and it's just "Good Enough". Can I refactor the code and tests? I don't think so. The code is still quite straightforward. In this part, I just implemented one new feature.</p>

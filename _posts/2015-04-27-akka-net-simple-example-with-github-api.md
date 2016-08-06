@@ -26,15 +26,21 @@ tags: [akka, .net]
 
 <p><a href="https://github.com/octokit/octokit.net">Octokit - nuget package</a> which is a official SDK for Github in .NET. This package provides nice and easy to use GitHub client.</p>
 
-<pre class="nums:true lang:c# decode:true">var login = "michal-franc";
+
+{% highlight csharp %}
+var login = "michal-franc";
 var github = new GitHubClient(new ProductHeaderValue("AkkaCounter"), new InMemoryCredentialStore
-             (new Credentials("hidden_number")));</pre>
+             (new Credentials("hidden_number")));
+{% endhighlight %}
+
 
 <p>hidden_number - has to be generated on your GitHub profile config page, there is also a possibility to call GitHub using anonymous user. However, with the latter option, keep in mind that this is only for testing and there is very small request limit of</p>
 
 <p><a href="https://developer.github.com/v3/#rate-limiting">60 per hour compared to 5000 per hour for authenticated user</a>. Using Octokit I can create a github-client what can be used to easily get all the commits for the public repos.</p>
 
-<pre class="nums:true lang:c# decode:true">public class GithubApi
+
+{% highlight csharp %}
+public class GithubApi
 {
    [Test]
    public async void CountCommitsSimpleTest()
@@ -60,7 +66,9 @@ var github = new GitHubClient(new ProductHeaderValue("AkkaCounter"), new InMemor
 
       Console.WriteLine(countCommits);
      }
-}</pre>
+}
+{% endhighlight %}
+
 
 <ul>
 <li>line 11 - getting all the public repos using GitHub client for my user.</li>
@@ -78,7 +86,9 @@ var github = new GitHubClient(new ProductHeaderValue("AkkaCounter"), new InMemor
 
 <h4>The Code</h4>
 
-<pre class="nums:true lang:c# decode:true " >public static void Main(string[] args)
+
+{% highlight csharp %}
+public static void Main(string[] args)
 {
    var actorSystem = ActorSystem.Create("main");
 
@@ -87,7 +97,9 @@ var github = new GitHubClient(new ProductHeaderValue("AkkaCounter"), new InMemor
    githubRepoActor.Tell(null);
 
    actorSystem.AwaitTermination();
-}</pre>
+}
+{% endhighlight %}
+
 
 <ul>
 <li>line 3 - <a href="http://getakka.net/wiki/ActorSystem">ActorSystem</a> is a root for all the stuff related to actors. It does a lot of different tricks behind the scenes and its something like a base actor for all the other actors.</li>
@@ -100,7 +112,9 @@ var github = new GitHubClient(new ProductHeaderValue("AkkaCounter"), new InMemor
 
 <h4>Repo Reader</h4>
 
-<pre class="nums:true lang:c# decode:true " >public class MainGithubRepoActor : ReceiveActor
+
+{% highlight csharp %}
+public class MainGithubRepoActor : ReceiveActor
 {
 public MainGithubRepoActor()
 {
@@ -129,7 +143,9 @@ public MainGithubRepoActor()
                             x, countedCommits)));
     });
 }
-}</pre>
+}
+{% endhighlight %}
+
 
 <ul>
 <li>line 1 - This Actor inherits from ReceiveActor. This is a special kind of actor that has a nice 'this.Receive' convention to write its logic. There are of course all the different types of actors.<a href="http://getakka.net/wiki/ReceiveActor">More info on Receive Actor</a></li>
@@ -145,19 +161,25 @@ public MainGithubRepoActor()
 
 <h4>WriteToConsoleActor</h4>
 
-<pre class="nums:true lang:c# decode:true " >public class WritetToConsoleActor : ReceiveActor
+
+{% highlight csharp %}
+public class WritetToConsoleActor : ReceiveActor
 {
 public WritetToConsoleActor()
 {
 Receive(x => Console.WriteLine(x.Message));
 }
-}</pre>
+}
+{% endhighlight %}
+
 
 <p>This is a simple actor that just writes the received messages to console. NotifyUserMessage is just a dto with Message property.</p>
 
 <h4>Commit Counter</h4>
 
-<pre class="nums:true lang:c# decode:true " >public class CountCommitsActor : ReceiveActor
+
+{% highlight csharp %}
+public class CountCommitsActor : ReceiveActor
 {
 public CountCommitsActor()
 {
@@ -171,7 +193,9 @@ this.Receive(x =>
  this.Sender.Tell(commits.Count);
 });
 }
-}</pre>
+}
+{% endhighlight %}
+
 
 <p>Commit counter just gets the list of comments, then sends the parent the number of commits. Using Akka counting commits took -</p>
 

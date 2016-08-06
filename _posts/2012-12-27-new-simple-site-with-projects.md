@@ -2,7 +2,8 @@
 layout: post
 title: Site with project - NancyFX fun
 date: 2012-12-27 06:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Blog, nancy, Standard]
 ---

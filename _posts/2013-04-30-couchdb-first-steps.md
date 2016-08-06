@@ -2,7 +2,8 @@
 layout: post
 title: CouchDB - First Steps
 date: 2013-04-30 12:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [NoSql]
 ---
@@ -19,7 +20,9 @@ Now we can play with our new toy. Let's start with some general concepts.
 
 Quick answer there are no tables. Data is stored in a form of documents, which are JSON objects. Each document have properties. Properties are like columns. You can story values, array of objects, custom objects in them. 
 
-<pre class="lang:js decode:true " >{
+
+{% highlight csharp %}
+{
    "_id": "40e4bddb4071125d6fb2e559c107d91f",
    "_rev": "1-ff557593af8688073e77405d96231a87",
    "type": "feed",
@@ -27,7 +30,9 @@ Quick answer there are no tables. Data is stored in a form of documents, which a
    "isActive": true,
    "isApproved": true
 }
-</pre> 
+
+{% endhighlight %}
+ 
 
 Here is a simple example. This document has properties : isActive, isApproved, type, url. 
 
@@ -45,20 +50,26 @@ Reduce function is used to transform data to a new object. You can perform opera
 
 <h3>Map function</h3>
 
-<pre class="lang:js decode:true " >function (doc) {
+
+{% highlight csharp %}
+function (doc) {
               var id = doc._id;
               if(doc.type === 'feed' &amp;&amp; !doc.isApproved) {
                 var url = doc.url;
                 emit(id, url);
             }
           }
-</pre> 
+
+{% endhighlight %}
+ 
 
 In CouchDB map function  === javascript function. It takes document as a parameter and returns nothing. Instead of return you have to use emit function. Map function iterates through all the documents and tries to match the document based on the if clause. If the document is matched we call the emit function.
 
 emit() function takes two arguments ( key, value). This function can be called mutliple times in one map function and is used to create the view result with rows each containing key and value. View result then is converted to JSON object that contains rows and metadata.
 
-<pre class="lang:js decode:true " >
+
+{% highlight csharp %}
+
 
 {
   "total_rows": 0,
@@ -66,7 +77,9 @@ emit() function takes two arguments ( key, value). This function can be called m
   "rows": [
   ]
 }
-</pre> 
+
+{% endhighlight %}
+ 
 
 <h2>Accesing data from the browser</h2>
 

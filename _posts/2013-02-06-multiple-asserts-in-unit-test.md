@@ -2,7 +2,8 @@
 layout: post
 title: OAPT - "One Assert Per Test"
 date: 2013-02-06 16:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Unit Test]
 ---

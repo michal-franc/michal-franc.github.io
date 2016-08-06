@@ -2,7 +2,8 @@
 layout: post
 title: Extending git with custom command
 date: 2013-01-14 10:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Tools]
 ---
@@ -11,10 +12,14 @@ I am really happy that I can use git for my every day job. Earlier I was only us
 There is one nice 'feature' of git that i found recently : creating git custom commands. It is useful, when I want to automate some repetetive tasks.
 
 <h2>Repetitive Task</h2>
-<pre class="lang:sh decode:true">
+
+{% highlight csharp %}
+
 git add -A
 git commit -m '@Projectname'
-</pre>
+
+{% endhighlight %}
+
 Whenever I want to commit changes to the branch, I have to execute add command and then perform a commit. 'Projectname' is one of the conventions in my company. Each commit needs this variable beacuse we are using it in internal mail service.
 
 One of my practices with source control systems, is to commit a lot, so doing this 'repetition' all the time is a waste of time. 
@@ -32,7 +37,9 @@ Custom command specification :
 All this is simple except the project name variable. Fortunately our projects folders are named after the project. In the Script, I just have to get its name.
 
 <h3>Script</h3>
-<pre class="lang:sh decode:true">#!/bin/sh
+
+{% highlight csharp %}
+#!/bin/sh
 #
 # git-c
 #
@@ -41,7 +48,9 @@ All this is simple except the project name variable. Fortunately our projects fo
 
 git add -A
 git commit --message="@${PWD##*/} $1"
-</pre>
+
+{% endhighlight %}
+
 <h3>Installation process</h3>
 
 <ol>
@@ -52,6 +61,10 @@ git commit --message="@${PWD##*/} $1"
 
 <h3>Usage</h3>
 
-<pre class="lang:sh decode:true">
+
+{% highlight csharp %}
+
 git c 'test commit'
-</pre>
+
+{% endhighlight %}
+

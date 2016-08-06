@@ -2,7 +2,8 @@
 layout: post
 title: Activity Tracker –WPF Auto Updated Data Binding with INotifyPropertyChanged
 date: 2010-09-02 17:44
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, Uncategorized, wpf]
 ---
@@ -15,7 +16,9 @@ Each second value on TimeSpent is incremented. I want to track this time in real
 <strong>1)</strong> First our class which contains bound properties needs to implement the <strong>INotifyPropertyChanged</strong> interface. We have to implement the method <strong>OnPropertyChanged</strong> and call it every time we are changing the property which we want to auto update. This call will notify the bound <strong>WPF</strong> control, in my example <strong>TextBlock,</strong> that the value has changed and this will force the <strong>TextBlock</strong> to redraw itself with a new value.
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:ac8baeac-6b0f-4a72-a107-27e254b387c7" class="wlWriterEditableSmartContent" style="display: inline; float: none; margin: 0; padding: 0;">
 <div>
-<pre class="lang:default decode:true ">public class TaskWPF : INotifyPropertyChanged
+
+{% highlight csharp %}
+public class TaskWPF : INotifyPropertyChanged
 {
      ....
      public void Increment()
@@ -38,18 +41,24 @@ Each second value on TimeSpent is incremented. I want to track this time in real
      }
      #endregion
      ...
-}</pre>
+}
+{% endhighlight %}
+
 &nbsp;
 
 </div>
 </div>
 <div><span style="color: #000000;"> </span><span style="font-family: Georgia, 'Times New Roman', 'Bitstream Charter', Times, serif; line-height: 19px; white-space: normal; font-size: 13px;">As you can see every time I am calling the increment method I am m also calling the <strong>OnPropertyChanged</strong> function.  This one notifies the <strong>TextBlock</strong> that the property has changed.</span></div>
 <strong>2)</strong> We have to tell the <strong>TextBlock</strong> to watch out for property updates. There is a special property <strong>UpdateSourceTrigger</strong> in the <strong>Binding</strong> segment that specifies how the <strong>Binding</strong> will behave. . On default, it is set on <strong>LostFocus</strong> option which updates bound value every time the control losses focus.  In order to auto update on property changed, we have to set it on “<strong>PropertyChanged</strong>“ option.
-<pre class="lang:default decode:true">&lt;HierarchicalDataTemplate x:Key="TaskTemplate" ItemsSource="{Binding Childrens}" DataType="{x:Type data:TaskWPF}"&gt;
+
+{% highlight csharp %}
+<HierarchicalDataTemplate x:Key="TaskTemplate" ItemsSource="{Binding Childrens}" DataType="{x:Type data:TaskWPF}">
    ...
-   &lt;TextBlock Name="TimeSpent" Text="{Binding Path=TimeSpentString Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/&gt;
+   <TextBlock Name="TimeSpent" Text="{Binding Path=TimeSpentString Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
    ....
-&lt;/HierarchicalDataTemplate&gt;</pre>
+</HierarchicalDataTemplate>
+{% endhighlight %}
+
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:207c887f-8d06-4789-9080-742f4b213a5a" class="wlWriterEditableSmartContent" style="display: inline; float: none; margin: 0; padding: 0;">
 
 <!-- Code inserted with Steve Dunn's Windows Live Writer Code Formatter Plugin.  http://dunnhq.com -->
@@ -61,21 +70,29 @@ Same technique is used for time estimated limit notification. Right now I have m
 
 Background color of the Border is bound to the property in TaskWPF class.
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:6704c60f-a714-4da8-84e6-3255ddbbb38a" class="wlWriterEditableSmartContent" style="display: inline; float: none; margin: 0; padding: 0;">
-<pre class="lang:default decode:true ">public void IsOverEstimatedTime()
+
+{% highlight csharp %}
+public void IsOverEstimatedTime()
     {
-        if (_task.TimeSpent &gt; _task.TimeEstimate)
+        if (_task.TimeSpent > _task.TimeEstimate)
         {
             TaskColor ="Red";
             OnPropertyChanged("TaskColor");
         }
-    }</pre>
+    }
+{% endhighlight %}
+
 &nbsp;
 
 </div>
 <div></div>
 <div>
-<pre>Every time I am incrementing the counter. I am also checking if the time spent is greater than time estimated. When this is its true color name is changed,  and the <strong>OnPropertyChanged</strong> method is called. It notifies the Border by the <strong>Binding</strong> to redraw itself because the value has changed. One important thing to note. Color is specified by a string name because Background property in the Xaml doesn't accept a Color" class.
 
-Next Chapter. Communication with Xml files and TODO List.</pre>
+{% highlight csharp %}
+Every time I am incrementing the counter. I am also checking if the time spent is greater than time estimated. When this is its true color name is changed,  and the <strong>OnPropertyChanged</strong> method is called. It notifies the Border by the <strong>Binding</strong> to redraw itself because the value has changed. One important thing to note. Color is specified by a string name because Background property in the Xaml doesn't accept a Color" class.
+
+Next Chapter. Communication with Xml files and TODO List.
+{% endhighlight %}
+
 </div>
 <div></div>

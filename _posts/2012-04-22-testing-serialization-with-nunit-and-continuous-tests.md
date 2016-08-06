@@ -2,7 +2,8 @@
 layout: post
 title: Testing Serialization with NUnit and Continuous Tests
 date: 2012-04-22 21:25
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---

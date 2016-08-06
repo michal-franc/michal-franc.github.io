@@ -2,7 +2,8 @@
 layout: post
 title: Changing File Encoding in multiple Files
 date: 2011-11-09 22:33
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---
@@ -10,10 +11,12 @@ In one of the projects developed in my firm we had encoding set on almost all th
 
 There was a problem with Swedish characters <strong>“ö,ä,å”</strong> and also especially pound currency character which was used in one of the regular expression in the app. With my operating system, configured with the English culture settings using <strong>CodeBase 1250</strong>, those characters where changed and there were couple of runtime errors. We had to change the encoding to <strong>UTF8</strong> that’s one of the solutions. <strong>UTF8</strong> has a bigger character set.
 
-There is an option in <strong>Visual Studio File –&gt; Advanced Save Options </strong> that can be used to change <strong>encoding</strong> but it’s only usable for scenarios with one file. In this situation I had to change couple thousand of files. To fix this problem I have found a nice solution that uses <strong>PowerShell</strong> .
+There is an option in <strong>Visual Studio File –> Advanced Save Options </strong> that can be used to change <strong>encoding</strong> but it’s only usable for scenarios with one file. In this situation I had to change couple thousand of files. To fix this problem I have found a nice solution that uses <strong>PowerShell</strong> .
 
 Script:
-<pre class="lang:default decode:true">function ChangeEncoding ($baseDirectory)
+
+{% highlight csharp %}
+function ChangeEncoding ($baseDirectory)
 {
         $allFiles = Get-ChildItem $baseDirectory -include *.aspx,*.ascx -recurse 
                | where-object { -not $_.PSIsContainer}
@@ -22,7 +25,9 @@ Script:
             $fileContent | set-content -encoding utf8  $file.FullName -force
          }
 }
-ChangeEncoding("BaseDirectoryPath")</pre>
+ChangeEncoding("BaseDirectoryPath")
+{% endhighlight %}
+
 This script iterates through all the files in directories and their directories and rewrites them with correct encoding. It’s not the best solution but it works.
 
 Little Explanation:

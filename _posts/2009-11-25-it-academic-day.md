@@ -2,7 +2,8 @@
 layout: post
 title: IT Academic Day
 date: 2009-11-25 22:33
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---

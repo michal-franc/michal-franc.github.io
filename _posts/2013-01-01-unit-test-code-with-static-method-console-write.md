@@ -2,7 +2,8 @@
 layout: post
 title: Unit Test code with static method Console.Write
 date: 2013-01-01 16:47
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [programming, unit test, Unit Test]
 ---
@@ -13,7 +14,9 @@ categories: [programming, unit test, Unit Test]
 <h2>Example of code with static methods</h2>
 <p>This example is from the Stack Overflow question.</p>
 
-<pre class="lang:default decode:true">public static string GetMaskedInput()
+
+{% highlight csharp %}
+public static string GetMaskedInput()
 {
     string pwd = "";
     ConsoleKeyInfo key;
@@ -27,7 +30,7 @@ categories: [programming, unit test, Unit Test]
         }
         else
         {
-            if (key.Key == ConsoleKey.Backspace &amp;&amp; pwd.Length &gt; 0)
+            if (key.Key == ConsoleKey.Backspace &amp;&amp; pwd.Length > 0)
             {
                 pwd = pwd.Substring(0, pwd.Length - 1);
                 Console.Write("\b \b");
@@ -36,7 +39,9 @@ categories: [programming, unit test, Unit Test]
     }
     while (key.Key != ConsoleKey.Enter);
     return pwd;
-}</pre>
+}
+{% endhighlight %}
+
 <h3>Little Explanation</h3>
 Method GetMaskedInput() does two things. 
 
@@ -69,7 +74,9 @@ Method GetMaskedInput() does two things.
 <p>In this approach, I will show you how to hide "static" methods behind a layer of abstraction. Instead of using Console methods directly, let us inject some class that uses Console.</p>
 
 <h3>New Method</h3>
-<pre class="lang:default decode:true">public static string GetMaskedInput(IConsoleWrapper consoleWrapper)
+
+{% highlight csharp %}
+public static string GetMaskedInput(IConsoleWrapper consoleWrapper)
 {
     string pwd = "";
     ConsoleKeyInfo key;
@@ -83,7 +90,7 @@ Method GetMaskedInput() does two things.
         }
         else
         {
-            if (key.Key == ConsoleKey.Backspace &amp;&amp; pwd.Length &gt; 0)
+            if (key.Key == ConsoleKey.Backspace &amp;&amp; pwd.Length > 0)
             {
                 pwd = pwd.Substring(0, pwd.Length - 1);
                 consoleWrapper.Write("\b \b");
@@ -92,17 +99,25 @@ Method GetMaskedInput() does two things.
     }
     while (key.Key != ConsoleKey.Enter);
     return pwd;
-}</pre>
+}
+{% endhighlight %}
+
 <h3>Interface definition</h3>
-<pre class="lang:default decode:true">public interface IConsoleWrapper
+
+{% highlight csharp %}
+public interface IConsoleWrapper
 {
     ConsoleKeyInfo ReadKey();
     void Write(string data);
-}</pre>
+}
+{% endhighlight %}
+
 <p>The sample method now have one parameter. This parameter is an interface IConsoleWrapper that has two methods. Their name is similar to the methods provided by the console Class. New code now calls the IConsoleWrapper interface. It doesn't need to know implementation details.</p>
 
 <h3>Interface implementation</h3>
-<pre class="lang:default decode:true">public class ConsoleWrapper : IConsoleWrapper
+
+{% highlight csharp %}
+public class ConsoleWrapper : IConsoleWrapper
 {
     public ConsoleKeyInfo ReadKey()
     {
@@ -113,7 +128,9 @@ Method GetMaskedInput() does two things.
     {
         Console.Write(data);
     }
-}</pre>
+}
+{% endhighlight %}
+
 
 <p>The implementation of Console is now hidden. It was done by wrapping the static methods inside a class that can now be injected to the GetMaskedInput method.</p>
 
@@ -123,7 +140,9 @@ Method GetMaskedInput() does two things.
 <p>In order to test this code, we can create a stub that implements the IConsoleWrapper interface. This stub will just simulate Console. We can control it's behaviour and thus create a stable test scenarios.</p>
 
 <h3>Test Stub</h3>
-<pre class="lang:default decode:true">public class ConsoleWrapperStub : IConsoleWrapper
+
+{% highlight csharp %}
+public class ConsoleWrapperStub : IConsoleWrapper
 {
     private IList keyCollection;
     private int keyIndex = 0;
@@ -146,7 +165,9 @@ Method GetMaskedInput() does two things.
     {	
         Output += data;
     }
-}</pre>
+}
+{% endhighlight %}
+
 
 <p>
 This stub simulates Write method by maintaing the Output variable. It's a string  and calling Write now appends this Output. We can now check the Output easily in the unit test. 
@@ -157,7 +178,9 @@ ReadKey method is simulated by returning predefined data provided through a stub
 
 
 <h3>Test</h3>
-<pre class="lang:default decode:true"> [Test]
+
+{% highlight csharp %}
+ [Test]
     public void If_two_chars_return_pass_and_output_coded_pass()
     {
         // Arrange
@@ -173,7 +196,9 @@ ReadKey method is simulated by returning predefined data provided through a stub
         //Assert     
         Assert.That(actualResult, Is.EqualTo(expectedResult));
         Assert.That(stub.Output, Is.EqualTo(expectedConsoleOutput));
-    }</pre>
+    }
+{% endhighlight %}
+
 
 
 <p>

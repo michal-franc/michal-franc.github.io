@@ -2,7 +2,8 @@
 layout: post
 title: TimeIsMoney 0.2.4 – moving to WPF
 date: 2010-08-20 21:24
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, c#, Uncategorized]
 ---

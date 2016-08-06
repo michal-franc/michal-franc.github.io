@@ -2,7 +2,8 @@
 layout: post
 title: Codereview – Replacing chars
 date: 2012-06-17 17:54
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [codereview, Uncategorized]
 ---

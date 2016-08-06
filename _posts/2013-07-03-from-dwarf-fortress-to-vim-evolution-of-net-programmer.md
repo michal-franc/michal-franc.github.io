@@ -2,7 +2,8 @@
 layout: post
 title: From Dwarf Fortress to Vim - evolution of .Net programmer
 date: 2013-07-03 18:05
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Tools, vim]
 ---

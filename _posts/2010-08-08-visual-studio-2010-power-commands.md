@@ -2,7 +2,8 @@
 layout: post
 title: Visual Studio 2010 – 	 Productivity Power Tools 
 date: 2010-08-08 16:25
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, Uncategorized, visual studio]
 ---

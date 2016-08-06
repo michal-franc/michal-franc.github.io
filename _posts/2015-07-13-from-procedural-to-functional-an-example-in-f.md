@@ -43,7 +43,7 @@ type Record = {
                addinf: Option<string> 
               }
 
-type InputXml = XmlProvider&lt;"Terc.xml"&gt;
+type InputXml = XmlProvider<"Terc.xml">
 let tercs = InputXml.GetSample()
 
 let records =

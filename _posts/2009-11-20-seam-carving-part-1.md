@@ -2,7 +2,8 @@
 layout: post
 title: Seam Carving (1) - Content aware image scaling algorithm
 date: 2009-11-20 11:55
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, c#, seam carving, Uncategorized]
 ---

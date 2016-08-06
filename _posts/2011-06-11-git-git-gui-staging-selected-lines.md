@@ -2,7 +2,8 @@
 layout: post
 title: Git - gui , staging selected lines
 date: 2011-06-11 19:16
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [git, Uncategorized]
 ---

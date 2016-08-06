@@ -2,7 +2,8 @@
 layout: post
 title: Edytowalny ListBox
 date: 2010-02-20 19:07
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, c#, Uncategorized, visual studio]
 ---
@@ -21,7 +22,9 @@ ListBox normalnie wyświetli Itemy. W momencie wybrania któregoś pola w miejsc
 <a href="http://lammichalfranc.files.wordpress.com/2010/02/edytowalny-listbox-test.jpg"><img class="aligncenter size-full wp-image-332" title="Edytowalny ListBox Test" src="http://lammichalfranc.files.wordpress.com/2010/02/edytowalny-listbox-test.jpg" alt="" width="450" height="158" /></a>
 <h2><span style="color: #ffff00;">TextBox</span></h2>
 Zaczniemy od TextBoxa bo zawiera on mniej modyfikacji.
-<pre class="lang:default decode:true ">class EdditableTextBox : TextBox
+
+{% highlight csharp %}
+class EdditableTextBox : TextBox
 {
    private int _index = -1;
 
@@ -29,15 +32,21 @@ Zaczniemy od TextBoxa bo zawiera on mniej modyfikacji.
    {
     set { _index = value; }
    }
-...</pre>
+...
+{% endhighlight %}
+
 &nbsp;
 
 Dziedziczymy po standardowum TextBoxie i definiujemy pole Index , które będzie zawierać numer naszego obiektu , itemu , w listBoxie.
-<pre class="lang:default decode:true ">protected override void OnLeave(EventArgs e)
+
+{% highlight csharp %}
+protected override void OnLeave(EventArgs e)
 {
    ((ListBox)this.Parent).Items[_index] = this.Text;
    base.OnLeave(e);
-}</pre>
+}
+{% endhighlight %}
+
 &nbsp;
 
 Przeciążamy metodę wywoływaną w momencie wychodzenia z textBoxa tak by wszelkie wprowadzone zmiany zmieniały także obiekt w naszym ListBoxie do tego jest nam potrzebny parametr <strong>Index</strong> , który określa do którego konkretnie elementu się odnosimy.Odwołanie do ListBoxa realizujemy poprzez propercje Parent.
@@ -45,39 +54,53 @@ Przeciążamy metodę wywoływaną w momencie wychodzenia z textBoxa tak by wsze
 Na wszelki wypadek wywołujemy bazową metodę.
 
 Można oczywiście zrobić inny mechanizm. Np akceptowanie zmian w momencie wciśnięcia odpowiegniego klawisza.
-<pre class="lang:default decode:true ">protected override void OnKeyPress(KeyPressEventArgs e)
+
+{% highlight csharp %}
+protected override void OnKeyPress(KeyPressEventArgs e)
 {
    if (e.KeyChar == (char)Keys.Enter)
    {
       ((ListBox)this.Parent).Items[_index] = this.Text;
    }
    base.OnKeyPress(e);
-}</pre>
+}
+{% endhighlight %}
+
 &nbsp;
 
 W tym przypadku <strong>Enter</strong>
 <h2><span style="color: #ffff00;">ListBox</span></h2>
 Przejdzmy teraz do ListBoxa. Tutaj już będzie troszeczkę więcej zmian.
-<pre class="lang:default decode:true ">class EdditableListBox : ListBox
+
+{% highlight csharp %}
+class EdditableListBox : ListBox
 {
       private static int MarginBeetwenItems = 5;
-      private EdditableTextBox tbox;</pre>
+      private EdditableTextBox tbox;
+{% endhighlight %}
+
 &nbsp;
 
 Dziedziczymy po ListBoxie tworzymy propercje oznaczającą odstęp pomiędzy wyświetlanymi itemamy i tworzymy lokalna kopię naszego zmodyfikowanego TextBoxa
-<pre class="lang:default decode:true ">public EdditableListBox()
+
+{% highlight csharp %}
+public EdditableListBox()
 {
    tbox = new EdditableTextBox();
    tbox.Hide();
    tbox.Parent = this;
    Controls.Add(tbox);
-}</pre>
+}
+{% endhighlight %}
+
 &nbsp;
 
 Tworzymy Text Boxa ustawiamy jego "rodzica" . Propercja <strong>Parent</strong> będzie nam służyła do komunikacji pomiędzy TextBoxem i ListBoxem.
-<pre class="lang:default decode:true ">protected override void OnDrawItem(DrawItemEventArgs e)
+
+{% highlight csharp %}
+protected override void OnDrawItem(DrawItemEventArgs e)
 {
-   if (e.Index &gt; -1)
+   if (e.Index > -1)
    {
         string s = Items[e.Index].ToString();
 
@@ -87,12 +110,16 @@ Tworzymy Text Boxa ustawiamy jego "rodzica" . Propercja <strong>Parent</strong> 
 
         e.Graphics.DrawString(s, Font, new SolidBrush(SystemColors.WindowText), rect);
     }
-}</pre>
+}
+{% endhighlight %}
+
 &nbsp;
 
 Musimy przeciążyć metodę odrysowywującą. Na wszelki wypadek badamy index Obiektu w ListBoxie , wyznaczamy prostokąt na podstawie jego parametrów , uwzględniając
 <strong>MarginBeetwenItems</strong>. Rysujemy napis w odpowiednim miejscu.
-<pre class="lang:default decode:true ">protected override void OnMouseUp(MouseEventArgs e)
+
+{% highlight csharp %}
+protected override void OnMouseUp(MouseEventArgs e)
 {
      int index = IndexFromPoint(e.X, e.Y);
 
@@ -114,11 +141,15 @@ Musimy przeciążyć metodę odrysowywującą. Na wszelki wypadek badamy index O
      }
 
      base.OnMouseUp(e);
-}</pre>
+}
+{% endhighlight %}
+
 &nbsp;
 
 Główna metoda tworząca [chociaż bardziej pasuje słowo modyfikująca] odpowiednio kontrolke TextBoxa , przy kliknięciu Lewym Przyciskiem myszki. Parametry TextBoxa modyfikujemy tak aby wyświetlał się w miejscu klikniętego obiektu na ListBoxie.
-<pre class="lang:default decode:true ">protected override void OnSelectedIndexChanged(EventArgs e)
+
+{% highlight csharp %}
+protected override void OnSelectedIndexChanged(EventArgs e)
 {
       tbox.Hide();
       base.OnSelectedIndexChanged(e);
@@ -128,7 +159,9 @@ protected override void OnLeave(EventArgs e)
 {
       tbox.Hide();
       base.OnLeave(e);
-}</pre>
+}
+{% endhighlight %}
+
 &nbsp;
 
 Odpowiednie funkcje powodujące zniknięcie naszego TextBoxa przy wyjściu z kontrolki i przy zmianie obiektu.

@@ -2,7 +2,8 @@
 layout: post
 title: Cursors in T-SQL
 date: 2010-03-13 20:39
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, sql, Uncategorized]
 ---
@@ -22,7 +23,7 @@ Let's assume that we have some Table called „UserData” with typical Columns:
 	<li>isActive</li>
 </ul>
 The simplest sql query ....
-<pre class="lang:default decode:true">SELECT * FROM UserData</pre>
+
 will return :
 <ul>
 	<li>1 , Michał Franc , 2008-10-10 , 1</li>
@@ -33,7 +34,7 @@ This is my test Data [Those are my secret personalities on the Net ].
 
 Let's ask for the name of the users with Date value before year 2007. This is another query falling to the „simple” category.
 
-SELECT Name FROM USerData Where DATEDIFF(day,'2007-01-01',Date) &lt; 0
+SELECT Name FROM USerData Where DATEDIFF(day,'2007-01-01',Date) < 0
 
 Result:
 <ul>
@@ -44,7 +45,7 @@ Let's create a procedure to take an ID as a parameter and set the isActive colum
 
 Lets Create Query for ID's .
 
-SELECT ID FROM DaneUzytkownikow Where DATEDIFF(day,'2007-01-01',Data) &lt; 0
+SELECT ID FROM DaneUzytkownikow Where DATEDIFF(day,'2007-01-01',Data) < 0
 
 Result:
 <ul>
@@ -65,16 +66,20 @@ Before going further let me describe you how to use Cursors:
 	<li><em>Cursor Deallocation</em></li>
 </ol>
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:8db1bc4e-6c66-4a6a-a698-763e4a1def35">
-<pre class="lang:default decode:true  crayon-selected">DECLARE@UserIdint 
+
+{% highlight sql %}
+DECLARE@UserIdint 
 Declare@CursorCursor 
-Set@Cursor=CursorFORSELECT ID FROM UserData Where DATEDIFF(day,'2007-01-01',Data) &lt;0
+Set@Cursor=CursorFORSELECT ID FROM UserData Where DATEDIFF(day,'2007-01-01',Data) <0
 Open@Cursor  Fetch Next From @CursorInto @UserId  
 While (@@FETCH_STATUS=0)
 Begin
         EXEC SetInactive @Id=@UserID Fetch Next From @CursorInto @UserID
 End
 Close @Cursor
-Deallocate @Cursor</pre>
+Deallocate @Cursor
+{% endhighlight %}
+
 </div>
 <h3>1.Declaring Temporary Variable @UserId</h3>
 DECLARE @UserId int - This variable on each iteration will
@@ -83,7 +88,7 @@ Declare @Cursor Cursor
 
 Set @Cursor = Cursor
 
-For SELECT ID FROM UserData Where DATEDIFF(day,'2007-01-01',Data) &lt; 0
+For SELECT ID FROM UserData Where DATEDIFF(day,'2007-01-01',Data) < 0
 
 - We have to assign sql query.
 <h3>3.Open Cursor.</h3>

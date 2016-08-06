@@ -2,7 +2,8 @@
 layout: post
 title: RegExp Fun–Match/Replace in lines without specific word
 date: 2012-04-02 18:31
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [regexp, Uncategorized]
 ---
@@ -24,7 +25,7 @@ Because I love experimenting with Regular Expressions. I happily dropped everyth
 
 Most important part of this solution is <strong>(?!.*min) . </strong>This expression will try to look for <strong>min</strong> word in matched data and if it wont find it there whole match is discarded.
 
-For further replacement procedure, I m specifying two matched groups that will be used to construct new <strong>Path</strong>. <strong>(?&lt;path&gt;.*)/(?&lt;end&gt;.*) </strong>This will match everything to last possible<strong> “/”</strong> and make group named <strong>path,</strong> then every character after <strong>“/”</strong> is put into <strong>end </strong>group.
+For further replacement procedure, I m specifying two matched groups that will be used to construct new <strong>Path</strong>. <strong>(?<path>.*)/(?<end>.*) </strong>This will match everything to last possible<strong> “/”</strong> and make group named <strong>path,</strong> then every character after <strong>“/”</strong> is put into <strong>end </strong>group.
 <h3>Replace Expression</h3>
 <a href="http://www.mfranc.com/wp-content/uploads/2012/04/image4.png"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: block; float: none; margin-left: auto; margin-right: auto; padding-top: 0px; border: 0px;" title="image" src="http://www.mfranc.com/wp-content/uploads/2012/04/image_thumb4.png" alt="image" width="390" height="30" border="0" /></a>
 

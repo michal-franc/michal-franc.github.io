@@ -2,7 +2,8 @@
 layout: post
 title: Node.js - simple web server with 'express'
 date: 2013-06-06 08:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Node.js]
 ---
@@ -14,7 +15,9 @@ I was thinking about using RoR, Asp.Net Mvc or NancyFX all of these frameworks s
 
 Let's start with a very basic example, just to see the bare Node without the modules.
 
-<pre class="lang:js decode:true">var http = require("http");
+
+{% highlight csharp %}
+var http = require("http");
 http.createServer(function (request, response) {
       response.writeHead(200, {
          'Content-Type': 'text/plain'
@@ -22,7 +25,9 @@ http.createServer(function (request, response) {
       response.write('Simple Simple Fun')
       response.end();
 }).listen(5002);
-</pre>
+
+{% endhighlight %}
+
 
 Node is basically a javascript, but this time on the server side ( weeee best language in the world on the server side, how can you not love it ? ). This code is a implementation of a very simple server responding to each get request, with some funky message and code 200. The require statement is the implementation of a internal module system.
 
@@ -40,7 +45,9 @@ It provides
 	<li>more ...</li>
 </ul>
 
-<pre class="lang:js decode:true " >
+
+{% highlight csharp %}
+
  var express = require("express");
  var app = express();
 
@@ -63,7 +70,9 @@ It provides
  var port = process.env.PORT || 5000;
  app.listen(port, function() {
    console.log("Listening on " + port);
- });</pre> 
+ });
+{% endhighlight %}
+ 
 
 The express module is loaded into app object. It is then used to define the routings, accepting POST and GET verb. The syntax is quite simple. You provide the regexp which matches the route and a function that is executed when the request is matched. Function gives the access to the request and response wrappers. 
 

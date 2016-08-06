@@ -2,7 +2,8 @@
 layout: post
 title: Microsoft Pex – Automated Unit Testing
 date: 2010-08-15 20:14
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [pex, Uncategorized, unit test]
 ---

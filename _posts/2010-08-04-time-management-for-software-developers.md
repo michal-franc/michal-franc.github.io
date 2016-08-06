@@ -2,7 +2,8 @@
 layout: post
 title: Time Management tips for Software Developers
 date: 2010-08-04 22:08
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [career, Career, time management]
 ---

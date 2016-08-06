@@ -2,7 +2,8 @@
 layout: post
 title: Reloading ListBox DataSource
 date: 2010-07-29 22:58
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, c#, Uncategorized]
 ---
@@ -17,7 +18,9 @@ I'm doing this just for fun. This contest will be a great motivation and good wa
 So what's interesting in the code right now ?
 
 <strong>1. ListBox DataSource Reloading</strong>
-<pre class="lang:default decode:true">public static class Extension
+
+{% highlight csharp %}
+public static class Extension
 {
     public static void eReloadDataSource(this ListBox listbox)
     {
@@ -27,10 +30,14 @@ So what's interesting in the code right now ?
     listbox.DataSource = obj;
     listbox.DisplayMember=s;
     }
-}</pre>
+}
+{% endhighlight %}
+
 This Extension method reloads the Data source of a ListBox. I know it looks stupid but it works :D.
 Let's take a look in Reflector …. hmm
-<pre class="lang:default decode:true ">public object DataSource
+
+{% highlight csharp %}
+public object DataSource
 {
      [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
      get
@@ -58,7 +65,9 @@ Let's take a look in Reflector …. hmm
                this.DisplayMember = "";
           }
      }
-}</pre>
+}
+{% endhighlight %}
+
 &nbsp;
 
 So by assigning null value i m calling the SetDataConnection(,,,) which reloads the data. Also you can easily see that we have to reasssign DisplayMember value beacuase it is set to an Empty String at the end.
@@ -67,4 +76,5 @@ So by assigning null value i m calling the SetDataConnection(,,,) which reloads 
 
 To catch the key press events i am using slightly modified code from <a href="http://www.codeproject.com/KB/cs/CSLLKeyboardHook.aspx">link</a> . I made a little tweak to enable the special keys combinations , so you can catch the alt+ctrl+b sequention.
 
-That's all for now ;] If you want to check the code it is on the <a href="http://github.com/LaMik/TimeIsMoney">GitHub.</a>
+That's all for now ;] If you want to check the code it is on the <a href="http://github.com/Michal Franc
+ik/TimeIsMoney">GitHub.</a>

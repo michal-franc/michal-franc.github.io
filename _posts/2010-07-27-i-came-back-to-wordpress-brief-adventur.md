@@ -2,7 +2,8 @@
 layout: post
 title: I came back to Wordpress. Brief adventur...
 date: 2010-07-27 21:23
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---

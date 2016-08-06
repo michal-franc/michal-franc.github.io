@@ -2,7 +2,8 @@
 layout: post
 title: FluentNHibernate–Testing
 date: 2011-04-23 20:05
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [FluentNHibernate, NHibernate, Uncategorized]
 ---
@@ -12,28 +13,36 @@ categories: [FluentNHibernate, NHibernate, Uncategorized]
 <p align="justify">FluentNhibernate framework provides easy way to define mappings in NHibernate. You don’t need to create complex xml files , instead you can use C# syntax and write the code in the “.cs” file. FluentNH generates cfg from it.</p>
 <p align="justify">Just to show you how this is simple check this class mapping,</p>
 
-<pre class="lang:default decode:true">        public GroupModelMap()
+
+{% highlight csharp %}
+        public GroupModelMap()
         {
-            Id(x =&gt; x.ID);
-            Map(x =&gt; x.GroupName).Not.Nullable();
+            Id(x => x.ID);
+            Map(x => x.GroupName).Not.Nullable();
 
             //One
-            References(x =&gt; x.GroupType).Not.LazyLoad();
+            References(x => x.GroupType).Not.LazyLoad();
 
             //Many
-            HasMany(x=&gt;x.Users);           
-        }</pre>
+            HasMany(x=>x.Users);           
+        }
+{% endhighlight %}
+
 <p align="justify">Mapped class looks like this :</p>
 
-<pre class="lang:default decode:true">    public class GroupModel 
+
+{% highlight csharp %}
+    public class GroupModel 
     {
         public virtual int ID { get; private set; }
         public virtual string GroupName { get; set; }
 
         public virtual GroupTypeModel GroupType { get; set; }
-        public virtual IList&lt;ProfileModel&gt; Users { get; set; }
+        public virtual IList<ProfileModel> Users { get; set; }
 
-    }</pre>
+    }
+{% endhighlight %}
+
 <p align="justify">Every property needs to be marked as virtual and every mapped class needs ID property. It’s just simple as that. There are many options you can use. But I wont go into details in this post. If you want to try it just check the <a href="http://fluentnhibernate.org/">site</a>.</p>
 <p align="justify">In this post ,I want to show you other aspects of FluentNHibernate , that can make your life easier. FluentNH is not only about mappings anymore it provides lots of more functionalities.</p>
 <p align="justify"></p>
@@ -45,30 +54,42 @@ categories: [FluentNHibernate, NHibernate, Uncategorized]
 <p align="justify">Fortunately for us Fluent NH provides mechanism for creating the session object leaving you problem of implementing the tests. We just need to provide the SqlLite configuration.</p>
 <p align="justify">Something like :</p>
 
-<pre class="lang:default decode:true ">_configuration = Fluently.Configure()
-                  .Database(() =&gt; SQLiteConfiguration.Standard.InMemory().ShowSql())
-                  .Mappings(x =&gt; x.FluentMappings.AddFromAssembly(typeof(ProfileModel).Assembly))
-                  .BuildConfiguration();</pre>
+
+{% highlight csharp %}
+_configuration = Fluently.Configure()
+                  .Database(() => SQLiteConfiguration.Standard.InMemory().ShowSql())
+                  .Mappings(x => x.FluentMappings.AddFromAssembly(typeof(ProfileModel).Assembly))
+                  .BuildConfiguration();
+{% endhighlight %}
+
 &nbsp;
 <p align="justify">Then you can create session and use it for tests.</p>
 
-<pre class="lang:default decode:true">var sessionSource = new SingleConnectionSessionSourceForSQLiteInMemoryTesting(configuration);
 
-ISession session = sessionSource.CreateSession()</pre>
+{% highlight csharp %}
+var sessionSource = new SingleConnectionSessionSourceForSQLiteInMemoryTesting(configuration);
+
+ISession session = sessionSource.CreateSession()
+{% endhighlight %}
+
 <h3 align="justify">Testing Nhibernate Mappings</h3>
 <p align="justify">In unit test world with ORM layers it is good idea to test mappings. Writing your own tests can be a mundane and boring task. FluentNHibernate provides  a way to test it quite simply.</p>
 <p align="justify">You can use the PersistenceSpecification class</p>
 
-<pre class="lang:default decode:true">new PersistenceSpecification&lt;ForumModel&gt;(session, new IDEqualityComparer())
-       .CheckProperty(c =&gt; c.Name, "test")
-       .CheckProperty(c =&gt; c.Author, "test")
-       .CheckList&lt;TopicModel&gt;(c =&gt; c.Topics,
-                   new List&lt;TopicModel&gt;() 
+
+{% highlight csharp %}
+new PersistenceSpecification<ForumModel>(session, new IDEqualityComparer())
+       .CheckProperty(c => c.Name, "test")
+       .CheckProperty(c => c.Author, "test")
+       .CheckList<TopicModel>(c => c.Topics,
+                   new List<TopicModel>() 
                         { 
                             new TopicModel(){ Text="test"}
                         }
                    )
-        .VerifyTheMappings();</pre>
+        .VerifyTheMappings();
+{% endhighlight %}
+
 <p align="justify">This class performs:</p>
 
 <ul>
@@ -84,7 +105,9 @@ ISession session = sessionSource.CreateSession()</pre>
 <p align="justify">Besides the session parameter this class can take Comparer class which defines the your own comparison idea .</p>
 <p align="justify">Look at this example. In one of the projects , I am performing comparison based on the unique ID to check if Reference is correct.</p>
 
-<pre class="lang:default decode:true  crayon-selected">    public class IDEqualityComparer : IEqualityComparer
+
+{% highlight csharp %}
+    public class IDEqualityComparer : IEqualityComparer
     {
         new public bool Equals(object x, object y)
         {
@@ -107,7 +130,9 @@ ISession session = sessionSource.CreateSession()</pre>
         {
             throw new NotImplementedException();
         }
-    }</pre>
+    }
+{% endhighlight %}
+
 <p align="justify">IModel is used here to shorten the code. It contains only ID property. Every model class implements it.</p>
 <p align="justify">More info</p>
 <p align="justify"><a href="http://wiki.fluentnhibernate.org/Persistence_specification_testing">http://wiki.fluentnhibernate.org/Persistence_specification_testing</a></p>

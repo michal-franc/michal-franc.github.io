@@ -2,7 +2,8 @@
 layout: post
 title: String Interning
 date: 2009-12-28 13:22
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, interning, Uncategorized]
 ---

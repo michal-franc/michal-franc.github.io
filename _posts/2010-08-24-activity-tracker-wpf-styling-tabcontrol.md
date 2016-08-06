@@ -2,7 +2,8 @@
 layout: post
 title: Activity Tracker – WPF Styling TabControl
 date: 2010-08-24 19:40
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, c#, Uncategorized, wpf]
 ---
@@ -33,22 +34,26 @@ categories: [.net, c#, Uncategorized, wpf]
 <div style="text-align: justify;">
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:7caac4de-d865-489a-abf1-2ea953cb51d6" class="wlWriterEditableSmartContent" style="display: inline; float: none; margin: 0; padding: 0;">
 <div>
-<pre class="lang:default decode:true ">&lt;Style TargetType="TabItem"&gt;
-    &lt;Setter Property ="Template"&gt;
-        &lt;Setter.Value&gt;
-            &lt;ControlTemplate TargetType="TabItem"&gt;
-                &lt;Grid&gt;
-                    &lt;StackPanel Orientation="Horizontal"&gt;
-                        &lt;Border Name="Border" Padding="2" BorderBrush="Black" Borde                            rThickness="1,1,1,1" 
-                    CornerRadius="10,10,0,0" Background="DarkOrange"&gt;
-                            &lt;ContentPresenter Name="PART_header" ContentSource="Header"/&gt;
-                        &lt;/Border&gt;
-                    &lt;/StackPanel&gt;
-                &lt;/Grid&gt;
-            &lt;/ControlTemplate&gt;
-        &lt;/Setter.Value&gt;
-    &lt;/Setter&gt;
-&lt;/Style&gt;</pre>
+
+{% highlight csharp %}
+<Style TargetType="TabItem">
+    <Setter Property ="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="TabItem">
+                <Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <Border Name="Border" Padding="2" BorderBrush="Black" Borde                            rThickness="1,1,1,1" 
+                    CornerRadius="10,10,0,0" Background="DarkOrange">
+                            <ContentPresenter Name="PART_header" ContentSource="Header"/>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>
+{% endhighlight %}
+
 &nbsp;
 
 </div>
@@ -60,7 +65,7 @@ categories: [.net, c#, Uncategorized, wpf]
 
 <div style="text-align: justify;">
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:711d868f-3183-466e-8961-999d4ea08ab5" class="wlWriterEditableSmartContent" style="display: inline; float: none; margin: 0; padding: 0;">
-<div><span style="color: #008080;">1</span> <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">TabItem </span><span style="color: #ff0000;">Header</span><span style="color: #0000ff;">=”Projekt1”/&gt;</span></div>
+<div><span style="color: #008080;">1</span> <span style="color: #0000ff;"><</span><span style="color: #800000;">TabItem </span><span style="color: #ff0000;">Header</span><span style="color: #0000ff;">=”Projekt1”/></span></div>
 <!-- Code inserted with Steve Dunn's Windows Live Writer Code Formatter Plugin.  http://dunnhq.com -->
 
 </div>
@@ -77,13 +82,17 @@ categories: [.net, c#, Uncategorized, wpf]
 <div style="text-align: justify;">
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:f42c0442-c4b7-43c5-a74b-2b9bbddac77e" class="wlWriterEditableSmartContent" style="display: inline; float: none; margin: 0; padding: 0;">
 <div>
-<pre class="lang:default decode:true ">&lt;ControlTemplate.Triggers&gt;
-    &lt;Trigger Property="IsSelected" Value="True"&gt;
-        &lt;Setter TargetName="Border" Property="Background" Value="Gold"/&gt;
-    &lt;/Trigger&gt;
-    &lt;Trigger Property="IsSelected" Value="False"&gt;
-        &lt;Setter TargetName="Border" Property="Background" Value="DarkOrange"/&gt;     &lt;/Trigger&gt;
-&lt;/ControlTemplate.Triggers&gt;</pre>
+
+{% highlight csharp %}
+<ControlTemplate.Triggers>
+    <Trigger Property="IsSelected" Value="True">
+        <Setter TargetName="Border" Property="Background" Value="Gold"/>
+    </Trigger>
+    <Trigger Property="IsSelected" Value="False">
+        <Setter TargetName="Border" Property="Background" Value="DarkOrange"/>     </Trigger>
+</ControlTemplate.Triggers>
+{% endhighlight %}
+
 &nbsp;
 
 </div>
@@ -98,24 +107,28 @@ categories: [.net, c#, Uncategorized, wpf]
 <div style="text-align: justify;">
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:f7e0055c-5fbf-4412-bf10-6d5e3deb640e" class="wlWriterEditableSmartContent" style="display: inline; float: none; margin: 0; padding: 0;">
 <div>
-<pre class="lang:default decode:true ">&lt;Style TargetType="{x:Type TabControl}"&gt;
-    &lt;Setter Property="Template"&gt;
-        &lt;Setter.Value&gt;
-            &lt;ControlTemplate TargetType="{x:Type TabControl}"&gt;
-                &lt;Grid&gt;
-                    &lt;Grid.RowDefinitions&gt;
-                        &lt;RowDefinition Height="Auto"/&gt;
-                        &lt;RowDefinition Height="*"/&gt;
-                    &lt;/Grid.RowDefinitions&gt;
-                    &lt;TabPanel Grid.Row="0" Panel.ZIndex="1" Margin="0,0,0,0" IsItemsHost="True" Background="Transparent"/&gt;
-                        &lt;Border Margin="0,0,0,0" Padding="0" Background="Gold" Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,1"&gt;
-                            &lt;ContentPresenter ContentSource="SelectedContent"/&gt;
-                        &lt;/Border&gt;
-                    &lt;/Grid&gt;
-                &lt;/ControlTemplate&gt;
-            &lt;/Setter.Value&gt;
-        &lt;/Setter&gt;
-    &lt;/Style&gt;</pre>
+
+{% highlight csharp %}
+<Style TargetType="{x:Type TabControl}">
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="{x:Type TabControl}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TabPanel Grid.Row="0" Panel.ZIndex="1" Margin="0,0,0,0" IsItemsHost="True" Background="Transparent"/>
+                        <Border Margin="0,0,0,0" Padding="0" Background="Gold" Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,1">
+                            <ContentPresenter ContentSource="SelectedContent"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+{% endhighlight %}
+
 &nbsp;
 
 </div>

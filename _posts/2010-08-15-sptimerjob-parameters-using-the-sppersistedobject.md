@@ -2,7 +2,8 @@
 layout: post
 title: SPPersistedObject as SPTimerJob parameters
 date: 2010-08-15 00:42
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Programming, Sharepoint]
 ---
@@ -20,7 +21,9 @@ categories: [Programming, Sharepoint]
 <h2>How to use the SPPersistedObject</h2>
 <p align="justify">First of all, we have to create our class with parameters. It has to extend the <strong>SPPersistedObject</strong>. Every field we want to be “persisted” should be marked by a <strong>[Persisted]</strong> attribute. We have to create the properties explicit because only fields can be marked with this Attribute after creating this class all you have to do is to create the object fill it with parameters and then save it to the <strong>SPFarm</strong>.</p>
 
-<pre class="lang:default decode:true">public class TimerJobSet: SPPersistedObject
+
+{% highlight csharp %}
+public class TimerJobSet: SPPersistedObject
 { 
    [Persisted] 
    public string siteName;
@@ -28,20 +31,30 @@ categories: [Programming, Sharepoint]
    [Persisted]
    public bool Debug;
 
-   public TimerJobSet(string name, SPPersistedObject parent) : base(name,parent) {}}</pre>
+   public TimerJobSet(string name, SPPersistedObject parent) : base(name,parent) {}}
+{% endhighlight %}
+
 <p align="justify">With this simple class, the first step is to create the Persisted Object on the <strong>SPFarm</strong>. It is really important to call the Update() method.</p>
 
-<pre class="lang:default decode:true">SPWeb web = properties.Feature.Parent;
+
+{% highlight csharp %}
+SPWeb web = properties.Feature.Parent;
 SPSite site = web.Site;
 SPPersistedObject parent = site.WebApplication;
 CustomTimerJobSettings settings =new TimerJobSet("TimerJobSet", parent, Guid.NewGuid());
 settings.Debug =false;
 settings.siteName="host.com";
-settings.Update();</pre>
+settings.Update();
+{% endhighlight %}
+
 <p align="justify">The object is serialized. Now while executing the <strong>Timer Job </strong> all we have to do is to get the parameters from the <strong>SPFarm.</strong></p>
 
-<pre class="lang:default decode:true">TimerJobSet settings =this.WebApplication.GetChild&lt;TimerJobSet&gt;("TimerJobSet");  string siteName = settings.SiteName;
-bool debug = settings.Debug;</pre>
+
+{% highlight csharp %}
+TimerJobSet settings =this.WebApplication.GetChild<TimerJobSet>("TimerJobSet");  string siteName = settings.SiteName;
+bool debug = settings.Debug;
+{% endhighlight %}
+
 &nbsp;
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:d0a11b8a-20c6-48ec-8289-da2dcea40a3a" class="wlWriterEditableSmartContent" style="display: inline; float: none; margin: 0; padding: 0;">
 

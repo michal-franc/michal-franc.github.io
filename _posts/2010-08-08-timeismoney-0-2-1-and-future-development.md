@@ -2,7 +2,8 @@
 layout: post
 title: TimeIsMoney 0.2.1 and future development
 date: 2010-08-08 09:07
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [NUnit, Uncategorized]
 ---

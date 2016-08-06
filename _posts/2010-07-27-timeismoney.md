@@ -2,7 +2,8 @@
 layout: post
 title: TimeIsMoney
 date: 2010-07-27 16:04
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, c#, time management, Uncategorized]
 ---
@@ -18,6 +19,8 @@ categories: [.net, c#, time management, Uncategorized]
 <p style="line-height:1.5em!important;margin:1em 0!important;padding:0;">&nbsp;</p>
 <p style="line-height:1.5em!important;margin:1em 0!important;padding:0;">You can get the code here :</p>
 <p>&nbsp;</p>
-<p><a href="http://github.com/LaMik/TimeIsMoney">http://github.com/LaMik/TimeIsMoney</a></p>
+<p><a href="http://github.com/Michal Franc
+ik/TimeIsMoney">http://github.com/Michal Franc
+ik/TimeIsMoney</a></p>
 <p>&nbsp;</p>
 <p>I have started using GIT and it is really great. &nbsp;</p>

@@ -2,7 +2,8 @@
 layout: post
 title: FluentNHibernate , NHibernate–Notes
 date: 2011-03-30 22:30
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [FluentNH, NHibernate, Uncategorized]
 ---
@@ -10,18 +11,21 @@ categories: [FluentNH, NHibernate, Uncategorized]
 <p align="justify"></p>
 
 <h5 align="justify">1. Mapping Whole Assembly.</h5>
-<p align="justify">Before discovering this feature , I created one line foreach mapping defined in the assembly. You can replace this “useless” code with the procedure to map whole assembly. FluentNH  will scan the assembly and look for classes inheriting from ClassMap&lt;&gt;</p>
+<p align="justify">Before discovering this feature , I created one line foreach mapping defined in the assembly. You can replace this “useless” code with the procedure to map whole assembly. FluentNH  will scan the assembly and look for classes inheriting from ClassMap<></p>
 
-<pre class="lang:default decode:true"> return Fluently.Configure().
+
+{% highlight csharp %}
+ return Fluently.Configure().
     Database(MsSqlConfiguration.MsSql2008.ConnectionString("connstring"))
-      .Mappings(x =&gt; x.FluentMappings.AddFromAssembly(System.Reflection.Assembly.GetExecutingAssembly()))
+      .Mappings(x => x.FluentMappings.AddFromAssembly(System.Reflection.Assembly.GetExecutingAssembly()))
       .ExposeConfiguration(func)
-      .BuildSessionFactory();</pre>
+      .BuildSessionFactory();
+{% endhighlight %}
+
 &nbsp;
 <h5 align="justify">2. not null fields</h5>
 <p align="justify">If you want to create some fields in the DB as “not null”. use the Not.Nullable() sequence.</p>
 
-<pre class="lang:default decode:true">Map(x =&gt; x.IDCourse).Not.Nullable();</pre>
 &nbsp;
 <h5 align="justify">3. Reseting Schema for Testing</h5>
 <p align="justify">I don’t know if this is a good approach but when , I am working with NH i create an instance of test database with sample data. Everytime , I am running tests i m reseting schema , filling DB with sample data and then database is erased from memory (SQLite) or the server.</p>
@@ -29,7 +33,9 @@ categories: [FluentNH, NHibernate, Uncategorized]
 <p align="justify">In my session factory Class i have methods to reset and update Schema</p>
 <p align="justify"></p>
 
-<pre class="lang:default decode:true crayon-selected"> public static class SessionFactory
+
+{% highlight csharp %}
+ public static class SessionFactory
 {
     public static ISession OpenSession()
     {
@@ -50,13 +56,13 @@ categories: [FluentNH, NHibernate, Uncategorized]
             CreateSessionFactory(ResetSchema);
         }
 
-        private static ISessionFactory CreateSessionFactory(Action&lt;Configuration&gt; func)
+        private static ISessionFactory CreateSessionFactory(Action<Configuration> func)
         {
 
           return Fluently.Configure().
                Database(MsSqlConfiguration.MsSql2008.ConnectionString
                ("connstring"))
-               .Mappings(x =&gt; x.FluentMappings.AddFromAssembly(System.Reflection.Assembly.GetExecutingAssembly()))
+               .Mappings(x => x.FluentMappings.AddFromAssembly(System.Reflection.Assembly.GetExecutingAssembly()))
                .ExposeConfiguration(func)
                .BuildSessionFactory();
         }
@@ -68,12 +74,16 @@ categories: [FluentNH, NHibernate, Uncategorized]
         public static void ResetSchema(Configuration config)
         {
             new SchemaExport(config).Create(true, true);
-        }</pre>
+        }
+{% endhighlight %}
+
 &nbsp;
 <p align="justify"><strong>4. Generic Repository</strong></p>
 <p align="justify">I am the fan of the repositories used to perform all the CRUD and complex query operations. In the code I have a base repository class and complex repositories deriving from the base class.</p>
 
-<pre class="lang:default decode:true">public  class Repository&lt;T&gt; : IRepository&lt;T&gt;
+
+{% highlight csharp %}
+public  class Repository<T> : IRepository<T>
         where T : class
     {
         public T GetById(int id)
@@ -85,23 +95,23 @@ categories: [FluentNH, NHibernate, Uncategorized]
             return klient;
         }
 
-        public IList&lt;T&gt; GetByFilter(string parameterName, object value)
+        public IList<T> GetByFilter(string parameterName, object value)
         {
-            IList&lt;T&gt; returnedList = null;
+            IList<T> returnedList = null;
             using (var session = SessionFactory.OpenSession())
             {
-                returnedList = session.CreateCriteria(typeof(T)).Add(Expression.Eq(parameterName, value)).List&lt;T&gt;();
+                returnedList = session.CreateCriteria(typeof(T)).Add(Expression.Eq(parameterName, value)).List<T>();
                 session.Flush();
             }
             return returnedList;
         }
 
-        protected IList&lt;T&gt; GetByQuery(string query)
+        protected IList<T> GetByQuery(string query)
         {
-            IList&lt;T&gt; returnedList = null;
+            IList<T> returnedList = null;
             using (var session = SessionFactory.OpenSession())
             {
-                returnedList = session.CreateQuery(query).List&lt;T&gt;();
+                returnedList = session.CreateQuery(query).List<T>();
                 session.Flush();
             }
             return returnedList;
@@ -109,21 +119,27 @@ categories: [FluentNH, NHibernate, Uncategorized]
 
       .....
 
-    }</pre>
+    }
+{% endhighlight %}
+
 <p align="justify">Simple Repository used for most CRUD operations.</p>
 <p align="justify">For more complex queries , I just create a new class deriving from the base one.</p>
 
-<pre class="lang:default decode:true">    public class KlientRepository : Repository&lt;Klient&gt;
+
+{% highlight csharp %}
+    public class KlientRepository : Repository<Klient>
     {
         public Klient GetByImieNazwisko(string imie, string nazwisko)
         {
             return GetByQuery(String.Format("from Klient k where k.Imie = '{0}' and k.Nazwisko = '{1}'",imie,nazwisko)).FirstOrDefault();
         }
 
-        public IList&lt;Klient&gt; GetByRodzaj(string rodzaj)
+        public IList<Klient> GetByRodzaj(string rodzaj)
         {
             return GetByQuery(String.Format("from Klient k where k.Rodzaj.Rodzaj = '{0}' ", rodzaj)).ToList();
 
         }
-    }</pre>
+    }
+{% endhighlight %}
+
 &nbsp;

@@ -2,7 +2,8 @@
 layout: post
 title: New Design
 date: 2012-12-21 22:52
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Blog, design]
 ---

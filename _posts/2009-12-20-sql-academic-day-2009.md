@@ -2,7 +2,8 @@
 layout: post
 title: SQL Academic Day 2009
 date: 2009-12-20 14:28
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [IT, sql, Uncategorized]
 ---

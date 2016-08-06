@@ -2,7 +2,8 @@
 layout: post
 title: F# where to start
 date: 2014-06-10 08:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Blog]
 ---
@@ -16,11 +17,15 @@ categories: [Blog]
   <p>If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23. Find the sum of all the multiples of 3 or 5 below 1000. The first problem it's not that hard. You can do it by a brute force loop. there is also a better solutions that has lower complexity. My solution is just a loop.</p>
 </blockquote>
 
-<pre class="lang:c# decode:true " >let ismultiplier div x = (x % div) = 0
+
+{% highlight csharp %}
+let ismultiplier div x = (x % div) = 0
 
 let numbers = seq { for n in 0 .. 999 do if (ismultiplier 5 n || ismultiplier 3 n) then yield n  }
 
-let euler1 = Seq.sum numbers</pre>
+let euler1 = Seq.sum numbers
+{% endhighlight %}
+
 
 <p>I like the syntax, it looks really nice. 1st : I am declaring new function 'ismultiplier'. 2nd : I am creating a sequence with filter in form of if. From my understating sequence is similar concept to a loop over some elements but its being lazy loaded. The data is created on the fly, while code iterates through it. 3rd : I am using Seq method to sum up the yielded values. This is a simple algorithm, it won't be enough to learn F# properly. That's when some practical project will come in. It's still planned, I have couple of ideas. It has to be something useful and complex enough project so can I learn how to structure code properly and how to use OOP inside F# world.</p>
 

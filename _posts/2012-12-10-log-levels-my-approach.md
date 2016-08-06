@@ -2,7 +2,8 @@
 layout: post
 title: Log levels - my approach
 date: 2012-12-10 20:46
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [nlog, Programming]
 ---

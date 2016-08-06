@@ -2,7 +2,8 @@
 layout: post
 title: Reklama Allegro - Viral Marketing
 date: 2010-02-01 21:38
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---

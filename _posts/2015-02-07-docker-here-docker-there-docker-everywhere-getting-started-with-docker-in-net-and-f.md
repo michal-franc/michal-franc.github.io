@@ -2,7 +2,8 @@
 layout: post
 title: Docker here docker there docker everywhere - Getting started with docker in .NET with F#
 date: 2015-02-07 09:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Blog]
 ---
@@ -24,77 +25,98 @@ categories: [Blog]
 
 <p><strong>1&#46; touch DockerFile</strong> will create me a file First instruction would be to get me a Unix distro that I will run everything on top off.</p>
 
-<pre class="lang:c# decode:true">DockerFile
-FROM debian</pre>
+
+{% highlight csharp %}
+DockerFile
+FROM debian
+{% endhighlight %}
+
 
 <p><strong>2&#46; To build image</strong></p>
-
-<pre class="lang:c# decode:true">sudo docker build .</pre>
 
 <p>Yey it works, behind the scenes it gets the debian DockerFile and goes from instruction to instruction creating a debian runtime. I could possibly write my own 'debian' image, but that would involve me learning about how to build Unix distro. Instead of that I can just point to external image and build on top of it. That is one of the beautiful things about docker. You can mix / match different images and build more complex ones using the basic ones.</p>
 
 <p><strong>3&#46; In order to compile F# app i will need mono and fsharp compiler</strong></p>
 
-<pre class="lang:c# decode:true">DockerFile
+
+{% highlight csharp %}
+DockerFile
 FROM debian
 RUN apt-get -y -q install mono-complete
-RUN apt-get -y -q install fsharp</pre>
+RUN apt-get -y -q install fsharp
+{% endhighlight %}
+
 
 <p>-y - "Always Yes" so if there is any prompt in 'apt-get' installer just say yes -q - Quiet - makes the log less verbose</p>
 
 <p><strong>4&#46; Building image</strong><br />
 I got some errors from apt-get missing packages and the logs says to add - 'apt-get update'. This is supposed to update the 'apt-get' list of packages.</p>
 
-<pre class="lang:c# decode:true">DockerFile
+
+{% highlight csharp %}
+DockerFile
 FROM debian
 RUN apt-get update
 RUN apt-get -y -q mono-complete
-RUN apt-get -y -q fsharp</pre>
+RUN apt-get -y -q fsharp
+{% endhighlight %}
+
 
 <p>'sudo docker build' - and couple minutes later you should have a nice image with debian + mono + fsharp.</p>
 
 <p><strong>5&#46; Switching to more specialized image</strong><br />
 Sadly in my case I got lot of errors while downloading 'mono-complete'. Instead of building mono on my own, I have decided to change the base image and use some Unix distro with mono on board. Running 'docker search mono'. Gave me a list of all the potential images, I decided to use 'mono'.</p>
 
-<pre class="lang:c# decode:true">DockerFile
+
+{% highlight csharp %}
+DockerFile
 FROM mono
 RUN apt-get update
 RUN apt-get -y -q install fsharp
-RUN apt-get -y -q install vim</pre>
+RUN apt-get -y -q install vim
+{% endhighlight %}
+
 
 <p>Notice that I installing vim, I need some basic text editor to create first F# hello world app.</p>
 
 <p><strong>6&#46; What now ? -Starting container</strong> I have base image, there is no container yet. What is a container you may ask ? <a href="http://stackoverflow.com/questions/23735149/docker-image-vs-container">Container is a running instance of image</a>. <span style="line-height: 1.5;">To start interacting with container, you need to start some app on it. Most basic one is interactive shell, that will also enable me to work on top of container</span></p>
 
-<pre class="lang:c# decode:true ">sudo docker run -i -t &lt;id_of_built_image&gt; /bin/bash</pre>
-
 <p><strong>7&#46; Testing out F#</strong> Lets see if fsharp is here fsharpi should start F# interactive.</p>
-
-<pre class="lang:c# decode:true">fsharpi</pre>
 
 <p>Yey, it's here. To exit just type quit#;;</p>
 
 <p><strong>8</strong><span style="line-height: 1.5;"><strong>. Creating folder + hello world source file</strong></span> <span style="line-height: 1.5;"><strong></strong> I need folder and hello.fsx file</span></p>
 
-<pre class="lang:c# decode:true">mkdir fsharp-hello
-touch hello.fsx</pre>
+{% highlight csharp %}
+mkdir fsharp-hello
+touch hello.fsx
+{% endhighlight %}
 
 <p><strong>9&#46; Hello World App</strong></p>
 
-<pre class="lang:c# decode:true">open System
+{% highlight csharp %}
+open System
 
-[&lt;EntryPoint&gt;]
+[<EntryPoint>]
 let main argv =
    printfn "Hello World"
-   0</pre>
+   0
+{% endhighlight %}
+
 
 <p><strong>10&#46; Compiling app</strong></p>
 
-<pre>fsharpc hello.fsx</pre>
+
+{% highlight csharp %}
+fsharpc hello.fsx
+{% endhighlight %}
 
 <p><strong>11&#46; Running Hello World App</strong></p>
 
-<pre>mono hello.exe</pre>
+{% highlight csharp %}
+mono hello.exe
+{% endhighlight %}
+
 
 <p>Uff, done. That wasn't that hard. Now, you might ask so what ? You just compiled Hello World app ... I can do this on my local machine, yep but this</p>
 

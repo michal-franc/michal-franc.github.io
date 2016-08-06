@@ -2,7 +2,8 @@
 layout: post
 title: My 100th post .... Welcome to London
 date: 2014-01-25 01:31
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Career, Standard]
 ---

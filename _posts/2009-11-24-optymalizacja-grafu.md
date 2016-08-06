@@ -2,7 +2,8 @@
 layout: post
 title: Optymalizacja Grafu
 date: 2009-11-24 19:33
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---

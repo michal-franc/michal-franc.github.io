@@ -2,7 +2,8 @@
 layout: post
 title: Boids Simulation – Project Overview
 date: 2012-06-23 19:32
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [boids, Uncategorized]
 ---
@@ -10,7 +11,9 @@ While studying I was doing a lot of different projects. One of them was a simple
 
 Project is hosted on <strong>GitHub</strong> if you want to follow the code and changes.
 
-<a href="https://github.com/LaMik/SilverlightBoids">https://github.com/LaMik/SilverlightBoids</a>
+<a href="https://github.com/Michal Franc
+ik/SilverlightBoids">https://github.com/Michal Franc
+ik/SilverlightBoids</a>
 
 I use <a href="https://trello.com/"><strong>Trello</strong></a><strong> </strong>to manage ideas, tasks, bug fixes  etc.
 <h4>Project Overview</h4>

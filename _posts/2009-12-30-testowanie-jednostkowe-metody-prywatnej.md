@@ -2,7 +2,8 @@
 layout: post
 title: Testowanie jednostkowe metody prywatnej
 date: 2009-12-30 20:04
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [NUnit, Uncategorized, unit test]
 ---

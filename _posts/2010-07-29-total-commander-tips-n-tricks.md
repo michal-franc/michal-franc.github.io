@@ -2,7 +2,8 @@
 layout: post
 title: Total Commander Tips n Tricks
 date: 2010-07-29 17:28
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [slickrun, Uncategorized]
 ---

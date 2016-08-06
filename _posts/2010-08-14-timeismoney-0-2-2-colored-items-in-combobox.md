@@ -2,7 +2,8 @@
 layout: post
 title: TimeIsMoney 0.2.2 – Colored items in ComboBox
 date: 2010-08-14 16:25
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, c#, Uncategorized]
 ---
@@ -38,26 +39,28 @@ Same effect is applied on the priority  ComBox If you want to get this effect. 
 <blockquote>
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:2c61692c-0184-486d-bf6a-8ac28ffbd5dd" class="wlWriterEditableSmartContent" style="display: inline; float: none; margin: 0; padding: 0;">
 <div>
-<pre class="lang:default decode:true ">public class ColorAbleComboBox : ComboBox 
+
+{% highlight csharp %}
+public class ColorAbleComboBox : ComboBox 
 { 
    protected override void OnDrawItem(DrawItemEventArgs e) 
    { 
-       if (e.Index &gt;=0)
+       if (e.Index >=0)
        { 
          Rectangle rect =new Rectangle(e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height); 
-         if (e.Index &lt;=3) 
+         if (e.Index <=3) 
          {
              Color col = Color.FromArgb(0,255-(e.Index*60),0);
              SolidBrush greenBrush =new SolidBrush(col);
              e.Graphics.FillRectangle(greenBrush, rect);
          }
-         else if (e.Index &gt;3 &amp;&amp; e.Index &lt;= 7)
+         else if (e.Index >3 &amp;&amp; e.Index <= 7)
          {   
               Color col = Color.FromArgb(0, 0, 255- ((e.Index-4) *60));
               SolidBrush blueBrush =new SolidBrush(col);
               e.Graphics.FillRectangle(blueBrush, rect);
          }
-         else if (e.Index &gt;7)
+         else if (e.Index >7)
          {
              Color col = Color.FromArgb(255- ((e.Index -8) *60), 0,0 ); 
              SolidBrush redBrush =new SolidBrush(col); 27 e.Graphics.FillRectangle(redBrush, rect); 
@@ -65,7 +68,9 @@ Same effect is applied on the priority  ComBox If you want to get this effect. 
          e.Graphics.DrawString(Items[e.Index].ToString(), Font, new SolidBrush(Color.White), new PointF(rect.X, rect.Y));
      }
    } 
-}</pre>
+}
+{% endhighlight %}
+
 &nbsp;
 
 </div>

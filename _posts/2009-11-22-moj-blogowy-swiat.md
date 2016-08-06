@@ -2,7 +2,8 @@
 layout: post
 title: My online World
 date: 2009-11-22 21:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [IT, Uncategorized]
 ---

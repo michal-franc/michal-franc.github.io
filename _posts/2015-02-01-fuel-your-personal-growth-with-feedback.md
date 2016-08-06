@@ -2,7 +2,8 @@
 layout: post
 title: Fuel your personal growth with feedback
 date: 2015-02-01 16:52
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---

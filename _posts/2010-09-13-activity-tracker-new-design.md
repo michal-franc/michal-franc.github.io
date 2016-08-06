@@ -2,7 +2,8 @@
 layout: post
 title: Activity Tracker – New Design
 date: 2010-09-13 17:48
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---

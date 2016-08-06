@@ -2,7 +2,8 @@
 layout: post
 title: Tworzenie Pdf -a w .Necie 
 date: 2010-02-23 18:27
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, c#, pdf, Uncategorized]
 ---
@@ -13,7 +14,9 @@ Biblioteka jest łatwa i przyjemna. Po przeczytaniu <a href="http://pdfsharp.co
 Potrzebowałem przekonwertować obrazek na PDF-ka.
 
 Z PDF-Sharpikiem to żadna filozofia.
-<pre class="lang:default decode:true ">PdfDocument document = new PdfDocument();
+
+{% highlight csharp %}
+PdfDocument document = new PdfDocument();
 
 PdfPage page = document.AddPage();
 
@@ -26,7 +29,9 @@ g.DrawImage(pictureBoxHead.Image,new Point(0,0));
 gfx.DrawImage(XImage.FromGdiPlusImage(pictureBoxHuman.Image),new Point(0,0));
 
 string filename = "lobrazkowy.pdf";
-document.Save(filename);</pre>
+document.Save(filename);
+{% endhighlight %}
+
 &nbsp;
 
 Podstawą pdfka jest klasa <strong>PdfDocument</strong> która jest kolekcją obiektów np stron.Podobnie jest z <strong>PdfPagem</strong> , który jest kolekcją obiektów znajdujących się na stronie. Zresztą co ja tu będe opisywał. Nazwy metod i klas ładnie opisują proces i mechanizm działania biblioteki. Biblioteka jest fajnie przemyślana.

@@ -2,7 +2,8 @@
 layout: post
 title: Generics and Object Casting– Boxing , Unboxing
 date: 2011-03-20 15:23
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, Programming]
 ---
@@ -12,7 +13,9 @@ categories: [.net, Programming]
 <p align="justify"></p>
 
 <h2 align="justify"><span>Code</span>:</h2>
-<pre class="lang:default decode:true">   class ClassGeneric&lt;U&gt; 
+
+{% highlight csharp %}
+   class ClassGeneric<U> 
     { 
         U test;
 
@@ -40,18 +43,22 @@ categories: [.net, Programming]
         { 
             int t = (int)test; 
         } 
-    }</pre>
+    }
+{% endhighlight %}
+
 <h2 align="justify"><span>Test </span>:</h2>
 <p align="justify">Now lets perform a simple test by creating instances of both classes and performing operation. Stopwatch will be used to check performance.</p>
 
-<pre class="lang:default decode:true ">       static Stopwatch sw = new Stopwatch();
+
+{% highlight csharp %}
+       static Stopwatch sw = new Stopwatch();
 
         static void Main(string[] args) 
         { 
             sw.Start(); 
-            for (int i = 0; i &lt; 10000000; i++) 
+            for (int i = 0; i < 10000000; i++) 
             { 
-                new Labs.ClassGeneric&lt;int&gt;(1).Operation(); 
+                new Labs.ClassGeneric<int>(1).Operation(); 
             } 
             sw.Stop();
 
@@ -59,7 +66,7 @@ categories: [.net, Programming]
 
             sw.Reset(); 
             sw.Start(); 
-            for (int i = 0; i &lt; 10000000; i++) 
+            for (int i = 0; i < 10000000; i++) 
             { 
                 new Labs.ClassObject((object)1).Operation(); 
             } 
@@ -68,7 +75,9 @@ categories: [.net, Programming]
             Console.WriteLine(sw.ElapsedMilliseconds);
 
             Console.ReadLine(); 
-        }</pre>
+        }
+{% endhighlight %}
+
 &nbsp;
 <h2 align="justify"><span>Result </span>:</h2>
 <p align="justify"><span><strong>Generics 471k</strong> ticks  <strong>-  Objects  710k</strong> ticks</span></p>
@@ -76,7 +85,7 @@ categories: [.net, Programming]
 <p align="justify"></p>
 
 <h2 align="justify"><span>Why there is a difference ?</span></h2>
-<p align="justify">Generics are defined on the runtime.  .Net Framework based on the specified type in the code for example  (Queue&lt;int&gt;) creates a class with the type and stores reference to it. This operation is performed once on the start by the JIT-er (Just in time compiler). This operation is performed once so there is a minimal performance loss.</p>
+<p align="justify">Generics are defined on the runtime.  .Net Framework based on the specified type in the code for example  (Queue<int>) creates a class with the type and stores reference to it. This operation is performed once on the start by the JIT-er (Just in time compiler). This operation is performed once so there is a minimal performance loss.</p>
 <p align="justify">In case of System.Object class when casting from and to int we are performing <strong>Boxing</strong> and <strong>Unboxing</strong> operation.</p>
 <p align="justify">Boxing is performed every time we are casting Value Type to the reference Type. Boxing operation wraps our Value Type in a class deriving from the System.Object. This operation requires some cpu work. Same thing applies for the Unboxing operation which is performed when casting from Reference Type to the Value Type.</p>
 <p align="justify">In this example I am casting int to Object type 1000000 times. This is the cause of the difference in time / performance. Generic classes does not require additional operations.</p>
@@ -86,21 +95,27 @@ categories: [.net, Programming]
 <p align="justify">Here I am implementing IComparable interface , which is usefull when you want to perform Sort operation on the Collection containing your custom Class.</p>
 <p align="justify">First Class uses the Generic Interface.</p>
 
-<pre class="lang:default decode:true crayon-selected">    class ClassSort : IComparable&lt;ClassSort&gt; 
+
+{% highlight csharp %}
+    class ClassSort : IComparable<ClassSort> 
     { 
         public int A {get;set;}
 
-        #region IComparable&lt;int&gt; Members
+        #region IComparable<int> Members
 
         public int CompareTo(ClassSort other) 
         { 
           throw new NotImplementedException(); 
         }
         #endregion 
-    }</pre>
+    }
+{% endhighlight %}
+
 <p align="justify">Second class uses default Interface.</p>
 
-<pre class="lang:default decode:true">    class ClassSortOne : IComparable 
+
+{% highlight csharp %}
+    class ClassSortOne : IComparable 
     { 
         public int A {get;set;}
 
@@ -112,7 +127,9 @@ categories: [.net, Programming]
         }
 
         #endregion 
-    }</pre>
+    }
+{% endhighlight %}
+
 <p align="justify">As you can see IComparable without generic type forces boxing when comparing objects beacuase we have to cast the objects. CompareTo() method in example with default interface uses object as a parameter while generic interface implements method with specified class as a parameter. Interface with specified generic type doesn’t need boxing and it is faster.</p>
 <p align="justify"></p>
 

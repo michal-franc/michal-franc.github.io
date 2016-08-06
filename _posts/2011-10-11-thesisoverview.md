@@ -2,7 +2,8 @@
 layout: post
 title: Thesis–Overview
 date: 2011-10-11 22:16
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---

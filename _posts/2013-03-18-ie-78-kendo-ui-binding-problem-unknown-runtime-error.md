@@ -2,7 +2,8 @@
 layout: post
 title: IE 7,8 kendo ui binding problem - unknown runtime error
 date: 2013-03-18 08:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Javascript]
 ---
@@ -16,8 +17,6 @@ Project uses kendo ui framework to create elements on the View. There is a suppo
 
 This "runtime error" was raied on this line of code.
 
-<pre class="lang:c# decode:true">this.element[innerText] = text;</pre>
-
 After some research, I discovered that earlier versions of microsoft's browser are very restrictive about certain changes performed on DOM elements. In this scenario you can't change 'innerText'.
 
 I tried to create a workaround which removed and added new element, but this instead caused other problem. It seems that here IE is also very restrictive here.
@@ -25,6 +24,3 @@ I tried to create a workaround which removed and added new element, but this ins
 <h2>Solution:</h2>
 
 Fortunately solution is quite simple, instead of 'text' binding use 'value' binding. This one uses code that works fine in IE.
-
-<pre class="lang:c# decode:true">this.element.value = value ;</pre>
-

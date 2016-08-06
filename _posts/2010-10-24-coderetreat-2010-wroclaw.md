@@ -2,7 +2,8 @@
 layout: post
 title: CodeRetreat 2010 @ Wroclaw
 date: 2010-10-24 12:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [coderetreat, java, Uncategorized]
 ---

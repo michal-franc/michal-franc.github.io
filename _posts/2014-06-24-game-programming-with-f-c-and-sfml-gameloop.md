@@ -2,7 +2,8 @@
 layout: post
 title: Game programming with F#, C# and SFML - GameLoop
 date: 2014-06-24 08:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---
@@ -29,13 +30,13 @@ Apart from coding the game and its logic, the most difficult part will be to use
 
 To start with something, I have decided to do my first simple game loop and render window.
 
- 
-<pre class="lang:c# decode:true " >[&lt;EntryPoint&gt;]
+{% highlight csharp %}
+[<EntryPoint>]
 let main argv = 
 
     let mainWindow = new RenderWindow(new VideoMode(600ul, 600ul), "EmptySpace")
     mainWindow.SetFramerateLimit(40ul);
-    mainWindow.Closed.AddHandler(fun sender args -&gt; (sender :?&gt; RenderWindow).Close())
+    mainWindow.Closed.AddHandler(fun sender args -> (sender :?> RenderWindow).Close())
 
     let rec mainLoop() = 
         mainWindow.Clear()
@@ -43,20 +44,20 @@ let main argv =
         mainWindow.Display()
 
         match mainWindow.IsOpen() with
-        | true -&gt;  mainLoop() |&gt; ignore
-        | false -&gt;  ()
+        | true ->  mainLoop() |> ignore
+        | false ->  ()
     
     mainLoop()
 
-    0</pre> 
+    0
+{% endhighlight %}
+ 
 
 Couple of interesting things in this code.
 
 <h4> ":?>" operator </h4>
 
 If I have some class that inherits the System.Object ( Default behavior in .NET ).
-
-<pre class="lang:c# decode:true " >public class Something : Object {}</pre> 
 
 ":?>" downcast - it will cast Object to Something. This operation is performed on run time.
 
@@ -74,11 +75,15 @@ The ":>" operator performs a static cast, which means that the success of the ca
 
 <h4>Pattern matching ( F# switch )</h4>
  
-<pre class="lang:c# decode:true " > 
+
+{% highlight csharp %}
+ 
   match mainWindow.IsOpen() with
-     | true -&gt;  mainLoop() |&gt; ignore
-     | false -&gt; ()
-</pre> 
+     | true ->  mainLoop() |> ignore
+     | false -> ()
+
+{% endhighlight %}
+ 
 
 From my understating it's something like a switch but with more powerful options and possibilities. My example is a simple true, false switch.
 

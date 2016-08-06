@@ -2,7 +2,8 @@
 layout: post
 title: 
 date: 2011-05-28 00:07
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [git, Uncategorized]
 ---

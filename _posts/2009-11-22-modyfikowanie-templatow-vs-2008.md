@@ -2,7 +2,8 @@
 layout: post
 title: Modifying Templates in Visual Studio
 date: 2009-11-22 12:12
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, Uncategorized, visual studio]
 ---

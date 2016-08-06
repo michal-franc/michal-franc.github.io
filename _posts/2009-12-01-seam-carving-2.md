@@ -2,7 +2,8 @@
 layout: post
 title: Seam Carving (2)
 date: 2009-12-01 21:05
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, c#, seam carving, Uncategorized]
 ---

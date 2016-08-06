@@ -2,7 +2,8 @@
 layout: post
 title: Good unit test - One Assert
 date: 2013-01-09 17:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Unit Test]
 ---
@@ -18,7 +19,9 @@ In <a href="http://www.mfranc.com/unit-testing/unit-test-code-with-static-method
 There are couple of problems with multiple asserts.
 <h3>Unit Test Misinformation</h3>
 Frameworks like NUnit do notify about failing unit test when one of the asserts is not met. You get the message that some condition failed, but only this one condition. Code, behind the failing assert, is not executed. In a scenario with multiple asserts, when the first one fails, test procedure is lost and potential problem looks like related to the first assertion check. This is a misinformation.
-<pre class="lang:c# decode:true">[Test]
+
+{% highlight csharp %}
+[Test]
 public void GenerateDocumentNumber_when_new_document_then_contains_string_new_and_id()
 {
   // Arrange
@@ -31,7 +34,9 @@ public void GenerateDocumentNumber_when_new_document_then_contains_string_new_an
   // Assert
   Assert.That(documentNumber, Is.StringContaining(newString));
   Assert.That(documentNumber, Is.StringContaining(id));
-}</pre>
+}
+{% endhighlight %}
+
 Presented example tests GenerateDocumentNumber function. This function creates simple string based on provided ID.
 
 We want to check if :
@@ -53,7 +58,9 @@ We can split this test in two:
 With one assert per unit test mindset there is better chance of creating good unit test, concentrated on one particular problem.
 
 Going back to <a href="http://www.mfranc.com/unit-testing/unit-test-code-with-static-method-console-write/">previous post</a> example.
-<pre class="lang:default decode:true">[Test]
+
+{% highlight csharp %}
+[Test]
 public void If_two_chars_return_pass_and_output_coded_pass()
 {
    // Arrange
@@ -69,7 +76,9 @@ public void If_two_chars_return_pass_and_output_coded_pass()
    //Assert     
    Assert.That(actualResult, Is.EqualTo(expectedResult));
    Assert.That(stub.Output,Is.EqualTo(expectedConsoleOutput));
-}</pre>
+}
+{% endhighlight %}
+
 There are three behaviours that we have to test.
 <ul>
 	<li>output '*' char for each char in provided password</li>
@@ -85,7 +94,9 @@ Quote by <a href="http://osherove.com/">Roy Osherove</a> from <a href="http://ww
 <p align="justify">My guideline is usually that you test one logical CONCEPT per test. you can have multiple asserts on the same *object*. they will usually be the same concept being tested.</p>
 </blockquote>
 This rule allows multiple asserts but they have to be related and linked with simillar CONCEPT. For instance, this is not bad if multiple asserts are testing something like this.
-<pre class="lang:default decode:true">[Test]
+
+{% highlight csharp %}
+[Test]
 public void GetDocuments_returns_list_of_documents()
 {
    // Act
@@ -95,7 +106,9 @@ public void GetDocuments_returns_list_of_documents()
    Assert.That(documents, Is.Not.Null);
    Assert.That(documents, Is.Not.Empty);
    Assert.That(document[0], Is.Not.Null);
-}</pre>
+}
+{% endhighlight %}
+
 We have three asserts but they are basically testing the same thing. If one of them fails then the rest can't be ulfilled. Fail on the first one automaticlly means that whole test failed and something bad happened. Nothing is hidden.
 <h2>Good Unit Test - Summary</h2>
 <ul>

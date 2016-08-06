@@ -2,7 +2,8 @@
 layout: post
 title: One night in Microsoft
 date: 2011-03-06 18:50
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [microsoft, Uncategorized]
 ---

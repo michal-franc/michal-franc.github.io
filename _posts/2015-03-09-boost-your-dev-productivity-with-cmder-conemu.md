@@ -2,7 +2,8 @@
 layout: post
 title: Boost your dev productivity with cmder + ConEmu
 date: 2015-03-09 08:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Standard, Uncategorized]
 ---
@@ -39,11 +40,15 @@ categories: [Standard, Uncategorized]
 
 <p><span style="line-height: 1.5;">This setup gives me a nice environment for editing files not related to Visual Studio and .NET. Another neat functionality are </span>customized<span style="line-height: 1.5;"> Tasks. I am using those to store different project workspaces. One task equals one workspace. Thanks to that I can </span>easily<span style="line-height: 1.5;"> start another 'project' and initialize it by opening specific folders and specific files in Vim. It is a lot faster than doing everything manually.</span> To get this setup: * <span style="line-height: 1.5;">Settings -> Startup -> Tasks</span> * <span style="line-height: 1.5;">create new predefined task with + sign</span> * <span style="line-height: 1.5;">And add this code</span></p>
 
-<pre class="nums:true lang:c# decode:true">-new_console:d:C:\Users\mfranc\Dropbox "%ProgramFiles(x86)%\Vim\vim74\vim.exe" /k 
+
+{% highlight csharp %}
+-new_console:d:C:\Users\mfranc\Dropbox "%ProgramFiles(x86)%\Vim\vim74\vim.exe" /k 
 -new_console:d:D:\ "%ProgramFiles(x86)%\Vim\vim74\vim.exe" /k -cur_console:n
 -cur_console:d:D:\ "%ProgramFiles(x86)%\Git\bin\sh.exe" --login -i -cur_console:n:sT25V
 -cur_console:d:D:\ "%ProgramFiles(x86)%\Git\bin\sh.exe" --login -i -cur_console:n:sT66H
-cmd.exe -new_console:d:D:\ -i -cur_console:n:sT50H</pre>
+cmd.exe -new_console:d:D:\ -i -cur_console:n:sT50H
+{% endhighlight %}
+
 
 <p>What does those commands do ? 1. Creates new screen and opens Vim in my Dropbox folder context 2. Creates new screen with Vim pointing to D:\ 3. Initializes shell in new window and splits current screen into 75%/25% Horizontaly</p>
 

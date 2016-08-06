@@ -2,7 +2,8 @@
 layout: post
 title: Formal education - is it worth the time ?
 date: 2012-11-02 14:08
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---

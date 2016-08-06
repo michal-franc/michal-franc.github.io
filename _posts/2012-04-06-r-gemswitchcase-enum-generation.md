@@ -2,7 +2,8 @@
 layout: post
 title: R# Gem–switch/case enum generation
 date: 2012-04-06 20:14
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [R#, Uncategorized]
 ---

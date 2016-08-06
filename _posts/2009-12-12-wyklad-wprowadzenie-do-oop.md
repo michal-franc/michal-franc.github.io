@@ -2,7 +2,8 @@
 layout: post
 title: Wykład - "Wprowadzenie do OOP"
 date: 2009-12-12 20:39
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, Uncategorized]
 ---

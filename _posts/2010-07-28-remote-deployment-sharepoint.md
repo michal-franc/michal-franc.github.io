@@ -2,7 +2,8 @@
 layout: post
 title: Remote deployment - Sharepoint
 date: 2010-07-28 19:10
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [PowerShell, Sharepoint, Uncategorized]
 ---

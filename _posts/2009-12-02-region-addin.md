@@ -2,7 +2,8 @@
 layout: post
 title: Region AddIn
 date: 2009-12-02 14:20
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, c#, Uncategorized, visual studio]
 ---

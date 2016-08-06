@@ -2,7 +2,8 @@
 layout: post
 title: Faking ModelState.IsValid–unit tests in Asp.Net Mvc
 date: 2011-05-22 20:47
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [asp.net mvc, NUnit, Uncategorized]
 ---
@@ -11,10 +12,16 @@ categories: [asp.net mvc, NUnit, Uncategorized]
 <p align="justify">Create entity action scenario in my app is simple. First there is a get action which builds View and prepares model. Then this newly created model (filled with values from the view)  is passed to action with <strong>[HttpPost]</strong> attribute. It is a good practice to if  <strong>ModelState.IsValid </strong>before performing any DB operations.</p>
 <p align="justify">I have a lot of tests testing controllers and their action. In this case on of the tests should check behaviour of the controller when the <strong>ModelState.IsValid</strong> value is false. I have tried different approaches : trying to mock controller , trying to mock its context , inspecting code with <a href="http://www.jetbrains.com/decompiler/">dotPeek</a> (cool decompiler from the JetBrains) wasn’t helpfull.  Then I realized that you can do something like this.</p>
 
-<pre class="lang:default decode:true">//Faking ModelState.IsValid = false           
+
+{% highlight csharp %}
+//Faking ModelState.IsValid = false           
   CourseController.ModelState.Add("testError", new ModelState());     
-  CourseController.ModelState.AddModelError("testError", "test");</pre>
-<pre class="lang:default decode:true crayon-selected">[Test]  
+  CourseController.ModelState.AddModelError("testError", "test");
+{% endhighlight %}
+
+
+{% highlight csharp %}
+[Test]  
  public void Post_if_model_state_invalid_then_dont_add_course_and_return_error_view()   
 {       
       #region Arrange   
@@ -41,5 +48,7 @@ categories: [asp.net mvc, NUnit, Uncategorized]
            Assert.That(view.ViewBag.Error, Is.EqualTo(elearn.Common.ErrorMessages.Course.ModelUpdateError));  
 
            #endregion  
-       }</pre>
+       }
+{% endhighlight %}
+
 As you can see ,  I am modifying ModelState by injecting fake data that will result in <strong>IsValid</strong> property set to false.

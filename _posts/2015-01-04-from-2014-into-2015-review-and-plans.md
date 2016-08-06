@@ -2,7 +2,8 @@
 layout: post
 title: From 2014 into 2015 - tech plans
 date: 2015-01-04 23:39
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---

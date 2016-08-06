@@ -2,7 +2,8 @@
 layout: post
 title: My Personal Task (Life) Management
 date: 2012-02-09 20:54
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---

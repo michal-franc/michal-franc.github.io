@@ -2,7 +2,8 @@
 layout: post
 title: Remind Mechanism .Net – notifying objects from the thread
 date: 2010-08-13 23:14
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, c#, Uncategorized]
 ---

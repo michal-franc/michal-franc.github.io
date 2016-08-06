@@ -2,7 +2,8 @@
 layout: post
 title: LockBits vs Get Pixel Set Pixel - Performance
 date: 2009-11-22 00:02
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, lockbits, Programming]
 ---
@@ -11,18 +12,26 @@ categories: [.net, lockbits, Programming]
 <h2>GetPixel , SetPixel</h2>
 <p align="justify">This is a really easy solution. We have two functions <strong>GetPixel</strong> and <strong>SetPixel</strong> both  have x and y coordinate as argument. <strong>GetPixel</strong> returns a color and <strong>SetPixel</strong> sets a color on the coordinate.</p>
 
-<pre class="lang:c# decode:true">GetPixel(int x,int y)
-SetPixel(int x,int y,Color color)</pre>
+
+{% highlight csharp %}
+GetPixel(int x,int y)
+SetPixel(int x,int y,Color color)
+{% endhighlight %}
+
 <p align="justify">With the use of those functions, we can easily iterate through all the <strong>pixels</strong> in the image by simply modifying the x and y variable.</p>
 
-<pre class="lang:c# decode:true">for (int y =0; y &lt; _bmp.Height; y++)
+
+{% highlight csharp %}
+for (int y =0; y < _bmp.Height; y++)
 {
-    for (int x =0; x &lt; _bmp.Width; x++)
+    for (int x =0; x < _bmp.Width; x++)
     {
         _bmp.SetPixel(x,y,color);
         Color c = _bmp.GetPixel(x,y);
      }
-}</pre>
+}
+{% endhighlight %}
+
 <h3>Pros</h3>
 - Code is more readable.
 - Easy to implement and use.
@@ -34,20 +43,25 @@ SetPixel(int x,int y,Color color)</pre>
 <h2>GDI+ and LockBits.</h2>
 <p align="justify">Bitmap class contains two methods <strong>LockBits</strong> and <strong>UnlockBits</strong> , with them, we can get access and work directly on the memory. <strong>LockBits</strong> method returns <strong>BitmapData</strong> object, which is used to describe the memory sector. In this method, we have to use the pointers. That's why our class should have an unsafe keyword.</p>
 
-<pre class="lang:c# decode:true">BitmapData _bmd = _bmp.LockBits(new Rectangle(0, 0, _bmp.Width,_bmp.Height) , ImageLockMode ReadWrite, _bmp.PixelFormat);</pre>
 <p align="justify"></p>
 <p align="justify">With BitmapData object we need to define some variables.</p>
 
-<pre class="lang:c# decode:true">int _pixelSize =3;
+
+{% highlight csharp %}
+int _pixelSize =3;
 byte* _current =(byte*)(void*)_bmd.Scan0;
 int _nWidth = _bmp.Width * _pixelSize;
-int _nHeight = _bmp.Height;</pre>
+int _nHeight = _bmp.Height;
+{% endhighlight %}
+
 - ScanO memory address which defines the beginning of our Bitmap
 - _nWidth how many bots in one row
 With this we can iterate through the image.
-<pre class="lang:c# decode:true">for (int y =0; y &lt; _nHeight; y++)
+
+{% highlight csharp %}
+for (int y =0; y < _nHeight; y++)
 {
-    for (int x =0; x &lt; _nWidth;x++ )
+    for (int x =0; x < _nWidth;x++ )
     {
          if (x % _pixelSize ==0|| x ==0)
         {
@@ -55,18 +69,23 @@ With this we can iterate through the image.
          }
       _current++;
      }
-}</pre>
+}
+{% endhighlight %}
+
 <p align="justify">We have to remember that current variable is only a pointer  to a memory address</p>
 
-<pre class="lang:c# decode:true"> if (x % _pixelSize ==0|| x ==0)</pre>
 <p align="justify">This condition ensures that the current will always point to the beginning of the next pixel. In my example pixel is represented by  three bytes, this value is stored in the _pixelSize variable.</p>
 With _current pointer we can access pixel values by using the indexer.
-<pre class="lang:c# decode:true">void SetColor(,Color color)
+
+{% highlight csharp %}
+void SetColor(,Color color)
 {
      _current[0]= color.R;
      _current [1] = color.G;
      _current [2] = color.B;
-}</pre>
+}
+{% endhighlight %}
+
 <h3>Pros:</h3>
 - Speed
 <h3>Cons:</h3>

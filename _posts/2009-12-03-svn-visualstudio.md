@@ -2,7 +2,8 @@
 layout: post
 title: Svn + VisualStudio
 date: 2009-12-03 07:39
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [.net, c#, svn, Uncategorized, visual studio]
 ---

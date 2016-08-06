@@ -2,7 +2,8 @@
 layout: post
 title: Visual Studio - Extensions and Configuration
 date: 2013-02-25 08:00
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Standard, Tools]
 ---

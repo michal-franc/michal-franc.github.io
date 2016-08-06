@@ -2,7 +2,8 @@
 layout: post
 title: Unobtrusive validation - Partial View
 date: 2011-07-04 18:20
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Javascript, jquery]
 ---
@@ -10,17 +11,20 @@ categories: [Javascript, jquery]
 
 <h2>Solution</h2>
 And here is the final solution. simple plugin to jQuery.
-<pre class="lang:default decode:true">(function ($) { 
+
+{% highlight csharp %}
+(function ($) { 
     $.validator.unobtrusive.addValidation = function (selector) { 
     //get the relevant form 
     var form = $(selector); 
     // delete validator in case someone called form.validate()
     $(form).removeData("validator"); 
     $.validator.unobtrusive.parse(form); 
-  }</pre>
+  }
+{% endhighlight %}
+
 <h2>Usage</h2>
 On the partial view use
-<pre class="lang:default decode:true">$.validator.unobtrusive.addValidation("#myform")</pre>
 
 <h2>Explanation - Unobtrusive validation in partial view</h2>
 <p align="justify">Unobtrusive validation is a great feature. You can easily bind your server side validation to client side validation provided by JQuery plugin.</p>
@@ -39,7 +43,9 @@ This solution is ok if you are adding dynamic element to a form with already att
 <p align="justify">After a lot of research  and debugging through the jQuery and MS validation plugin (at least I know in details how unobtrusive validation works ) . I noticed that unobtrusive creates special OnError method and overrides the default one ( which  injects default label ) in the jQuery</p>
 
 <h3>Unobtrusive</h3>
-<pre class="lang:default decode:true">    function onError(error, inputElement) {  // 'this' is the form element
+
+{% highlight csharp %}
+    function onError(error, inputElement) {  // 'this' is the form element
         var container = $(this).find("[data-valmsg-for='" + inputElement[0].name + "']"),
             replace = $.parseJSON(container.attr("data-valmsg-replace")) !== false;
 
@@ -53,9 +59,13 @@ This solution is ok if you are adding dynamic element to a form with already att
         else {
             error.hide();
         }
-    }</pre>
+    }
+{% endhighlight %}
+
 Creating proxy with <strong>onError </strong>:
-<pre class="lang:default decode:true">        if (!result) {
+
+{% highlight csharp %}
+        if (!result) {
             result = {
                 options: {  // options structure passed to jQuery Validate's validate() method
                     errorClass: "input-validation-error",
@@ -74,9 +84,11 @@ Creating proxy with <strong>onError </strong>:
                     return $form.valid();
                 }
             };
-            $form.data(data_validation, result);</pre>
+            $form.data(data_validation, result);
+{% endhighlight %}
+
 <p align="justify">There is a method <strong>“parse”</strong> in unobtrusive plugin , which is responsible for creating validation attributes , adapters and also what’s really important <strong>errorPlacement</strong> adapter. Everything you need. Knowing all of this we can just use this <strong>“parse” </strong>on the form and everything should work fine.</p>
-<pre class="lang:default decode:true">  $.validator.unobtrusive.parse(form);</pre>
+
 <p align="justify">Well there is a small problem. This won't work because after a bit of analysis,I found that you can create validation rules once (correctly , without reloading whole script file ). Second and Third try won’t do anything. There will be problems with error placement or validation messages won’t show at all.</p>
 
 <p align="justify">It seems that cached values are used. And it doesn’t matter if there are two different forms this behavior is global. Developers assumed that page should have only one form.</p?
@@ -84,4 +96,3 @@ Creating proxy with <strong>onError </strong>:
 So how to fix this ?
 
 <strong>Delete validator data.</strong>
-<pre class="lang:default decode:true">$(form).removeData("validator");</pre>

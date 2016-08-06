@@ -2,7 +2,8 @@
 layout: post
 title: Replacing TinyMCE popup with FancyBox
 date: 2012-01-27 17:29
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized]
 ---

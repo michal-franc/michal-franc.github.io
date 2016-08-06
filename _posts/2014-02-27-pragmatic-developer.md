@@ -2,7 +2,8 @@
 layout: post
 title: Pragmatic Developer
 date: 2014-02-27 23:36
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Blog, Career]
 ---

@@ -2,7 +2,8 @@
 layout: post
 title: Activity Tracker – WPF DataBinding the TabControl with TreeView
 date: 2010-08-28 08:19
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Uncategorized, wpf]
 ---
@@ -12,18 +13,22 @@ In the first post about <strong>Activity Tracker</strong>, I have created a simp
 
 In the first example, we have a simple <strong>DataTemplate</strong>. It contains a structured Grid,  Button and couple of TextBlocks. By assigning to the Text Property <strong>Binding</strong> logic we are telling the Template too look for a specific property in a Class, which will be used with the Template.
 <div>
-<pre class="lang:default decode:true ">&lt;DataTemplate x:Key="TaskTemplate"&gt;
-   &lt;Grid Width="200"&gt;
-      &lt;Grid.ColumnDefinitions&gt;
-         &lt;ColumnDefinition Width="5*"&gt;&lt;/ColumnDefinition&gt;
-         &lt;ColumnDefinition Width="1*"&gt;&lt;/ColumnDefinition&gt;
-         &lt;ColumnDefinition Width="1*"&gt;&lt;/ColumnDefinition&gt;
-         &lt;ColumnDefinition Width="3*"&gt;&lt;/ColumnDefinition&gt;
-      &lt;/Grid.ColumnDefinitions&gt;
-      &lt;TextBlock Grid.Column="0" Text="{Binding Path=Title}"/&gt;
-      &lt;TextBlock Grid.Column="1" Text="{Binding Path=TimeSpent}"/&gt;
-      &lt;TextBlock Grid.Column="2" Text="{Binding Path=TimeEstimate}"/&gt;
-      &lt;Button Grid.Column="3"&gt;Start&lt;/Button&gt;13 &lt;/Grid&gt;14 &lt;/DataTemplate&gt;</pre>
+
+{% highlight csharp %}
+<DataTemplate x:Key="TaskTemplate">
+   <Grid Width="200">
+      <Grid.ColumnDefinitions>
+         <ColumnDefinition Width="5*"></ColumnDefinition>
+         <ColumnDefinition Width="1*"></ColumnDefinition>
+         <ColumnDefinition Width="1*"></ColumnDefinition>
+         <ColumnDefinition Width="3*"></ColumnDefinition>
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Text="{Binding Path=Title}"/>
+      <TextBlock Grid.Column="1" Text="{Binding Path=TimeSpent}"/>
+      <TextBlock Grid.Column="2" Text="{Binding Path=TimeEstimate}"/>
+      <Button Grid.Column="3">Start</Button>13 </Grid>14 </DataTemplate>
+{% endhighlight %}
+
 Template is looking for specified properties in a collection bound to the
 
 </div>
@@ -37,20 +42,24 @@ Simple DataTemplate doesn’t have the ability to automatically create a hierarc
 <div>
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:c11f5546-4e5c-469d-8b79-11f4057df4d0" class="wlWriterEditableSmartContent" style="display: inline; float: none; margin: 0; padding: 0;">
 <div>
-<pre class="lang:default decode:true">&lt;HierarchicalDataTemplate x:Key="TaskTemplate" ItemsSource="{Binding Childrens}" DataType="{x:Type data:Task}"&gt;
-   &lt;Grid Width="200"&gt;
-     &lt;Grid.ColumnDefinitions&gt;
-        &lt;ColumnDefinition Width="5*"&gt;&lt;/ColumnDefinition&gt;
-        &lt;ColumnDefinition Width="1*"&gt;&lt;/ColumnDefinition&gt;
-        &lt;ColumnDefinition Width="1*"&gt;&lt;/ColumnDefinition&gt;
-        &lt;ColumnDefinition Width="3*"&gt;&lt;/ColumnDefinition&gt;
-      &lt;/Grid.ColumnDefinitions&gt;
-      &lt;TextBlock Grid.Column="0" Text="{Binding Path=Title}"/&gt;
-      &lt;TextBlock Grid.Column="1" Text="{Binding Path=TimeSpent}"/&gt;
-      &lt;TextBlock Grid.Column="2" Text="{Binding Path=TimeEstimate}"/&gt;
-      &lt;Button Grid.Column="3"&gt;Start&lt;/Button&gt;
-    &lt;/Grid&gt;
-&lt;/HierarchicalDataTemplate&gt;</pre>
+
+{% highlight csharp %}
+<HierarchicalDataTemplate x:Key="TaskTemplate" ItemsSource="{Binding Childrens}" DataType="{x:Type data:Task}">
+   <Grid Width="200">
+     <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="5*"></ColumnDefinition>
+        <ColumnDefinition Width="1*"></ColumnDefinition>
+        <ColumnDefinition Width="1*"></ColumnDefinition>
+        <ColumnDefinition Width="3*"></ColumnDefinition>
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Text="{Binding Path=Title}"/>
+      <TextBlock Grid.Column="1" Text="{Binding Path=TimeSpent}"/>
+      <TextBlock Grid.Column="2" Text="{Binding Path=TimeEstimate}"/>
+      <Button Grid.Column="3">Start</Button>
+    </Grid>
+</HierarchicalDataTemplate>
+{% endhighlight %}
+
 </div>
 <!-- Code inserted with Steve Dunn's Windows Live Writer Code Formatter Plugin.  http://dunnhq.com -->
 
@@ -61,12 +70,16 @@ Simple DataTemplate doesn’t have the ability to automatically create a hierarc
 Task class contains a list of <strong>Childrens</strong> which is used in the <strong>HierarchicalDataTemplate</strong>.
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:2678f708-e812-4f50-b17b-48d30936ca70" class="wlWriterEditableSmartContent" style="display: inline; float: none; margin: 0; padding: 0;">
 <div>
-<pre class="lang:default decode:true">public class Task
+
+{% highlight csharp %}
+public class Task
 { 
    .....
-   public List&lt;Task&gt; Childrens { get; set; }
+   public List<Task> Childrens { get; set; }
    .....
-}</pre>
+}
+{% endhighlight %}
+
 </div>
 <!-- Code inserted with Steve Dunn's Windows Live Writer Code Formatter Plugin.  http://dunnhq.com -->
 
@@ -74,21 +87,29 @@ Task class contains a list of <strong>Childrens</strong> which is used in the <s
 <strong>HierarchicalDataTemplate</strong> has a property <strong>ItemsSource</strong> which is binded to Children's property. The Template will create the root element and also elements from the Children's List. I don’t have to worry about how it’s working. Magic happens behind the scene.
 <h3>Binding TabControl Content</h3>
 Every TabControl contains a TreeView, which is filled with Task Items. I wanted another Template, which would automatically inject the TreeView into TabControl.
-<pre class="lang:default decode:true">&lt;DataTemplate x:Key="TabItemTemplate"&gt;
-    &lt;Grid&gt;
-       &lt;TreeView Background="Transparent" ItemsSource="{Binding Content}" ItemTemplate="{StaticResource TaskTemplate}"&gt;
-      &lt;/TreeView&gt;
-    &lt;/Grid&gt;
-&lt;/DataTemplate&gt;</pre>
+
+{% highlight csharp %}
+<DataTemplate x:Key="TabItemTemplate">
+    <Grid>
+       <TreeView Background="Transparent" ItemsSource="{Binding Content}" ItemTemplate="{StaticResource TaskTemplate}">
+      </TreeView>
+    </Grid>
+</DataTemplate>
+{% endhighlight %}
+
 <strong>TabItem</strong> Template creates a Transparent TreeView. It's bound to the <strong>Content</strong> property. This is a property of Project class which is used to create a new <strong>TabItems</strong> with children's injected to the TreeView.
 <div>
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:1a9470ae-9a29-4035-8b4c-44dca516e6ea" class="wlWriterEditableSmartContent" style="display: inline; float: none; margin: 0; padding: 0;">
 <div>
-<pre class="lang:default decode:true">public class Project
+
+{% highlight csharp %}
+public class Project
 { 
     public string Title { get; set; }
-    public List&lt;Task&gt; Content { get; set; }
-}</pre>
+    public List<Task> Content { get; set; }
+}
+{% endhighlight %}
+
 </div>
 <!-- Code inserted with Steve Dunn's Windows Live Writer Code Formatter Plugin.  http://dunnhq.com -->
 
@@ -98,9 +119,13 @@ Project class is a root for every Task set. It’s Title bound to the Header pro
 <div>
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:91cfd2a4-b3a3-4d0f-ab13-87cf447734e4" class="wlWriterEditableSmartContent" style="display: inline; float: none; margin: 0; padding: 0;">
 <div>
-<pre class="lang:default decode:true">&lt;Grid Name="MainTree" Grid.Row="1" Grid.RowSpan="1"&gt;
-   &lt;TabControl Name="MainTabControl" ContentTemplate="{StaticResource TabItemTemplate}"&gt;&lt;/TabControl&gt;
-&lt;/Grid&gt;</pre>
+
+{% highlight csharp %}
+<Grid Name="MainTree" Grid.Row="1" Grid.RowSpan="1">
+   <TabControl Name="MainTabControl" ContentTemplate="{StaticResource TabItemTemplate}"></TabControl>
+</Grid>
+{% endhighlight %}
+
 </div>
 <!-- Code inserted with Steve Dunn's Windows Live Writer Code Formatter Plugin.  http://dunnhq.com -->
 
@@ -110,18 +135,22 @@ In order to bind the <strong>Title</strong> from the Project class to the <stron
 <div>
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:851fcd4d-294f-4ee8-9888-0e00aa3615f6" class="wlWriterEditableSmartContent" style="display: inline; float: none; margin: 0; padding: 0;">
 <div>
-<pre class="lang:default decode:true">&lt;Style TargetType="TabItem"&gt; 
+
+{% highlight csharp %}
+<Style TargetType="TabItem"> 
     .... 
-    &lt;Grid&gt;
-      &lt;StackPanel Orientation="Horizontal"&gt;
-          &lt;Border Name="Border" Padding="2" BorderBrush="Black" BorderThickness="1,1,1,1" 
-          CornerRadius="10,10,0,0" Background="DarkOrange"&gt;
-             &lt;TextBlock Text="{Binding Path=Title}"&gt;&lt;/TextBlock&gt;
-         &lt;/Border&gt;
-      &lt;/StackPanel&gt;
-    &lt;/Grid&gt;
+    <Grid>
+      <StackPanel Orientation="Horizontal">
+          <Border Name="Border" Padding="2" BorderBrush="Black" BorderThickness="1,1,1,1" 
+          CornerRadius="10,10,0,0" Background="DarkOrange">
+             <TextBlock Text="{Binding Path=Title}"></TextBlock>
+         </Border>
+      </StackPanel>
+    </Grid>
     ....
-&lt;/Style&gt;</pre>
+</Style>
+{% endhighlight %}
+
 </div>
 <!-- Code inserted with Steve Dunn's Windows Live Writer Code Formatter Plugin.  http://dunnhq.com -->
 
@@ -130,7 +159,9 @@ In order to bind the <strong>Title</strong> from the Project class to the <stron
 When all is done I just need to  create sample data.
 <div id="scid:9D7513F9-C04C-4721-824A-2B34F0212519:142916b0-cf8b-4a75-b6f1-cafe51ad9cf8" class="wlWriterEditableSmartContent" style="display: inline; float: none; margin: 0; padding: 0;">
 <div>
-<pre class="lang:default decode:true">List&lt;Task&gt; tasks =new List&lt;Task&gt;() 
+
+{% highlight csharp %}
+List<Task> tasks =new List<Task>() 
 {
       new Task("test",10,"I",DateTime.Now,8,"komentarz"){ TimeSpent ="0"}, 
       new Task("test",10,"I",DateTime.Now,8,"komentarz"){ TimeSpent ="0"},
@@ -140,18 +171,20 @@ When all is done I just need to  create sample data.
 
 InitializeComponent();
 
-tasks[0].Childrens =new List&lt;Task&gt;()
+tasks[0].Childrens =new List<Task>()
 { 
       new Task("test",10,"I",DateTime.Now,8,"komentarz"){ TimeSpent ="0"} 
 };
 
-List&lt;Project&gt; projects =new List&lt;Project&gt;() 
+List<Project> projects =new List<Project>() 
 { 
       new Project() { Content = tasks, Title ="Projekt1" }, 
       new Project() { Title ="Projekt2" } 
 };
 
-MainTabControl.ItemsSource = projects;</pre>
+MainTabControl.ItemsSource = projects;
+{% endhighlight %}
+
 </div>
 <!-- Code inserted with Steve Dunn's Windows Live Writer Code Formatter Plugin.  http://dunnhq.com -->
 

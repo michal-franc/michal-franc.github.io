@@ -2,7 +2,8 @@
 layout: post
 title: Great presentations @TechEd Atlanta 2011
 date: 2011-05-30 18:01
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [teched, Uncategorized]
 ---

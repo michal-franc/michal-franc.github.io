@@ -2,7 +2,8 @@
 layout: post
 title: Hard truths about software developer career
 date: 2013-03-05 08:07
-author: LaM
+author: Michal Franc
+
 comments: true
 categories: [Career]
 ---
