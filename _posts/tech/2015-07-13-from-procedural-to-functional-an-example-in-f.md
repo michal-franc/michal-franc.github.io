@@ -6,6 +6,7 @@ author: Michal Franc
 comments: true
 categories: [Tech]
 tags: [f#]
+permalink: /uncategorized/from-procedural-to-functional-an-example-in-f/
 ---
 In this blog post, I show little code review of a code sent to me by friend. The code is quite simple example on how to read XML file using XmlProvider. My friend's biggest concern was that his code is still procedural and not 'functional'. I was asked if this code can be refactored to be more functional, whatever it means.
 

@@ -6,7 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: [tech]
-permalink: /javascript/unobtrusive-validation-in-partial-views
+permalink: /javascript/unobtrusive-validation-in-partial-views/
 ---
 <strong>TL;DR;</strong>
 

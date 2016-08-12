@@ -6,7 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
-permalink: /career/time-management-for-software-developers
+permalink: /career/time-management-for-software-developers/
 ---
 <a href="http://lammichalfranc.files.wordpress.com/2010/08/image.png"><img style="border-width: 0; margin: 0 30px 0 5px;" title="image" src="http://lammichalfranc.files.wordpress.com/2010/08/image_thumb.png" alt="image" width="262" height="186" align="left" border="0" /></a>
 
