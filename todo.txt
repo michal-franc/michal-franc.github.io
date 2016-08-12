@@ -1,13 +1,6 @@
 Must HAve
 - meta
- - correct values per blog posts
- - correct title per blog post
- - missing twitter cards 
- - more description on main page
- - link rel canonical has to be dynamic
- - test facebook, twitter share
- - test google after some time
- - proper default share image!
+ - make default description better!
 
 - support for blog series
 - redirects
@@ -17,11 +10,15 @@ Must HAve
 - add share buttons like with karse
 - sub categories - better name of cateogry ( design )
 - better visible contact me button
+- newsletter mail chimp
+- newsletter popup!
 
 (only after prod release with new domain)
 - google analytics
 - disqus (only after production when new blog post has new domain)
 - rss ( test on feedly )
+- test facebook share!
+- test twitter share!
 
 Nice TO HAve
 - each blog post needs an image with a text added just Like maniserowicz has so that FB or Twitter can handle it better
