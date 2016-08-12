@@ -11,7 +11,9 @@ layout: default
     </header>
 
 	<center>
-		<img class="post-image" src="/images/{{ page.image }}"/>
+		{% if post-image %}
+			<img class="post-image" src="/images/{{ page.image }}"/>
+		{% endif %}
 	</center>
 
     <div class="post-content">
