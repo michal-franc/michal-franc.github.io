@@ -15,8 +15,8 @@ sass:
   style: compressed # expanded
 
 # SEO settings
-title: Michal Franc | Leader, Programmer, Speaker
-description: "Michal Franc | I am a experienced engineering Lead that can help you and your team become better"
+title: Michal Franc | Leader, Engineer, Speaker
+description: "I am a experienced engineering Lead that can help you and your team become better"
 keywords: "michal franc, leader, programmer, coach, speaker"
 url: http://www.mfranc.com
 baseurl: ""
