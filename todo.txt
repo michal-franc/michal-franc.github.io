@@ -1,5 +1,13 @@
 Must HAve
-- meta values correct
+- meta 
+ - correct values per blog posts
+ - correct title per blog post
+ - missing twitter cards 
+ - more description on main page
+ - link rel canonical has to be dynamic
+ - test facebook, twitter share
+ - test google after some time
+
 - support for blog series
 - redirects
 - clicky
@@ -15,6 +23,7 @@ Must HAve
 - rss ( test on feedly )
 
 Nice TO HAve
+- each blog post needs an image with a text added just Like maniserowicz has so that FB or Twitter can handle it better
 - speaking sub-site with engagements
 - tags support - https://codinfox.github.io/dev/2015/03/06/use-tags-and-categories-in-your-jekyll-based-github-pages/
 - jeszcze obie zapisz zeby jakies fotki artykulow dorobic
