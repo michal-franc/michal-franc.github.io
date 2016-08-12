@@ -6,6 +6,7 @@ author: Michal Franc
 comments: true
 categories: []
 tags: [tdd]
+permalink: /unit-testing/unit-test-code-with-static-method-console-write
 ---
 <strong>tl;dr : Wrap theses methods inside the layer of abstraction. Then create a stub and use it to create test scenarios.</strong>
 <p>This post is based on my <a href="http://stackoverflow.com/a/13967995/104135">answer on the Stack Overflow - "How to unit test this function?"</a></p>

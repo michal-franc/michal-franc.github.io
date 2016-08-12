@@ -6,6 +6,7 @@ author: Michal Franc
 comments: true
 categories: []
 tags: [tdd]
+permalink: /unit-testing/good-unit-test-one-assert
 ---
 In <a href="http://www.mfranc.com/unit-testing/unit-test-code-with-static-method-console-write/">previous post</a>, I defined a good unit test as one that:
 <ul>

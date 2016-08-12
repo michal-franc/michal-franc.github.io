@@ -5,7 +5,8 @@ date: 2011-07-04 18:20
 author: Michal Franc
 
 comments: true
-categories: []
+categories: [tech]
+permalink: /javascript/unobtrusive-validation-in-partial-views
 ---
 <strong>TL;DR;</strong>
 

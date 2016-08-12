@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+permalink: /javascript/jquery-valdiator-modyfing-decimal-separator
 ---
 <h2>Problem</h2>
 By default <strong>jQuery</strong> validator  uses only validation by <strong>“dot”</strong> separator.

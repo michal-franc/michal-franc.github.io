@@ -6,6 +6,7 @@ author: Michal Franc
 comments: true
 categories: [Tech]
 tags: [tdd]
+permalink: /tdd/tdd-commit-by-commit-string-calculator-i/
 ---
 <p>In this series I want to share my approach to TDD. I will do a simple TDD kata, sharing with you all my decisions and thoughts. It's called commit by commit beacuse you will find here links to github with each step. There will be a commentary to each one of these. I encourage you to comment and show me the flaws in my "style" of TDD coding. I also want to learn from you. I do know that my approach has its problems and there is allways a way to do something better.</p>
 
