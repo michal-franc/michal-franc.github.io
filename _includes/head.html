@@ -5,7 +5,7 @@
 
     <meta name="author" content="Michal Franc">
     <meta name="keywords" content="programmer,agile,michal,franc,leader,coach,speaker">
-	<title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %} | Michal Franc</title>
+	<title>{% if page.title %}{{ page.title }} | Michal Franc{% else %}{{ site.title }}{% endif %}</title>
 	<meta name="description" content="{% if page.summary %} {{ page.summary }} {% else if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 
 
@@ -19,7 +19,7 @@
     <link rel="alternate" type="application/rss+xml" title="Michal Franc | Feed" href="http://feeds.feedburner.com/PassionateProgram">
 
     <meta property="og:locale" content="en_US">
-    <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %} | Michal Franc">
+    <meta property="og:title" content="{% if page.title %}{{ page.title }} | Michal Franc{% else %}{{ site.title }}{% endif %}">
     <meta property="og:description" content="{% if page.summary %} {{ page.summary }} {% else if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 	<meta property="og:url" content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
     <meta property="og:site_name" content="Michal Franc">
@@ -27,7 +27,7 @@
     <meta property="og:image" content="website">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %} | Michal Franc">
+    <meta name="twitter:title" content="{% if page.title %}{{ page.title }} | Michal Franc{% else %}{{ site.title }}{% endif %}">
     <meta name="twitter:site" content="@francmichal">
     <meta name="twitter:creator" content="@francmichal">
     <meta name="twitter:description" content="{% if page.summary %} {{ page.summary }} {% else if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
