@@ -7,6 +7,7 @@ Must HAve
  - link rel canonical has to be dynamic
  - test facebook, twitter share
  - test google after some time
+ - proper default share image!
 
 - support for blog series
 - redirects
