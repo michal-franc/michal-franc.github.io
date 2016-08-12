@@ -1,5 +1,5 @@
 Must HAve
-- meta 
+- meta
  - correct values per blog posts
  - correct title per blog post
  - missing twitter cards 

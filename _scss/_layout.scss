@@ -263,6 +263,10 @@ strong {
   line-height: 1.5em;
 }
 
+.post-image {
+  margin-bottom: 20px;
+}
+
 .post-list {
   .post {
     @extend .card;
