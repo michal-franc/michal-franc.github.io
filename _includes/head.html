@@ -13,7 +13,6 @@
     <link rel="author" href="https://plus.google.com/104238159697387202725?rel=author">
 
 	<link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-    <link rel="next" href="http://www.mfranc.com/blog/page/2/">
 
     <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
     <link rel="alternate" type="application/rss+xml" title="Michal Franc | Feed" href="http://feeds.feedburner.com/PassionateProgram">
@@ -22,7 +21,7 @@
     <meta property="og:title" content="{% if page.title %}{{ page.title }} | Michal Franc{% else %}{{ site.title }}{% endif %}">
     <meta property="og:description" content="{% if page.summary %}{{ page.summary }} {% elsif page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 	<meta property="og:url" content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-    <meta property="og:site_name" content="Michal Franc">
+    <meta property="og:site_name" content="Michal Franc Blog">
     <meta property="og:type" content="website">
 	<meta property="og:image" content="http://michal-franc.github.io/images/{% if page.image %}{{ page.image }}{% else %}{{ site.image }}{% endif %}">
 
