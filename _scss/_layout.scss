@@ -267,6 +267,12 @@ strong {
   margin-bottom: 20px;
 }
 
+.post-content {
+	a {
+		font-weight: 500;
+	}
+}
+
 .post-list {
   .post {
     @extend .card;
