@@ -32,5 +32,9 @@
     <meta name="twitter:description" content="{% if page.summary %}{{ page.summary }} {% elsif page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 	<meta name="twitter:image" content="http://michal-franc.github.io/images/{% if page.image %}{{ page.image }}{% else %}{{ site.image }}{% endif %}">
 
+    {% include google_analytics.html %}
+    {% include clicky.html %}
+    {% include twitter_embed.html %}
+
   </head>
 
