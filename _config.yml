@@ -2,7 +2,7 @@
 permalink   : /blog/:title/
 markdown    : kramdown
 highlighter : rouge
-gems: [jekyll-paginate]
+gems: [jekyll-paginate, jekyll-sitemap]
 repository: https://github.com/michal-franc/michal-franc.github.io
 
 paginate: 10
