@@ -1,0 +1,29 @@
+Feedback is important, feedback is crucial, if you want to know why then read my post[http://www.mfranc.com/uncategorized/fuel-your-personal-growth-with-feedback/] or Michal Sliwon post[]
+
+Where to get feedback ? First of all it is a broad term. There are many different types of feedback.
+
+Workplace - your Team
+The obvious and most natural one. You would expect at least a yearly performance review, but that is not enough. Ideally your company should have a culture of transparency and you don't have to fight for information about you and your project. By fight I mean that there are grown ups in your company that also consider feedback as a normal important thing. Worst case scenario is an organization where people get offended when they are gently criticized or groups that do start to scrutinize one of the members due to him receiving positive notes.
+
+Yearly performance review is not enough. Ideally feedback should happen as soon as possible, once a week / month. With yearly performance reviews we tend to forget bout nitty grities and focus on average performance and 'big bangs'. Performance review is more of a tool for the company and not you. That is wy I encourage pro-active approach. Be pro-active and ask for feedback. Your team-lead, pm, colleagues they spend 8h a day with you. They are surely the best people to give you awesome advices and insigths into not only code but aslo character.
+
+How to do this ? There are many ways. You might ask for more official feedback or simply go out with your team, go and invite someone for quick 1on1. There is a endless  number of possibilites. The most important thing is, do know what to ask for. Don't reach someone asking 'hey i need feedback I am a good developer'. You have be more sophisicated and hint other person the angles you are interested in. That might be something like, how do you like this part of code, can you code review it, what do you think about our work together, do you think that i should be more visible etc etc. Know your goal and prepare. Try to ask for opinion on your actions behaviour and even breakdowns. You need to know how ot analyze the behaviour and find out patterns tha tdont work. Even checking email copy sent to business / technical team is importan.
+
+Mentor
+Yes your friend can also be your mentor, the other way around won't be always true. How to find a one ? just ask someone. Really it is that simple. Trust me you will find a lot of people willing to become your mentor. But do not expect to much. They have their own life and they are the ones who should set the pace. Best thing is, I have a mentor and I am also a mentor to other people. It's a great experience and great learning opportunity to advise someone and coach them. Bear in mind hovewer that building that kind of relationship takes time and patience. You need to test the mentor and see if this person is ok and wont damage you. There are many different fake coaches, people around that might damage you your personality in a wrong way.
+
+
+Thhose were the two most obvious options, but you can do more and get feedback from other sources like:
+
+GitHub
+Great place to share code and connect to devs. Having your code in public is first step to ask for code reviews. This is the place that you can also contribute to open source projects, which is also a great way to get some nice feedback. Contributing to project and doing pull requests gives other people ability to review the code and tell you where you can improve it. Remember that no one should evaluate your skills based on the quality of code on GitHub.
+
+Facebook groups
+Irc is dead, forums are dead, everyone is now on Facebook. I Don't know if this is a good trend. I was really reluctant to use facebook on the professional level but now I am following the herd. There are many groups related to tech, some of them bad, some of them good. The important thing is to join them and start discussing with other people about technology, work. This is also a good place to ask for Code Review's or to get a nice opinion about various ideas and technology related problems. Keep in mind though that Facebook is a place for discussions about software. If you are looking for a solution to a common technical problem like how to create a 'Hello World' program there are more specialised sites for that. You also have to be carefull here.
+
+Twitter
+Oh yeah, twitter is awesome. When I started using it, I was mostly in passive observation mode. A new kid in the block entering the same playground. I was afraid to talk, ask and share. That's fine. You don't have to participate in discussions, but it's a great place to share your views, opinions and comfront them with someone else point of view. There is time for that. Start as a follower and later on start contributing. Remember though that you want to follow people that have something to say. Following Justin Bieber is not the way to go unless you want to xoxox all the time.
+
+Blog
+By writing this blog post I am also reaching out for your feedback, hoping that there might be some comments from your dear reader. However, this is a great way to share things and open up your brain for other people to see. It might sound scary but it is really not that bad. Most of the people that will get on your blog are friendly open minded people that also love to spread the knowledge, love and feedback. Long long time ago when i was considering starting a blog I was really afraid that i might get attacked, smiled on or even i might look like an idiot. Now I have been doing this for couple of years and I have never felt bad about writing something and getting feedback in comments.
+
