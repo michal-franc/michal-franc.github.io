@@ -1,16 +1,9 @@
 Must HAve
-
-
-(only after prod release with new domain)
-- google analytics
-- test clicky
-- disqus (only after production when new blog post has new domain)
-- rss ( test on feedly )
-- test facebook share!
-- test twitter share!
+- add speaking site proper ne
+- change about create new one
+- 
 
 Nice TO HAve
-- newsletter mail chimp
 - newsletter popup!
 
 - support for blog series
