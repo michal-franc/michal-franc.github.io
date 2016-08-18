@@ -55,7 +55,7 @@ Sometimes you might get lucky just like me when I found position in awesome comp
 More Resources to check with JS:
 
 * [http://bonsaiden.github.io/JavaScript-Garden/](http://bonsaiden.github.io/JavaScript-Garden)
-* [https://codecombat.com/ - similar to CoeWars](https://codecombat.com/ - similar to CoeWars)
+* [https://codecombat.com/ - similar to CodeWars](https://codecombat.com/)
 * [https://github.com/mrdavidlaing/javascript-koans](https://github.com/mrdavidlaing/javascript-koans)
 
 
