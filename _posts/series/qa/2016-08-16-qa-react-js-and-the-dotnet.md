@@ -31,7 +31,6 @@ Learning react will be beneficial to your career if you want to specialize in we
 
 Assuming that we are talking here about hobby projects then yes. Even if you want to be backend dev it is good to know a bit about frontend. Bear in mind that react, angular etc. are not a perfect place to start. For WEB try to apply some less complicated 'frameworks', like knockout.
 
-
 In learning JS try <a href="https://www.pluralsight.com/">Pluralsight</a>, <a href="https://www.codecademy.com/">Code Academy</a>, <a href="https://www.codewars.com/">Codewars</a>. Read classic books like <a href="https://www.amazon.co.uk/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742">"JS The good Parts"</a>. After some practice and learning more advanced topics can be found here <a href="https://github.com/getify/You-Dont-Know-JS">You Don't Know JS</a>.
 
 Javascript is eating the world. There is enormous hype. A lot of innovation happens on the client side and with node it invades back-end too. It would be a mistake to ignore this piece of IT world for a web dev. To be more involved I recently moved to Mac machine and write react code in VIM. A huge step for .NET back-end developer like me.
@@ -58,4 +57,15 @@ More Resources to check with JS:
 * [https://codecombat.com/ - similar to CodeWars](https://codecombat.com/)
 * [https://github.com/mrdavidlaing/javascript-koans](https://github.com/mrdavidlaing/javascript-koans)
 
+---
+##### Updates
+
+#### AD 2 [Marcin Budny](http://blog.marcinbudny.com/] suggestion to learn JS
+Marcin has posted a nice comment below about learning JS, his approach would be:
+
+* Start with simple dom manipulations using JS to feel the basics
+* Add some JQuery into the mix to see how useful it is
+* Decouple view from view logic and embrace MVVM pattern with 2way bindings
+
+I would still add something in between JQuery and MVVM, maybe again some simple one way binding, two way binding framework. Me and Marcin we were kind of fortunate to be part of JS transformation. We know where does JS come from, its past, problems, quirks, issues. It is like with Garbage Collection, you won't appreciate it until you have tried writing manual memory allocation instructions in C or tried new and delete operators in C++.
 
