@@ -61,7 +61,7 @@ More Resources to check with JS:
 
 #### Updates
 
-#### AD 2 [Marcin Budny](http://blog.marcinbudny.com/] suggestion to learn JS
+#### AD 2 [Marcin Budny](http://blog.marcinbudny.com/) suggestion to learn JS
 Marcin has posted a nice comment below about learning JS, his approach would be:
 
 * Start with simple dom manipulations using JS to feel the basics
