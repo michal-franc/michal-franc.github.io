@@ -58,6 +58,7 @@ More Resources to check with JS:
 * [https://github.com/mrdavidlaing/javascript-koans](https://github.com/mrdavidlaing/javascript-koans)
 
 ---
+
 #### Updates
 
 #### AD 2 [Marcin Budny](http://blog.marcinbudny.com/] suggestion to learn JS
