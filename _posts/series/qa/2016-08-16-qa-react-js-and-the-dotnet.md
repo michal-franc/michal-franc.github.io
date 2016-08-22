@@ -49,7 +49,7 @@ After some years and further specialization you will create a network of connect
 
 The same thing applies to interesting projects, companies. Bigger network, personal brand is helpful in finding those. Good companies and interesting projects are rare and those job offers are not available publicly. You will also be competing with other good developers looking for such a places. That is why you need the network and a brand.
 
-Sometimes you might get lucky just like me when I found position in awesome company JustGiving. But were I lucky or maybe visible thanks to my work in community, blog, twitter etc. This Exposure might have increased my 'luck', and one example of connections. @pawelsawicz is making huge steps in his career working for great companies with interesting projects beacuse I knew him and when tere was a hidden 'job opportunity' in JustGiving I recommended him ... 
+Sometimes you might get lucky just like me when I found position in awesome company JustGiving. But were I lucky or maybe visible thanks to my work in community, blog, twitter etc. This Exposure might have increased my 'luck', and one example of connections. @pawelsawicz is making huge steps in his career working for great companies with interesting projects beacuse I knew him and when there was a hidden 'job opportunity' in JustGiving I recommended him ... 
 
 More Resources to check with JS:
 
