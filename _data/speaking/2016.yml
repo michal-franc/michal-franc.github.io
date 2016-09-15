@@ -1,22 +1,31 @@
 - topic: MicroMonolith - Top anti-patterns of distributed systems 
   name : CodeMotion Milan 2016
   date : 26th November
+  url: http://www.codemotionworld.com/
 
-- topic : Data Driven Development
+- topic: Data Driven Development
+  name : JustGiving Meetup
+  date : 8th November
+  url: http://www.justgiving.com/
+
+- topic: Data Driven Development
   name : Women Of Silicon Roundabout
   date : 27th October
+  url : http://www.women-in-technology.com/
 
-- topic: Heroes of Programing - the 10x Developer Myth 
+- topic: Heroes of Programming - the 10x Developer Myth 
   name : SwanseaCon 2016
-  image : swansea_con.jpg
   date : 13th September
+  url : http://swanseacon.co.uk/
 
 - topic: MicroMonolith - Top anti-patterns of distributed systems 
   name : NDC Oslo 2016
-  url : http://vimeo.com/171704583
-  blog : http://mfranc.com/blog/ndc-oslo-2016/
+  video_url : http://vimeo.com/171704583
+  summary_url : http://mfranc.com/blog/ndc-oslo-2016/
   date : 6th June
+  url : http://ndcoslo.com/
 
 - topic: MicroMonolith - Top anti-patterns of distributed systems 
   name : IDInLondon
-  date : July 
+  date : 15th July 
+  url : http://idinlondon.co.uk/
