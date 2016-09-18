@@ -3,11 +3,11 @@ layout: page
 title: Speaking
 permalink: /speaking/
 ---
-2016
+{% for year_events in site.data.speaking reversed  %}
+{{ year_events[0] }}
 <ul>
-{% for year_events in site.data.speaking %}
-{% assign events_2016 = year_events[1] %}
-	{% for event in events_2016 %}
+{% assign events = year_events[1] %}
+	{% for event in events %}
 	  <li>
 	     {{ event.date }} - <a href="{{ event.url }}">{{ event.name }}</a> -
 	     {% if event.video_url %}
@@ -20,6 +20,5 @@ permalink: /speaking/
 	     {% endif %}
       </li>
 	{% endfor %}
-{% endfor %}
 </ul>
-
+{% endfor %}
