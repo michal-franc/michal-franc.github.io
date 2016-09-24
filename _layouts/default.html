@@ -10,7 +10,6 @@
       </div>
 
       {% include footer.html %}
-
 	<!--Start of Tawk.to Script-->
 	<script type="text/javascript">
 		var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -23,19 +22,36 @@
 		s0.parentNode.insertBefore(s1,s0);
 		})();
 	</script>
+
+	</script>
+	
 	<!--End of Tawk.to Script-->
 
-	<script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script><script type="text/javascript">require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us13.list-manage.com","uuid":"8a5865e28c59044d419ecbe95","lid":"d545f31150"}) })</script>
-
+	<script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script>
       <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
       <script>
+		var lock = false;
+		function showMailingPopUp() {
+			  require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us13.list-manage.com","uuid":"8a5865e28c59044d419ecbe95","lid":"d545f31150"}) });
+		};
+
       $(document).ready(function() {
         $('.sliding-panel-button,.sliding-panel-fade-screen,.sliding-panel-close').on('click touchstart',function (e) {
           $('.sliding-panel-content,.sliding-panel-fade-screen').toggleClass('is-visible');
           e.preventDefault();
         });
+
+		$(window).scroll(function() {
+		   var wH = $(window).height() / 2,
+			   wS = $(this).scrollTop();
+		   if ((wS > wH) && lock === false){
+				showMailingPopUp();
+				lock = true;
+		   }
+		});
       });
       </script>
+
     </main>
   </body>
 </html>
