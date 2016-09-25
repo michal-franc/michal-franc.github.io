@@ -52,6 +52,17 @@
       <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	  <script type="text/javascript" src="{{ "/js/jquery.slick-modals.min.js" | prepend: site.baseurl }}"/></script>
       <script>
+		function setCookie(name, value, addDays) {
+			var today = new Date();
+		    var expiredDate = new Date().setDate(today.getDate()+addDays);
+			
+			//If exdate exists then pass it as a new Date and convert to UTC format
+			(expiredDate) && (expiredDate = new Date(expiredDate).toUTCString());
+			var c_value = escape(value) + ((expiredDate === null || expiredDate === undefined) ? "" : "; expires=" + expiredDate);
+			var fullCookieData = cookie = name + "=" + c_value + "; path=/";
+			document.cookie = fullCookieData;
+		};
+
       $(document).ready(function() {
         $('.sliding-panel-button,.sliding-panel-fade-screen,.sliding-panel-close').on('click touchstart',function (e) {
           $('.sliding-panel-content,.sliding-panel-fade-screen').toggleClass('is-visible');
@@ -79,13 +90,12 @@
                     console.log("Could not connect to the registration server. Please try again later.");
                 },
                 success     : function(data) {
+					setCookie("slickModal-1", "true", 360);
                     console.log("Please click the link in the email we just sent you", "Confirm your email address");
                 }
             });
         });
       });
-
-
 
 		// Plugin invoke
 		$(document).ready(function () {
@@ -115,8 +125,8 @@
 				scaleBgValue: "0.9",
 
 				// Window options
-				windowWidth: "500px",
-				windowHeight: "300px",
+				windowWidth: "600px",
+				windowHeight: "400px",
 				windowLocation: "center",
 				windowTransition: "ease",
 				windowTransitionSpeed: "0.4",
