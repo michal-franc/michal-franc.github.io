@@ -538,3 +538,30 @@
 	font-weight: 900;
 	color: #fff;
 }
+
+@media screen and (max-width: 480px) {
+	/* Create responsive modal window */
+    .slickModal .window {
+    	width: 96% !important; /* Side note: To override the jQuery plugin settings you need to use !important attribute at the end of every value which is initialized with the plugin */
+    }
+    /* Reduce the size of the main title */
+    .slickModal .window .title {
+    	font-size: 24px;
+    }
+    /* Let's center the close icon */
+    .slickModal .close.icon {
+    	right: 0;
+    	left: 0;
+    	margin: 0 auto;
+    }
+}
+@media screen and (max-height: 480px) {
+	/* Show the scrollbars so the user can scroll down the modal's content */
+    .slickModal {
+    	overflow: scroll;
+    }
+    /* Stick the overlay so it covers whole screen */
+    .slickModal .overlay {
+    	position: fixed;
+    }
+}
