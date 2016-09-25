@@ -50,7 +50,7 @@
 	
 	<!--End of Tawk.to Script-->
       <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-	  <script type="text/javascript" src="{{ "/js/jquery.slick-modals.min.js" | prepend: site.baseurl }}"/></script>
+	  <script type="text/javascript" src="{{ "/js/jquery.slick-modals.js" | prepend: site.baseurl }}"/></script>
       <script>
 		function setCookie(name, value, addDays) {
 			var today = new Date();
@@ -107,7 +107,7 @@
 			$("#email-popup").slickModals({
 				popupType: "scrolled",
 				exitTopDistance: 90,
-				scrollTopDistance: height / 2,
+				scrollTopDistance: (height * 4) / 5,
 				setCookie: true,
 				cookieDays: 30,
 				cookieTriggerClass: "setCookie-1",
