@@ -2,12 +2,35 @@
 <html>
   {% include head.html %}
   <body>
+	<div id="email-popup" class="slickModal">
+		<div class="window">
+			<!-- Your popup content -->
+			<div class="wrap demo-1">
+				<div class="title">Enjoyed reading ?</div>
+				<p>Get new posts and more content to your mail box.</p>
+				<form action="//mfranc.us13.list-manage.com/subscribe/post-json?u=8a5865e28c59044d419ecbe95&amp;id=d545f31150" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+					<input type="email" value="" name="EMAIL" placeholder="Your email goes here" class="field" id="mce-EMAIL">
+					<input type="submit" class="closeModal send" value="Submit" />
+					<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_8a5865e28c59044d419ecbe95_d545f31150" tabindex="-1" value=""></div>
+				</form>
+				<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_8a5865e28c59044d419ecbe95_d545f31150" tabindex="-1" value=""></div>
+				<label class="deny closeModal">Not interested? Close the form.</label>
+			</div>
+			<div class="cta demo-1">
+				<span class="icon"></span>
+				<p>Or check out our <span>latest blog posts</span></p>
+			</div>
+			<!-- / Your popup content -->
+		</div>
+	</div>
+
     <main>
       {% include header.html %}
 
       <div class="container">
         {{ content }}
       </div>
+
 
       {% include footer.html %}
 	<!--Start of Tawk.to Script-->
@@ -26,30 +49,93 @@
 	</script>
 	
 	<!--End of Tawk.to Script-->
-
-	<script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script>
       <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	  <script type="text/javascript" src="{{ "/js/jquery.slick-modals.min.js" | prepend: site.baseurl }}"/></script>
       <script>
-		var lock = false;
-		function showMailingPopUp() {
-			  require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us13.list-manage.com","uuid":"8a5865e28c59044d419ecbe95","lid":"d545f31150"}) });
-		};
-
       $(document).ready(function() {
         $('.sliding-panel-button,.sliding-panel-fade-screen,.sliding-panel-close').on('click touchstart',function (e) {
           $('.sliding-panel-content,.sliding-panel-fade-screen').toggleClass('is-visible');
           e.preventDefault();
         });
 
-		$(window).scroll(function() {
-		   var wH = $(window).height() / 2,
-			   wS = $(this).scrollTop();
-		   if ((wS > wH) && lock === false){
-				showMailingPopUp();
-				lock = true;
-		   }
-		});
+        $('#mc-embedded-subscribe-form').on('submit', function(e){
+            e.preventDefault();
+            var form = $('#mc-embedded-subscribe-form');
+
+            if ($('#mce-EMAIL').val() === "") {
+                return;
+            }
+
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                cache       : false,
+                dataType    : 'jsonp',
+                jsonp       : 'c',
+                contentType: "application/json; charset=utf-8",
+                error       : function(err) { 
+					console.log(err);
+                    console.log("Could not connect to the registration server. Please try again later.");
+                },
+                success     : function(data) {
+                    console.log("Please click the link in the email we just sent you", "Confirm your email address");
+                }
+            });
+        });
       });
+
+
+
+		// Plugin invoke
+		$(document).ready(function () {
+			var body = document.body,
+				html = document.documentElement;
+
+			var height = Math.max( body.scrollHeight, body.offsetHeight, 
+								   html.clientHeight, html.scrollHeight, html.offsetHeight );
+			$("#email-popup").slickModals({
+				popupType: "scrolled",
+				exitTopDistance: 90,
+				scrollTopDistance: height / 2,
+				setCookie: true,
+				cookieDays: 30,
+				cookieTriggerClass: "setCookie-1",
+				cookieName: "slickModal-1",
+
+				// Overlay options
+				overlayBg: true,
+				overlayBgColor: "rgba(0,0,0,0.85)",
+				overlayTransition: "ease",
+				overlayTransitionSpeed: "0.4",
+
+				// Background effects
+				bgEffect: "scale",
+				blurBgRadius: "2px",
+				scaleBgValue: "0.9",
+
+				// Window options
+				windowWidth: "500px",
+				windowHeight: "300px",
+				windowLocation: "center",
+				windowTransition: "ease",
+				windowTransitionSpeed: "0.4",
+				windowTransitionEffect: "zoomIn",
+				windowShadowOffsetX: "0",
+				windowShadowOffsetY: "0",
+				windowShadowBlurRadius: "20px",
+				windowShadowSpreadRadius: "0",
+				windowShadowColor: "rgba(0,0,0,0.3)",
+				windowBackground: "rgba(255,255,255,1)",
+				windowRadius: "12px",
+				windowMargin: "30px",
+				windowPadding: "30px",
+
+				// Close and reopen button
+				closeButton: "icon",
+				reopenClass: "openSlickModal-1",
+			});
+		});
       </script>
 
     </main>
