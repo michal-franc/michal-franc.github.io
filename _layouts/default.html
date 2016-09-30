@@ -49,6 +49,11 @@
 			document.cookie = fullCookieData;
 		};
 
+		function successSubscribe() {
+			$("#mc_embed_signup_scroll").replaceWith("<strong>Thank you. Check your email for confirmation.</strong>");
+		}
+	
+
       $(document).ready(function() {
         $('.sliding-panel-button,.sliding-panel-fade-screen,.sliding-panel-close').on('click touchstart',function (e) {
           $('.sliding-panel-content,.sliding-panel-fade-screen').toggleClass('is-visible');
@@ -76,7 +81,8 @@
                     console.log("Could not connect to the registration server. Please try again later.");
                 },
                 success     : function(data) {
-					setCookie("slickModal-1", "true", 360);
+					successSubscribe();
+					//setCookie("slickModal-1", "true", 360);
                     console.log("Please click the link in the email we just sent you", "Confirm your email address");
                 }
             });
