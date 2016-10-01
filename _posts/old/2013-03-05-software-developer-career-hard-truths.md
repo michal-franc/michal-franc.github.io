@@ -17,7 +17,6 @@ permalink: "/career/software-developer-career-hard-truths/"
 
 <p>At university i was doing a lot of awesome stuff. Cool algorithms, fun games, low level programming. In most of the jobs you won't find such a "cool" stuff. Sure, there are startups with nice ideas but a there is a big possibility that you will end up maintaining and developing CRUD applications. It might look like this applications are only sending and transforming data from one place to another, but you will get used to this. There are boring tasks but from time to time you will stumble upon a real gem. Job becomes more interesting as you mature up and take more senior responsibilities. Remember that if you are ambitious and you want to learn you have to fight for this, you have to convince your boss that giving you something new to do, will not only benefit you, but also your company in the long run. Look for companies that understand this and wants to develop their workforce. Avoid places that only want to exploit you. It is best to work under a passionate team leader who thinks about his team and people. Who understands that people won't leave a company when they are happy.</p>
 
-<div class="ulp-inline" data-id="rx4SYgzXfa7zKse9"></div>
 
 <h2>But I am a engineer I don't want to communicate...</h2>
 
