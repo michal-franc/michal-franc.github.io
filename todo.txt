@@ -1,6 +1,4 @@
-Must HAve
-- add speaking site proper ne
-- change about create new one
+Must Have
 - add comments count ( disqus supports that )
 
 Nice TO HAve
