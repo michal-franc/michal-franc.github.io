@@ -1,5 +1,17 @@
 <a href="{{ post.url | prepend: site.baseurl }}">
 	<article role="pagination" class="post">
-		<h5>{{ post.title }}  <small class="text-muted">-<time>{{ post.date | date: "%b %-d, %Y" }}</time></small></h5>
+		<h5>{{ post.title }}</h5>
+		<small class="text-muted">
+			<time>{{ post.date | date: "%b %-d, %Y" }}</time>
+		</small>
+		-
+		<small>
+			<i class="icon icon-comments-o"></i><span class="disqus-comment-count" data-disqus-url="http://mfranc.com{{ post.url | prepend: site.baseurl }}"></span>
+		</small>
+		<small>
+			{% for tag in post.tags %}
+			<span class="tag-badge">{{tag}}</span>
+			{% endfor %}
+		</small>
 	</article>
 </a>
