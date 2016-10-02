@@ -5,6 +5,7 @@ date: 2015-06-01 09:00
 author: Michal Franc
 comments: true
 categories: [Career]
+tags: [basics]
 ---
 I have received an email from a 15th year old student from US asking the question on where to start the coding / programming adventure. I want to share with you questions and my answers.
 

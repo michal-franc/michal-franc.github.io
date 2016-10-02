@@ -5,7 +5,7 @@ date: 2016-03-14 00:00
 author: Michal Franc 
 comments: true
 categories: [Career]
-tags: [learning, student]
+tags: [learning]
 ---
 <p>University degree importance in IT is a big topic of many discussion around the internet, I also received a question like that.</p>
 

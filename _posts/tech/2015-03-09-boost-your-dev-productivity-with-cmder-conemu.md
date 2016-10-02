@@ -5,6 +5,7 @@ date: 2015-03-09 08:00
 author: Michal Franc
 comments: true
 categories: [Tech]
+tags: [tools]
 permalink: /uncategorized/boost-your-dev-productivity-with-cmder-conemu/
 ---
 <h3>Unix world and awesome tmux</h3>

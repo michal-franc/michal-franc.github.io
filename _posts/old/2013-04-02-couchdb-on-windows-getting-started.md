@@ -4,7 +4,7 @@ title: CouchDb - getting started on Windows
 date: 2013-04-02 08:00
 author: Michal Franc
 comments: true
-categories: []
+categories: [Tech]
 tags: [nosql]
 permalink: /nosql/couchdb-on-windows-getting-started/
 ---

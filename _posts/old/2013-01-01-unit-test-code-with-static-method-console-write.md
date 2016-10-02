@@ -4,7 +4,7 @@ title: Unit Test code with static method Console.Write
 date: 2013-01-01 16:47
 author: Michal Franc
 comments: true
-categories: []
+categories: [Tech]
 tags: [tdd]
 permalink: /unit-testing/unit-test-code-with-static-method-console-write/
 ---

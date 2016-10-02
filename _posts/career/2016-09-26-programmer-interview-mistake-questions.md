@@ -6,7 +6,7 @@ date: 2016-09-26 10:00
 author: Michal Franc
 comments: true
 categories: [Career]
-tags: [interview]
+tags: [job-interview]
 image: programmer_interview_mistake.jpg
 ---
 
@@ -103,3 +103,5 @@ Nice way to judge company and if engineer are doing interesting things.
 #### Remember!
 
 Always prepare list of questions before interview by analysing company, website, people, technology. Don't forget to ask questions at the END!!
+
+#### Updates

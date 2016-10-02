@@ -4,7 +4,7 @@ title: Good unit test - One Assert
 date: 2013-01-09 17:00
 author: Michal Franc
 comments: true
-categories: []
+categories: [Tech]
 tags: [tdd]
 permalink: /unit-testing/good-unit-test-one-assert/
 ---
