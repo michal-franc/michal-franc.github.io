@@ -15,7 +15,7 @@ body {
 }
 
 .tag-badge {
-    color: #fff;
+    color: #fff !important;
     background: #337ab7;
     padding: 1px 3px;
     font-size: 10px;
@@ -26,6 +26,12 @@ body {
     position: relative;
     top: -1px;
     left: 1px;
+
+    &:hover,
+    &:focus {
+      background: red;
+	  cursor: pointer;
+    }
 }
 
 .center-image
