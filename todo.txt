@@ -1,17 +1,5 @@
-Must Have
-- add comments count ( disqus supports that )
-
 Nice TO HAve
-- newsletter popup!
-
-- support for blog series
-- better visible contact me button
-
-- each blog post needs an image with a text added just Like maniserowicz has so that FB or Twitter can handle it better
-- speaking sub-site with engagements
-- tags support - https://codinfox.github.io/dev/2015/03/06/use-tags-and-categories-in-your-jekyll-based-github-pages/
-- jeszcze obie zapisz zeby jakies fotki artykulow dorobic
-- i potem je w og:image
+- support for blog series ( do it like with tags )
 - support for js executable code easilly ( maybe C# )
 - support for running unit tests on blog
 - support for Q/A sessions
@@ -20,8 +8,6 @@ Nice TO HAve
 
 Admin tools:
 Maybe a service called 'sharer' that would be sharing my post in multiple places ?
-- add support for custom tags to be shared through facebook, twitter
-and button to share
 - add support to share on slack
 - add support to share on reddit
 - add support to share on wykop 
