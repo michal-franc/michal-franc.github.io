@@ -18,6 +18,11 @@ I do get involved in many interviews. There are multitude of mistakes you can ma
 
 Interview is not only reactive process where you wait and answer. You need to maintain communication, be pro-active. You are being evaluated on how you work and communicate. Communication is critical in our jobs. This is two-side activity were both parties collaborate and try to find out if they both fit. This is the test when you find out if you want to work in this place. You have to evaluate employer too!
 
+I had a nice discussion and someone mentioned his strategy:
+"I tell the the recruiter that if they are interested, I will ask questions but only then. I don't want to waste time."
+
+My answer is: With proper questions you can increase likelyhood of other party being interested. It is not like you are wasting anyones time. Job Interview is a perfect time to 'waste more time' to judge potential employeeand sell yourself. Sure enough is enough and too much questions might lead to feeling that it was too much, but the interviewer will give you a signal to stop and focus on something else.
+
 ## By not asking questions you send one of those messages
 
 **1. I don't care** - I do want to see that you are passionate about working here. No one forced you to come over. Without questions, I might assume that you could be here because of 'boredom' ( I had such candidates ), or you are evaluating the market ( that is fine! ). It is great to establish connection with 'future' candidates. In order to do that you need to find out more about the company so ask questions.
@@ -96,12 +101,21 @@ I would ask what the recruiter thinks about current state of C++. What does he /
 Those should be already in the job spec, but it is good to ask about this, to be sure that this company will be a good for you. Plus again this sends a signal that you are looking for a nice place for yourselves.
 
 **What are the current challenges you are facing ?**  
-Tell me about most interesting thing you have done here in the last year ?  
+**Tell me about most interesting thing you have done here in the last year ?**
 
 Nice way to judge company and if engineer are doing interesting things.
+
+**Are there any overtimes ?**
+
+A good way to find out if the project and company is 'healthy'. Overtimes should only be something special, not a norm. Even if the company is trying to hide the truth they will use words that might tell you that something is fishy here.
+
+**How do you recognize if someone should get a raise ?**
+Is this random ? Is there a process, plan ? You can reframe this one as "I want to keep my motivation and need to know how company shares the success. This will enable me to better manage my motivation and expectations. How do you recognize people for promotion or raise ? How does the system work ?"
 
 #### Remember!
 
 Always prepare list of questions before interview by analysing company, website, people, technology. Don't forget to ask questions at the END!!
 
 #### Updates
+
+10.04.2016 - added more content based on discussions and comments.
