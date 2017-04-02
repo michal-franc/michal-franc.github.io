@@ -9,6 +9,8 @@ paginate: 10
 paginate_path: "/blog/page/:num/"
 comments: true
 
+repository: michal-franc/michal-franc.github.io
+
 destination: _site
 sass:
   sass_dir: _scss
