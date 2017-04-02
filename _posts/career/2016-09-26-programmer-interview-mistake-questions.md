@@ -19,7 +19,7 @@ I do get involved in many interviews. There are multitude of mistakes you can ma
 Interview is not only reactive process where you wait and answer. You need to maintain communication, be pro-active. You are being evaluated on how you work and communicate. Communication is critical in our jobs. This is two-side activity were both parties collaborate and try to find out if they both fit. This is the test when you find out if you want to work in this place. You have to evaluate employer too!
 
 I had a nice discussion and someone mentioned his strategy:
-"I tell the the recruiter that if they are interested, I will ask questions but only then. I don't want to waste time."
+"I will tell the the recruiter that if they are interested, I will ask questions but only then. I don't want to waste time."
 
 My answer is: With proper questions you can increase likelyhood of other party being interested. It is not like you are wasting anyones time. Job Interview is a perfect time to 'waste more time' to judge potential employeeand sell yourself. Sure enough is enough and too much questions might lead to feeling that it was too much, but the interviewer will give you a signal to stop and focus on something else.
 

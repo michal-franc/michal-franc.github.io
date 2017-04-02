@@ -27,17 +27,32 @@
       </script>
 
 	  <script>
-		ulp_add_event("onexit", {
-			popup:		"ab-q2zVdEPiCUyDjgNM",
-			mode:		"once-period",
-			period:		30
-		});
-		
-		ulp_add_event("onidle", {
-			popup:		"85oltSbndJGZQzaW",
-			mode:		"once-session",
-			delay:      30
-		});
+
+		    (function ($) {
+			"use strict";
+			var objectPositionTop = $('#post-end').offset().top - window.innerHeight;
+
+				ulp_add_event("onexit", {
+					popup:		"4AXWiVSrZD71uqiP",
+					mode:		"once-period",
+					period:		30
+				});
+
+				ulp_add_event("onidle", {
+					popup:		"85oltSbndJGZQzaW",
+					mode:		"once-period",
+					period:         30
+				});
+
+				ulp_add_event("onscroll", {
+					popup:		"INyhHrwTzxjvcqEb",
+					mode:		"once-period",
+					period:         30,
+					offset:		objectPositionTop / 2
+				});
+
+		    }(jQuery));
+
 		</script>
 
 		<script id="dsq-count-scr" src="//thesilenceofthelams.disqus.com/count.js" async></script>
@@ -50,7 +65,6 @@
 		  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.7&appId=125980610784627";
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>
-
     </main>
   </body>
 </html>
