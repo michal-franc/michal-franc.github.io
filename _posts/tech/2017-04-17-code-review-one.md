@@ -170,4 +170,5 @@ Isn't that lovely and simple? All of this thanks to extraction of functions. It 
 
 Jumping into this function also gives me a simpler picture. There is a clear input and output. I don't have to worry about anything else but query here. Simple small functions give more clarity and help the brain to digest information. With smaller functions, we have to worry about the smaller number of lines of code. With clear input and output, we can establish scope and context. There is no cookie helper here, there is no need to bother where do we get the userId from. We hid all the complexity and can concentrate on the important stuff. There is a lot less noise in functions like this.
 
-That's it. If you dear reader, have some interesting code, I would love to review it.
+
+There are more issues in this code, help me find more :)
