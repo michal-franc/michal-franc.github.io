@@ -107,7 +107,7 @@ We don't care where the cookieId value is coming from. This gives more options a
 **Code after changes**
 
 {% highlight csharp %}
-        public IEnumerable<GitHubUser> FollowedGitHubUsers(int userId)
+        public IEnumerable<GitHubUser> GetFollowedGitHubUsers(int userId)
         {
             List<GitHubUser> favoritesList = new List<GitHubUser>();
 
@@ -139,7 +139,7 @@ We gained some 'clarity' and I no longer have to worry about Cookies.
 There are two queries to DB, both using the same Context. I want to have code that looks like this.
 
 {% highlight csharp %}
-        public IEnumerable<GitHubUser> FollowedGitHubUsers(int userId)
+        public IEnumerable<GitHubUser> GetFollowedGitHubUsers(int userId)
         {
             using (var db = new GitHubContext())
             {
