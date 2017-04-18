@@ -175,12 +175,9 @@ Jumping into this function also gives me a simpler picture. There is a clear inp
 
 There are more issues in this code, help me find more :)
 
+**EDIT:**
 
-
-EDIT:
-
-
-### More Ideas By [Norbert][0]
+#### More Ideas By [Norbert][0]
 
 #### Limit the number of queries
 
@@ -206,4 +203,4 @@ Instead of foreach with every loop generating another query. Remove for each and
 
 To optimize query a bit we can merge two queries back again. That would save some processing power and enable usage of the SQL 'powers' - optimized execution paths.
 
-[0]: nrozmus.pl
+[0]: http://www.nrozmus.pl
