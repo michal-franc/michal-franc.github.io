@@ -2,7 +2,7 @@
 layout: post
 title: Code Review - C# Code
 summary: Interesting code review of less complex code.
-date: 2017-04-10 10:00
+date: 2017-04-17 10:00
 author: Michal Franc
 comments: true
 categories: [tech]
