@@ -48,7 +48,9 @@ Looks like a trivial code. Where to start? Context! Context is king. It will be 
 * **What are you trying to achieve here?**
 * **What are the requirements?**
 
-It is the best start of every code-review process. A person asking for review already knows those answers. It would be a waste to try to discover this by yourself. This function returns a list of Github favourited users. On Github, there is an ability to follow users.
+This function returns a list of Github favourited users. On Github, there is an ability to follow users.
+
+It is the best start of every code-review process. A person asking for review already knows those answers. It would be a waste to try to discover this by yourself. 
 
 Initial Observations:
 
@@ -154,10 +156,10 @@ Isn't that lovely and simple? All of this thanks to extraction of functions. It 
         {
                 List<GitHubUser> favoritesList = new List<GitHubUser>();
 
-                foreach (var result in results)
+                foreach (var id in userIds)
                 {
                     var user = (from u in db.GitUsers
-                                where u.Id == result.GitUserId
+                                where u.Id == id
                                 select new { u }).First();
 
                     favoritesList.Add(user.u);
