@@ -204,6 +204,6 @@ Instead of foreach with every loop generating another query. Remove for each and
 
 #### Merge two queries into one
 
-To optimize query a bit we can merge two queries back again. That would save some us some processing power and use the power of SQL to generate one big query. Which gives benefits like optimized query path etc.
+To optimize query a bit we can merge two queries back again. That would save some processing power and enable usage of the SQL 'powers' - optimized execution paths.
 
 [0]: nrozmus.pl
