@@ -181,20 +181,15 @@ There are more issues in this code, help me find more :)
 
 #### Limit the number of queries
 
-Instead of foreach with every loop generating another query. Remove for each and use something similar to SQL 'IN' syntax. In this case collection 'Contains'
+Instead of foreach with every loop generating another query. Remove for each and use something similar to SQL 'IN' syntax. In this case collection 'Contains'. As a benefit we can also remove the temporary function and further simplify the code.
 
 {% highlight csharp %}
 
         private IEnumerable<GitHubUser>FindUsers(GitHubContext db, IEnumerable<int> userIds)
         {
-                List<GitHubUser> favoritesList = new List<GitHubUser>();
-                var user = (from u in db.GitUsers
+                return (from u in db.GitUsers
                            where userIds.Contains(u.Id)
                            select new { u }).ToList();
-                favoritesList.Add(user.u);
-            }
-
-            return favoritesList;
         }
 
 {% endhighlight %}
