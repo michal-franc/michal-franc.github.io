@@ -174,3 +174,36 @@ Jumping into this function also gives me a simpler picture. There is a clear inp
 
 
 There are more issues in this code, help me find more :)
+
+
+
+EDIT:
+
+
+### More Ideas By [Norbert][0]
+
+#### Limit the number of queries
+
+Instead of foreach with every loop generating another query. Remove for each and use something similar to SQL 'IN' syntax. In this case collection 'Contains'
+
+{% highlight csharp %}
+
+        private IEnumerable<GitHubUser>FindUsers(GitHubContext db, IEnumerable<int> userIds)
+        {
+                List<GitHubUser> favoritesList = new List<GitHubUser>();
+                var user = (from u in db.GitUsers
+                           where userIds.Contains(u.Id)
+                           select new { u }).ToList();
+                favoritesList.Add(user.u);
+            }
+
+            return favoritesList;
+        }
+
+{% endhighlight %}
+
+#### Merge two queries into one
+
+To optimize query a bit we can merge two queries back again. That would save some us some processing power and use the power of SQL to generate one big query. Which gives benefits like optimized query path etc.
+
+[0]: nrozmus.pl
