@@ -2,7 +2,7 @@
 layout: post
 title: Evolution of Engineer - critical neurone mass and negative code value 
 summary: Why Eric Evans book bored me to death? And why I think that code is useless. My thoughts on engineer learning process from a technical minded person to a balanced tech / business focused professional. An important post for every engineer to read.
-date: 2017-04-24 01:00
+date: 2017-04-24 00:00
 author: Michal Franc
 comments: true
 categories: [Career]
