@@ -99,10 +99,10 @@ There is another anti-pattern here, new keyword. Try to inject as many things as
 A closer look at the code shows that CookieHelper gives access to myCookie.ID. We can remove all this logic from this function by introducing a function param ID. 
 
 {% highlight csharp %}
-public IEnumerable<GitHubUser> FollowedGitHubUsers(int cookieId)
+public IEnumerable<GitHubUser> FollowedGitHubUsers(int userid)
 {% endhighlight %}
         
-We don't care where the cookieId value is coming from. This gives more options as we can get the cookieId from other sources, not only Cookie.
+We don't care where the userid value is coming from. This gives more options as we can get the userid from other sources, not only Cookie.
 
 **Code after changes**
 
