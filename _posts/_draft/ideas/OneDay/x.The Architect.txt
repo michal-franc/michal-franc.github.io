@@ -1,0 +1,19 @@
+Explore the Architect position and what does it mean to be one
+
+Questions:
+- How to become architect ?
+- Whats his role in team ?
+- Which skills do one need ?
+- How is this role different than programmer ?
+- Are there different roles when you compare big and small company ?
+- What about current trend to move architecture to programmers ?
+- whats the difference beetwen architecture and design ?
+- Is architect responsible for barebones and design ? why architect is not about design ?
+
+Potential blog post about what i think about architect role.
+
+Ask questions to Matt, Mark and Owain.
+
+Watch slawek presentation from dotnetconf
+Watch Brown presentation 
+Read the book

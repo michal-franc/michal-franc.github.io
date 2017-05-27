@@ -1,0 +1,1 @@
+http://mfranc.com/career/software-developer-career-hard-truths/

@@ -1,0 +1,9 @@
+http://martinfowler.com/articles/microservices.html 
+http://book.mixu.net/distsys
+http://microservices.io/patterns/microservices.html
+http://highscalability.com/blog/2015/8/3/seven-of-the-nastiest-anti-patterns-in-microservices.html
+https://auth0.com/blog/an-introduction-to-microservices-part-1/
+https://smartbear.com/learn/api-design/what-are-microservices/
+https://www.innoq.com/en/blog/why-restful-communication-between-microservices-can-be-perfectly-fine/
+https://www.tigerteam.dk/2014/micro-services-its-not-only-the-size-that-matters-its-also-how-you-use-them-part-1/
+https://bbossola.wordpress.com/2015/09/18/microservices-antipattern/

@@ -1,0 +1,31 @@
+X Mistakes Juniors do
+
+1. Commiting too many changes at once
+This causes diff to be unreadabale. Allways commit format changes as a separate commit.
+
+2. Commit messages 
+
+3. Reinventing the well
+They try to create they solutions without thinking of stuff in the project.
+
+4. Refactor everything ! 
+They jump into project only to see mass spaghetti wanting to fix everything at once.
+
+Write about what to refactor when and how to check stuff to refactor
+write about Boy Scout Rule
+
+5. Public here, Public there
+
+Everythng in class is public.
+
+6. There is only the LIST
+
+This links with point 4. Know your collections and how to use them.
+
+7. Inheritance instead of Interface based design
+
+They learn about OOD and want to use it everywhere for the sake of using it. Everything is inheriting from something.
+
+8. Communication Maddness
+
+Problem with communication. Too much trash talking.

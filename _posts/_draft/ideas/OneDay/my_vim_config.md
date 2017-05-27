@@ -1,0 +1,4 @@
+- Blog post describing my current vim configuration
+- based on MyVim config
+- selection of plugins why and gifs showing why those are awesome:w
+- I need a page which have list of tools i am using
