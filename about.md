@@ -8,8 +8,6 @@ permalink: /about/
 
 **Engineer, Leader, Speaker** - based in **London**. **Engineer** @ Just Eat.
 
-Currently building **Crowdfunding** platform. Responsible for products that enabled millions of people rise billions of pounds for causes they do care about.
-
 ### Experienced Software Engineer
 8 years of experience building products in different domains : e-commerce, finance, charity, social sites.
 Can code in many languages in different paradigms. Most of my experience was built using C# and Javascript.
