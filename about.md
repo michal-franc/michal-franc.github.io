@@ -6,9 +6,7 @@ permalink: /about/
 
 <img src="/images/swansea_michal_franc.jpg" width="300" style="float: right; margin-top: 100px; margin-left: 20px;"/>
 
-**Engineer, Leader, Speaker** - based in **London**. **Lead Developer** @ JustGiving.
-
-Currently building **Crowdfunding** platform. Responsible for products that enabled millions of people rise billions of pounds for causes they do care about.
+**Engineer, Leader, Speaker** - based in **London**. **Engineer** @ Just Eat.
 
 ### Experienced Software Engineer
 8 years of experience building products in different domains : e-commerce, finance, charity, social sites.
