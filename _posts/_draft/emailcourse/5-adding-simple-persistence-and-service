@@ -1,0 +1,248 @@
+This time around we are going to add simple persistence using 'Redis'.j
+
+Why Redis? Beaucuse its simple (in our scenarios). Redis is a key value store, something like a Dictionary (or Hashtable) as a Database.
+
+<image of what we want to create> -> redis + service + get + post
+
+Our microservice will use the redis to store some 'data' and later on retrieve it.  We need to create a redis database and run it in docker container. Ideally you shouldnt be runing something statefull on containers. But fot this test system we will do it. 
+
+#### Why statefull and containers are not happy together?
+
+The idea behind container is that you can easilly replace it. Databases are statefull, it means that they need to store the data somewhere. In this case on the file system inside container. Assuming that containers are easilly replacable and instead of maintining stability and SLA of single container you rather achieve thaat by having multiple containers doing the same thing. It means that the data can be lost. There are ways to make it more stable using volumes and storing the data on the 'host' running containers, but as from experience it is usually better to run DB as a standalone server, not container. For this course we will keep things 'simple', well for now at least.
+
+
+#### Creating redis image and container
+
+Create a folder with name 'redis' and add a Dockerfile there.
+
+Dockerfile
+```
+FROM alpine
+RUN apk update && apk add redis
+EXPOSE 6479
+ENTRYPOINT ["/usr/bin/redis-server"]
+```
+
+Alpine is leightweight distribution of Linus.  apk update and apk get are equivalents of ubuntu apt-get package manager.
+
+EXPOSE is a command to 'expose' a port to other containers. This port won't be visible to the host. If you want some port visible to the host you need to use -p on run command.
+
+ENTRYPOINT is our runnable executable that will start redis server
+
+```
+docker build --no-cache -t workshop/redis .
+```
+
+Now we can run the image and generate container.
+
+```
+docker run --name redis -d workshop/redis
+
+```
+
+We are explicitly setting the running container name to redis, for ease of use. By default docker generates this names for use.
+
+We can now step into container and check if redis is running.
+
+```
+docker exec -it redis sh
+
+This should give us access to container shell. Exec is a command to run 'something' in the specified container. In this case we are using option -i to keep run in interactive mode and keep stdin open + we also attach pseudo TTY using -t.
+
+On the sh on the container run. Terminal should now switch the context and be 'inside container'. You can run normal commands here like ls. 
+
+We will however run a tool that enables us to connect to Redis server.
+```
+redis-cli
+```
+This tool enables you to communicate with Redis server.
+
+You can type various commands. Try this.
+
+```
+set test test
+KEYS *
+get test
+```
+
+Set saves the value in specified key. Get retrieves the value and KEYS shows the list off all the matching keys. There is one important command that we need to run now.
+
+```
+CONFIG SET protected-mode no
+```
+By default redis is working in a protected mode and only allows access from loopback interface - localhsot. We will later on be connecting to redis from different container using redis-cli and this protection has to be taken off for that. This of course is unsafe option for production.
+
+Redis is running exit writing exit twice and you will be back in host.
+
+We are going now to create a new container and test if we are able to connect to the redis one.
+
+```
+docker run --link redis:db -it alpine sh
+```
+
+This command starts a new alpine container with a shell started and pseudo TTY connection. On top of that we are also generating link beetwen our redis instance and this newly created container, link name is db. This link name is used to generate environment variables used to connect to redis. This command should be really fasat as alpine image has already been downloaded and cached when building redis sserver.
+
+Using shell inside container we need to install redis manually to get the 'redis-cli' tool.
+
+```
+apk update
+apk add redis
+```
+
+This manual work is basically same stuff that docker does for use on image.So now you see exactly what docker does when generating images.
+
+Aftet that is done we can connect to redis
+
+Lets check env variables.
+
+```
+env
+```
+
+There should be one called DB_PORT_6479_TCP_ADDR. This is the one we need to use to connect to redis on different container.
+
+```
+redis-cli -h $DB_PORT_6479_TCP_ADDR
+```
+
+We can once again run 
+
+```
+KEYS *
+```
+
+Uff that was a bit of learning!
+
+If you want to touch more topics around Docker:
+- https://docs.docker.com/engine/docker-overview/
+
+#### Creating Microservice that talks to Redis
+
+Next step create a service that connects to redis in container and and uses it as a data store.
+
+We will create a new copy of micro-web called micro-db.
+
+```
+cp -rf micro-web micro-db
+```
+
+Time to change our app so it is able to connect to Redis. We will use StackExchange.Redis. All the logic in RedisController.
+
+```
+using System;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
+
+[Route("redis")]
+public class RedisController : Controller
+{
+  ConnectionMultiplexer redis;
+  ILogger _logger;
+```
+
+Our route is simple, just redis.
+ConnectionMultiplexer is used to generate connection and get the DB access. Multiplexer here could be used to connect to multiple Redis servers if needed.
+
+Constructor
+```
+public RedisController(ILogger<RedisController> logger)
+{
+    _logger = logger;
+
+    try
+    {
+        var envName = "DB_PORT_6479_TCP_ADDR";
+        var redisAddress = Environment.GetEnvironmentVariable(envName);
+
+        _logger.LogInformation($"Connecitng to redis on {redisAddress}");
+
+        redis = ConnectionMultiplexer.Connect(redisAddress);
+    }
+    catch(Exception ex)
+    {
+        _logger.LogError($"Cannot connect to Redis - {ex.Message}", ex);
+        throw ex;
+    }
+}
+```
+We use Environment variables to get the redis ip address.
+
+Then we will add simple get endpoint.
+
+```
+[HttpGet]
+[Route("{key}")]
+public string Get(string key)
+{
+    IDatabase db = redis.GetDatabase();
+    var value = db.StringGet(key);
+    return value; 
+}
+```
+
+And a POST one.
+
+```
+[Route("{key}/{value}")]
+[HttpPost]
+public string Post(string key, string value)
+{
+    IDatabase db = redis.GetDatabase();
+    db.StringSet(key, value);
+    return $"Saved '{key}' with '{value}'";
+}
+```
+
+In both of these se use the multiplexer to get the DB connection  and use Get, Set jus like using the redis-cli.
+
+The app is now ready for testing. 
+
+```
+docker build -t workshop/micro-db .
+docker run -link redis:db -d -p 5010:5010 workshop/micro-db 5010
+```
+
+Remember to name the link as db. We could make this injected as a parameter just like port.
+
+Testing it.
+
+```
+http post localhost:5010/redis/hello/world                       
+HTTP/1.1 200 OK
+Content-Type: text/plain; charset=utf-8
+Date: Sun, 18 Jun 2017 18:33:02 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
+
+Saved 'hello' with 'world'
+```
+```
+HTTP localhost:5010/redis/hello/     
+HTTP/1.1 200 OK
+Content-Type: text/plain; charset=utf-8
+Date: Sun, 18 Jun 2017 18:34:05 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
+
+world
+```
+
+We can go to redis container and check directly if data is there.
+
+```
+docker exec -it redis sh
+/ # redis-cli
+127.0.0.1:6379> KEYS *
+1) "hello"
+```
+
+#### Stabilizing the code a bit
+
+This was just a proof of concept, code is a bit unstable.
+
+- stabilize the code
+
+#### Expanding HealthCheck
+
+Last step to do is exxpand the health check so that it is aware of the Redis. Redis is now integral part of our app. If its not available the app can't function properly.
