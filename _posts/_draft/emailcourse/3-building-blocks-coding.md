@@ -1,13 +1,17 @@
-In this lesson, we will explore microservices basic building blocks.
+In this lesson, we will explore micro services basic building blocks.
 
 <image again as a remainder>
 
-#### Core Endpoint
+#### Core Logic
 
-The most important part of microservice is some logic. Something that is 'doing' useful thing. In this example, it won't be super useful, but let's start simple.
+We are building service to do 'something', this is the core logic. Invoked by either external or internal call.
 
-Let's add a new controller to our 'micro-web' app.
+* external call - request from 'user' eg. HTTP GET, POST
+* internal call - long running worker, with calls through some scheduler
 
+In this example the call is from the external source through an Endpoint.
+
+New controller in micro-web app.
 
 ```
     public class CoreController: Controller
@@ -21,15 +25,19 @@ Let's add a new controller to our 'micro-web' app.
     }
 ```
 
-Of course, this core logic can get complicated. As a rule of thumb, a service should do something 'useful' for your product/process. There is no simple guideline like your core logic should have at most 100 lines of course. Ignore statements like that. Focus on your business and what you are building. It is for you to decide what kind of 'granularity' you want to achieve.
+As a rule of thumb, a service should do something 'useful' for your product/process. There is no simple guideline like your core logic should have at most 100 lines of course. Ignore statements like that. Focus on your business and what you are building. It is for you to decide what kind of 'granularity' you want to achieve.
 
-#### Healtheck
+If the code becomes too complicated or does too many things. That is a good signal to 'split up' the code. The problem is how to identify those scenarios. TDD can be useful here. 
 
-In a monolithic app checking stability is 'simpler'. You just initiate action by making a request and check if something is not failing. Somewhere down the line if some part of the system is broken, there will be an exception.
+It is important to strike a balance between having a lot of small services or small number of big ones. The truth is always somewhere in the middle. This discussion hints and ideas we will cover in the future.
 
-To make it better you add some logging, monitoring and alerting. It is kind of similar in the microservice world, the problem is that due to distribution across multiple machines it is a bit harder to understand all the interaction in the whole system. You can't just throw an exception caught in some generic top layer and be done. It is important to identify how healthy is the overall system and all its components. The first step to do this is to add a way to measure your single service by adding HealthChecks.
+#### HealthCheck
 
-It looks like this.
+As the name suggest this is a piece of functionality that enables you to check if your service is healthy or not. In distributed world, finding out where the problem is can be difficult. In a monolithic app checking stability is 'simpler' as everything is in 'one place'. Logging, exceptions, errors - from various components available in one place. 
+
+With distribution across many machines it is a bit more complicated to find out where the problem is. Especially when the problem could be related to the network layer. Something that is less problematic in monolithic approach.
+
+Basic HealthCheck one looks like this.
 
 ```
 [Route("status")]
@@ -47,10 +55,14 @@ public class StatusController: Controller
     }
 }
 ```
+Simple endpoint providing information if service is ok. Usually healthcheck can be based on HTTP Status Code:.
 
-It is a simple endpoint that lets you know if service is ok. Usually, you do this by assuming that 200 HTTP status means, I am ok and 500 I am not ok. It is also advisable to return some analysis of what could fail.
+* 200 - means, I am OK
+* 500 - oops there is some problem
 
-The top example is simple. You can create more complicated ones.
+Body contains more details with useful information that could help identify the problem. Example: information about availability or problems of all the external dependencies like databases, queues etc.
+
+More complex example
 
 ```
   var health = new {
@@ -61,21 +73,17 @@ The top example is simple. You can create more complicated ones.
   };
 ```
 
-This endpoint will be used by your automatic monitoring systems, it is good to keep it fast.
+We could add more checks. The health check role is to tell us if service is ok. This might be the first point of contact when debugging problems. This is plugged in to some monitoring software that can alert you if something 'went mad' in your system.
 
-We could add more checks. The health check role is to tell us if service is ok. This might be the first point of contact when debugging problems. If you have an issue on prod and your monitoring has failed then you can query those endpoints and check if services are ok.
-
-It is important to standardise health check around your organisation to enable writing tooling that is able to read our services and how those responsible. Worst case scenario is services implemented with different standard and you either have to change them or create a super generic tool which is a waste of time t is better to establish common patterns and ideas what health check is to avoid this problem altogether
-
-I could write a separate blog post on how to design health check response withing the org.
+Standardising health check structure is important. Supporting similar behaviour, messages and status codes is needed. This saves a lot of time with future integrations. Some frameworks provide ability to plug in middleware. Perfect place for logic like that.
 
 #### Logging
 
-Every app should have some logging. This is the only way to analyse failures, errors and 'debug' problems that we weren't able to predict. Every software is buggy and 'broken', we are either not seeing it or don't care.
+Every app should have some logging. This is the only way to analyse failures, errors and 'debug' problems that we weren't able to predict. Every software is buggy and 'broken' somehow. It is critical to find out all the problems that could affect the stability of our product.
 
-In .NET there are two popular solutions to enable logging. Much older log4net and a bit younger NLog. I prefer NLog and use log4net only if there are some libraries, packages that also require it. There is a subtle difference between those two but in the end, they provide very similar functionality.
+In .NET there are two popular solutions to enable logging. Much older log4net and a bit younger NLog. I prefer NLog and use log4net only if there are some libraries, packages that also need it. There is a subtle difference between those two, but in the end, there is similar functionality.
 
-Install package in your preferred way. I have used Visual Studio Code Nuget addon. At the time of writing this NLog-5.0.0-beta07 supported dot net core.
+Install packages in your preferred way. I have used Visual Studio Code Nuget addon. At the time of writing this dotnet core plays nicely with NLog-5.0.0-beta07.
 
 Packages to install
 
@@ -84,18 +92,18 @@ NLog
 NLog.Web.AspNetCore
 ```
 
-You can also use dotnet cli tool
+ The first one is a core NLog logic, the other one provides a logger factory extension - a build in provider of loggers for AspNetCore. 
+
+dotnet cli provide ability to add packages
 
 ```
 dotnet add package NLog -v 5.0.0-beta07
 dotnet add package NLog.Web.AspNetCore
 ```
 
-With NLog you need to add version explicitly otherwise Nuget responds back with a message that NLog 4.4.0 is not compatible with .NET core.
+Explicit version is needed to download correct package. Beta07 is still in beta and by default NLog 4.4.0  is installed. This one is not compatible with .NET Core.
 
-The first one is a core NLog logic, the other one provides a logger factory extension, a build in provider of loggers for AspNetCore.
-
-This tool adds PackageReferences inside your .cproj file. You could manually 'add' packages by just adding new record to the list.
+To check if this operation was successful. Open your .csproj file and look for  PackageReference. This is also the wait to add packages manually. 
 
 ```
 <PackageReference Include="NLog" Version="5.0.0-beta07"/>
@@ -110,7 +118,7 @@ NLog uses configuration files. We need to create new file NLog.config.
 touch NLog.config
 ```
 
-Keep in mind the L is capital :)
+PS: Keep in mind the L is capital :)
 
 NLog.config
 
@@ -147,7 +155,7 @@ We will have to add this line manually by adding.
   </ItemGroup>
 ```
 
-Sadly dotnet cli doesn't provide a tool for that yet. Perfect example for open sources pull request 'anyone?'.
+dotnet cli doesn't provide a tool for that yet. 
 
 We need to make .NET Core Framework aware of NLog. To do that.
 
@@ -162,8 +170,9 @@ In Startup.cs file
         }
 ```
 
-This registers NLog as one of the logging providers. The last thing to do is to inform the Nlog that it should use NLog.config file.
+This register NLog as one of the logging providers. 
 
+The last thing to do is to mark NLog.config as the config file.
 
 ```
 public Startup(IHostingEnvironment env, ILogger<Startup> logger)
@@ -175,14 +184,13 @@ public Startup(IHostingEnvironment env, ILogger<Startup> logger)
 
 ```
 
-Don't forget to inform compiler that we are using NLog by adding usings.
+Don't forget to add usings.
 
 ```
 using NLog.Extensions.Logging;
 using NLog.Web;
 ```
-
-To test if everything works fine let's just add simple information that the service has started.
+Time to add simple information that service has just started. This will server as a test message.
 
 ```
 public Startup(IHostingEnvironment env, ILogger<Startup> logger)
@@ -195,24 +203,30 @@ public Startup(IHostingEnvironment env, ILogger<Startup> logger)
 
 ```
 
-The ILogger<T> is injected to the Startup constructor by the dotnet core. This is Microsoft internal abstraction. That we bound to using 'loggerFactory.AddNLog()'. NLog is invisible to our application apart from the orchestration layer. To the rest of the system, it is just an implementation detail (We will later break this separation with an implementation of Memory logger :) ). Thanks to that we can easily switch NLog with another provider like log4net and don't have to change the lines of code calling the logger.
+logger is injected to the Startup constructor by the framework. This is Microsoft internal abstraction. 
 
-Ok, usual procedure.
+We bound NLog to it with the.
+
+```
+ loggerFactory.AddNLog()
+```
+
+This keeps the NLog as a implementation detail. Thanks to that we can easilly switch NLog with another provider like log4net.
+
+Let's test it.
 
 ```
 dotnet restore
 dotnet run
 ```
 
-If there is an exception on the runtime, that NLog.config file cannot be found. Check if the 'L' is capital in 'csproj' and 'Startup.cs' file.
+If there is an exception on the runtime, NLog.config file cannot be found. Check if the 'L' is capital in 'csproj' and 'Startup.cs' file.
 
-Check if you have folder with logs in your 'bin/Debug/netcorex.x/' folder.
+Check if you have folder with logs in your 'bin/Debug/netcorex.x/' folder. If there is a file with logs then it works fine.
 
-So far so good we have logging configured.
+Using NLog we can configure a memory target. This is a special buffer, that holds log data in memory. I couldn't find if there is any limitation on how much data it can hold, so be careful as you don't want to flood your machine memory with logs.
 
-One of the good things about NLog is that we can configure a memory target. This is a special buffer, that holds log data in memory. I couldn't find if there is any limitation on how much data it can hold, so be careful as you don't want to flood your machine ram with logs.
-
-We will use this target to create a special endpoint showing real-time logs. We could read the IO and files stored on the file system but that is costly operation.
+We will use this target to create a special endpoint showing real-time logs.
 
 Adding new target in NLog.config
 ```
@@ -225,9 +239,9 @@ And new logger
     <logger name="*" minlevel="Info" writeTo="memory" />
 ``` 
 
-We need something to access the logs now.  Using simple endpoint will be enough.
+Logs are stored now in memory target. We need something to retrieve them from target and display. Using simple endpoint will be enough.
 
-Inside status controller adds new call.
+Inside status controller add new call.
 
 ```
 using System.Collections.Generic;
@@ -253,16 +267,16 @@ namespace micro_web.Controllers
 }
 ```
 
-All this code does is reads data from a target that is A Memory Target and exposes it to endpoint '/status/logs'
+All this code does is reads data from a target  and exposes it to endpoint '/status/logs'. Go ahead and test it.
 
-We added logs to one instance of a service. Working with monolithic app having one process, or even multiple ones, it is simple to 'aggregate' logs from different parts of 'one process'. You just put them on the machine. 
+We added logs to one instance of a service. Working with monolithic app having one process, or even ones, it is simple to 'aggregate' logs from different parts of 'one process'. 
 
-With distributed world and multiple services working as a standalone software aggregating logs is a bit more complicated. There is no single machine that you can go to and check all the logs (Out of box). You need external way to do this and collect logs from all the machines. 
+With distributed aggregating logs is a bit more complicated. There is no single machine that you can go to and check all the logs (Out of box). You need external way to do this and collect logs from all the machines. 
 
-One solution is to write your own logging service that will do it for you. Fortunately, there is a better way. There are solutions Out of box that are providing such capabilities. We might explore them later in this course.
+There are solutions Out of box that are providing such capabilities. We might explore them later in this course.
 
 #### Summary
 
 Those were the main building blocks next time we will look on how to host our app as using it all the time using dotnet run is well not 'scalable'. We will use docker for that.
 
-You will need to install Docker on your machine. It is supported on Unix, Mac and Windows 10 (if you have PRO version with HyperV). For Windows 10 Home edition it gets tricky as you will need to install VirtualBox. There was a link in the first blog post to the place that shares all the details of installation.
+You will need to install Docker on your machine. It works well on Unix, Mac and Windows 10 (if you have PRO version with HyperV). For Windows 10 Home edition it gets tricky as you will need to install VirtualBox.
