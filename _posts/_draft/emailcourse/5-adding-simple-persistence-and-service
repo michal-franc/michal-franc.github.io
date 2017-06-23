@@ -1,14 +1,14 @@
 This time around we are going to add simple persistence using 'Redis'.j
 
-Why Redis? Beaucuse its simple (in our scenarios). Redis is a key value store, something like a Dictionary (or Hashtable) as a Database.
+Why Redis? Because it is simple (in our scenarios). Redis is a key-value store, something like a Dictionary (or Hashtable) as a Database.
 
 <image of what we want to create> -> redis + service + get + post
 
-Our microservice will use the redis to store some 'data' and later on retrieve it.  We need to create a redis database and run it in docker container. Ideally you shouldnt be runing something statefull on containers. But fot this test system we will do it. 
+Our microservice will use the redis to store some 'data' and later on retrieve it.  We need to create a redis database and run it in Docker container. Ideally, you shouldn't be running something stateful on containers. But for this test system, we will do it. 
 
-#### Why statefull and containers are not happy together?
+#### Why stateful and containers are not happy together?
 
-The idea behind container is that you can easilly replace it. Databases are statefull, it means that they need to store the data somewhere. In this case on the file system inside container. Assuming that containers are easilly replacable and instead of maintining stability and SLA of single container you rather achieve thaat by having multiple containers doing the same thing. It means that the data can be lost. There are ways to make it more stable using volumes and storing the data on the 'host' running containers, but as from experience it is usually better to run DB as a standalone server, not container. For this course we will keep things 'simple', well for now at least.
+The idea behind container is that you can easily replace it. Databases are stateful, it means that they need to store the data somewhere. In this case on the file system inside the container. Assuming that containers are easily replaceable and instead of maintaining stability and SLA of single container you rather achieve that by having multiple containers doing the same thing. It means that the data can be lost. There are ways to make it more stable using volumes and storing the data in the 'host' running containers, but as from experience, it is usually better to run DB as a standalone server, not a container. For this course, we will keep things 'simple', well for now at least.
 
 
 #### Creating redis image and container
@@ -23,7 +23,7 @@ EXPOSE 6479
 ENTRYPOINT ["/usr/bin/redis-server"]
 ```
 
-Alpine is leightweight distribution of Linus.  apk update and apk get are equivalents of ubuntu apt-get package manager.
+Alpine is a lightweight distribution of Linus.  apk update and apk get are equivalents of Ubuntu apt-get package manager.
 
 EXPOSE is a command to 'expose' a port to other containers. This port won't be visible to the host. If you want some port visible to the host you need to use -p on run command.
 
@@ -40,18 +40,18 @@ docker run --name redis -d workshop/redis
 
 ```
 
-We are explicitly setting the running container name to redis, for ease of use. By default docker generates this names for use.
+We are explicitly setting the running container name to redis, for ease of use. By default, Docker generates this names for use.
 
-We can now step into container and check if redis is running.
+We can now step into the container and check if redis is running.
 
 ```
 docker exec -it redis sh
 
-This should give us access to container shell. Exec is a command to run 'something' in the specified container. In this case we are using option -i to keep run in interactive mode and keep stdin open + we also attach pseudo TTY using -t.
+This should give us access to container shell. Exec is a command to run 'something' in the specified container. In this case, we are using option -I to keep running in interactive mode and keep stdin open + we also attach pseudo TTY using -t.
 
-On the sh on the container run. Terminal should now switch the context and be 'inside container'. You can run normal commands here like ls. 
+On the sh on the container run. The terminal should now switch the context and be 'inside container'. You can run normal commands here like ls. 
 
-We will however run a tool that enables us to connect to Redis server.
+We will, however, run a tool that enables us to connect to Redis server.
 ```
 redis-cli
 ```
@@ -65,14 +65,14 @@ KEYS *
 get test
 ```
 
-Set saves the value in specified key. Get retrieves the value and KEYS shows the list off all the matching keys. There is one important command that we need to run now.
+Set saves the value in specified key. Get retrieves the value and KEYS show the list off all the matching keys. There is one important command that we need to run now.
 
 ```
 CONFIG SET protected-mode no
 ```
-By default redis is working in a protected mode and only allows access from loopback interface - localhsot. We will later on be connecting to redis from different container using redis-cli and this protection has to be taken off for that. This of course is unsafe option for production.
+By default, redis is working in a protected mode and only allows access from loopback interface - localhost. We will, later on, be connecting to redis from different container using redis-cli and this protection has to be taken off for that. This, of course, is an unsafe option for production.
 
-Redis is running exit writing exit twice and you will be back in host.
+Redis is running exit writing exit twice and you will be back in the host.
 
 We are going now to create a new container and test if we are able to connect to the redis one.
 
@@ -80,7 +80,7 @@ We are going now to create a new container and test if we are able to connect to
 docker run --link redis:db -it alpine sh
 ```
 
-This command starts a new alpine container with a shell started and pseudo TTY connection. On top of that we are also generating link beetwen our redis instance and this newly created container, link name is db. This link name is used to generate environment variables used to connect to redis. This command should be really fasat as alpine image has already been downloaded and cached when building redis sserver.
+This command starts a new alpine container with a shell started and pseudo TTY connection. On top of that, we are also generating the link between our redis instance and this newly created container, link name is db. This link name is used to generate environment variables used to connect to redis. This command should be really fast as the alpine image has already been downloaded and cached when building redis server.
 
 Using shell inside container we need to install redis manually to get the 'redis-cli' tool.
 
@@ -89,17 +89,17 @@ apk update
 apk add redis
 ```
 
-This manual work is basically same stuff that docker does for use on image.So now you see exactly what docker does when generating images.
+This manual work is basically same stuff that Docker does for use on the image.So now you see exactly what Docker does when generating images.
 
-Aftet that is done we can connect to redis
+After that is done we can connect to redis
 
-Lets check env variables.
+Let's check Env variables.
 
 ```
 env
 ```
 
-There should be one called DB_PORT_6479_TCP_ADDR. This is the one we need to use to connect to redis on different container.
+There should be one called DB_PORT_6479_TCP_ADDR. This is the one we need to use to connect to redis on a different container.
 
 ```
 redis-cli -h $DB_PORT_6479_TCP_ADDR
@@ -118,7 +118,7 @@ If you want to touch more topics around Docker:
 
 #### Creating Microservice that talks to Redis
 
-Next step create a service that connects to redis in container and and uses it as a data store.
+Next step creates a service that connects to redis in a container and uses it as a data store.
 
 We will create a new copy of micro-web called micro-db.
 
@@ -194,7 +194,7 @@ public string Post(string key, string value)
 }
 ```
 
-In both of these se use the multiplexer to get the DB connection  and use Get, Set jus like using the redis-cli.
+In both of these, we use the multiplexer to get the DB connection and use Get, Set jus like using the redis-cli.
 
 The app is now ready for testing. 
 
@@ -203,7 +203,7 @@ docker build -t workshop/micro-db .
 docker run -link redis:db -d -p 5010:5010 workshop/micro-db 5010
 ```
 
-Remember to name the link as db. We could make this injected as a parameter just like port.
+Remember to name the link as db. We could make this injected as a parameter just like the port.
 
 Testing it.
 
@@ -237,12 +237,12 @@ docker exec -it redis sh
 1) "hello"
 ```
 
-#### Stabilizing the code a bit
+#### Stabilising the code a bit
 
-This was just a proof of concept, code is a bit unstable.
+This was just a proof of concept, the code is a bit unstable.
 
-- stabilize the code
+- stabilise the code
 
 #### Expanding HealthCheck
 
-Last step to do is exxpand the health check so that it is aware of the Redis. Redis is now integral part of our app. If its not available the app can't function properly.
+The last step to do is expand the health check so that it is aware of the Redis. Redis is now an integral part of our app. If it's not available the app can't function properly.
