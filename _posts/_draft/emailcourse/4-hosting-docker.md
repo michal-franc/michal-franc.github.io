@@ -1,6 +1,6 @@
 Last lesson we have build a simple microservice with basic core blocks. We have tested by running it on your local machine. 
 
-This lesson is all about hosting this service somewhere. By hosting, I mean running it somewhere else than just console using Kestrel server.
+This lesson is all about hosting this service somewhere. By hosting, I mean running it somewhere else than console using Kestrel server.
 
 As this course is technology agnostic (or should be). Our hosting platform of choice will be Docker.
 
@@ -16,13 +16,13 @@ Now you should be ready to get to the world of Docker. I am assuming that your m
 
 Make sure you have some space on your hard drive. I did a mistake and killed my mint installation. Docker images can get 'heavy' (thanks to that, I have discovered how to extend partitions in Mint)
 
-To test if Docker is properly running on your machine.
+To test if Docker is running on your machine.
 
 ```
 docker ps
 ```
 
-This is just to prove that Docker is happy and running. This will return empty list at the moment as we haven't done anything yet. PS command lists all the running containers.
+This is to prove that Docker is happy and running. This will return empty list at the moment as we haven't done anything yet. PS command lists all the running containers.
 
 You can add option -a and get a list of current and closed containers. 
 
@@ -34,7 +34,7 @@ docker ps -a
 
 To run our app in docker we need to add
 
-Dockerfile. This is a file that describes how to build our 'app'. Ok, not exactly how to build but how to generate the context. All the different parts needed for our app. Typically it involves adding some base image which contains an operating system and then creating all the folders, files, downloading required packages. The image here means something similar to a build package.
+Dockerfile. This is a file that describes how to build our 'app'. Ok, not exactly how to build but how to generate the context. All the different parts needed for our app. It involves adding some base image which contains a system to run it and creating all the folders, files, downloading required packages etc. The image here means something like a build package.
 
 To start we need to add a file 'Dockerfile'.
 
@@ -51,9 +51,9 @@ RUN dotnet restore
 
 CMD [ "dotnet", "run" ]
 ```
-Ok, what is happening here. Dockerfile contains commands, here you can see FROM, RUN, COPY, CMD etc. Dockerfile is just a list of commands that's it. There is more magic into it as every Command generate a 'delta' of our image. Something like git, every command is a commit to our 'image'. So images are build of multiple smaller commits applying changes on top of previous one. Those commits are called layers. When you rebuild an image only changed layers are modified. This makes it 'faster' as you can cache the layers. Images once constructed are also read-only. You need to create a new image and use the previous one as a base to modify it. 
+Ok, what is happening here. Dockerfile contains commands, here you can see FROM, RUN, COPY, CMD etc. Dockerfile is a list of commands. There is more magic into it as every Command generate a 'delta' of our image. Something like git, every command is a commit to our 'image'. So images are build of many smaller commits applying changes on top of previous one. Those commits are called layers. When you rebuild an image only changed layers are modified. This makes it 'faster' as you can cache the layers. Images once constructed are also read-only. You need to create a new image and use the previous one as a base to change it. 
 
-In the example above we use 'dotnet:latest' as a base image. This one is pretty heavy around 860MB but it contains all you need to run a dotnet app. There are for sure smaller images. You can also create your own, but right now not to overcomplicate things we will use the official Microsoft one that has the highest chance of being 'stable'. The base image is loaded and cached on your filesystem the first time you build it. So don't worry you won't have to download 860MB of data every time.
+In the example above we use 'dotnet:latest' as a base image. This one is pretty heavy around 860MB but it contains all you need to run a dotnet app. There are for sure smaller images. You can also create your own, but right now we will use the official Microsoft one. It has the highest chance of being 'stable'. The base image is loaded and cached on your filesystem the first time you build it. So don't worry you won't have to download 860MB of data every time you do it.
 
 ```
 RUN  mkdir -p /usr/src/microservice
@@ -130,7 +130,7 @@ A bit info about options used here.
 -p = opens the port 5000 for the host machine
 And the name of the image.
 
-the run command returns ID of newly created container. You can all the running containers using.
+the run command returns ID of created container. You can all the running containers using.
 
 ```
 docker ps
@@ -142,7 +142,7 @@ The final test is to check if port 5000 is returning anything.
 http localhost:5000/status/health
 ```
 
-Hah, awesome we have just hosted our app in Docker container!
+Hah, awesome we have hosted our app in Docker container!
 We can now start another copy of this application!
 
 With
