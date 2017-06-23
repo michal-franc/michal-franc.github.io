@@ -1,14 +1,14 @@
-This time around we are going to add simple persistence using 'Redis'.j
+This time around we are going to add simple persistence using 'Redis'.
 
 Why Redis? Because it is simple (in our scenarios). Redis is a key-value store, something like a Dictionary (or Hashtable) as a Database.
 
 <image of what we want to create> -> redis + service + get + post
 
-Our microservice will use the redis to store some 'data' and later on retrieve it.  We need to create a redis database and run it in Docker container. Ideally, you shouldn't be running something stateful on containers. But for this test system, we will do it. 
+Our microservice will use the redis to store some 'data' and later on retrieve it.  We need to create a redis database and run it in Docker container. Tou shouldn't be running something stateful on containers. But for this test system, we will do it. 
 
 #### Why stateful and containers are not happy together?
 
-The idea behind container is that you can easily replace it. Databases are stateful, it means that they need to store the data somewhere. In this case on the file system inside the container. Assuming that containers are easily replaceable and instead of maintaining stability and SLA of single container you rather achieve that by having multiple containers doing the same thing. It means that the data can be lost. There are ways to make it more stable using volumes and storing the data in the 'host' running containers, but as from experience, it is usually better to run DB as a standalone server, not a container. For this course, we will keep things 'simple', well for now at least.
+The idea behind container is that you can replace it. Databases are stateful, it means that they need to store the data somewhere. In this case on the file system inside the container. Assuming that containers are easily replaceable and instead of maintaining stability and SLA of single container you rather achieve that by having multiple containers doing the same thing. It means that the data can be lost. There are ways to make it more stable using volumes and storing the data in the 'host' running containers, but as from experience, it is usually better to run DB as a standalone server, not a container. For this course, we will keep things 'simple', well for now at least.
 
 
 #### Creating redis image and container
@@ -40,7 +40,7 @@ docker run --name redis -d workshop/redis
 
 ```
 
-We are explicitly setting the running container name to redis, for ease of use. By default, Docker generates this names for use.
+We are setting the running container name to redis, for ease of use. By default, Docker generates this names for use.
 
 We can now step into the container and check if redis is running.
 
@@ -228,7 +228,7 @@ Transfer-Encoding: chunked
 world
 ```
 
-We can go to redis container and check directly if data is there.
+We can go to redis container and check if data is there.
 
 ```
 docker exec -it redis sh
@@ -239,10 +239,10 @@ docker exec -it redis sh
 
 #### Stabilising the code a bit
 
-This was just a proof of concept, the code is a bit unstable.
+This was a proof of concept, the code is a bit unstable.
 
 - stabilise the code
 
 #### Expanding HealthCheck
 
-The last step to do is expand the health check so that it is aware of the Redis. Redis is now an integral part of our app. If it's not available the app can't function properly.
+The last step to do is expand the health check so that it is aware of the Redis. Redis is now an integral part of our app. If it's not available the app can't function.
