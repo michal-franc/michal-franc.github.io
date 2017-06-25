@@ -72,7 +72,7 @@ There is one important command that we need to run now.
 ```
 CONFIG SET protected-mode no
 ```
-By default, Redis works in a protected mode and allows access, for the cli tool, from loop-back interface only - localhost. We will, later on, be connecting to Redis from a different container using Redis-CLI and this protection has to be taken off for that. This, of course, is an unsafe option for production. Don't try it home.
+By default, Redis works in a protected mode and allows access, from loop-back interface only - localhost. We will, later on, be connecting to Redis from a different container using Redis-CLI and this protection has to be taken off.  This is of course not production 'safe'.
 
 To exit cli and the terminal in container.
 
@@ -246,16 +246,24 @@ docker exec -it redis sh
 127.0.0.1:6379> KEYS *
 1) "hello"
 ```
+We have a basic version of a distributed system!
 
-#### Stabilising the code a bit
+#### Stabilising the code
 
-This was a proof of concept, the code is a bit unstable.
+This was a proof of concept, the code is a bit unstable. Things we need to do is:
+- move multiplexer to container, based on documentation it needs to be reused
+- add a healthcheck
 
-- stabilise the code
+**Multiplexer**
 
-#### Expanding HealthCheck
+Startup.cs
+```
 
-The last step to do is expand the health check so that it is aware of the Redis. Redis is now an integral part of our app. If it's not available the app can't function.
+```
+
+**HealthCheck**
+
+The last step to do is expand the health check so that it is aware of the Redis. It is now an integral part of our app. If it's not available the app can't function.
 
 
 #### More Links
