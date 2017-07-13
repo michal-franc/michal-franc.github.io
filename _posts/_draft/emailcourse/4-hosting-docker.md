@@ -32,16 +32,14 @@ docker ps -a
 
 #### Moving app to Docker
 
-To run our app in docker we need to add
-
-Dockerfile. This is a file that describes how to build our 'app'. Ok, not exactly how to build but how to generate the context. All the different parts needed for our app. It involves adding some base image which contains a system to run it and creating all the folders, files, downloading required packages etc. The image here means something like a build package.
+To run our app in docker we need to add Dockerfile. This is a file that describes how to build our 'app'. Ok, not exactly how to build but how to generate the context. All the different parts needed for our app. It involves adding some base image which contains a system to run it and creating all the folders, files, downloading required packages etc. The image here means something like a build package.
 
 To start we need to add a file 'Dockerfile'.
 
 Dockerfile
 
 ```
-FROM Microsoft/dotnet:latest
+FROM microsoft/dotnet:latest
 
 RUN  mkdir -p /usr/src/microservice
 WORKDIR /usr/src/microservice
@@ -215,7 +213,7 @@ If we introduce ENTRYPOINT, CMD is used to provide default params.
 now we can rebuild the image
 
 ```
-docker build --no-cache -t workshop/micro-web.
+docker build --no-cache -t workshop/micro-web .
 ```
 
 and run  multiple containers with 
