@@ -23,7 +23,7 @@ EXPOSE 6479
 ENTRYPOINT ["/usr/bin/redis-server"]
 ```
 
-Alpine is a lightweight distribution of Linus. Commands:  'apk update', 'apk get' are equivalents of Ubuntu apt-get package manager.
+Alpine is a lightweight distribution of Linux. Commands:  'apk update', 'apk get' are equivalents of Ubuntu apt-get package manager.
 
 EXPOSE is a command to 'expose' a port to other containers. This port won't be visible to the host. If you want some port visible to the host you need to use -p on run command. We did this before with micro-web examples.
 
@@ -212,7 +212,7 @@ Time to test it.
 
 ```
 docker build -t workshop/micro-db .
-docker run -link redis:db -d -p 5010:5010 workshop/micro-db 5010
+docker run --link redis:db -d -p 5010:5010 workshop/micro-db 5010
 ```
 
 Remember to name the link as db, as the env name is hardcoded for now.
