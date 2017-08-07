@@ -2,14 +2,13 @@ Today:
 - introduction to customized dotnet templates
 - overview of microservices running jobs
 
-Last lesson before we start building a (simplified) distributed shop system like amazon. 
+Last lesson before we start building a distributed shop system like amazon. 
 
-#### Custoimzed templates
+#### Customized templates
 
-After using 'dotnet new' you might have wondered if it is possible to add your own templates to speed up the work. Yes it is possible. 
+It is possible to extend available templates for 'dotnet'. 
 
-I have created my own templates - [you can check them here][0]
-These are going to be used in the upcomming lesson.
+I have created some for this course - [you can check them here][0]
 
 More info on how to build new templates:
 [dotnet/templating][1]
@@ -18,7 +17,7 @@ More info on how to build new templates:
 To install:
 
 ```
-git clone git@github.com:mfranc-workshop/dotnetcore-templates.git ( or use http if you dont have ssh set up)
+git clone git@github.com:mfranc-workshop/dotnetcore-templates.git ( or use http if you dont have ssh )
 
 dotnet new -i dotnetcore-templates/micro-basic
 dotnet new -i dotnetcore-templates/micro-job
@@ -26,18 +25,25 @@ dotnet new -i dotnetcore-templates/micro-job-rabbit
 ```
 
 **Micro-basic**
-It is a template to generate a simple microservice using asp.net core that exposes a controller. This one is used as a main base for most of the microservices. Very similar to the one we have built in previous lessons.
+Generates microservice using asp.net core with a simple controller. Used as a base for most of the microservices in this course. Similar to ones we have built in previous lessons.
+
+Used in:
+- functionality waiting for external requests
+- exposing api
 
 **Micro-job**
 
-Similar to Micro-basic - adds Quartz job scheduler. Typical micro-service requires some action from the external source to start working. Job schedules enables to do it from the inside of micro-service. Used in services that are initiating action, like sending requests to other services or consuming messages form queues etc.
+Extension of Micro-basic - adds Quartz job scheduler. In typical scenario, with endpoint exposing api, service waits for user input to initiate action. Scheduler can start internal actions based on scheduled jobs.
+
+Used in:
+- functionality that can start on its own in scheduled task
+- message queue consumption
+- scheduled actions sent to other services
 
 **Micro-job-rabbit**
-Adds RabbitMQ binding. RabbitMQ is a message-broker that implements AMQP - used as a message queue to create decoupled communication beetwen services. Build with RawRabbit .NET package, simple rabbit-mq client.
+Micro-job with RabbitMQ preinstalled. RabbitMQ is a message-broker that implements AMQP protocol - used as a message queue to create decoupled communication beetwen services. Build with RawRabbit .NET package. [Great blog post from a friend of mine - Piotr Gankiewicz about RawRabbit][3]
 
-[Great blog post from a friend of mine - Piotr Gankiewicz about RawRabbit][3]
-
-**Using new template**
+**Using templates**
 ```
 dotnet new micro-basic --name <name> -o <folderOutput>
 
@@ -45,38 +51,36 @@ dotnet new micro-basic --name <name> -o <folderOutput>
 <folderOutput> - where to put the code
 ```
 
-Templating engine is quite unstable and not feature complete. For instance if you want to remove templates. You can't. The only way to get rid of them is to reset dotnet templating completetly, using.
+Templating engine is still unstable and not feature complete. For instance if you want to remove templates - there is no option to do that. The only way to get 'remove' new templates is to reset dotnet templating completetly to 'factory' settings.
 
 ```
 dotnet new --debug:reinit
 ```
 
-
 #### Micro - Job - Microservice with scheduler.
 
-In a typical scenario service waits for external calls to start working. If we have a service that for instance calls external banking system. This services waits for the user to do something related to external banking system. User(could be other service, system or client app) sents a request to 'do something', this makes service to 'do something'.
+In a typical scenario deployed service exposes its functionality through endpoint and awaits requests. In this scenario, given service that calls external banking system, request is generated from 'external' source - other service, client app, different system etc.
 
 <image endpoint initiate action>
 
-There is another scenario. Service can initiate action on its own. This is usefull in many cases:
+Not all services are like that. There are requirements where service has to initiatie action 'internaly' based on a scheduler. 
 
-- service sends a request once a day to other service, eg take backup
-- monitoring service that verifies if other services are online
-- service that periodically checks external message queue and waits for asynchoronosu operation to do
+This is usefull in:
+- service sending requests to other services, eg daily backup
+- monitoring service to verify health of other services
+- service that periodically checks message queue and consumes messages performing an action
 
 <image of scheduled service>
 
 **Building a service that pings google.com**
-
-Imagine a scenario where we need to make sure that google.com is available. I know unlikely, oh that would be a historical event. Of course there are various monitoring tools that will do it for us but lets build one on our own.
+Imagine a scenario - we need to make sure that google.com is available. There are monitoring tools available but lets build one on our own.
 
 ```
 dotnet new micro-job --name micro-check-google -o micro-check-google
 dotnet restore
 dotnet run 5000 <- port number
 ```
-
-This starts web app that in the hood has a scheduler with a job running every 60 sec. All this job does is add logs.
+Web app with scheduler is running. Every 60 sec job is started that logs information.
 
 Example of log:
 
@@ -90,16 +94,11 @@ Example of log:
 Code of the job is inside 'Jobs/CoreJob.cs'.
 
 Code:
-
 ```
 
-publicc class CoreJob : IJob
+public class CoreJob : IJob
     {
         private ILogger _logger = LogManager.GetCurrentClassLogger();
-
-        public CoreJob()
-        {
-        }
 
         public Task Execute(IJobExecutionContext jobContext)
         {
@@ -118,18 +117,13 @@ publicc class CoreJob : IJob
     }
 ```
 
-Every job has to inherit froj IJob interface and expose Execute method. Quartz scheduler runs this method in specified time interval( example here 60s).
+In Quartz - to create a Job you need to implement IJob interface. IJob contains 'Execute' method invoked by scheduler in intervals(xx seconds/minutes/hours etc). Interested in Quartz? Check - [Official docs here][4].
 
-There are more details on how to properly add Quartz to the app, we are not going into those in this course. [Official docs here][4].
-
-Some hints around the code:
-- MainSscheduler.cs - code used to create a scheduler and bind Jobs with Start and Stop Method. Start is used in Startup.cs.
-- Basic IOC using SimpleInjector package. Container is added to SchedulerFactory addint DI capabilities inside Jobs.
-- Scheduler is disposed using container dispose, on app stopping event - IApplicationLifetime
+I mentioned scheduler, this one is created in 'MainScheduler.cs'. It has 'Start' method used to create Triggers and Schedule Jobs. There is only one job for now.
 
 #### Pinging google
 
-Checking if google is alive should be easy. Sending simple get request and checking StatusCode 200 is the perfect solution. This code will replace basic CoreJob.cs.
+Checking if google is alive should be easy. Simpliest solution? Send request and check the status code if its 200 the its fine.
 
 
 Full CoreJob.cs code
@@ -176,13 +170,9 @@ namespace micro_check_google.Jobs
     }
 }
 ```
+I don't want to add http requests packages. Basic HttpClient is all we need.
 
-Sending GET request .NET barebones libraries looks complicated, but we don't want to add other packages here etc
-
-
-On next run logs should have.
-
-
+Next run should show this in logs.
 ```
 2017-07-15 22:55:50.4569 CoreJob Google is fine, we are saved 
 2017-07-15 22:56:50.1304 CoreJob CoreJob Executing 
@@ -190,8 +180,7 @@ On next run logs should have.
 2017-07-15 22:56:50.3248 CoreJob Google is fine, we are saved 
 ```
 
-Simple job runner that executes actions without external input, finished.
-
+We will be building many jobs like that in the future project. Microservices based shop.
 
 [0]: https://github.com/mfranc-workshop/dotnetcore-templates
 [1]: https://github.com/dotnet/templating
