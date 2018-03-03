@@ -1,9 +1,0 @@
-Oh no, it happened I was trying to avoid this and ignore everything that was happening in JS world but my team and our reactjs work got me. I am not sure if I would ever think that I might say it but ... this will be hard ... "I like Javascript!" ... here did it ... uff.
-
-If you know me personally you might now that i was whining a lot about JS 2-3 years ago. Touched by beatifull times of Jquery and crazy spaghetti code I had really bad memories that need to be erased.
-
-Why JS community is getting there with software engineering principles.
-How Angular transformed the community. How this communiyt was now reainveting the whell and now is influencing everywone else.
-If a language if incluencing others then it is probably mature enought to be considered.
-
-FLUX architecture, will influence microsoft or .NET community to build a framework that will use this approach. MVC is dead.

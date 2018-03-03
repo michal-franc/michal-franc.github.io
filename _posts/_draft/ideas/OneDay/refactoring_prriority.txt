@@ -1,3 +1,0 @@
-How do i measure importance ? There are important products and not important products. Ideally i would measure two statistics. Number of bugs related to this part of the code base and number of changes done on this part. Then i would prioritize places that are changed the most and are causing most bugs with those changes as this is the good signal that something has to be bad with the code if the changes are difficult and costly.
-
-Also every product has features that are used a lot and aren't used at all. So of course refactoring code related to not used or barely used features is not that important.

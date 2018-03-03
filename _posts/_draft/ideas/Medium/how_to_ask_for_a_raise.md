@@ -17,7 +17,3 @@ http://www.daedtech.com/how-to-get-a-raise/
 PS3: Otwartosc w rozmowach o pieniadzach oznacza ze tez wykazujesz postawe ze jak szef ci porzadnie uargumentuje dlaczego nie moze wiecej zaplacic, nie jestes wiecej wart to zaakceptujesz te decyzje i nie bedziesz strzelal fochow ( ewentualna zmiana pracy to inna sprawa ). Ja robilem kiedys ten blad ze chcialem podwyzke 'BO TAK' 'BO mi sie nalezy' to zle podejscie.
 
 PS4: czasem tez trzeba sie pogodzic z tym ze firmy na ciebie nie stac i wtedy podjac odpowiednia decyzje ktora uznasz za sluszna.
-
-PS4: czasem tez trzeba sie pogodzic z tym ze firmy na ciebie nie stac i wtedy podjac odpowiednia decyzje ktora uznasz za sluszna.
-PS4: czasem tez trzeba sie pogodzic z tym ze firmy na ciebie nie stac i wtedy podjac odpowiednia decyzje ktora uznasz za sluszna.
-PS4: czasem tez trzeba sie pogodzic z tym ze firmy na ciebie nie stac i wtedy podjac odpowiednia decyzje ktora uznasz za sluszna.
