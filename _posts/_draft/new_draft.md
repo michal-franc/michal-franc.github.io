@@ -286,21 +286,159 @@ Tutaj z pomoba przybyl mi kolega @krzaq (link do blogaska) ktory zauwazyl ze w n
 
 Nigdy nie spodziewalem sie ze az takie dygresje i informacje bedzie mozna wyczytac z kodu sortowania. Lecimy dalej.
 
-Then there is a switch statement that pick up correct IntrospecriveSort implementaiton bassed on Type. Its cpp so probably using templates generted per type (more powerfull generics)?
+```
+switch(keysElType) {
+```
+
+Wchodzimy coraz glebiej i zaczhaczamy o moment wyboru ktorej implementacji Sortowania wybierzemy.
+
+Mamy typy:
+Informacje o nich znajdziemy na 
 
 https://docs.microsoft.com/en-us/dotnet/framework/unmanaged-api/metadata/corelementtype-enumeration
-Types enum defined here.
 
-Switch statement covers unsigned and signed integers.
+https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.cordebuginterop.corelementtype?view=visualstudiosdk-2017
 
-Logic is different for Floating points arrays as there is a step to move all the NaN's values to the front of the Array + moving left index to start on the 'real' values. This is a optimization technique? as NaN's you cant check these.
+```
+    ELEMENT_TYPE_BOOLEAN        = 0x2, = Bool
+    ELEMENT_TYPE_CHAR           = 0x3, = Char
+    ELEMENT_TYPE_I1             = 0x4, = SByte
+    ELEMENT_TYPE_U1             = 0x5, = Byte
+    ELEMENT_TYPE_I2             = 0x6, = Short
+    ELEMENT_TYPE_U2             = 0x7, = UShort
+    ELEMENT_TYPE_I4             = 0x8, = Int
+    ELEMENT_TYPE_U4             = 0x9, = UInt
+    ELEMENT_TYPE_I8             = 0xa, = Long
+    ELEMENT_TYPE_U8             = 0xb, = ULong
+    ELEMENT_TYPE_R4             = 0xc, = Float
+    ELEMENT_TYPE_R8             = 0xd, = Double
+    ELEMENT_TYPE_I              = 0x18, = IntPtr
+    ELEMENT_TYPE_U              = 0x19, = UIntPtr
+```
 
-Then  there is a check for sscenario - what if whole array was of NAN's and left == right index so actually we dont have anything to sort.
+Mamy dwa przypadki w ktorych sytuacja jest nieokreslona
 
-And we can Finally get to the 'algorithm that is surprisingly called Introspective Sort. IF you google that  https://en.wikipedia.org/wiki/Introsort
-Is a hybrid sorting algorithm that switches from quick sort to heapsort on 'specified' recursion level' this is a technique to make QuickSort wors-case performance O(n^2) (in case of sorted array and pivot point in not the best place and change to heap sort) 
+```
+    case ELEMENT_TYPE_I:
+    case ELEMENT_TYPE_U:
+        // In V1.0, IntPtr & UIntPtr are not fully supported types.  They do 
+        // not implement IComparable, so searching & sorting for them should
+        // fail.  In V1.1 or V2.0, this should change.  
+        FC_RETURN_BOOL(FALSE);
 
-Why is changing to heap sort making worst case better?
+    default:
+        _ASSERTE(!"Unrecognized primitive type in ArrayHelper::TrySZSort");
+        FC_RETURN_BOOL(FALSE);
+```
+
+Czemu nie jest to calosc default - mozliwe ze bylo duzo pytan o wsparcie dla 'wskaznikow' stad jest tutaj dodatkowo klauzula - jak widac nic sie tu nie zmienilo - ciekawe czym jest v1.1 i v2.0 - co ciekawe autor komentarza pisze tutaj o 'shoul fail' gdzie tak naprawde wiemy ze zwrocenie false z metody TrySZSort wywola sortowanie inne.
+
+
+```
+   case ELEMENT_TYPE_I1:
+    ArrayHelpers<I1>::IntrospectiveSort((I1*) keys->GetDataPtr(), (I1*) (items == NULL ? NULL : items->GetDataPtr()), left, right);
+    break;
+```
+
+Wiec dla kazdego typu zdefinwanego w tabelcne odpalana jest specjalnia generyczna funkcja Sortujaca.
+
+```
+ArrayHelpers<I1>::IntrosepctiveSort(elementy_listy, null, 0, length -1)
+```
+
+W przypadku ktory omawiany i sortowania calej listy parametry beda wyglada tak drugi parametr nie bylby nullem gdyby byla to wczesniej wspominana sortedList ktora jest slownikiem i ma w sobie klucze i  wartosci
+
+
+Dla Floata i Double wwyglada to troche inaczej
+
+
+```
+    case ELEMENT_TYPE_R4:
+    {
+        R4 * R4Keys = (R4*) keys->GetDataPtr();
+        R4 * R4Items = (R4*) (items == NULL ? NULL : items->GetDataPtr());
+
+        // Comparison to NaN is always false, so do a linear pass 
+        // and swap all NaNs to the front of the array
+        left = ArrayHelpers<R4>::NaNPrepass(R4Keys, R4Items, left, right);
+        if(left != right) ArrayHelpers<R4>::IntrospectiveSort(R4Keys, R4Items, left, right);
+        break;
+    };
+```
+
+Przedewszystkim jest tutaj widoczna funkcja NaNPrepassA
+
+```
+    // For sorting, move all NaN instances to front of the input array
+    template <class REAL>
+    static unsigned int NaNPrepass(REAL keys[], REAL items[], unsigned int left, unsigned int right) {
+        for (unsigned int i = left; i <= right; i++) {
+            if (_isnan(keys[i])) {
+                REAL temp = keys[left];
+                keys[left] = keys[i];
+                keys[i] = temp;
+                if (items != NULL) {
+                    temp = items[left];
+                    items[left] = items[i];
+                    items[i] = temp;
+                }
+                left++;
+            }
+        }
+        return left;
+    }
+```
+
+Funkcja ta w czasie O(n) iteruje po liscie, wyszukuje w niej wartosci 'null' przesuwa je na poczatek listy i przesuwa parametr left. DZieki temu wartosci Null ktore sa nieokreslone nie beda wplywac na dalsze dzialanie algorytmu sortowania poniewaz nie da sie ich posortowac. Zalozone tutaj jest ze Null bedize na poczatku.
+
+TA operacja mimo tego ze wydaje sie O(n) wiec mozna zalozyc ze po co ja robic nie wplywa na asymptotycznosc zlozonosc calego procesu sortowania. W dalszej czesci algorytm uzywa (IntroSort(wiecej o tym pozniej)) ktory ma najgorszy case O(nlogn) wiec sortowanie bylo by zlaczeniem tych wartosci O(n) + O(nlogn) jak wiemy bierzemy najwiekszy czynnik przy wyzcanieniu koncowego O wiec bedzie to dalej O(nlogn) gdyz O(n) jest mniejsze niz O(nlogn). Asymptotycznie ta operacja nie zwieksza naszej zlozonosci ale zapewne wplywa korzystnie na praktyczne dzialanie algorytmu sortowania zmniejszajac jego czas uruchomienia. 
+
+<Tu przydalby sie test empiryczny dowodzacy temu>
+
+Po tych przejsciach mysle ze mozna przejsc juz do algorytmu :) Tyle tekstu a my dopiero przejdziemy do Algorytmu sortowania ... pieknie.
+
+
+```
+    // Implementation of Introspection Sort
+    static void IntrospectiveSort(KIND keys[], KIND items[], int left, int right) {
+        WRAPPER_NO_CONTRACT;
+
+        // Make sure left != right in your own code.
+        _ASSERTE(keys != NULL && left < right);
+
+        int length = right - left + 1;
+
+        if (length < 2)
+            return;
+
+        IntroSort(keys, items, left, right, 2 * FloorLog2(length));
+    }
+```
+
+Mamy tu kolejne sprawdzenia parametrow wejsciowych. Sprawwdzenie  czy jest w ogole sens cokolwiek sprawdzac, jezeli right - left + 1 = <2 to jest to albo 1 albo 0 elementowa tablica wiec nie ma sensu z nia nic robic.
+
+NAstepnie mamy wywolanie algorytmu IntroSort. Tyle bylo mowione o QuickSorcie a tu prosze cos innego, IntroSort. Czemu tak?a
+
+```
+procedure sort(A : array):
+    let maxdepth = ⌊log(length(A))⌋ × 2
+    introsort(A, maxdepth)
+
+procedure introsort(A, maxdepth):
+    n ← length(A)
+    if n ≤ 1:
+        return 
+    else if maxdepth = 0:
+        heapsort(A)
+    else:
+        p ← partition(A) 
+        introsort(A[0:p], maxdepth - 1)
+        introsort(A[p+1:n], maxdepth - 1)
+```
+
+Moze pierw omowiony czym jest intro sort a nastepnei przejdziemy do tego jakie daje benefity. IntroSort to quicksort ktory zamienia sie w HeapSort. Zaczyna od quick sorta by w pewnym momencie 'zaglebienia' wezla zamienic sie w heap sort. W przypadku implementacji zachodzi tutaj jeszcze InsertionSort ale to omowimy dodatkowo jakie ma benefity :)
+
+Quciksort ma to do siebie ze posiada najgorszy czas uruchomienia w granicach O(n^2). Sredni oczywiscie jest bardzo korzystny w granicach O(nlogn). 
 
 Source:
 https://bytes.com/topic/c-sharp/answers/817547-what-sz-array#post3257964
@@ -313,4 +451,4 @@ https://en.wikipedia.org/wiki/Two%27s_complement
 http://www.cs.utexas.edu/users/EWD/transcriptions/EWD08xx/EWD831.html
 https://softwareengineering.stackexchange.com/questions/110804/why-are-zero-based-arrays-the-norm
 http://me.dt.in.th/page/Quicksort/
-
+https://en.wikipedia.org/wiki/Introsort
