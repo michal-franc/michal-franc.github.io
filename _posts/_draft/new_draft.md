@@ -1,4 +1,24 @@
-Jadro Ciemnosci - Quick Sort in .NEt
+Everything you wanted to know about Sorting in .NET
+
+- Why writing this post?
+- Chapters summary
+
+1. We will talk about Sorting why it is important, why it is good to know certain patterns and behaviours.
+  - Why is it usefull to have this kind of knowledge?
+  -- Where sorting is important?
+  -- What kind of things you need:
+  --- to know
+  --- could be usefull to know
+  -- Sorting assumptions from CS courses vss Real World?
+2. We will go deep down to .NET and start getting deep inside the framework starting with List.Sort() operation discussing what is happening
+  - Stack Trace road to the Algorithm
+  - IEnumerable _version and state management
+  - 
+3. We will discuss IntroSosrt .NET Sorting implementation
+4. We will discuss Sort algorithms tradeoffs and design decision chosen by the .NET creators
+5. Discussion around other frameworks and what sorting algorithms they have and why this idea
+
+---------------------------- Wprowadzenie -----------------------------
 
 I have recently spent a lot of time learning the programming basics. It is mainly related to my inner need of filling knowledge gaps. I mean here things like: algorithmics, data sturctures, computational complexity, etc. I feel sometimes that I entered job market too quickly and focused too much on being 'coding-monkey'. With time, I noticed an increase in the number of problems that required these basics. There was a feeling that, I am missing something. The turning point in this entire process was my previous and current company. All in all, it's only now after 9-10  years that, I feel like an engineer.
 
@@ -84,9 +104,26 @@ def __quicksort(array, start, stop):
 
 Kod nadal w zasadzie odpowiada pseudokodowy. Python naprawde jest wyjatkowy.
 
+------------------ Wstepne pokazanie quick sorta w Pythone ------------------
+
  Napisanie wlasnych implementacji to tylko pierwszy krok do zrozuminia algorytmu. By wkrecic sie jeszcze bardziej postanowilem sprawdzic jak to jest w .NETie. Jak wyglada implementacja QuickSorta. Z tego co pamietam na tym algorytmie opieral sie .NET. Okazalo sie to fajnym zrodlem informacji i wiedzy. Ten post jest w zasadzie o tym. Analizie algorytmu QuickSort w .NET.
 
-----------------------------------------
+Ponizej znajduje sie spis tresci tego blog posta. Jest tutaj duzo szcegolow i informacji ktore nie musza byc dla kazdego interesujace. Jezeli interesuje cie tylko i wylacznie QuickSort i jego implementacja (tak naprawde introsort) to zapraszam do odpowiedniej sekcji. 
+
+'StackTrace'
+- List.Sort()
+ * internal representation of the list
+ * _version++ - state change based version management 
+- Array.Sort()
+- TrySZSort()
+ * what is SZSort?
+ * Visual Basic and the world of non one based arrays
+- Native Cpp call
+
+- omowienie introsorta
+- omowienie roznych algorytmow 
+- Zakonczenie
+
 
 Postanowilem wystartowac od Listy. Podstawowej kolekcji ktora ma metode .Sort(). Metoda ta ma dwie opcje albo uzyjemy domyslnego IComparer albo dostarczymy swojego. Zaczniemy od wersji domyslnej bo jak sie okazuje te dwie wersje nie roznia sie w zasadzie kodem ale roznia sie juz miejscami gzdie sa wolane.
 
@@ -441,6 +478,201 @@ Moze pierw omowiony czym jest intro sort a nastepnei przejdziemy do tego jakie d
 Wiec co jest nie tak z QuickSortem? PRoblemem jest tutaj zachowanie w najgorszym przypadku gdy tablica na ktorej operujemy jest juz calkowicie badz w wiekszosci posrotowania. Wtedy mamy czas zlozonoscy na poziomie O(n^2). Badania empiryczzne wykazaly ze pomimo tej cechy Quick Sort i tak dziala szybciej niz inne znane nam algorytmu stortuajce. Nie zmienia to oczywiscie tego ze mozna dalej ten algorytm usprawniac i mozliwe ze da sie pozbyc tego O(n^2). Do akcji wkracza tutaj heapsort ktory ma zarowno sredni jak i najmniej korzysty scenariusz O(nlogn). Spostrzegawcza osoba moglaby teraz powiedizec, hallo halloo, skoro HeapSort ma takie cechy ktore sa lepsze niz Quicksort to dlaczego nie uzyc odrazu HeapSorta. Po co bawic sie z QuickSortem. Ano wlasnie z powodu tego ze analiza O jest wielka abstrakcja ktora moze ukryc 'realny swiat'. Intuicja podpowiadaa nam ze HeapSort powinien byc lepszy a jednak okazuje sie ze w swiecie realnych danych to QuickSort okazuje sie najlepszy, ma tylko pewnie minusy ktore statystycznie nawet jak wystepuja to i tak powoduja ze algorytm ten dziala szzybciej niz inne (przy zalozeniu ze dane nie sa zawsze posorotwane wtedy to w zasadzie mozna uzyc Bubble Sort :D tlko po co sortowac posorotwane dane).
 
 Mala dygresja - bardzo duzo w algorytmach sortuajcych zalezy od wejsciowych danych i tego jakie maja charakterystyki. Jezeli to reczywiscie jest pelny random dane to quick sort wypada najlepiej. JEzeli natomiast mozna znalezc w tych danych pewne cechy wspolne ktore np ukladaja sie w 'rozklad normalny' to wtedy algorytmy z rodziny 'bucket sort' (czemu) robia dobra robote. Istneiej tez cala rodzina problemow 'external sorting algorithms' tzn takich w ktorych dane nie mieszcza sie w pamieci i trzeba tez je dociagac. MErge Sort <tutaj dopisz ze on jest good external i dlaczego>  Tutaj tez pojawia sie kwestia tego jak te dane otrzymujemy i czy mamy ich calosc odrazu. Zalozmy np sytuacje w ktorej otrzymuje dane w paczkach (jakis stream). By te dane moc posorotwac quicksortem bedziemy potrzebowac zebrac caly strumien, poczekac na niego i dopiero wtedy odpalic quick sorta. Z pomoca moze nam przyjsc heap sort ktory pozwala odpalic sortowanie na pofrafmentowanych zbiorach danych ktore przychodza z czasem, nie potrzebujemy calego zbiory juz gotowego - wystarczy miec cokolwiek by zaczac. Jest tez kwestia czy algorytm jest stabilny czy nie ...
+
+<dlaczego max depth to log2() * 2>
+<dlaczego insertion sort -> https://rosettacode.org/wiki/Sorting_algorithms/Insertion_sort -> chyba chodzi o locality of data>a
+
+Dlaczego przelaczac sie na heapsorta przez depth limit? Zachowanie QuickSorta O(n^2) wystepuje w momencie gdy algorytm tworzy duzo malycch podzialow poniewaz nie moze dobrac dobrze pivota przy posortowanej liscie.  PRzejscie na heapsorta likwiduje ten problem i do podzialu nei chodzi.   Jest to swego rodzaju wentyl bezpieczenstwa. FloorLog2 * 2 zapewnia przestrzen gdy podzialy sa nadal dobre i nie ma potrzeby przejsci an heapsorta bo pivot jest wybierany 'dobrze' < pokazac przyklad>   Naatomiast gdy jest prawdopodobienstwo ze cos dzieje sie nei tak i weszlismy w petrle O(n^2) algorytm zauwaza to i dostosowywuej sie przerywajac to zachowanie i operujac na innym algorytmie. 
+
+Wartosc depth Limit nie moze byc za mala - bo bedzie to wywolywac heap sorta za czesto - nie moze tez byc za duza by spedzic za duzo czasu w Quadratic time sortowaniu. Wartosc FloorLotg 2 * 2 empirytcznie przez [paper] zostala wyliczona  jako 'optymalna' i dajaca najlepsze rezultaty.
+
+W przypadku gdy podzialy sa nierowne to miast glebokosc rosnac logarytmicznie rosnie linearnie. Najgorszy scenariusz to possortowania tablica i ilosc podzialow rowna n
+
+Depth of quicksort in ideals scenario is approx log2n
+
+
+Jak to wyglada w kodzie?
+
+https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arrayhelpers.h#L155
+
+```
+    static void IntroSort(KIND keys[], KIND items[], int lo, int hi, int depthLimit)
+    {
+        while (hi > lo)
+        {
+            int partitionSize = hi - lo + 1;
+            if(partitionSize <= introsortSizeThreshold)
+            {
+                if (partitionSize == 1)
+                {
+                    return;
+                }
+                if (partitionSize == 2)
+                {
+                    SwapIfGreaterWithItems(keys, items, lo, hi);
+                    return;
+                }
+                if (partitionSize == 3)
+                {
+                    SwapIfGreaterWithItems(keys, items, lo, hi-1);
+                    SwapIfGreaterWithItems(keys, items, lo, hi);
+                    SwapIfGreaterWithItems(keys, items, hi-1, hi);
+                    return;
+                }
+                
+                InsertionSort(keys, items, lo, hi);
+                return;
+            }
+
+            if (depthLimit == 0)
+            {
+                Heapsort(keys, items, lo, hi);
+                return;
+            }
+            depthLimit--;
+
+            int p = PickPivotAndPartition(keys, items, lo, hi);
+            IntroSort(keys, items, p + 1, hi, depthLimit);
+            hi = p - 1;            
+        }
+        return;
+    }
+```
+
+Funkcja jest jeddnym duzym whilem ktorego waarunkiem stopu jest roznica hi > lo. Hi to nic innego jak nasz poprzedni 'right' index a lo 'left' index. Nie dzieje sie tutaj nic innego jak iterowanie po tablicy in place. W calym tym algorytmie ciezko znalezc quick sort. 
+
+IntroSort Paper David R. Musser
+http://liacs.leidenuniv.nl/~stefanovtp/courses/StudentenSeminarium/Papers/CO/ISSA.pdf
+
+Zanim to jednak omowmy przedstawny podstawowy zarys algorytmu.
+
+ jesli wielkosc partycji <3 
+   - zrob swapa
+ jestli wielkosc partycjji <16
+   - uzyj insertionsorta
+ jessli depthlimit == 0
+   - uzyj heapsorta
+ w innym przypadku wybierz nowy pivot i partycje i wywolal funkcje jeszce raz zmniejszaac limit zagniezdzenia.
+
+```
+   inline static void SwapIfGreaterWithItems(KIND keys[], KIND items[], int a, int b) {
+        if (a != b) {
+            if (keys[a] > keys[b]) {
+                KIND key = keys[a];
+                keys[a] = keys[b];
+                keys[b] = key;
+                if (items != NULL) {
+                    KIND item = items[a];
+                    items[a] = items[b];
+                    items[b] = item;
+                }
+            }
+        }
+    }
+}
+```
+Swapowanie jest dosyc prosta funkcja. Po prostu sortuje waaartosci jesli jedna jest wieksza od drugiej. Jest to standardowa operacja wykonywana w quicksorcie. Co tutaj jest ciekawe to wywolywanie tez etej funkcji w przypadku partycji 3 elementowej. Z pewnoscia jest to optymalizacja ktora ma za zadanie zmniejszych ilosc wywolan glownego algorytmu.
+
+<sprawdzic jaka zmiane empiryczna to tworzy gdyby usunac partitionSize == 3 albo dodac partitionSize == 4, 5, 6, 7, 8, 9, 10>
+
+TAka operacja ma czas uruchomienia O(1) i w calym rozrachunku nie ma zadnego znaczenia.
+
+< czemu introsortSizeThreshold jest 16 a nie inna liczba? jak zostala ona wybrana? >
+
+Przy depth 0 
+Odaplany jest heap sort - nie bedziemy w tym artykule omawiam heap sorta omowimy tylko jego cechy i przedyskutujemy dlaczego warto przy zagniezdzeniu takim a nie innym wykonac heapsorta.
+
+Wiecej o heapsorcie - <link do jakiegos algorytmu>
+
+Quick sort
+
+```
+            int p = PickPivotAndPartition(keys, items, lo, hi);
+            IntroSort(keys, items, p + 1, hi, depthLimit);
+            hi = p - 1;            
+```
+
+https://en.wikipedia.org/wiki/Quicksort
+
+lo + (hi - lo)/2 is to avoid integer overflow
+
+It uses median of 3 algorithm for pivot 
+https://stackoverflow.com/questions/7559608/median-of-three-values-strategy
+
+teen fragment jest tak naprawde quick sortem. Mamy wybranie pivota pomiedzy lo i hi i wywolanie IntroSorta na innym segmencie tablicy. W tym przypadku od pivota do prawa.
+
+
+[     p      ]
+[p      ]
+
+Why picking pivot is soo important?
+
+Dlaczego wybor pivota nie mozna wyliczac po prostu? idealnie? a trzeba estymowac?
+
+Chodzi o koszt wyliczenia idealnego pivota jest on za duzy i tak naprawde idealny pivot nie daje taakich benefitow -> pokazac przyklady.
+
+- Qucik sort would be without weaknessess if its worst case scenario when it can hit O(n^2)
+- when does this worst case happens? when the divide and conquer is not equal and created smaller and bigger arrays -> worst worst case is when the sub arrays are single index based. 
+< explanation here >
+Mostly worst case is -> sorted array
+
+Pivot picking strategy is used to manage risk of hitting worst case - there is a price of course.
+Another strategy is to change the algorithm to use different one and limit the risk of O(n^2).
+
+- the runtime of quick sort is heavilly dependent on correct array splitting. If splitting results in one big array and one small array O can become O(n^2).
+The more equal the splitting the close the O comes to O(nlogn)
+
+The more balanced the split the less recursive calls required -> show example
+
+- why changing to insertion sort
+for small relatively small splits use insertion sorts that performs in linear time for almost ordered sub arrays
+
+- pivot strategies
+All this techniques want to avoid worst case scenario as much as possible
+
+-> left-most | right-most -> susceptibility to O(N^2) when sorted array
+-> random -> sligthly better, reduces risk of O(n^2) -> but random generation costly and unpredictable
+-> Mo3 -> first | (first + last) / 2 | last -> better than random but still not perfect (example on when it will still hit worst case) ( decreases worst case, increases average case)
+-> Mo5 -> Mo3 + 2 random values -> better than Mo3 but random generation is costly
+-> Mo5 -> without random first | (first + last / 4) | (first + last /2 ) | (3 *(first + last ) / 4 ) | last -> but takes time to pick 5 items
+-> Mo7, Mo9 -> increases more balanced split - but the time to pick a pivot increases -> it is interesting challenge to find a balance
+-> there is albo Dynamic Pivot -> takes right-most then does a scan O(n) and and counts less or bigger items than pivot - then uses this values to generate next pivots increasing chance of balanced split 
+(https://www.researchgate.net/publication/235351491_Enhancing_QuickSort_Algorithm_using_a_Dynamic_Pivot_Selection_Technique)
+-> problem with this technique is Extreme - values in the array
+
+In  his paper ISSA.pdf
+
+http://liacs.leidenuniv.nl/~stefanovtp/courses/StudentenSeminarium/Papers/CO/ISSA.pdf
+
+You can find MEdiaan 3 killer so it is still possible to change median algorithms to be quadratic
+
+-> What would happen if I would implement Dynamic Pivot Selection Technique in QuickSort in .NET? or GO?
+
+Why it is always first and last? 
+- it is due to a plan to figth with ordered or almost ordered arrays
+-> can i show some graph with probability of hitting worst case, average case? calculated in python with different techniques?
+
+
+Dual Pivot QuickSort Algorithm
+http://codeblab.com/wp-content/uploads/2009/09/DualPivotQuicksort.pdf
+https://www.geeksforgeeks.org/dual-pivot-quicksort/
+https://stackoverflow.com/questions/20917617/whats-the-difference-of-dual-pivot-quick-sort-and-quick-sort
+
+Jaava python vs .NET?
+https://stackoverflow.com/questions/7770230/comparison-between-timsort-and-quicksort
+https://en.wikipedia.org/wiki/Timsort
+
+What are the internals of quicksort in Go?
+https://golang.org/src/sort/sort.go
+
+Different pivot -> https://www.johndcook.com/blog/2009/06/23/tukey-median-ninther/
+
+Javascsript -
+https://stackoverflow.com/questions/6640347/javascript-native-sort-method-code
+Ecma script doesnt no standardize it
+
+Chrome - v8
+https://github.com/v8/v8/blob/master/src/js/array.js
 
 Source:
 https://bytes.com/topic/c-sharp/answers/817547-what-sz-array#post3257964
