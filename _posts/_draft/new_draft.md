@@ -1,129 +1,83 @@
-Everything you wanted to know about Sorting in .NET
+Everything you wanted to know about Sorting implementation in .NET
 
-- Why writing this post?
-- Chapters summary
-
-1. We will talk about Sorting why it is important, why it is good to know certain patterns and behaviours.
-  - Why is it usefull to have this kind of knowledge?
-  -- Where sorting is important?
-  -- What kind of things you need:
-  --- to know
-  --- could be usefull to know
-  -- Sorting assumptions from CS courses vss Real World?
-2. We will go deep down to .NET and start getting deep inside the framework starting with List.Sort() operation discussing what is happening
-  - Stack Trace road to the Algorithm
-  - IEnumerable _version and state management
-  - 
-3. We will discuss IntroSosrt .NET Sorting implementation
-4. We will discuss Sort algorithms tradeoffs and design decision chosen by the .NET creators
-5. Discussion around other frameworks and what sorting algorithms they have and why this idea
+TL;DR; To get you interested this post is not only about Sorting
 
 ---------------------------- Wprowadzenie -----------------------------
 
-I have recently spent a lot of time learning the programming basics. It is mainly related to my inner need of filling knowledge gaps. I mean here things like: algorithmics, data sturctures, computational complexity, etc. I feel sometimes that I entered job market too quickly and focused too much on being 'coding-monkey'. With time, I noticed an increase in the number of problems that required these basics. There was a feeling that, I am missing something. The turning point in this entire process was my previous and current company. All in all, it's only now after 9-10  years that, I feel like an engineer.
+Mozna zadac sobie pytanie. Po co zastanawiac sie jak dziala sortowanie w moim wybranym frameworku. Przeciez po to uzywam framework by nie musiec sie tym przejmowac. Wywoluje funkcje sortujaca i wszytko sie automagicznie dzieje - wartosci sa posortowaie i po sprawie.
 
-Zaczalem od banalow jak algorytmy sortuajce. Pojawia sie tam oczywiscie quicksort- uwazamy za najszybszy. Jest to stwierdzenie w wiekszosci przypadkow prawdziwe ale sa wyjatki. Quicksort jest swietnym przyklade uzycia techniki 'divide and coqnuer' i rekurencyjnego kodu.
+W takim podejsciu jest wiele racji i nie jest ono zle. Framework to narzedzie do rozwiazywania naszych problemow biznesowych ktore w wiekszosci przypadkow sa wwanziejsze niz rozwazania nad tym jak dzialaja dokladnie algorytmy sortujace. Moj szef baardziej bedzie zadowolony jak dowioze nowy ficzer na produkcje zamiast ekscytujacego opowiaadania o tym ze .NET uzywa algorytmu IntroSort ktory dziala tak i tak. Wiedza ta tez nie zaimponuje moim znajomym.
 
-```
-function quicksort(array)
-    less, equal, greater := three empty arrays
-    if length(array) > 1  
-        pivot := select any element of array
-        for each x in array
-            if x < pivot then add x to less
-            if x = pivot then add x to equal
-            if x > pivot then add x to greater
-        quicksort(less)
-        quicksort(greater)
-        array := concatenate(less, equal, greater)
-```
+Po co wiec inwestowac czas I budowac takie powiazania w sieci Neuronowej. Po pierwsze czytajac ten post dostajesz juz gotowa wydystylowana wersje i wiedze. Wiec nie musisz spedzac tyle czasu co ja (autor) na przeszukiwaniu i googlowaniu internetow oraz czytaniu White Paperow.
 
-Pseudo kod nie wydaje sie trudny. I bazuje na podziale duzego problemu na mniejsze, latwiejsze do rozwiazania. Pozwala to wygenerowac sredni czas sortowania w zakresie 'O(nlogn)' ale zawsze tam gdzies jest przypadek najgorszy ktory juz wymaga wiecej czasu 'O(n^2)' (jest to przypadek w ktorym tablica jest juz calkowicie badz po czesci posortowana). Duzo tutaj zalezy on wybrania 'pivotu' - czyli punktu porowanczego - na kazdy etapie podzialu. 
+Po drugie drugie - Algorytmy sortujace i to jak sa skontsutrowane oraz jakie 'tradeoffs' sie w nich podejmuje jest bardzo ciekawe i wbrew pozorom moze sie przydac w przyszlej pracy. Na pewno przyda sie w pracy w ktorej wychodzimy poza framework i zderzamy sie z problemami dla ktorych framework nie jest wystarczajacy. 
 
-```
-quicksort(array):
-     if len(array) <= 1:
-         return array
-     else:
-         pivot = random.choice(array)
-         less = [x for x in array if x < pivot]
-         equal = [x for x in array if x == pivot]
-         greater = [x for x in array if x > pivot]
-         return quicksort(less) + equal + quicksort(greater)
-```
+<przyklad takich problemow? -> np sortowanie duzych ilosci danych albo sortowanie danych external, albo ficzer wymagajacy sortowania stabilnego>
 
-Prosty kod w pythonie - ktory nie jest oszczedny pamieciowo bo alokuje na kazdym podziale nowe tablice i przy za duzej ilosci podzialow moze wykrzaczyc nam stos - moze wygladac jak kod powyzej. Python jest o tyle pieknym jezykem ze pozwala stworzyc kod ktory czyta sie prawie jak pseudo kod.
+Po trzecie - Na poziomie tak niskiego kodu jak sczegoly implementacyjne algorytmow sortujacych - sa to lata badan naukowcow - jest tam tona wiedzy ktora moze sie przydac w innych systemach. Czytajac o algorytmach sortuajcych mozna czerpac z tej wiedzy.
 
-```
-function quicksort(array)
-    if length(array) > 1
-        pivot := select any element of array
-        left := first index of array
-        right := last index of array
-        while left ≤ right
-            while array[left] < pivot
-                left := left + 1
-            while array[right] > pivot
-                right := right - 1
-            if left ≤ right
-                swap array[left] with array[right]
-                left := left + 1
-                right := right - 1
-        quicksort(array from first index to right)
-        quicksort(array from left to last index)
-```
+Po czwarte, i ostatnie - jako Architekt-Inzynier na codzien w pracu musze lawirowac w niedoskonalych rozwiazaniach przy ktorych ciagle musze podejmowac decyzje 'tradeoff' - te decyzje czessto sa saa suma mniejszych calosci - i rzeczy na niskim poziomie.
 
-Istnieja wersje algorytmu ktore bazuja na przetwarzaniu jednej i tej samej tablicy przez sprytne manipulowanie poczatkowym i koncowym indexem na kazdym pozionie podzialu. Pozwala to zrobic operacje in-place i nie generowac niepotrzebnej alokacji. Ta wersja jest juz znacznie mniej przejrzysta.
+==  - Why is it usefull to have this kind of knowledge?
+==  -- Where sorting is important?
+==  -- What kind of things you need:
+==  --- to know
+==  --- could be usefull to know
 
 
-```
-def quicksort(array):
-    __quicksort(array, 0, len(array) -1)
+1. We will go deep down to .NET and start getting deep inside the framework starting with List.Sort() operation discussing what is happening
+  - Stack Trace road to the Algorithm
+  - IEnumerable _version and state management
+2. C++ native World
+3. We will discuss IntroSosrt .NET Sorting implementation
+  - introduction to QuickSort
+  - brief characteristis and description of other algorithms
+  - why quicksort?
+  - Problem with Quickosrt?
+    - pivot
+    - wors case
+  - ways to deal with quickSort problems - introsort
+  - CS course vs Real World
+4. We will discuss Sort algorithms tradeoffs and design decision chosen by the .NET creators
+5. Discussion around other frameworks and what sorting algorithms they have and why this idea
+  - python Java timsort?
+  - go quicksort?
+  - javascript - weirdness and quicksort?
+  - scala | clojure ?
+  - C++? C?
+  - django?
+  - ta java od JetBrainsa
+  - why developers didnt standarised sorting algorithm across the industry and platform
 
-def __quicksort(array, start, stop):
-    if stop - start > 0:
-        pivot = array[start]
-        left = start
-        right = stop
+---- Gdzie sorotwanie jest wazne
+---- Czego mozna sie z sortowania naauczyc zauwazyc
+---- Real world vs theory
 
-        while left <= right:
-            while array[left] < pivot:
-                left += 1
-            while array[right] > pivot:
-                right -= 1
-
-            if left <= right:
-                array[left], array[right] = array[right], array[left]
-                left += 1
-                right -= 1
-
-        __quicksort(array, start, right)
-        __quicksort(array, left, stop)
-
-```
-
-Kod nadal w zasadzie odpowiada pseudokodowy. Python naprawde jest wyjatkowy.
-
------------------- Wstepne pokazanie quick sorta w Pythone ------------------
-
- Napisanie wlasnych implementacji to tylko pierwszy krok do zrozuminia algorytmu. By wkrecic sie jeszcze bardziej postanowilem sprawdzic jak to jest w .NETie. Jak wyglada implementacja QuickSorta. Z tego co pamietam na tym algorytmie opieral sie .NET. Okazalo sie to fajnym zrodlem informacji i wiedzy. Ten post jest w zasadzie o tym. Analizie algorytmu QuickSort w .NET.
-
-Ponizej znajduje sie spis tresci tego blog posta. Jest tutaj duzo szcegolow i informacji ktore nie musza byc dla kazdego interesujace. Jezeli interesuje cie tylko i wylacznie QuickSort i jego implementacja (tak naprawde introsort) to zapraszam do odpowiedniej sekcji. 
+===================================================================================
 
 'StackTrace'
-- List.Sort()
- * internal representation of the list
+- System.Collections.Generic.List<T>.Sort() (source) -> https://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs,2f4bb2904365726f
  * _version++ - state change based version management 
-- Array.Sort()
+- Array.Sort<T>() (source) -> https://referencesource.microsoft.com/#mscorlib/system/array.cs,54496ee33e3b155a
+ * what happens if comparer is provided or not?
+ * What is FEATURE_LEGACYNETCF and MangoArraySortHelper? why this thing (in the making)
 - TrySZSort()
  * what is SZSort?
  * Visual Basic and the world of non one based arrays
-- Native Cpp call
+- TrySZ and native function (source) -> https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arrayhelpers.cpp#L268
+ * FCIMPL4 - and internals of extern calling
+ * ValidateObject? Asserte?
+ * Why VB is Sad with this implementation
+ * Which types are supported and how they are expressed and checked?
+ * Why ddifferent implementation per type?
+ * What is NanPrepass and Why NanPrepass for Float and Double?
+ * What happens if TrySZSort 'fails'?
+- IntrospectiveSort (source) -> https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arrayhelpers.h#L128
+-> Chapter 3
 
 - omowienie introsorta
-- omowienie roznych algorytmow 
-- Zakonczenie
 
+Gdzie wiec zaczac? chba najprosciej bedzie po prostu od funkcji List.Sort(). Ktorej wywolanie powoduje ze w magiczny sposob elementy listy sa posortowane.
 
 Postanowilem wystartowac od Listy. Podstawowej kolekcji ktora ma metode .Sort(). Metoda ta ma dwie opcje albo uzyjemy domyslnego IComparer albo dostarczymy swojego. Zaczniemy od wersji domyslnej bo jak sie okazuje te dwie wersje nie roznia sie w zasadzie kodem ale roznia sie juz miejscami gzdie sa wolane.
 
@@ -134,7 +88,11 @@ public void Sort()
     Sort(0, Count, null);
 }
 ```
-Poczatek jest prosty. Mamy metode bezparametrowa ktora wola inna metode przekazuaj parametry listy jak Count i startowy index 0. Wynika z tego ze mamy tez metode ktora pozwala nam sortowac tylko sekcje danej listy.
+Poczatek jest prosty. Mamy metode bezparametrowa ktora wola inna metode przekazuaj parametry listy jak Count i startowy index 0. Wynika z tego ze mamy tez metode ktora pozwala nam sortowac tylko sekcje danej listy. Czyli mozemy wywoal taka sytuacje w ktorej nie sortujemy calej listy a tylko jej czesc
+
+< TUTAJ JESTESM !!!!!!!!!!!!!!!!!!!!!!!>
+
+Przyklad wywolania z sortowaniem -> kod i wynik z LinqPada
 
 This ultimately leads to this piece of code
 ```
@@ -142,33 +100,20 @@ Array.Sort<T>(_items, index, count, comparer);
 _version++;
 ```
 
-Przy sorotwaniu calej listy parametry:
-- index -> 0 - zaczynamy od poczatku
+Parametry w tym przypadku.
+- index -> 0 - zaczynamy od poczatku listy
 - Count -> list count -> chcemy przesortowac cala liste
-- comparer -> null -> uzywamy domyslnego
-_items -> T[] 'hidden' representation of our List 
-
-```
-static readonly T[]  _emptyArray = new T[0];        
-    
-// Constructs a List. The list is initially empty and has a capacity
-// of zero. Upon adding the first element to the list the capacity is
-// increased to 16, and then increased in multiples of two as required.
-public List() {
-    _items = _emptyArray;
-}
+- comparer -> null -> uzywamy domyslnego comparera (bedzie o tym pozniej)
+- _items -> T[] 'hidden' representation of our List 
 ```
 
-<pokazac statystyki z alokacja i bez alookacji, jak wygenerujemy milion typow>
-<czy mozna to jakos zabusowac?>
+_items to reprezentacja wewneetrzena listy. List<T> to tak naprawde opakowana tablica, ktorej wielkosc jest zwiekszaniaa w zaleznosci od potrzeb - dynamicznie.
 
-Tutaj trafilem na pierwsza ciekawostke. Tworzenie pustej listy tak naprawde nie alokuje nowej tablicy ale przypisuje nasz wewnetrzny stan Listy, _items. Do istniejacecj statycznej pustej tablicy. Tablica ta jest zaznaczona jako readonly by jakis smialek przez przypadek jej nie nadpisal I spowodowal ze kazda pusta lista bedzie miala jakis stan poczatkowy. Ten zabieg pozwala zaoszczedzic jedna alokacje*. Gwiazdka jest tutaj spowodowana tym ze jest to typ generyczny wiec ta statyczna tablica bedize oszcedzala jeedna alokacje per typ. Gdybysmy stworzyli pusta liste dla milionow roznych typow to zaalokujemy milion pustych tablic.
-
+Ciekawy jest zapis _version++? Do czego to sluzy?
 ```
 _version++
 ```
-
-<rozwinac  pokaaac jak mozna popsuc kod refleksja, pokazac przypadki jak to popsuje sie w forze zwyklym>
+<rozwinac  pokazac jak mozna popsuc kod refleksja, pokazac przypadki jak to popsuje sie w forze zwyklym>
 
 Kolejna ciekawostka jest ten ciekawy wpis _version++. A coz to za ustrojstwo? Pierwsza sprawa - jest to typ integer i oczywiscie jest inkrementacja. Operacja ta wykonywania jest przy kazdej zmianie 'stanu' listy. Sort, Insert, Remove itd. Pojawia sie tutaj odrazu mysl ze musi to byc uzywane do sprawdzenia czy stan sie zmienil. 
 
@@ -433,6 +378,92 @@ TA operacja mimo tego ze wydaje sie O(n) wiec mozna zalozyc ze po co ja robic ni
 <Tu przydalby sie test empiryczny dowodzacy temu>
 
 Po tych przejsciach mysle ze mozna przejsc juz do algorytmu :) Tyle tekstu a my dopiero przejdziemy do Algorytmu sortowania ... pieknie.
+
+I have recently spent a lot of time learning the programming basics. It is mainly related to my inner need of filling knowledge gaps. I mean here things like: algorithmics, data sturctures, computational complexity, etc. I feel sometimes that I entered job market too quickly and focused too much on being 'coding-monkey'. With time, I noticed an increase in the number of problems that required these basics. There was a feeling that, I am missing something. The turning point in this entire process was my previous and current company. All in all, it's only now after 9-10  years that, I feel like an engineer.
+
+Zaczalem od banalow jak algorytmy sortuajce. Pojawia sie tam oczywiscie quicksort- uwazamy za najszybszy. Jest to stwierdzenie w wiekszosci przypadkow prawdziwe ale sa wyjatki. Quicksort jest swietnym przyklade uzycia techniki 'divide and coqnuer' i rekurencyjnego kodu.
+
+```
+function quicksort(array)
+    less, equal, greater := three empty arrays
+    if length(array) > 1  
+        pivot := select any element of array
+        for each x in array
+            if x < pivot then add x to less
+            if x = pivot then add x to equal
+            if x > pivot then add x to greater
+        quicksort(less)
+        quicksort(greater)
+        array := concatenate(less, equal, greater)
+```
+
+Pseudo kod nie wydaje sie trudny. I bazuje na podziale duzego problemu na mniejsze, latwiejsze do rozwiazania. Pozwala to wygenerowac sredni czas sortowania w zakresie 'O(nlogn)' ale zawsze tam gdzies jest przypadek najgorszy ktory juz wymaga wiecej czasu 'O(n^2)' (jest to przypadek w ktorym tablica jest juz calkowicie badz po czesci posortowana). Duzo tutaj zalezy on wybrania 'pivotu' - czyli punktu porowanczego - na kazdy etapie podzialu. 
+
+```
+quicksort(array):
+     if len(array) <= 1:
+         return array
+     else:
+         pivot = random.choice(array)
+         less = [x for x in array if x < pivot]
+         equal = [x for x in array if x == pivot]
+         greater = [x for x in array if x > pivot]
+         return quicksort(less) + equal + quicksort(greater)
+```
+
+Prosty kod w pythonie - ktory nie jest oszczedny pamieciowo bo alokuje na kazdym podziale nowe tablice i przy za duzej ilosci podzialow moze wykrzaczyc nam stos - moze wygladac jak kod powyzej. Python jest o tyle pieknym jezykem ze pozwala stworzyc kod ktory czyta sie prawie jak pseudo kod.
+
+```
+function quicksort(array)
+    if length(array) > 1
+        pivot := select any element of array
+        left := first index of array
+        right := last index of array
+        while left ≤ right
+            while array[left] < pivot
+                left := left + 1
+            while array[right] > pivot
+                right := right - 1
+            if left ≤ right
+                swap array[left] with array[right]
+                left := left + 1
+                right := right - 1
+        quicksort(array from first index to right)
+        quicksort(array from left to last index)
+```
+
+Istnieja wersje algorytmu ktore bazuja na przetwarzaniu jednej i tej samej tablicy przez sprytne manipulowanie poczatkowym i koncowym indexem na kazdym pozionie podzialu. Pozwala to zrobic operacje in-place i nie generowac niepotrzebnej alokacji. Ta wersja jest juz znacznie mniej przejrzysta.
+
+
+```
+def quicksort(array):
+    __quicksort(array, 0, len(array) -1)
+
+def __quicksort(array, start, stop):
+    if stop - start > 0:
+        pivot = array[start]
+        left = start
+        right = stop
+
+        while left <= right:
+            while array[left] < pivot:
+                left += 1
+            while array[right] > pivot:
+                right -= 1
+
+            if left <= right:
+                array[left], array[right] = array[right], array[left]
+                left += 1
+                right -= 1
+
+        __quicksort(array, start, right)
+        __quicksort(array, left, stop)
+
+```
+
+Kod nadal w zasadzie odpowiada pseudokodowy. Python naprawde jest wyjatkowy.
+
+------------------ Wstepne pokazanie quick sorta w Pythone ------------------
 
 
 ```
