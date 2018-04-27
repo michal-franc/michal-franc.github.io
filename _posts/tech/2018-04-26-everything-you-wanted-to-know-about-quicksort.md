@@ -280,40 +280,199 @@ TrySZSort is a `external native function`. Under the hood it calls `C++` code, w
 
 [cls-compliance]:(https://docs.microsoft.com/en-us/dotnet/standard/language-independence-and-language-independent-components#arrays)
 
+It is possible to create Non `zero-based` arrays using `CreateInstance` function
+
 {% highlight csharp %}
+public static Array CreateInstance(Type elementType, int[] lengths, int[] lowerBounds)
 {% endhighlight %}
 
-CLR keeps this ability as a backward compatibility for Visual Basic code. `TrySZSort` contains a glimpse to our long and complicated programming history. in `VB` you were able to create arrays starting from index 1. 
+{% highlight csharp %}
+// Zero Based
 
-[More about VB history][vb-non-zero]
+var zeroBased = new int[1];
+Console.WriteLine(zeroBased.GetValue(0));
+Console.WriteLine(zeroBased.GetLowerBound(0));
+
+output:
+0
+0 <- zero based
+
+// One Based
+
+var oneBased = Array.CreateInstance(typeof(int), new[] { 1 }, new[] { 1 });
+Console.WriteLine(oneBased.GetValue(1));
+Console.WriteLine(oneBased.GetLowerBound(0));
+
+output:
+0
+1 <- one based
+
+Console.WriteLine(oneBased.GetValue(0)); // throws Exception
+{% endhighlight %}
+
+CLR keeps this as a backward compatibility for Visual Basic code. `TrySZSort` contains a glimpse of long and complicated programming history. in `VB` you were able to create arrays starting from index `1`. [More about VB history][vb-non-zero]
 `TL;DR;` till `VB .NET 2002` - you were able to start arrays from one. VB evolved from different language history than `C#` that was `C` based and `zero-index based` was default <Rozwinac TL;DR; na bazie bog posta?>
 
 [vb-non-zero]:(http://www.panopticoncentral.net/2004/03/17/non-zero-lower-bounded-arrays-the-other-side-of-the-coin)
 
-Z jezykiem C i tym dlaczego generalnie tablice sa numerowane od Zera jset tez dluga historia i byly rowniez ciekawe dyskusje. Najczesciej przytaczanym przykladem dlaczego zaczynamy od zera sa operacje na wskaznikach. Rozumowanie ze start naszej tablicy w pamieci jest '0' jest latwiejsze do przelkniecia niz '1'. 0 oznacza nic - 1 jest juz czyms. Czesc zwraca uwage ze operacje matematyczne sa latwiejsze przy zalozeniu 0 jako index a czesc nawert uwaza ze nasze przyzwyczajenia numeracji 1,2,3 w swiecie rzeczywistym nijak sie ma do matematyki. Wieksza dyskusja dla zainteresowanych [https://softwareengineering.stackexchange.com/questions/110804/why-are-zero-based-arrays-the-norm]
+Whole concept of arrays starting from `0` has also long history. Question why it is like that returns interesting examples like `pointer arithmetic` that is easier to be done with `0` as we can then mark start of memory address as `0`, with `1` it would a bit not intuitive. There are also hints to the way `Math` works, and certain operations are easier if we assume start of the array as `0`. [Interesting discussion on SO][1-based-array-discussion] <przydaloby sie rozwinieccie>
 
-Wracajac jednak do funkcji TrySZSortm przekonajmy sie czym ona tak naprawde jest.
-Kod znajdziemy tutaj [https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arrayhelpers.cpp#L268].
+[1-based-array-discussion]:(https://softwareengineering.stackexchange.com/questions/110804/why-are-zero-based-arrays-the-norm)
 
-Wchodzimy do swiata C++.
+#### Getting into Native World - TrySZSort
+
+Entering `C++` world now. Source code for `TrySZSort` can be [found here][tryszsort-source]
+
+[tryszsort-source]:(https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arrayhelpers.cpp#L268)
+
+{% highlight csharp %}
+FCIMPL4(FC_BOOL_RET, ArrayHelper::TrySZSort, ArrayBase * keys, ArrayBase * items
+, UINT32 left, UINT32 right)
+{% endhighlight %}
+
+Parameters:
+
+* keys = list -> array
+* items = null
+* left = 0
+* right = length - 1
+
+`left and right` represent left-most and right-most index of the array
+
+TrySZSort is a `native C++` function, it is not [managed][managed-code]. `List.Sort` is a managed code. There has to be a bridge beetwen this two spaces. This bridge is provided by `
+
+[managed-code]:(https://docs.microsoft.com/en-us/dotnet/standard/managed-code)
+
+QCall` and `FCall` function. This is still a very simplified description - `TrySZSort` is part of `mscorlib` (which was a successor to `COM` and is resolved as `Microsoft Common Object Runtime Library`). `Mscorlib` contains definitions of basic types you get to use in .NET like: Object, Int32, String. It gets complicated as `mscorlib` types are used in both `managed` as `unmanaged` code. That is why you will find `C++` native code here (With .NET Core it gets even more complicated as there is now coreclr)
+ 
+There are two ways to call into the CLR from managed code - `QCall` and `FCall`.
+
+This function decralation looks a bit weird, due to being a `C++` macro - `FCIMPL4`. It is a function generating macro - `4` is a number of arguments. `FC_BOOL_RET` tell the macro that this function returns `BOOL`. The big question here is - what is `FCIMPL`. Uhh this will be tricky.
+
+`FCIMPL` - is used to create `FCALL` function. This is a `native` function that is part of `CLR` code. The only way to create `FCALL` is inside CLR, there is no way to create this in user created assembly. 
+This functions are used to enable call from `managed` to `native` code. To mark function as the one calling `FCALL` in `CLR` you need to have declaration of extern function with attribute `MethodImplOptions.InternalCall`.
+
+{% highlight csharp %}
+[MethodImplAttribute(MethodImplOptions.InternalCall)]
+private static extern bool TrySZSort(Array keys, Array items, int left, int right);
+{% endhighlight %}
+
+In order to create `FCALL`:
+
+* registers function in a [ECClass table][ecclass] - static table with entry points to `FCALL` functions. This is used by jitter to find the entry points. Example: [TrySZSort entrypoint][ecalllist]  
+* add function to the `ECFunc` array for a class that has this function. Example: [TrySZSort][ecfunc-in-class]
+* add extern static function with `InternalCall` decorator in managed code
+* use FCIMPL macro to generate function - your code needs to be inside this macro
+
+[Example Commit][example-new-fcall] from MS team when adding new function.
+
+[ecalllist]:https://github.com/dotnet/coreclr/blob/master/src/vm/ecalllist.h#L814
+[ecclass]:https://github.com/dotnet/coreclr/blob/master/src/vm/ecall.cpp#L27
+[ecfunc-in-class]:https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arrayhelpers.h#L335
+[example-new-fcall]:https://github.com/dotnet/coreclr/commit/c61525b5883e883621f98d44f479b15d790b0533#diff-3667dffbd11675529c85670ef344242e
+
+What is `FCALL`?
+Based on [code][fcall]
+
+[fcall]:https://github.com/dotnet/coreclr/blob/master/src/vm/fcall.h
+
+> FCall is a high-performance 'alternative' to ECall
+
+There are two types of `ECall` - `QCall` and `FCall`
+
+ECall is a `private native calling interface`. When the managed code wants to acces a `native` function it goes to `execution engine` and `EE` uses `Ecall` to find the particular function (that is why entry point needs to be registered). When the function is found - `EE` calls this function.
+
+> `ECall` is a set of tables to call functions within the EE (Execution Engine) from the classlibs.  First we use the class name & namespace to find an array of function pointers for a class, then use the function name (& sometimes signature) to find the correct function pointer for your method.   
+[source][ecall-source]
+
+[ecall-source]: https://github.com/dotnet/coreclr/blob/master/src/vm/ecall.cpp#L350
+
+> `QCalls` are the preferred mechanism going forward. You should only use `FCalls` when you are "forced" to. This happens when there is common "short path" through the code that is important to optimize. This short path should not be more than a few hundred instructions, cannot allocate GC memory, take locks or throw exceptions    
+[source][qcall-preffered]
+
+[qcall-preffered]:https://github.com/dotnet/coreclr/blob/master/Documentation/botr/mscorlib.md#choosing-between-fcall-qcall-pinvoke-and-writing-in-managed-code
+
+> We have two techniques for calling into the CLR from managed code. FCall allows you to call directly into the CLR code, and provides a lot of flexibility in terms of manipulating objects, though it is easy to cause GC holes by not tracking object references correctly. QCall allows you to call into the CLR via the P/Invoke, and is much harder to accidentally mis-use than FCall. 
+[source][qcall-vs-fcall]
+
+[qcall-vs-fcall]:https://github.com/dotnet/coreclr/blob/master/Documentation/botr/mscorlib.md#calling-from-managed-to-native-code
+
+`QCALL`  
+
+- is more safe but less performant
+
+`FCALL` - [docs][fcall-source]  
+
+- are more performant when `Frames` (HelperMethodFrame) are not used
+- you need to create `Frame` to handle Exceptions or `GC`
+- susceptible to `GC holes` and `GC starvation`
+- more error prone due to manual control of `GC` and `Frames`
+
+[fcall-source]:(https://github.com/dotnet/coreclr/blob/master/src/vm/fcall.h)
+
+Actually microsoft is movng more code from FCall to managed code - link to twweet from the Jan Guy. There has to be a trade off and balance beetwen 'raw performance' - 'memory leaks'
+
+> We have ported some parts of the CLR that were heavily reliant on FCalls to managed code in the past (such as Reflection and some Encoding & String operations), and we want to continue this momentum. We may port our number formatting & String comparison code to managed in the future.
+[source][fcall-deprecation]
+
+[fcall-depreccation]:https://github.com/dotnet/coreclr/blob/master/Documentation/botr/mscorlib.md#choosing-between-fcall-qcall-pinvoke-and-writing-in-managed-code
+
+Why doing all this complicated stuff and not have `TrySZSort` in managed code?
+
+Example of optimizations as FCalls in String.
+http://mattwarren.org/2016/05/31/Strings-and-the-CLR-a-Special-Relationship/
+TL;DR; String are embeded directly into CLR - you cant emulate their code as CLR provides a lot of benefits.
+
+How is FCall optimizing TrySZSort - why not using QCall here?
+
+What is HelperMethodFrame?
+It is a special frame that allows `stackwalking` inside `FCalls`.
+
+Ohh well this is a huge topic and there is no space to actually discuss it all here. I can only refer to [stackwalking][stackwalking-source] and [frames][frames-source].
+
+[sackwalking-source]:https://github.com/dotnet/coreclr/blob/master/Documentation/botr/stackwalking.md
+
+[frames-source]:https://github.com/dotnet/coreclr/blob/master/src/vm/frames.h
+
+`FCIMPL` - why this macro?
+
+> Since `FCALLS` have to conform to the `EE` calling conventions and not to C calling conventions, `FCALLS`, need to be declared using special macros `(FCIMPL*)` that implement the correct calling conventions.
+
+> A calling convention describes how the arguments are passed and values returned by functions. It also specifies how the function names are decorated.
+[source][calling-conventions]
+
+> It specifies how (at a low level) the compiler will pass input parameters to the function and retrieve its results once it's been executed.
+[source][calling-convs-so]
+
+There are many [conventions][calling-conventions]. They differ in things like.
+
+- where are arguments stored - registers - stack - other places
+- how are the arguments added - left to right or right to left
+- where do you put result of the function call (stack, register, memory)
+- who is responsible for stack cleanup - caller or caller ( this make huge difference if caller is cleaning up stack - the compiled code need to generate cleaning logic every time a function is called increasing the size of code )
+- who is responsible for `cleaning` up `registers` and bringing them back to previous state
+
+[calling-conventions]:https://www.codeproject.com/Articles/1388/Calling-Conventions-Demystified
+[calling-convs-so]:https://stackoverflow.com/questions/10671281/what-is-the-fastcall-keyword-used-for-in-visual-c
+
+>  An `FCall` target uses `__fastcall` or some other calling convention to match the IL calling convention exactly
+
+I am not gonna bore about more detail but `__fastcall` is a convention that is `supposed to be faster` as it uses `registers` for first 2 arguments when `standard' convention uses stack. This is oversimplified description and for more details check this links.
 
 ```
-FCIMPL4(FC_BOOL_RET, ArrayHelper::TrySZSort, ArrayBase * keys, ArrayBase * items, UINT32 left, UINT32 right)
-    FCALL_CONTRACT;
+https://blogs.msdn.microsoft.com/oldnewthing/20040102-00/?p=41213
+https://blogs.msdn.microsoft.com/oldnewthing/20040107-00/?p=41183
+https://blogs.msdn.microsoft.com/oldnewthing/20040108-00/?p=41163
+https://blogs.msdn.microsoft.com/oldnewthing/20040113-00/?p=41073
+https://msdn.microsoft.com/en-us/library/6xa169sk.aspx
+https://msdn.microsoft.com/en-us/library/984x0h58.aspx
+https://gcc.gnu.org/onlinedocs/gcc/x86-Function-Attributes.html
 ```
-keys = lista -> array
-items = null
-left = 0 and 
-right = length - 1
 
-left and right are just leftmost index and rightmost index of the array 
 
-Na starcie deklaracja funkcji jest jakas inna, nie spotkalem sie z tym lata temu a to przez to ze nie mialem przyjemnosci uzywac makr.. FCIMPL4 - jest wywolaniem makr ktore przydatne sa do tworzenia generycznego kodu.  Wiecej o tym makrrze mozna poczytac na 
-- https://github.com/dotnet/coreclr/blob/0c88c2e67260ddcb1d400eb6adda19de627998f5/Documentation/mscorlib.md#calling-from-managed-to-native-code
-badz
-- [https://github.com/dotnet/coreclr/blob/master/src/vm/fcall.h]
-
-TL;DR; FCIMPL4 - FC - oznacza FCall IMPL - implementacja a 4 ilosc argumentow. W dokumentacji zalecane jest uzywanie FCIMPL by 'poprawnie' wygenerowac funkcje ktore sa zgodne. FCall jest metoda sluzaca do <Wiecej researchu i doczytac>
+{% highlight csharp %}
+FCALL_CONTRACT
+{% endhighlight %}
 
 Nastepnie mamy jakies tam validacje obiektow i assercje by sprwadzicz czy wejsciowy stan ma sens.
 
@@ -781,6 +940,50 @@ You can find MEdiaan 3 killer so it is still possible to change median algorithm
 Why it is always first and last? 
 - it is due to a plan to figth with ordered or almost ordered arrays
 -> can i show some graph with probability of hitting worst case, average case? calculated in python with different techniques?
+
+Dlaczego HeapSort a nie inny algorytm wiec?
+
+Czy mozemy zamiast heaposorta na tym levelu uzyc insertion sorta albo merge sorta? Dlaczego HeapSort?
+
+https://cs.stackexchange.com/questions/24446/why-does-introsort-use-heapsort-rather-than-mergesort
+
+Heapsort's O(1)O(1) extra space requirement makes it a better choice to mergsort's O(n)O(n) where for a contrived array that nn could still be large.
+
+The reason heapsort isn't used for the full sort is because it is slower than quicksort (due in part to the hidden constants in the big O expression and in part to the cache behavior)
+
+
+Dlaczego Insertion Sort skoro jest juz HeapSort?
+
+To stop generating subproblems after certain treshdold that is small enough to use Insertion Sort (Locality of data?)  we swithc to InsertionSort as it is more optimal. 
+
+Although it is one of the elementary sorting algorithms with O(n2) worst-case time, insertion sort is the algorithm of choice either when the data is nearly sorted (because it is adaptive) or when the problem size is small (because it has low overhead).  For these reasons, and because it is also stable, insertion sort is often used as the recursive base case (when the problem size is small) for higher overhead divide-and-conquer sorting algorithms, such as merge sort or quick sort.
+
++1. Insertion sort's inner loop just happens to be a good fit for modern CPUs and caches -- it's a very tight loop that accesses memory in increasing order only. 
+
+Insertion sort is also good because it's useful in online situation, when you get one element at a time. 
+
+https://stackoverflow.com/questions/736920/is-there-ever-a-good-reason-to-use-insertion-sort
+
+Insertion sort is faster for small n because Quick Sort has extra overhead from the recursive function calls. Insertion sort is also more stable than Quick sort and requires less memory.
+
+For the curious, the O(N^2) one will be faster than the O(N Log N) one until about N=9000 entries or so. 
+
+However, the constant factor and overhead are still important. If your application ensures that N never gets very large, the asymptotic behavior of O(N^2) vs. O(N log N) doesn't come into play.
+Insertion sort is simple and, for small lists, it is generally faster than a comparably implemented quicksort or mergesort. That is why a practical sort implementation will generally fall back on something like insertion sort for the "base case", instead of recursing all the way down to single elements.
+
+https://algs4.cs.princeton.edu/23quicksort/
+
+Cutoff to insertion sort. As with mergesort, it pays to switch to insertion sort for tiny arrays. The optimum value of the cutoff is system-dependent, but any value between 5 and 15 is likely to work well in most situations.
+
+https://cs.stackexchange.com/questions/37956/why-is-the-optimal-cut-off-for-switching-from-quicksort-to-insertion-sort-machin
+
+Because the actual running time (in seconds) of real code on a real computer depends on how fast that computer runs the instructions and how fast it retrieves the relevant data from memory, how well it caches it and so on. Insertion sort and quicksort use different instructions and hava different memory access patterns. So the running time of quicksort versus insertion sort for any particular dataset on any particular system will depend both on the instructions used to implement those two sorting routines and the memory access patterns of the data. Given the different mixes of instructions, it's perfectly possible that insertion sort is faster for lists of up to ten items on one system, but only for lists up to six items on some other system.
+
+https://www.quora.com/Among-quick-sort-insertion-sort-and-heap-sort-which-is-the-best-to-sort-data-and-why
+
+
+
+
 
 
 Dual Pivot QuickSort Algorithm
