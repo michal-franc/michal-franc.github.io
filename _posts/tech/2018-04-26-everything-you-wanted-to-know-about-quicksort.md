@@ -9,6 +9,11 @@ tags: [alkgorithms]
 permalink: /algorithms/everything-you-wanted-to-know-about-sorting-net/
 ---
 
+
+TODO:
+- Matt Warren consult with this blog post
+- coreclr - docs ask for addng this post to the list
+
 #### TL;DR;
 
 > Not a brief journey into .NET internals and sorting algorithms in the real-world
@@ -457,7 +462,7 @@ There are many [conventions][calling-conventions]. They differ in things like.
 
 >  An `FCall` target uses `__fastcall` or some other calling convention to match the IL calling convention exactly
 
-I am not gonna bore about more detail but `__fastcall` is a convention that is `supposed to be faster` as it uses `registers` for first 2 arguments when `standard' convention uses stack. This is oversimplified description and for more details check this links.
+I am not gonna bore about more detail but `__fastcall` is a convention that is `supposed to be faster` as it uses `registers` for first 2 arguments when `standard` convention uses stack. This is oversimplified description and for more details check this links.
 
 ```
 https://blogs.msdn.microsoft.com/oldnewthing/20040102-00/?p=41213
@@ -469,10 +474,42 @@ https://msdn.microsoft.com/en-us/library/984x0h58.aspx
 https://gcc.gnu.org/onlinedocs/gcc/x86-Function-Attributes.html
 ```
 
-
 {% highlight csharp %}
-FCALL_CONTRACT
+`FCALL_CONTRACT`
 {% endhighlight %}
+
+This contract tells the compiler and macro certaing `properties` of the code it is applied to.
+
+- STATIC_CONTRACT_SO_TOLERANT - this function is safe to throw StackOverflow Exception
+Why would you block StackOverflow Exception
+- STATIC_CONTRACT_GC_NOTRIGGER - this function cannot trigger `Garbage Collection`
+Why you need to block GC?
+- STATIC_CONTRACT_THROWS - this function can throw Exception
+Why would you block exception throws?
+
+
+- STATIC_CONTRACT_MODE_COOPERATIVE - sets up Thread mode - COOPERATIVE - there are two modes COOPERATIVE and PREMPTIVE - in cooperative thread gets control and runts untils in revokes control or blocks - in preemptive mode CLR can jump in and give control to another THREAD - so this mode makes ssure that when we DO a FCALL function CLR does let it run.
+
+Why would MODE_PREMPTIVE be usefull? One of the places for instance wher MODE_PREMPTIVE is used is function `WriteBuffer`  or `Saving Log to File` or `Writing to Console`. The reason you enable premptive is to enable when saving to file to save and 'load' to memory what you need to safe in 'fake' 'real-time'.
+
+<need more details here>
+
+https://github.com/dotnet/coreclr/blob/master/src/vm/perfinfo.cpp#L31
+
+https://github.com/dotnet/coreclr/blob/master/src/vm/fastserializer.cpp#L83
+
+https://www.rapitasystems.com/blog/cooperative-and-preemptive-scheduling-algorithms
+
+http://www0.cs.ucl.ac.uk/teaching/Z24/2005/Z24%20-%2011%20-%20os%20scheduling.pdf
+
+[source][fcall-contract]
+
+[More on flags and basic CLR guidelines][clr-code-guide]
+
+[clr-code-guide]:https://github.com/dotnet/coreclr/blob/master/Documentation/coding-guidelines/clr-code-guide.md
+
+
+[fcall-contract]:https://github.com/dotnet/coreclr/blob/master/src/vm/fcall.h#L1384
 
 Nastepnie mamy jakies tam validacje obiektow i assercje by sprwadzicz czy wejsciowy stan ma sens.
 
