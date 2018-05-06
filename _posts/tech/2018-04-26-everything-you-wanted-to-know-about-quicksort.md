@@ -5,23 +5,36 @@ date: 2018-04-01 07:00
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [alkgorithms]
-permalink: /algorithms/everything-you-wanted-to-know-about-sorting-net/
+tags: [algorithms]
+permalink: /blog/everything-you-wanted-to-know-about-sorting-net/
 ---
 
-
-TODO:
+TODO:  
 - Matt Warren consult with this blog post
 - coreclr - docs ask for addng this post to the list
+- create new articles type of page - which contains one big article with introduction and Chapters sections + contents + link to all the single pages
+- add new jekyll plugin for TOC and series support (If github doesnt support it then use generation on your machine and just push statis website)
 
-#### TL;DR;
+Structure:
 
-> Not a brief journey into .NET internals and sorting algorithms in the real-world
+Chapter I:
 
-You might ask question. Why do you need to know sorting algorithms at all. There are frameworks. You call .Sort() function, some magic happens - data is sorted - time to go home. There is a lot of truth in that but ... 
+Chapter II:
 
-* You might encounter problems that simple calls to framework functions won't be enough
-* You need to know what is stable nad unstable sorting algorithm, it can influence your design decisions
+Hey welcome to my new serie about `Sorting` and `.NET Internals`. It has started as a simple question `Hey, I wonder how Quicksort is implemented in .NET?`. I was planning to release one blog post, wrap up quickly and jump to another idea. But when I started the journey I just couldn't stop asking question `why` and wanted to learn more. You cant think of this serie as a `journey log`. Me going trhough the code startign at `List.Sort()` function to `IntroSort` algorithm, documenting my observations and finding answers to the questions along the way.
+
+To make it more manageable, I divided this work to two chapters:  
+
+- Chapter I - .NET internals - from `List<T>.Sort()` to `TrySZSort`
+- Chapter II - Quicksort++ in the real world - IntroSort
+
+If you are not interested in `.NET internals`, you can jump straight ahead to `Chapter II` but oh boy you might miss a lot of `fun` (It depends how  you define `fun`, I for sure had fun exploring all the topics in there).
+
+You might ask question. Why do you need to know sorting algorithms at all. There are frameworks that have tools to not be bothered about that at all. I call .Sort() function, magic happens time to go home. There is a lot of truth in that but ... 
+
+* Frameworks are great for `generic` majority of problems
+* There are however problems that might require sorting algorithms knoweledge
+* Even with frameworks support, it is good to know what stable nad unstable sorting algorithm is, it can influence your design
 * Sorting algorithms are a great introduction to the world of 'trade-offs'
 * This is also example of multiple 'tools' doing same thing in different ways
 * It is a good way to learn about 'divide and conquer', 'asympthotic complexity' and recurssion
