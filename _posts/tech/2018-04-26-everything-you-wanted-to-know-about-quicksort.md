@@ -9,17 +9,12 @@ tags: [algorithms]
 permalink: /blog/everything-you-wanted-to-know-about-sorting-net/
 ---
 
-TODO:  
+TODO:   
+
 - Matt Warren consult with this blog post
 - coreclr - docs ask for addng this post to the list
 - create new articles type of page - which contains one big article with introduction and Chapters sections + contents + link to all the single pages
 - add new jekyll plugin for TOC and series support (If github doesnt support it then use generation on your machine and just push statis website)
-
-Structure:
-
-Chapter I:
-
-Chapter II:
 
 Hey welcome to my new serie about `Sorting` and `.NET Internals`. It has started as a simple question `Hey, I wonder how Quicksort is implemented in .NET?`. I was planning to release one blog post, wrap up quickly and jump to another idea. But when I started the journey I just couldn't stop asking question `why` and wanted to learn more. You cant think of this serie as a `journey log`. Me going trhough the code startign at `List.Sort()` function to `IntroSort` algorithm, documenting my observations and finding answers to the questions along the way.
 
@@ -30,14 +25,45 @@ To make it more manageable, I divided this work to two chapters:
 
 If you are not interested in `.NET internals`, you can jump straight ahead to `Chapter II` but oh boy you might miss a lot of `fun` (It depends how  you define `fun`, I for sure had fun exploring all the topics in there).
 
+## Chapter I:   
+
+### Chapter I:   
+
+#### Chapter I:   
+
+##### Chapter I:   
+
+* `System.Collections.Generic.List<T>.Sort()` [source][sort_source]
+  * `_version++` - keeping enumaration save from 
+* `Array.Sort<T>()` [source][array_source]
+  * what happens if comparer is provided or not?
+  * What is `FEATURE_LEGACYNETCF` and `MangoArraySortHelper?` why this thing (in the making)
+* `TrySZSort()`
+  * what is SZSort?
+  * Visual Basic and the world of non one based arrays
+* `TrySZ` and native function [source][trysz_source]
+  * `FCIMPL4` - extern calling
+  * ValidateObject? Asserte?
+  * Why VB is Sad with this implementation
+  * Which types are supported and how they are expressed and checked?
+  * Why ddifferent implementation per type?
+  * What is NanPrepass and Why NanPrepass for Float and Double?
+  * What happens if TrySZSort 'fails'?
+  * IntrospectiveSort [source][intro_sort_source] 
+```
+
+Chapter II:  
+
+- 
+
 You might ask question. Why do you need to know sorting algorithms at all. There are frameworks that have tools to not be bothered about that at all. I call .Sort() function, magic happens time to go home. There is a lot of truth in that but ... 
 
 * Frameworks are great for `generic` majority of problems
 * There are however problems that might require sorting algorithms knoweledge
 * Even with frameworks support, it is good to know what stable nad unstable sorting algorithm is, it can influence your design
-* Sorting algorithms are a great introduction to the world of 'trade-offs'
-* This is also example of multiple 'tools' doing same thing in different ways
-* It is a good way to learn about 'divide and conquer', 'asympthotic complexity' and recurssion
+* Sorting algorithms are a great introduction to the world of engineering `trade-offs`
+* This is also an example of multiple `tools` doing same thing in different ways
+* It is a good way to learn about `divide and conquer`, `asympthotic complexity` and `recurssion`
 
 W takim podejsciu jest wiele racji i nie jest ono zle. Framework to narzedzie do rozwiazywania naszych problemow biznesowych ktore w wiekszosci przypadkow sa wwanziejsze niz rozwazania nad tym jak dzialaja dokladnie algorytmy sortujace. Moj szef baardziej bedzie zadowolony jak dowioze nowy ficzer na produkcje zamiast ekscytujacego opowiaadania o tym ze .NET uzywa algorytmu IntroSort ktory dziala tak i tak. Wiedza ta tez nie zaimponuje moim znajomym.
 
@@ -91,26 +117,6 @@ Po czwarte, i ostatnie - jako Architekt-Inzynier na codzien w pracu musze lawiro
 [trysz_source]: https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arrayhelpers.cpp#L268
 [intro_sort_source]: https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arrayhelpers.h#L128
 
-#### 'StackTrace'
-
-* `System.Collections.Generic.List<T>.Sort()` [source][sort_source]
-  * `_version++` - keeping enumaration save from 
-* `Array.Sort<T>()` [source][array_source]
-  * what happens if comparer is provided or not?
-  * What is `FEATURE_LEGACYNETCF` and `MangoArraySortHelper?` why this thing (in the making)
-* `TrySZSort()`
-  * what is SZSort?
-  * Visual Basic and the world of non one based arrays
-* `TrySZ` and native function [source][trysz_source]
-  * `FCIMPL4` - extern calling
-  * ValidateObject? Asserte?
-  * Why VB is Sad with this implementation
-  * Which types are supported and how they are expressed and checked?
-  * Why ddifferent implementation per type?
-  * What is NanPrepass and Why NanPrepass for Float and Double?
-  * What happens if TrySZSort 'fails'?
-  * IntrospectiveSort [source][intro_sort_source] 
-```
 
 ### It all started in List.Sort
 
