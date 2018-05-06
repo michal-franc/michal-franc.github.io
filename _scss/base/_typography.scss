@@ -86,8 +86,8 @@ code {
   background: none;
   border-radius: 0;
   border: none;
-  font-family: "Courier New", monospace;
-  font-size: 0.9em;
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.90rem;
   margin: 0;
   padding: 0 5px;
   background-color: lighten($light-gray-color, 6%);
@@ -95,11 +95,11 @@ code {
 
 pre {
   -webkit-overflow-scrolling: touch;
-  font-family: "Courier New", monospace;
+  font-family: "Inconsolata", monospace;
   font-size: 0.9em;
   margin: 0;
 
   code {
-    line-height: 1.75em;
+    line-height: 1em;
   }
 }
