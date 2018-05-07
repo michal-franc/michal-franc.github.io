@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: draft
 title: Everything you wanted to know about Sorting in .NET part 2
 date: 2018-04-01 07:00
 author: Michal Franc
