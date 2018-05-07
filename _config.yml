@@ -43,12 +43,12 @@ author:
 
 # navbar pages
 navbar:
-  - slug: blog/lead
-    title: Leading
-  - slug: blog/tech
-    title: engineering
-  - slug: blog/career
-    title: Career
+  - slug: blog
+    title: Posts
+  - slug: notes
+    title: Notes
+  - slug: articles
+    title: Articles
   - slug: about 
     title: About
 
