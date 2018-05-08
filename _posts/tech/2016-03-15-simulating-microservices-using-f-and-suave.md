@@ -8,11 +8,14 @@ summary: Brief overview of a way to deploy simple services on local machine.
 categories: [Tech]
 tags: [f#, microservices]
 ---
+
+{% include toc.html %}
+
 <p>I have this small hobby project called Overseer. It is a tool used to debug and troubleshoot microservices. I was planning to use it in production, but because that is the only prototype. I decided to use it with simulated services. This way it will be a lot easier to create many different 'test' scenarios.</p>
 
 <p>The current solution for spawning those 'tests services' is implemented in Suave.io and F#. Why these technologies? I just like F# and Suave.io seems like a nice decent framework. <a href="https://github.com/michal-franc/OverSeer/blob/master/OverSeer.Servers/Program.fs">Full code</a> If you can, please review this code. I am not a F# expert and would love to learn how to make it better.</p>
 
-<h3>Test service graph definition</h3>
+## Test service graph definition
 
 <p>I want to iterate fast and create different networks of services. I need a simple way of defining the structure of the network. At the moment, I am using an array of tuples with a service name and collection of all the services it depends on. It looks like this.</p>
 
@@ -46,7 +49,7 @@ let taskList = listOfServices
 
 <p>The result is a list of Tasks running suave exposing one simple endpoint.</p>
 
-<h3>Endpoint list</h3>
+## Endpoint list
 
 {% highlight csharp %}
 type EndpointResponse = {
@@ -74,7 +77,7 @@ let createInitialEndpoints list =
 
 <p>To create a list of the endpoints, I am using fold function with an accumulator to increment port. Fold is a function that I tend to overuse too much. But in this case, it feels ok. Is there any other way to iterate through something with a maintnance of external state?</p>
 
-<h3>Suave config</h3>
+## Suave config
 
 <p>It was a bit tricky as the documentation is not that good. After many try and errors and SO searching, I was able to create simple endpoints. All it does is returning JSON metadata describing 'server' (status, dependencies).</p>
 
@@ -89,7 +92,7 @@ let app endpoint =
         ]
 
 {% endhighlight %}
-<h3>Result</h3>
+## Result
 
 {% highlight js %}
 {
