@@ -8,6 +8,7 @@ categories: [Tech]
 tags: [algorithms]
 permalink: /blog/net-sorting-part1/
 ---
+{% include toc.html %}
 
 If we want to talk about sorting in `.NET`, then there is no better place to start than `List<T>.Sort()`. We all know what this functions does. As a Junior, I have never bothered to actually check the source code of this function. Back then source was only available to `insiders`, a handfull of special people for `Microsoft`, considered worthy to look behind the curtain. I still remember times of Steve B. and his firm stand against `Open Source`. This days are gone, `Microsoft` did a massive `U-turn` and not only [`Reference Source`][reference-source-link] is available but also [`CLR`][clr-source] code. 
 
@@ -33,6 +34,12 @@ This is just just a slice of the `List<T>` implementation. `Reference Source` is
 For other communities `open source` is nothing special but for `.NET` that was  a massive change. This move could save `C#` and `.NET` ... but there is no time now for this discussion.
 
 ## List\<T\>.Sort()
+
+### test1
+
+### test2
+
+### test3
 
 How do we sort a List? It is quite simple.
 

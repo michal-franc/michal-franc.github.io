@@ -12,6 +12,7 @@ $dt-yellow: #f1fa8c;
 
 
 .highlight {
+  clear: both;
   @extend %clearfix;
   padding: 0;
   margin: {

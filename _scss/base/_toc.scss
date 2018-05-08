@@ -1,0 +1,48 @@
+.toc {
+  float:right;
+  margin-top: 15px;
+  font-family: helvetica, arial, geneva, sans-serif;
+  margin-left:40px;
+
+  h2 {
+    font-size: 0.80rem;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+    font-family: helvetica, arial, geneva, sans-serif;
+  }
+}
+
+#markdown-toc {
+  list-style-type: decimal;
+  margin: 4px 0;
+  font-size: 0.7rem;
+  max-width: 250px;
+
+  ol, li {
+    margin-bottom: 8px;
+    margin-top: 8px;
+    margin-left: 16px;
+    padding-left: 10px;
+    padding-bottom: 0px;
+    margin: 5px 0;
+
+    a {
+      border-bottom: 1px solid #303030;
+      color: #303030;
+      text-decoration: none;
+
+      &:hover {
+        border-bottom: 0px;
+      }
+    }
+
+    ol {
+      font-size: 0.65rem;
+      list-style-type: lower-alpha;
+      a {
+        border-bottom: 1px solid #dedede;
+      }
+    }
+  }
+}
