@@ -35,12 +35,6 @@ For other communities `open source` is nothing special but for `.NET` that was  
 
 ## List\<T\>.Sort()
 
-### test1
-
-### test2
-
-### test3
-
 How do we sort a List? It is quite simple.
 
 {% highlight csharp %}
