@@ -20,6 +20,7 @@ TODO:
   - article is a serie of posts
   - quick note is just smaller blog post that i do spend only 30 min weekly to work on
   - https://bsn.io/2017/01/public-drafts-with-a-github-pages-blog
+- Rename the series to - `Journey to the heart of .NET sorting` 
 
 Hey welcome to my new serie about `Sorting` and `.NET Internals`. It has started as a simple question `Hey, I wonder how Quicksort is implemented in .NET?`. I was planning to release one blog post, wrap up quickly and jump to another idea. But when I started the journey I just couldn't stop asking question `why` and wanted to learn more. You cant think of this serie as a `journey log`. Me going trhough the code startign at `List.Sort()` function to `IntroSort` algorithm, documenting my observations and finding answers to the questions along the way.
 
