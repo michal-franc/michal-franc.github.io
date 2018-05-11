@@ -108,7 +108,7 @@ finally
 
 Reading about `CER`, I also stumbled upon concept called `out-of-band exception`. These are exceptions that are thrown by the runtime not the code - StackOverflowException, OutOfMemoryException and ThreadAbortException.[\[9\]][cer-out-of-band]
 
-If `CER` got you interested then try this presentation[\[10\]](https://youtu.be/U92Ts53win4?t=530) (big thanks to Grzegorz Kotfis[\[11\]][https://devsession.pl/] for the link)
+If `CER` got you interested then try this presentation[\[10\]](https://youtu.be/U92Ts53win4?t=530) (big thanks to Grzegorz Kotfis[\[11\]](https://devsession.pl/) for the link)
 
 [cer-msdn]:https://web.archive.org/web/20150423173148/https://msdn.microsoft.com/en-us/magazine/cc163716.aspx
 [cer-examples]:https://stackoverflow.com/questions/1101147/code-demonstrating-the-importance-of-a-constrained-execution-region
