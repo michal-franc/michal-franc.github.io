@@ -108,8 +108,6 @@ finally
 
 Reading about `CER`, I also stumbled upon concept called `out-of-band exception`. These are exceptions that are thrown by the runtime not the code - StackOverflowException, OutOfMemoryException and ThreadAbortException.[\[9\]][cer-out-of-band]
 
-If `CER` got you interested then try this presentation[\[10\]](https://youtu.be/U92Ts53win4?t=530) (big thanks to Grzegorz Kotfis[\[11\]](https://devsession.pl/) for the link)
-
 [cer-msdn]:https://web.archive.org/web/20150423173148/https://msdn.microsoft.com/en-us/magazine/cc163716.aspx
 [cer-examples]:https://stackoverflow.com/questions/1101147/code-demonstrating-the-importance-of-a-constrained-execution-region
 [cre]:https://docs.microsoft.com/en-us/dotnet/framework/performance/constrained-execution-regions
@@ -122,7 +120,14 @@ If `CER` got you interested then try this presentation[\[10\]](https://youtu.be/
 
 > Writing reliable code in the face of everything that go wrong can be a daunting task. The good news is that unless you're writing a framework or a library for use in CLR hosts that require prolonged periods of up time, you probably won't need to think about this stuff too often.[\[4\]][cer-msdn]
 
-Uh that was a long read about some theoretical things around building frameworksand more reliable products. It is still good to know about this things. Time to move on and discuss `TrySZSsort` function source code.
+In order to avoid potential `OutOfMemoryException` and `StackOverFlowException`.
+Before entering `try` block if you have used `PrepareConstrainedRegion` and your method has attribute `ReliabilityContract`. For this method:
+
+- all the assemblies are loaded
+- code is compiled
+- there is a check if stack has (48KB) of space available (apparently 48K is an average method size)
+
+If `CER` got you interested then try this presentation[\[10\]](https://youtu.be/U92Ts53win4?t=530) (big thanks to Grzegorz Kotfis[\[11\]](https://devsession.pl/) for the link)
 
 ## What is TrySZSort?
 
@@ -282,9 +287,25 @@ Array.CreateInstance
 
 ### First peek at unmanaged world
 
-Entering `C++` world now. Source code for `TrySZSort` can be [found here][tryszsort-source]
+As I mentioned earlier `TrySZSort` is extern function. `extern` is a special keyword used to indicate `external' resources.
+
+{% highlight csharp %}
+[System.Security.SecurityCritical]
+[ResourceExposure(ResourceScope.None)]
+[MethodImplAttribute(MethodImplOptions.InternalCall)]
+[ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+private static extern bool TrySZSort(Array keys, Array items, int left, int right);
+{% endhighlight %}
+
+> When a method declaration includes an extern modifier, that method is said to be an external method. External methods are implemented externally, typically using a language other than C#.[\[x\]][extern-google-book]
+
+In this case `TrySZSort` is a method with implementation in `CLR` - extern is used to make that connection beetwen managed code and the `CLR` one.
+
+Entering `C++` world now. Source code for `TrySZSort` can be found here[[x][tryszsort-source]]. It is great that microsoft open sourced it as know we can check its code and analyse it. This will be covered in next post of the serie.
 
 [tryszsort-source]:(https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arrayhelpers.cpp#L268)
+[resource-ex-so]:https://stackoverflow.com/questions/3254308/how-to-use-resourceexposureattribute-and-resourceconsumptionattribute
+[extern-google-book]:https://books.google.co.uk/books?id=s-IH_x6ytuQC&pg=PT642&dq=C%23+10.6.7&hl=en&sa=X&ved=0ahUKEwi8-rWOvf7aAhVBKcAKHUyOC_MQ6AEIKTAA#v=onepage&q=C%23%2010.6.7&f=false
 
 {% highlight csharp %}
 FCIMPL4(FC_BOOL_RET, ArrayHelper::TrySZSort, ArrayBase * keys, ArrayBase * items
