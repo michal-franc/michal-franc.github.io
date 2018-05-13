@@ -267,19 +267,23 @@ When I used `Array.CreateInstance` for the first time, I wondered ... how differ
 
 {% highlight csharp %}
 
-new[]
+new int [99]
 //Simplified IL code
 
- -> newarr [mscorlib]System.In32
+ldc.i4.s 99
+newarr [mscorlib]System.In32
 
 Array.CreateInstance
 //Simplified IL code
 
- -> call class System.Array::CreateInstance
+ldc.i4.s 99
+call class [mscorlib]System.Array::CreateInstance
 
 {% endhighlight %}
 
-`newarr` is built into the language while `CreateInstance` is a method call that actually leads to the unmanaged code inside `CLR`[\[x\]][array-create-instance]. We are actually going the same way with `TrySZSort`. Time to enter `unmanaged` world.
+`newarr` is built into the language while `CreateInstance` is a method call that actually leads to the unmanaged code inside `CLR`[\[x\]][array-create-instance]. `newarr` is a IL instructions responsible for creation of `vector` - vector is a different name for zero based single dimensional array. Size of array `99` is pushed to the stack using `ldc.i4.s` instruction. `newarr` uses this value from the stack to create the vector. 
+
+Just like `CreateInstance` is in unmanaged code We are actually going to the unmanaged world with `TrySZSort`.
 
 [array-create-instance]:https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arraynative.cpp#L1162
 
