@@ -299,9 +299,7 @@ private static extern bool TrySZSort(Array keys, Array items, int left, int righ
 
 > When a method declaration includes an extern modifier, that method is said to be an external method. External methods are implemented externally, typically using a language other than C#.[\[x\]][extern-google-book]
 
-In this case `TrySZSort` is a method with implementation in `CLR` - extern is used to make that connection beetwen managed code and the `CLR` one.
-
-Entering `C++` world now. Source code for `TrySZSort` can be found here[[x][tryszsort-source]]. It is great that microsoft open sourced it as know we can check its code and analyse it. This will be covered in next post of the serie.
+In this case `TrySZSort` is a method with implementation in `CLR` - extern is used to make that connection beetwen managed code and the `CLR` one. We are entering `C++` world now. Source code for `TrySZSort` can be found here[[x][tryszsort-source]]. It is great that microsoft open sourced, as we can check its code and analyse it. This will be covered in next post of the serie. We are going to cover this function `FCIMPL4` and how `managed` code calls the `unmanaged one'.
 
 [tryszsort-source]:(https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arrayhelpers.cpp#L268)
 [resource-ex-so]:https://stackoverflow.com/questions/3254308/how-to-use-resourceexposureattribute-and-resourceconsumptionattribute
@@ -311,16 +309,3 @@ Entering `C++` world now. Source code for `TrySZSort` can be found here[[x][trys
 FCIMPL4(FC_BOOL_RET, ArrayHelper::TrySZSort, ArrayBase * keys, ArrayBase * items
 , UINT32 left, UINT32 right)
 {% endhighlight %}
-
-Parameters:
-
-* keys = list -> array
-* items = null
-* left = 0
-* right = length - 1
-
-`left and right` represent left-most and right-most index of the array
-
-TrySZSort is a `native C++` function, it is not [managed][managed-code]. `List.Sort` is a managed code. There has to be a bridge beetwen this two spaces. This bridge is provided by `
-
-[managed-code]:(https://docs.microsoft.com/en-us/dotnet/standard/managed-code)
