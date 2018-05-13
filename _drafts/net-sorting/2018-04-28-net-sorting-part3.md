@@ -11,7 +11,7 @@ permalink: /blog/net-sorting-part3/
 
 {% include toc.html %}
 
-Last part ended with a `sneak peak` of a `native` code. This part is going to expand on it. We are entering `C++` code from `managed` code, to do that there has to be a function with `extern` keyword in our managed code.
+Last part ended with a `sneak peak` of a `native` code. This part is going to expand on it. We are entering `C++` world inside `CLR`.
 
 {% highlight csharp %}
 List<T>.Sort()
@@ -21,14 +21,62 @@ List<T>.Sort()
 -----------> TrySZSort
 {% endhighlight csharp %}
 
-## InternalCall
+## Calling unmanaged code
+
+To connect `managed` and `unmanaged` code you need to use `extern` keyword. It is used to tell the runtime that implementation of this function is in a different (external) place. There are `two` ways to call external code. 
+
+* `P/Invoke` 
+* `InternalCall`
+
+### P/Invoke (Platform Invocation)
+
+> Platform invocation is the mechanims provided by the `Common language runtime` to facilitate the calls from managed code to unmanaged code functions. Behind the sceneeess the runtime construcrs the so-called stub, or thunk, which allows the addressing of the unmanaged functon and conversion of managed argument types to the appropiate unmanaged types back. This conversion is known as parameter marshalling.[\[x\]][net-il-assembler]
+
+To call unmanaged code using `P/Invoke`, function has to be `extern` and have `DLLImport` attribute. This attribute takes `DLL file library` name as a parameters. `DLL` files are `Dynamically-linked-libraries` containing compiled code. This files expose `Export Address table` that hold `entry points` to functions. Entry points used by runtime to call functions.
+
+{% highlight csharp %}
+[DllImport("nonexistinglib.dll")]
+static extern bool Function(int i);
+
+{% endhighlight csharp %}
+
+In this simple example, I am telling the compiler that `Function` is in `nonexistinglib.dll`. This generates `IL` code with `pinvokeimpl` keyword.
+
+{% highlight csharp %}
+IL
+.method private hidebysig static pinvokeimpl("nonexistingLib.dll" winapi) 
+    bool Function (
+        int32 i
+    ) cil managed preservesig 
+{
+}
+{% endhighlight csharp %}
+
+`pinvokeimpl` tells the runtime that this is unmanaged method called using `P/Invoke`. This method is available in library `nonexistinglib.dll` and has the calling convention `winapi`. More on calling conventions later in this post, but in a nutshell - calling convention describes how to call function, something like contract. `unmanaged` dll expects certain `contract` to be met in order to accept the call to function. `winapi` convention is an alias of `__stdcall`.
+
+[net-il-assembler]:https://books.google.co.uk/books?id=Xv_0AwAAQBAJ&pg=PA15&lpg=PA15&dq=IL+pinvokeimpl&source=bl&ots=YlZ6ZsEFLm&sig=5RSk1mnSNiMVBVQ11yCZRaqZjSw&hl=en&sa=X&ved=0ahUKEwiCrNTUgYPbAhWCbMAKHfKdDt4Q6AEIPzAD#v=onepage&q=IL%20pinvokeimpl&f=false
+
+### InternalCall
+
+{% highlight csharp %}
+[MethodImpl(MethodImplOptions.InternalCall)]
+static extern bool Function(int i);
+
+IL
+.method private hidebysig static 
+    bool CallFunction (
+        int32 i
+    ) cil managed internalcall 
+{
+}
+{% endhighlight csharp %}
 
 {% highlight csharp %}
 [MethodImplAttribute(MethodImplOptions.InternalCall)]
 private static extern bool TrySZSort(Array keys, Array items, int left, int right);
 {% endhighlight csharp %}
 
-This declaration is used to tell the runtime that implementation of this function is in a different (external) place. There are `two` ways to call external code. You can use `DLLImport` or `InternalCall`. `DLLImport` is used when you create your own `unmanaged` code while `InternalCall` looks for the implementation in `CLR` itself. `CLR` is not only about runtime - it contains code that is highly optimized and used in many places.
+`DLLImport` is used when you create your own `unmanaged` code while `InternalCall` looks for the implementation in `CLR` itself. `CLR` is not only about runtime - it contains code that is highly optimized and used in many places.
 
 {% highlight csharp %}
 
