@@ -206,7 +206,7 @@ It is possible add new `InternalCalls` but it requries changes in `CLR`. You wou
 
 We discussed two ways to call unmanaged code. I want to focus now on calling `CLR` code as this is part of our `Sorting` journey and how `TrySZSort` is called.  Discussed methods above `InternalCall` and `P/Invoke` are translated to something sligthly different within the `CLR`, this this is called `ECall`. 
  
-ECall is a `private native calling interface`. This interface is inside `CLR`.  When the managed code wants to access internal code in `CLR` it tells the runtime(`execution engine`) to use `ECall` to find the function and its entry point. Runtime then calls this function. As with previoys examples there is also calling convention and marshalling done.
+ECall is a `private native calling interface`. This interface is inside `CLR`.  When the managed code wants to access internal code in `CLR` it tells the runtime(`execution engine`) to use `ECall` to find the function and its entry point. Runtime then calls this function. As with previous examples there is also calling convention and marshalling done.
 
 > `ECall` is a set of tables to call functions within the EE (Execution Engine) from the classlibs.  First we use the class name & namespace to find an array of function pointers for a class, then use the function name (& sometimes signature) to find the correct function pointer for your method.   
 [source][ecall-source]
@@ -286,28 +286,135 @@ List<T>.Sort()
 -----------> TrySZSort
 {% endhighlight csharp %}
 
-Entering `C++` world and `TrySZSort` implementation.[\[x\]][try-sz-sort-impl]
+`TrySZSort` is exposed to managed code using `InternalCall`, it is using `FCall`.On the `CLR` side it uses `FCIMPL4` macro to generate the function.[\[x\]][try-sz-sort-impl].
 
 {% highlight csharp %}
 FCIMPL4(FC_BOOL_RET, ArrayHelper::TrySZSort, ArrayBase * keys, ArrayBase * items
 , UINT32 left, UINT32 right)
 {% endhighlight %}
 
-This is declaration of `TrySZSort` inside the `CLR` code [source](link here). it uses `C++` macro - `FCIMPL4`. `4` is a number of arguments. `FC_BOOL_RET` tell the macro that this function returns `BOOL`. `FCIMPL` macro creates implementation of  `FCALL` function. This is a `native` function that is part of `CLR` code. The only way to create `FCALL` is inside CLR.
-
-### Why FCIMPL macro is needed?
+`4` is a number of arguments, `FC_BOOL_RET` tells the macro that this function returns `BOOL`. Why FCIMPL macro is needed?
 
 > Since `FCALLS` have to conform to the `Execution Engine` calling conventions and not to C calling conventions, `FCALLS`, need to be declared using special macros `(FCIMPL*)` that implement the correct calling conventions.
 
-It was mentioned before that `calling convention` is like a contract. `FCIMPL` generates code required to fulfill a contract to make a `FCall`.
+It is all to do with `calling conventions`. It was mentiioned before that `calling convention` is like a contract but how does it work?  
 
 ### What is a calling convention?
 
 > A calling convention describes how the arguments are passed and values returned by functions. It also specifies how the function names are decorated.
-[source][calling-conventions]
+[\[x\]]][calling-conventions]
 
 > It specifies how (at a low level) the compiler will pass input parameters to the function and retrieve its results once it's been executed.
-[source][calling-convs-so]
+[\[x\]][calling-convs-so]
+
+If we go down to the lowest levels of `code`, there is a `machine code`. It looks like this.[\[x\]][machine-code]
+
+[machine-code]:https://en.wikipedia.org/wiki/Low-level_programming_language
+
+{% highlight csharp %}
+8B542408 83FA0077 06B80000 0000C383
+FA027706 B8010000 00C353BB 01000000
+B9010000 008D0419 83FA0376 078BD989
+C14AEBF1 5BC3
+{% endhighlight %}
+
+This is btw a Fibonnaacci number generation code in `machine code`. I wouldn't be able to write it that way, but what is important is that on this `lowest level` it really doesn't matter if this code  was `created` from `C++`, `Java`, `Python` or `C#`.
+
+It would an `impossible` task(almost) to write code that way and that is why new abstractions were invented like `assembly` language. Example below is the same `fibonacci number` generation code but in `assembly`.
+
+{% highlight asm %}
+fib:
+    mov edx, [esp+8]
+    cmp edx, 0
+    ja @f
+    mov eax, 0
+    ret
+    
+    @@:
+    cmp edx, 2
+    ja @f
+    mov eax, 1
+    ret
+    
+    @@:
+    push ebx
+    mov ebx, 1
+    mov ecx, 1
+    
+    @@:
+        lea eax, [ebx+ecx]
+        cmp edx, 3
+        jbe @f
+        mov ebx, ecx
+        mov ecx, eax
+        dec edx
+    jmp @b
+    
+    @@:
+    pop ebx
+    ret
+{% endhighlight %}
+
+On this level which is still very low. We operate very close to `CPU` using - registers, stacks, various operations like `mov`, `jmp`. Every machine supports different `registers` and `instructions`[\[x\]][instruction-sets]. Some operate on very primitive instructions and some have more complicated ones. Example [\[x\]][arm-vs-x86-so].
+
+[arm-vs-x86-so]:https://stackoverflow.com/questions/14794460/how-does-the-arm-architecture-differ-from-x86
+[instruction-sets]:https://en.wikipedia.org/wiki/List_of_instruction_sets
+
+{% highlight asm %}
+x86
+-----
+
+repe cmpsb         /* repeat while equal compare string bytewise */
+
+ARM
+-----
+
+top:
+ldrb r2, [r0, #1]! /* load a byte from address in r0 into r2, increment r0 after */
+ldrb r3, [r1, #1]! /* load a byte from address in r1 into r3, increment r1 after */
+subs r2, r3, r2    /* subtract r2 from r3 and put result into r2      */
+beq  top           /* branch(/jump) if result is zero                 */
+
+{% endhighlight %}
+
+It is the same code but on different architecture with different instruction sets. It is just like diffeences on the `high` level beetwen languages like `C#` and `Java`, high level languages are probably more standarized.
+
+Due to this differences you need to compile the code for specific machine. If you are int linux world, it is pretty standard procedure to download source code of some program, tool and build by your own on your machine for your machine specific architecture and instructions sets. More popular distributions have packages with already precompiled binaries.
+
+That is why things like `java virtual machine` and `clr` and `interpretd' languages happened. They server as a intermidiary beetwen your code and your machine. 
+
+ There are big differences between language some o them have virtual machines, some us interpreter, some are compiled two machinery code directly. But even if there is a bytecode that Is is transformed to machin code during the J It process in the end it is still machine code. Of course there are differences in all the differentiate machines (couple of examples what are differences on this level) they have different registers, instructions an the way w need to operate with them. That is why you need to compile your open source code package when bringing from source - to identify on the compile time I our machine spec and generate appropriate code for the it to run them code. That is why JIT is interesting concept as during JIT compilation Runtime handles this aspect. Same situation I have with interpreter like python (we'll python is a complicated language as Is has many different ways to generate machine code on of them is CPython that compiles together machines code). Interestingly when you use your os package manager like for instance apt get or (the arch one) someone elsewhere did it the compilation step and deployed the resulting binary to package that you can download. 
+
+If in the the end all there is a machine code then why it is not that easy to communicate between different langusges. Haz this is where we get into the the minefield of different approqches, consteucts and conventions. That I why one of the steps to be able to make this communication I calling conventions a contract defining the way functions should interpret its context (register, stsck) told be able to communicate with each other. 
+
+(shoe two different conventions and what happens of they don't match) 
+
+Right to left on different registers, or cleanup.
+
+Different language also represent types differently in the memory that I why you need marshaling stub to translate between two worlds  
+
+What is the IL calling convention. how does it's look like in the visual studio dism. That is why fcimpl and fcall is great, it matches convention to the one's use by il and that I generate by jitter to remove intermediary step like marshaling stub. 
+
+(frame has to provide something with GC and exceptions asm code in cpp exception looks different than the exception in il, runtime wouldnt be able to understand exception thrown in cpp without this translational step) frame I encoding state in one context it is then use im different context to rebuild it. Stack frame is like a meta data conteact. 
+
+wczoraj siedzialem i czytalem o asmie i roznicach miedzy roznimy convencjami wolania funkcji
+dla mnie to fajnie zrozumiec jak na machine code levelu trzeba dopasowac 'kontrakt' i to jak sa reprezentowane typy w pamiec albo jak odkladane atrybuty na stos tudziez jakie rejestry sa uzywane
+zeby sparowac 2 rozne jezyki i komunikacje miedzy nimi na poziomie asm-a (edited)
+tak samo jak np wyjatek w c++ jest zrozumialy w c#
+albo jak wywolac garbage collector z niezarzadzanego kodu ( uzywa sie stosu i specjalnym ramek ktore koduja informacje ze hej wywolaj garbage collector :smile: ) (edited)
+ja wiem ze tej wiedzy nigdzie nie uzyje
+ale czasem czuje ze problemy ktore ja rozwiazuje na poziomie weba i serwisow budujac systemy rozproszone
+sa juz dawno rozwiazane na poziomie jednego procesu i kodu
+
+TODO:
+- definitely identify parts that require verification from .net internals expert - konrad kokosa
+- propose to konrad book advertisement if he has some landing page
+- normally in ASM there is a call instruction (what is it?)
+
+Machine Learning based search
+https://arxiv.org/pdf/1805.04272.pdf
+
+Profile somehow - Sort with comparere and TrySZSort? show calls?
 
 Calling conventions can differ in many ways:
 
@@ -351,38 +458,6 @@ I am not gonna bore about more detail but `__fastcall` is a convention that is `
 If you want to see examples on how conventions are translated to dism
 https://en.wikibooks.org/wiki/X86_Disassembly/Calling_Conventions#FASTCALL
 
-In the machine code level it doesn't matter if language is using c cpp java c# etc, there is a machine code that uses assembly. All the languages use similar code constructs like registers, stack and operations on them. There are big differences between language some o them have virtual machines, some us interpreter, some are compiled two machinery code directly. But even if there is a bytecode that Is is transformed to machin code during the J It process in the end it is still machine code. Of course there are differences in all the differentiate machines (couple of examples what are differences on this level) they have different registers, instructions an the way w need to operate with them. That is why you need to compile your open source code package when bringing from source - to identify on the compile time I our machine spec and generate appropriate code for the it to run them code. That is why JIT is interesting concept as during JIT compilation Runtime handles this aspect. Same situation I have with interpreter like python (we'll python is a complicated language as Is has many different ways to generate machine code on of them is CPython that compiles together machines code). Interestingly when you use your os package manager like for instance apt get or (the arch one) someone elsewhere did it the compilation step and deployed the resulting binary to package that you can download. 
-
-If in the the end all there is a machine code then why it is not that easy to communicate between different langusges. Haz this is where we get into the the minefield of different approqches, consteucts and conventions. That I why one of the steps to be able to make this communication I calling conventions a contract defining the way functions should interpret its context (register, stsck) told be able to communicate with each other. 
-
-(shoe two different conventions and what happens of they don't match) 
-
-Right to left on different registers, or cleanup.
-
-Different language also represent types differently in the memory that I why you need marshaling stub to translate between two worlds  
-
-What is the IL calling convention. how does it's look like in the visual studio dism. That is why fcimpl and fcall is great, it matches convention to the one's use by il and that I generate by jitter to remove intermediary step like marshaling stub. 
-
-(frame has to provide something with GC and exceptions asm code in cpp exception looks different than the exception in il, runtime wouldnt be able to understand exception thrown in cpp without this translational step) frame I encoding state in one context it is then use im different context to rebuild it. Stack frame is like a meta data conteact. 
-
-wczoraj siedzialem i czytalem o asmie i roznicach miedzy roznimy convencjami wolania funkcji
-dla mnie to fajnie zrozumiec jak na machine code levelu trzeba dopasowac 'kontrakt' i to jak sa reprezentowane typy w pamiec albo jak odkladane atrybuty na stos tudziez jakie rejestry sa uzywane
-zeby sparowac 2 rozne jezyki i komunikacje miedzy nimi na poziomie asm-a (edited)
-tak samo jak np wyjatek w c++ jest zrozumialy w c#
-albo jak wywolac garbage collector z niezarzadzanego kodu ( uzywa sie stosu i specjalnym ramek ktore koduja informacje ze hej wywolaj garbage collector :smile: ) (edited)
-ja wiem ze tej wiedzy nigdzie nie uzyje
-ale czasem czuje ze problemy ktore ja rozwiazuje na poziomie weba i serwisow budujac systemy rozproszone
-sa juz dawno rozwiazane na poziomie jednego procesu i kodu
-
-TODO:
-- definitely identify parts that require verification from .net internals expert - konrad kokosa
-- propose to konrad book advertisement if he has some landing page
-- normally in ASM there is a call instruction (what is it?)
-
-Machine Learning based search
-https://arxiv.org/pdf/1805.04272.pdf
-
-Profile somehow - Sort with comparere and TrySZSort? show calls?
 
 More calling conventions links:
 
