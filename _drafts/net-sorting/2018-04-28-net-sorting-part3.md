@@ -377,22 +377,146 @@ beq  top           /* branch(/jump) if result is zero                 */
 
 {% endhighlight %}
 
-It is the same code but on different architecture with different instruction sets. It is just like diffeences on the `high` level beetwen languages like `C#` and `Java`, high level languages are probably more standarized.
+It is the same code but on different architecture with different instruction sets. It is just like diffeences on the `high` level beetwen languages like `C#` and `Java`. Due to this differences you need to compile the code for specific machine. If you are int linux world, it is pretty standard procedure to download source code of some program, tool and build by your own on your machine for your machine specific architecture and instructions sets. More popular distributions have packages with already precompiled binaries. That is why things like `java virtual machine` and `clr` were created. They server as a intermidiary beetwen code and machine using `byte code` and `JIT` compilation, compiling code on the fly to match the machine.
 
-Due to this differences you need to compile the code for specific machine. If you are int linux world, it is pretty standard procedure to download source code of some program, tool and build by your own on your machine for your machine specific architecture and instructions sets. More popular distributions have packages with already precompiled binaries.
+If in the the end all there is 'assembly' then it should be easy to communicate beetwen different languages. Devil is in the details. The machine doesn't really know which language ultimately generated instructions set that is execcuted by it. But the more we go `one level up` the more differences are there. There are different compilers, different flags, different languages, different architecture, different contexts and different conventions.
 
-That is why things like `java virtual machine` and `clr` and `interpretd' languages happened. They server as a intermidiary beetwen your code and your machine. 
+One of the important difference, I want to talk aobut is `calling convention`. AS mentioned earlier it is like a contract exposed by one function to other to tell it how to communicate with it. If function `A` uses different convention than function `B` they won't be able to call each other.
 
- There are big differences between language some o them have virtual machines, some us interpreter, some are compiled two machinery code directly. But even if there is a bytecode that Is is transformed to machin code during the J It process in the end it is still machine code. Of course there are differences in all the differentiate machines (couple of examples what are differences on this level) they have different registers, instructions an the way w need to operate with them. That is why you need to compile your open source code package when bringing from source - to identify on the compile time I our machine spec and generate appropriate code for the it to run them code. That is why JIT is interesting concept as during JIT compilation Runtime handles this aspect. Same situation I have with interpreter like python (we'll python is a complicated language as Is has many different ways to generate machine code on of them is CPython that compiles together machines code). Interestingly when you use your os package manager like for instance apt get or (the arch one) someone elsewhere did it the compilation step and deployed the resulting binary to package that you can download. 
+Calling conventions can differ in many ways:
 
-If in the the end all there is a machine code then why it is not that easy to communicate between different langusges. Haz this is where we get into the the minefield of different approqches, consteucts and conventions. That I why one of the steps to be able to make this communication I calling conventions a contract defining the way functions should interpret its context (register, stsck) told be able to communicate with each other. 
+- storage of arguments - registers, stack
+- how are the arguments added to the stack - left to right or right to left
+- where do you put result of the function call (stack, register, memory)
+- who is responsible for stack cleanup - caller or calle ( this makes a difference in assembly code size, if caller is cleaning up the stack - the compiler has to generate cleaning logic every time a function is called)
+- who is responsible for `cleaning` up `registers` and bringing them back to previous state (before the function was called)
 
-(shoe two different conventions and what happens of they don't match) 
+Analysing few examples, based on `x86 calling conventions`[\[x\]][x86-conventions].
+
+[x86-conventions]:https://en.wikipedia.org/wiki/X86_calling_conventions
+
+If one of the functions expects call using `cdecl` convention. It is expecting:
+
+* arguments to be on the stack
+* caller cleaning up the stack
+
+If we then call this function using `fastcall` convention both requirements won't be met:
+
+* for fastcall first `three` (for Microsoft `two`) arguments are kept in the reggisters, and calle expectes this values on the stack when it is empty
+* stack won't be cleaned up as fastcall assumes that `callee` is responsible for that.
+
+Examples in asm [\[x\]][examples-cc]
+
+[examples-cc]:https://godbolt.org/g/Zp5tAA
+
+{% highlight c %}
+
+__attribute__((cdecl)) int cdecl(int a, int b) {
+      return a * b;
+}
+
+__attribute__((fastcall)) int fastcall(int a, int b) {
+      return a * b;
+}
+
+int caller() {
+    int a = cdecl(2, 3);
+    int b = fastcall(2, 3);
+    return a + b;
+}
+
+{% endhighlight %}
+
+
+// Change this listings show maybe individual functions 
+// simplify the fastcall to directly use ecx, edx
+// explain why potentialy compiler hasnt used registers directly 
+
+> rguments are first saved in stack then fetched from stack, rather than be used directly. This is because the compiler wants a consistent way to use all arguments via stack access, not only one compiler does like that.[\[x\]][fastcall-diss]
+
+// show what is the equivalent of leave and enter and replace it
+// simplify the code removing the uneccessary parts to make the point
+// and make the point only with the proper code?
+
+[fastcall-diss]
+
+{% highlight c %}
+
+This code is using no opitmizations -O0 
+Other flags used:
+-m32 - to force 32 bits as on 64 calling conventions are ignored
+
+cdecl:
+  push ebp                    <- preserve the caller function entry point on the stack
+  mov ebp, esp                <- point ebp to this function stack frame pointer (create stack frame)
+  mov eax, DWORD PTR [ebp+8]  <- move value 'a' from the stack frame to the accumulator eax
+  imul eax, DWORD PTR [ebp+12]<- multiply eax by 'b' from the stack frame
+  pop ebp                     <- restore entry point from the stack of the calling function to be able to go back
+  ret                         <- return to the entry point of the calling function
+fastcall:                     
+  push ebp                    <- preserve caller function entry point on the stack
+  mov ebp, esp                <- point ebp to this function stack pointer (create stack frame)
+  sub esp, 8                  <- allocate space for 2 items on the stack frame (using substraction) 
+  mov DWORD PTR [ebp-4], ecx  <- put the `a` from ecx register on the stack
+  mov DWORD PTR [ebp-8], edx  <- put the `b` from edx register on the stack
+  mov eax, DWORD PTR [ebp-4]  <- move `a` to accumulator eax
+  imul eax, DWORD PTR [ebp-8] <- multiply by `b`
+  mov esp, ebp                <- `destroy` the stack
+  pop ebp                     <- restore entry point of the caller
+  ret                         <- return to the entry point of the calling function
+caller:
+  push ebp                    
+  mov ebp, esp
+  sub esp, 24                 <- make space on the stack
+  sub esp, 8
+  push 3                      <- push `a` to the stack
+  push 2                      <- push `b` to the stack 
+  call cdecl
+  add esp, 16                 <- 'clean up' the stack
+  mov DWORD PTR [ebp-12], eax <- after cdecl call eax contains a*b result of cdecl function, put it on the stack
+  mov edx, 3                  <- move `a` to edx register
+  mov ecx, 2                  <- move `b` to ecx register
+  call fastcall
+  mov DWORD PTR [ebp-16], eax <- eax contains result of a*b from fastcall function put it on the stack
+  mov edx, DWORD PTR [ebp-12] <- put result of cdecl on the register
+  mov eax, DWORD PTR [ebp-16] <- put result of fastcall on the register
+  add eax, edx                <- add and leave the value on eax for the caller to use
+  mov esp, ebp                <- `destroy` stack
+  pop ebp
+  ret
+
+With level 1 optimziation -01 this looks even more clear
+
+{% endhighlight %}
+
+Diffs: (in the simplified code example)
+
+- fastcall uses edx and ecx registers
+- cdecl uses stack
+- fastcall using mov esp, ebp cleans up the stack
+- cdeccl doesnt do this the caller is ussing add esp, 16 to clea up the stack
+
+
+
+I replaced leave instructions with 
+mov esp, ebp
+pop ebp
+
+sub esp
+add esp
+instructions are nicely explained here stack operations[\[x\]][stack]
+
+[stack]: https://en.wikibooks.org/wiki/X86_Disassembly/The_Stack
+[leave-enter]: https://stackoverflow.com/questions/5858996/enter-and-leave-in-assembly
+
+it is not that easy to communicate between different langusges. Haz this is where we get into the the minefield of different approqches, consteucts and conventions. That I why one of the steps to be able to make this communication I calling conventions a contract defining the way functions should interpret its context (register, stsck) told be able to communicate with each other.
+
+(shoe two different conventions and what happens if they don't match correclty - like one code expecting argument for method in this register but there is some random memory and some random stuff) 
 
 Right to left on different registers, or cleanup.
 
 Different language also represent types differently in the memory that I why you need marshaling stub to translate between two worlds  
-
+jjjj
 What is the IL calling convention. how does it's look like in the visual studio dism. That is why fcimpl and fcall is great, it matches convention to the one's use by il and that I generate by jitter to remove intermediary step like marshaling stub. 
 
 (frame has to provide something with GC and exceptions asm code in cpp exception looks different than the exception in il, runtime wouldnt be able to understand exception thrown in cpp without this translational step) frame I encoding state in one context it is then use im different context to rebuild it. Stack frame is like a meta data conteact. 
@@ -416,13 +540,6 @@ https://arxiv.org/pdf/1805.04272.pdf
 
 Profile somehow - Sort with comparere and TrySZSort? show calls?
 
-Calling conventions can differ in many ways:
-
-- where are the method arguments stored - registers - stack
-- how are the arguments added to the stack - left to right or right to left
-- where do you put result of the function call (stack, register, memory)
-- who is responsible for stack cleanup - caller or calle ( this makes big difference if caller is cleaning up stack - the compiler has to generate cleaning logic every time a function is called increasing size of the assembly)
-- who is responsible for `cleaning` up `registers` and bringing them back to previous state (before the function was called)
 
 `winapi` convention  was mentioned in `P/Invoke` explanation. There are many other conventions [\[x\]]][calling-conventions].
 
