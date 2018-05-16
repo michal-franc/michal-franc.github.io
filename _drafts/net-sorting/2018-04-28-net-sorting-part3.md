@@ -307,6 +307,10 @@ It is all to do with `calling conventions`. It was mentiioned before that `calli
 > It specifies how (at a low level) the compiler will pass input parameters to the function and retrieve its results once it's been executed.
 [\[x\]][calling-convs-so]
 
+[calling-conventions]:https://www.codeproject.com/Articles/1388/Calling-Conventions-Demystified
+[calling-convs-so]:https://stackoverflow.com/questions/10671281/what-is-the-fastcall-keyword-used-for-in-visual-c
+
+
 If we go down to the lowest levels of `code`, there is a `machine code`. It looks like this.[\[x\]][machine-code]
 
 [machine-code]:https://en.wikipedia.org/wiki/Low-level_programming_language
@@ -405,9 +409,10 @@ If we then call this function using `fastcall` convention both requirements won'
 * for fastcall first `three` (for Microsoft `two`) arguments are kept in the reggisters, and calle expectes this values on the stack when it is empty
 * stack won't be cleaned up as fastcall assumes that `callee` is responsible for that.
 
-Examples in asm [\[x\]][examples-cc]
 
-[examples-cc]:https://godbolt.org/g/Zp5tAA
+cdecl example [\[x\]][cdecl-example]
+
+[cdecl-example]:https://godbolt.org/g/qTgVGm
 
 {% highlight c %}
 
@@ -415,33 +420,201 @@ __attribute__((cdecl)) int cdecl(int a, int b) {
       return a * b;
 }
 
-__attribute__((fastcall)) int fastcall(int a, int b) {
-      return a * b;
-}
-
 int caller() {
-    int a = cdecl(2, 3);
-    int b = fastcall(2, 3);
-    return a + b;
+    return cdecl(2, 3);
 }
 
 {% endhighlight %}
 
+This is a simple function that all it does is `multiply` numbers. We have a `cdecl` which is marked with `cdecl` attribute to force this calling convention (this is actually default and this attribute is not needed).
 
-// Change this listings show maybe individual functions 
-// simplify the fastcall to directly use ecx, edx
-// explain why potentialy compiler hasnt used registers directly 
+I am compiling this code with two important flags:
 
-> rguments are first saved in stack then fetched from stack, rather than be used directly. This is because the compiler wants a consistent way to use all arguments via stack access, not only one compiler does like that.[\[x\]][fastcall-diss]
+* -m32 - forces 32 bit executable - without this flag calling coventions are ignored (couldn't find why)
+* -O0 - I don't want to optimize this code as with such a simple example `-O1` in the caller puts a static value `(2 * 3 = 6)`
+* `-fomit-frame-pointer` - one optimization that removes `frame pointers` to make the `asm` code a bit simpler. (At the end of this post there is a example without this optimization explained if you are curious what is the diffference).
 
-// show what is the equivalent of leave and enter and replace it
-// simplify the code removing the uneccessary parts to make the point
-// and make the point only with the proper code?
+> -fomit-frame-pointer   
+> Don't keep the frame pointer in a register for functions that don't need one. This avoids the instructions to save, set up and restore frame pointers; it also makes an extra register available in many functions. It also makes debugging impossible on some machines. [\[x\]][fomit-frame-pointer]
 
-[fastcall-diss]
+It removes instructions
+
+{% highlight c %}
+  - push ebp      <- preserve the caller function entry point on the stack
+  - mov ebp, esp  <- point ebp to this function stack frame pointer (create stack frame)
+...
+  - pop ebp       <- restore entry point from the stack of the calling function to be able to go back
+{% endhighlight %}
+
+[fomit-frame-pointer]:https://stackoverflow.com/questions/14666665/trying-to-understand-gcc-option-fomit-frame-pointer
+
+So how does the `asm` code looks like with all this flags?
+
+{% highlight c %}
+cdecl:
+  mov eax, DWORD PTR [ebp+4]  move value 'a' from the stack to the accumulator eax
+  imul eax, DWORD PTR [ebp+8] multiply eax by 'b' from the stack
+                              -> in cdecl called function expects arguments on the stack
+  ret
+caller:
+  push 3                      push `a` to the stack
+  push 2                      push `b` to the stack 
+                              -> in cdecl arguments are pushed to the stack
+  call cdecl
+  add esp, 8                  'clean up' the stack by moving the pointer
+                              -> in cdecl caller cleans up the stack
+  ret
+{% endhighlight %}
+
+We can see all the characteristics of `cdecl` call in this `code`. I am going to compile now fastcall function using similar flags.
+
+Example of fastcall [\[x\]][example-fastcall-asm]
+
+[example-fastcall-asm]: https://godbolt.org/g/VFQQmL
 
 {% highlight c %}
 
+__attribute__((fastcall)) int fastcall(int a, int b, int c) {
+      return a * b * c;
+}
+
+int caller() {
+    return fastcall(2, 3, 4);
+}
+{% endhighlight %}
+
+I added `third` parameter to show that only first `two` arguments are passed through the registers.  There is one thing, I am going to change in the code to make it more readable - `fastcall` looks like this.
+
+{% highlight c %}
+fastcall:
+  sub esp, 8                   -> reserve place on the stack
+  mov DWORD PTR [esp+4], ecx   -> move `a` to the stack
+  mov DWORD PTR [esp], edx     -> move `b` to the stack
+  mov eax, DWORD PTR [esp+4]   -> move `a` from stack to eax
+  imul eax, DWORD PTR [esp]    -> multiply `a` on eax by `b`
+  imul eax, DWORD PTR [esp+12] -> multiply by `c` on the stack
+  add esp, 8                   -> clean up the stack
+  ret 4                        -> return to the caller and move stack pointer cleaning up `c`
+{% endhighlight %}
+
+But it can be simplified to this.
+
+{% highlight c %}
+fastcall:
+  mov eax, ecx
+  imul eax, edx
+  imul eax, DWORD PTR [esp]
+  ret 4
+{% endhighlight %}
+
+There is no need to reserver place on `stack`, move values from registers to the `stack` and then get values from the `stack`. Compiler potentialy does it due to `consistency`.
+
+> Arguments are first saved in stack then fetched from stack, rather than be used directly. This is because the compiler wants a consistent way to use all arguments via stack access, not only one compiler does like that.[\[x\]][fastcall-diss]
+
+[fastcall-diss]: https://en.wikibooks.org/wiki/X86_Disassembly/Calling_Convention_Examples
+
+In the end we will analyse this code.
+
+{% highlight c %}
+fastcall:
+  mov eax, ecx              move `a` to eax 
+  imul eax, edx             multiply `a` in the eax by `b` in edx
+                            -> in fastcall called function expects arguments in the registers
+  imul eax, DWORD PTR [esp] multiply by `a*b` by `c` on the stack, esp is pointing at the top of stack
+                            -> in fastcall third parameters is on the stack
+  ret 4                     return to the caller and cleanup stack from `c`
+                            -> in fastcall called function is cleaning up the stack
+fastcall:
+  ret
+caller:
+  push 4          move `c` to the stack
+                  -> in fastcall third argument is passed using stack
+  mov edx, 3      move `a` to edx
+  mov ecx, 2      move `b` to ecx
+                  -> in fastcall first 2 arguments are passed by registers
+  call fastcall   
+  ret
+{% endhighlight %}
+
+We just discussed differences beetwen `fastcall` and `cdecl` but what if `caller` function used different convention than `calle` funciton ? Assuming for a while this scenario - the code will look like this.
+
+{% highlight c %}
+fastcall:
+  mov eax, ecx    -> `fastcall` expects arguments on the registers
+  imul eax, edx   
+  ret
+caller:
+  push 3          -> but caller pushed arguments on the stack
+  push 2         
+  call fastcall
+  add esp, 8 
+  ret
+{% endhighlight %}
+
+In this example `fastcall` function will use `somekind` of data on the registers. It wouldn't get the data it was expecting `3` and `2` but something. This would generate an unexpected and hard to debug behaviour. That is why `calling conventions` are important.
+
+### FCall and __fastcall
+
+-- why fastcall potentially?
+
+>  An `FCall` target uses `__fastcall` or some other calling convention to match the IL calling convention exactly. Thus, a call to FCall is a direct call to the target without no intervening stub or frames.
+
+How does it look like in code? Can i debug? it or dissasemble it?
+
+We need to explains `stubs` and `frames` - a bit.
+
+`Stub` is something generated byc `CLR`. It is used to handle marshalling and call/invocation of a target method. When we have a `managed` function, it cannot call the `unmanaged` function just like that. There has to be a intermediary that helps these too to connect. This thing is called `marshalling stub`(I think stub has a lot of meaning but in this example it is something in the middle).
+
+`marshalling stub` handles things like:
+
+* initialization
+* marshaling of input parameters
+* invocation of the method
+* marshaling back of the return value
+* cleanup 
+
+`frames` - stack is filled with `frames`. When a method is called a new frame is erected and it contains informations about `params`, `variables` and many other thingss. 
+
+Beacuse bby default there is no need for `frames` or `stubs` and `FCall` entry pint is directly calledd this method is faster. You have to create frames for scenarios like `throwing exception` or calling `garbage collection` in `FCall`.
+
+In `QCall` and `P/Invoke` frames and marshalling stubs are generetade automatically.
+
+More calling conventions links:
+
+https://blogs.msdn.microsoft.com/oldnewthing/20040102-00/?p=41213
+https://blogs.msdn.microsoft.com/oldnewthing/20040107-00/?p=41183
+https://blogs.msdn.microsoft.com/oldnewthing/20040108-00/?p=41163
+https://blogs.msdn.microsoft.com/oldnewthing/20040113-00/?p=41073
+https://msdn.microsoft.com/en-us/library/6xa169sk.aspx
+https://msdn.microsoft.com/en-us/library/984x0h58.aspx
+https://gcc.gnu.org/onlinedocs/gcc/x86-Function-Attributes.html
+
+Different language also represent types differently in the memory that I why you need marshaling stub to translate between two worlds.
+
+What is the IL calling convention. how does it's look like in the visual studio dism. That is why fcimpl and fcall is great, it matches convention to the one's use by il and that I generate by jitter to remove intermediary step like marshaling stub. 
+
+(frame has to provide something with GC and exceptions asm code in cpp exception looks different than the exception in il, runtime wouldnt be able to understand exception thrown in cpp without this translational step) frame I encoding state in one context it is then use im different context to rebuild it. Stack frame is like a meta data conteact. 
+
+wczoraj siedzialem i czytalem o asmie i roznicach miedzy roznimy convencjami wolania funkcji
+dla mnie to fajnie zrozumiec jak na machine code levelu trzeba dopasowac 'kontrakt' i to jak sa reprezentowane typy w pamiec albo jak odkladane atrybuty na stos tudziez jakie rejestry sa uzywane
+zeby sparowac 2 rozne jezyki i komunikacje miedzy nimi na poziomie asm-a (edited)
+tak samo jak np wyjatek w c++ jest zrozumialy w c#
+albo jak wywolac garbage collector z niezarzadzanego kodu ( uzywa sie stosu i specjalnym ramek ktore koduja informacje ze hej wywolaj garbage collector :smile: ) (edited)
+ja wiem ze tej wiedzy nigdzie nie uzyje
+ale czasem czuje ze problemy ktore ja rozwiazuje na poziomie weba i serwisow budujac systemy rozproszone
+sa juz dawno rozwiazane na poziomie jednego procesu i kodu
+
+TODO:
+- definitely identify parts that require verification from .net internals expert - konrad kokosa
+- propose to konrad book advertisement if he has some landing page
+- normally in ASM there is a call instruction (what is it?)
+
+Machine Learning based search
+https://arxiv.org/pdf/1805.04272.pdf
+
+Profile somehow - Sort with comparere and TrySZSort? show calls?
+
+{% highlight c %}
 This code is using no opitmizations -O0 
 Other flags used:
 -m32 - to force 32 bits as on 64 calling conventions are ignored
@@ -508,80 +681,3 @@ instructions are nicely explained here stack operations[\[x\]][stack]
 
 [stack]: https://en.wikibooks.org/wiki/X86_Disassembly/The_Stack
 [leave-enter]: https://stackoverflow.com/questions/5858996/enter-and-leave-in-assembly
-
-it is not that easy to communicate between different langusges. Haz this is where we get into the the minefield of different approqches, consteucts and conventions. That I why one of the steps to be able to make this communication I calling conventions a contract defining the way functions should interpret its context (register, stsck) told be able to communicate with each other.
-
-(shoe two different conventions and what happens if they don't match correclty - like one code expecting argument for method in this register but there is some random memory and some random stuff) 
-
-Right to left on different registers, or cleanup.
-
-Different language also represent types differently in the memory that I why you need marshaling stub to translate between two worlds  
-jjjj
-What is the IL calling convention. how does it's look like in the visual studio dism. That is why fcimpl and fcall is great, it matches convention to the one's use by il and that I generate by jitter to remove intermediary step like marshaling stub. 
-
-(frame has to provide something with GC and exceptions asm code in cpp exception looks different than the exception in il, runtime wouldnt be able to understand exception thrown in cpp without this translational step) frame I encoding state in one context it is then use im different context to rebuild it. Stack frame is like a meta data conteact. 
-
-wczoraj siedzialem i czytalem o asmie i roznicach miedzy roznimy convencjami wolania funkcji
-dla mnie to fajnie zrozumiec jak na machine code levelu trzeba dopasowac 'kontrakt' i to jak sa reprezentowane typy w pamiec albo jak odkladane atrybuty na stos tudziez jakie rejestry sa uzywane
-zeby sparowac 2 rozne jezyki i komunikacje miedzy nimi na poziomie asm-a (edited)
-tak samo jak np wyjatek w c++ jest zrozumialy w c#
-albo jak wywolac garbage collector z niezarzadzanego kodu ( uzywa sie stosu i specjalnym ramek ktore koduja informacje ze hej wywolaj garbage collector :smile: ) (edited)
-ja wiem ze tej wiedzy nigdzie nie uzyje
-ale czasem czuje ze problemy ktore ja rozwiazuje na poziomie weba i serwisow budujac systemy rozproszone
-sa juz dawno rozwiazane na poziomie jednego procesu i kodu
-
-TODO:
-- definitely identify parts that require verification from .net internals expert - konrad kokosa
-- propose to konrad book advertisement if he has some landing page
-- normally in ASM there is a call instruction (what is it?)
-
-Machine Learning based search
-https://arxiv.org/pdf/1805.04272.pdf
-
-Profile somehow - Sort with comparere and TrySZSort? show calls?
-
-
-`winapi` convention  was mentioned in `P/Invoke` explanation. There are many other conventions [\[x\]]][calling-conventions].
-
-[calling-conventions]:https://www.codeproject.com/Articles/1388/Calling-Conventions-Demystified
-[calling-convs-so]:https://stackoverflow.com/questions/10671281/what-is-the-fastcall-keyword-used-for-in-visual-c
-
-### __fastcall calling convention
-
->  An `FCall` target uses `__fastcall` or some other calling convention to match the IL calling convention exactly. Thus, a call to FCall is a direct call to the target without no intervening stub or frames.
-
-We need to explains `stubs` and `frames` - a bit.
-
-`Stub` is something generated byc `CLR`. It is used to handle marshalling and call/invocation of a target method. When we have a `managed` function, it cannot call the `unmanaged` function just like that. There has to be a intermediary that helps these too to connect. This thing is called `marshalling stub`(I think stub has a lot of meaning but in this example it is something in the middle).
-
-`marshalling stub` handles things like:
-
-* initialization
-* marshaling of input parameters
-* invocation of the method
-* marshaling back of the return value
-* cleanup 
-
-`frames` - stack is filled with `frames`. When a method is called a new frame is erected and it contains informations about `params`, `variables` and many other thingss. 
-
-Beacuse bby default there is no need for `frames` or `stubs` and `FCall` entry pint is directly calledd this method is faster. You have to create frames for scenarios like `throwing exception` or calling `garbage collection` in `FCall`.
-
-In `QCall` and `P/Invoke` frames and marshalling stubs are generetade automatically.
-
-### __fastcall vs cdcell vs __stdcall
-
-I am not gonna bore about more detail but `__fastcall` is a convention that is `supposed to be faster` as it uses `registers` for first 2 arguments when `standard` convention uses stack. This is oversimplified description and for more details check this links.
-
-If you want to see examples on how conventions are translated to dism
-https://en.wikibooks.org/wiki/X86_Disassembly/Calling_Conventions#FASTCALL
-
-
-More calling conventions links:
-
-https://blogs.msdn.microsoft.com/oldnewthing/20040102-00/?p=41213
-https://blogs.msdn.microsoft.com/oldnewthing/20040107-00/?p=41183
-https://blogs.msdn.microsoft.com/oldnewthing/20040108-00/?p=41163
-https://blogs.msdn.microsoft.com/oldnewthing/20040113-00/?p=41073
-https://msdn.microsoft.com/en-us/library/6xa169sk.aspx
-https://msdn.microsoft.com/en-us/library/984x0h58.aspx
-https://gcc.gnu.org/onlinedocs/gcc/x86-Function-Attributes.html
