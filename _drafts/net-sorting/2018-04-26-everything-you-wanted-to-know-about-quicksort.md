@@ -26,10 +26,12 @@ Hey welcome to my new serie about `Sorting` and `.NET Internals`. It has started
 
 To make it more manageable, I divided this work to two chapters:  
 
-- Chapter I - .NET internals - from `List<T>.Sort()` to `TrySZSort`
-- Chapter II - Quicksort++ in the real world - IntroSort
+- Chapter I - .NET internals - from `List<T>.Sort()` to `TrySZSort`  
 
-If you are not interested in `.NET internals`, you can jump straight ahead to `Chapter II` but oh boy you might miss a lot of `fun` (It depends how  you define `fun`, I for sure had fun exploring all the topics in there).
+A journey through the code. Starting with `List<T>.Sort()` and ending on `assembly` code level explaining how functions communicate using `CPU` instructions. How `CLR` can handle `Exceptions` or `Garbage Collection`  from the unmanaged code - and many more. If you are interested in how `.NET` and `CLR` work internaly or what `FCall`, `QCall`, `P/Invoke`, `marshalling` is. This is must have chapter for you. If you are not interested in `.NET internals`, you can jump straight ahead to `Chapter II` but oh boy you might miss a lot of `fun` (It depends how  you define `fun`, I for sure had fun exploring all the topics in there).  
+
+- Chapter II - Sorting in the real world - IntroSort
+
 
 ### Chapter I - .NET Internals:    
 
@@ -37,20 +39,38 @@ If you are not interested in `.NET internals`, you can jump straight ahead to `C
   * `_version++` - keeping enumaration save from unwanted changes
 * [`Array.Sort<T>()`][part2]
   * `[System.Security.SecuritySafeCritical]` and `[ReliabilityContract]`
-  * `FEATURE_LEGACYNETCF` and `MangoArraySortHelper?`
-  * First look at TrySZSort
+  * `Array.CreateInstance` vs `new[]`
   * Visual Basic and the world of non one based arrays
-* [`Calling native from managed (FCALL, ECALL)`][part3]
+* [`TrySZSort`][part3]
+  * why part of the sorting is in unmanaged code?
+  * P/Invoke vs InternallCall
+  * Calling CLR from managed code
+  * FCall and QCall
+* [`How functions communicate on the assemlby level`][part4]
+  * calling conventions
+  * fastcall vs cdecl
+* [`FCall and __fastcall`][part5]
+  * stubs and frames
+  * `garbage collection` and `exception` in `native CLR code`
+* [`FCALL_CONTRACT`][part6]
+  * `NanPrePass`
+  * Why `0xffffffff` = -1
+
+### Chapter II - Sorting in the real world - IntoSort:  
+
+- Basics Of Quicksort
+- Overview of search algorithms - strength and weaknesses
+- IntroSort
+- CLR implementation
 
 [part1]:/blog/net-sorting-part1/
 [part2]:/blog/net-sorting-part2/
 [part3]:/blog/net-sorting-part3/
+[part4]:/blog/net-sorting-part4/
+[part5]:/blog/net-sorting-part5/
+[part6]:/blog/net-sorting-part6/
+[part7]:/blog/net-sorting-part7/
 
-### Chapter II - IntroSort:  
-
-- Basics Of Quicksort link4
-- IntroSort link5
-- CLR implementation link6
 
 You might ask question. Why do you need to know sorting algorithms at all. There are frameworks that have tools to not be bothered about that at all. I call .Sort() function, magic happens time to go home. There is a lot of truth in that but ... 
 
