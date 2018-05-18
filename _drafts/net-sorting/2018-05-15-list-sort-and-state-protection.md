@@ -6,6 +6,7 @@ author: Michal Franc
 comments: true
 categories: [Tech]
 tags: [algorithms]
+series: net-sorting
 permalink: /blog/net-sorting-part1/
 ---
 {% include toc.html %}
