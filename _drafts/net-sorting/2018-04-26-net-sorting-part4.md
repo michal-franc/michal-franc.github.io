@@ -102,7 +102,9 @@ It is the same code but on different architecture with different instruction set
 
 If in the the end all there is 'assembly' then it should be easy to communicate beetwen different languages. Devil is in the details. The machine doesn't really know which language ultimately generated instructions set that is execcuted by it. But the more we go `one level up` the more differences are there. There are different compilers, different flags, different languages, different architecture, different contexts and different conventions.
 
-One of the important difference, I want to talk aobut is `calling convention`. AS mentioned earlier it is like a contract exposed by one function to other to tell it how to communicate with it. If function `A` uses different convention than function `B` they won't be able to call each other.
+One of the important difference, I want to talk aobut is `calling convention`. As mentioned earlier it is like a contract exposed by one function to other to tell it how to communicate with it. If function `A` uses different convention than function `B` they won't be able to call each other.
+
+## How does machine code works? how does code works? Turning machine?
 
 Calling conventions can differ in many ways:
 
@@ -125,7 +127,6 @@ If we then call this function using `fastcall` convention both requirements won'
 
 * for fastcall first `three` (for Microsoft `two`) arguments are kept in the reggisters, and calle expectes this values on the stack when it is empty
 * stack won't be cleaned up as fastcall assumes that `callee` is responsible for that.
-
 
 cdecl example [\[x\]][cdecl-example]
 
