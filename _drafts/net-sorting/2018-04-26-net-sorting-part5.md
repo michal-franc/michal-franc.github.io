@@ -10,6 +10,15 @@ series: net-sorting
 permalink: /blog/net-sorting-part5/
 ---
 
+JIT calling conventions
+http://www.newardassociates.com/files/SSCLI2.pdf -> 130
+
+Ttemporary method entry point  and pre stubs
+http://www.newardassociates.com/files/SSCLI2.pdf -> 120
+
+Frames + StackWalking
+http://www.newardassociates.com/files/SSCLI2.pdf -> 194
+
 ### FCall and __fastcall
 
 As mentioned in `coreclr` docs. `FCall` uses `__fastcall` which is supposed to be faster as it uses `registers` to pass some of the arguments. Registers passing is faster and there is no need for operations on the stack to pass the arguments. Whats more there is amention of `direct call` without stub and frames.
