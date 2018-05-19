@@ -1,6 +1,6 @@
 ---
 layout: draft
-title: Everything you wanted to know about Sorting in .NET
+title: Journey through the internals of .NET Sort
 date: 2018-04-01 07:00
 author: Michal Franc
 comments: true
@@ -63,6 +63,9 @@ A journey through the code. Starting with `List<T>.Sort()` and ending on `assemb
 - Overview of search algorithms - strength and weaknesses
 - IntroSort
 - CLR implementation
+
+Machine Learning based search
+https:ess//arxiv.org/pdf/1805.04272.pdf
 
 [part1]:/blog/net-sorting-part1/
 [part2]:/blog/net-sorting-part2/

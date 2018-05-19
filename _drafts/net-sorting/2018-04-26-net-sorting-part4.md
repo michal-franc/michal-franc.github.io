@@ -10,7 +10,12 @@ series: net-sorting
 permalink: /blog/net-sorting-part4/
 ---
 
+{% include toc.html %}
+
 In this blog post we will answer the question `What is a calling convention?`
+
+TODO:
+- description how machine code looks like and how function work
 
 ### Calling convention
 
@@ -271,25 +276,18 @@ caller:
   ret
 {% endhighlight %}
 
-In this example `fastcall` function will use `somekind` of data on the registers. It wouldn't get the data it was expecting `3` and `2` but something. This would generate an unexpected and hard to debug behaviour. That is why `calling conventions` are important.
+In this example `fastcall` function will use `somekind` of data on the registers. It wouldn't get the data it was expecting `3` and `2` but something. This would generate an unexpected and hard to debug behaviour. That is why `calling conventions` are important. There is a long history behind them [^cc-history1][^cc-history2][^cc-history3][^cc-history4]
 
-wczoraj siedzialem i czytalem o asmie i roznicach miedzy roznimy convencjami wolania funkcji
-dla mnie to fajnie zrozumiec jak na machine code levelu trzeba dopasowac 'kontrakt' i to jak sa reprezentowane typy w pamiec albo jak odkladane atrybuty na stos tudziez jakie rejestry sa uzywane
-zeby sparowac 2 rozne jezyki i komunikacje miedzy nimi na poziomie asm-a (edited)
-tak samo jak np wyjatek w c++ jest zrozumialy w c#
-albo jak wywolac garbage collector z niezarzadzanego kodu ( uzywa sie stosu i specjalnym ramek ktore koduja informacje ze hej wywolaj garbage collector :smile: ) (edited)
-ja wiem ze tej wiedzy nigdzie nie uzyje
-ale czasem czuje ze problemy ktore ja rozwiazuje na poziomie weba i serwisow budujac systemy rozproszone
-sa juz dawno rozwiazane na poziomie jednego procesu i kodu
+Next post in the series will expand on it and describe the link beetwen `JIT`, `CLR`, `calling conventions` and `FCall`.
 
-More calling conventions links:
+[^cc-history1]:[The history of calling conventions, part1](https://blogs.msdn.microsoft.com/oldnewthing/20040102-00/?p=41213)
+[^cc-history2]:[The history of calling conventions, part2](https://blogs.msdn.microsoft.com/oldnewthing/20040107-00/?p=41183)
+[^cc-history3]:[The history of calling conventions, part3](https://blogs.msdn.microsoft.com/oldnewthing/20040108-00/?p=41163)
+[^cc-history4]:[The history of calling conventions, part4](https://blogs.msdn.microsoft.com/oldnewthing/20040113-00/?p=41073)
 
-https://blogs.msdn.microsoft.com/oldnewthing/20040102-00/?p=41213
-https://blogs.msdn.microsoft.com/oldnewthing/20040107-00/?p=41183
-https://blogs.msdn.microsoft.com/oldnewthing/20040108-00/?p=41163
-https://blogs.msdn.microsoft.com/oldnewthing/20040113-00/?p=41073
 https://msdn.microsoft.com/en-us/library/6xa169sk.aspx
 https://msdn.microsoft.com/en-us/library/984x0h58.aspx
+
 https://gcc.gnu.org/onlinedocs/gcc/x86-Function-Attributes.html
 
 {% highlight c %}
