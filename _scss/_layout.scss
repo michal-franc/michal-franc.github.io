@@ -307,7 +307,7 @@ strong {
 		font-weight: 500;
 	}
 
-  p:first-of-type:first-letter { 
+  > p:first-of-type:first-letter { 
     float:left;
     font-family:helvetica, arial, geneva, sans-serif;
     font-size:4.25rem;
