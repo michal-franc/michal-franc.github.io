@@ -10,9 +10,11 @@ series: net-sorting
 permalink: /blog/net-sorting-part4/
 ---
 
-### What is a calling convention?
+In this blog post we will answer the question `What is a calling convention?`
 
-A calling convention is like a contract that describes how the functions, on the `assembly` code level, communicate with each other using `cpu` instructions`. 
+### Calling convention
+
+A calling convention is like a contract that describes how the functions, on the `assembly` code level, communicate with each other using `cpu` instructions`.
 
 Contract defines things like:
 
@@ -21,16 +23,16 @@ Contract defines things like:
 - how the function name is decorated
 - who: `caller` or `calle` handles `stack` or `registers` cleanup
 
-> It specifies how (at a low level) the compiler will pass input parameters to the function and retrieve its results once it's been executed.
-[\[x\]][calling-convs-so]
+> It specifies how (at a low level) the compiler will pass input parameters to the function and retrieve its results once it's been executed.[^calling-convs-so]
+
+[^calling-convs-so]:[StackOverflow 'What is the fastcall keyword...'](https://stackoverflow.com/questions/10671281/what-is-the-fastcall-keyword-used-for-in-visual-c)
 
 [calling-conventions]:https://www.codeproject.com/Articles/1388/Calling-Conventions-Demystified
-[calling-convs-so]:https://stackoverflow.com/questions/10671281/what-is-the-fastcall-keyword-used-for-in-visual-c
 
 
-If we go down to the lowest levels of `code`, there is a `machine code`. It looks like this.[\[x\]][machine-code]
+If we go down to the lowest levels of `code`, there is a `machine code`[^machine-code].
 
-[machine-code]:https://en.wikipedia.org/wiki/Low-level_programming_language
+[^machine-code]:[https://en.wikipedia.org/wiki/Low-level_programming_language](https://en.wikipedia.org/wiki/Low-level_programming_language)
 
 {% highlight csharp %}
 8B542408 83FA0077 06B80000 0000C383
