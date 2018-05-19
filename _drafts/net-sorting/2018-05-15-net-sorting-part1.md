@@ -11,10 +11,10 @@ permalink: /blog/net-sorting-part1/
 ---
 {% include toc.html %}
 
-If we want to talk about sorting in `.NET`, then there is no better place to start than `List<T>.Sort()`. We all know what this functions does. As a Junior, I have never bothered to actually check the source code of this function. Back then source was only available to `insiders`, a handfull of special people for `Microsoft`, considered worthy to look behind the curtain. I still remember times of Steve B. and his firm stand against `Open Source`. This days are gone, `Microsoft` did a massive `U-turn` and not only [`Reference Source`][reference-source-link] is available but also [`CLR`][clr-source] code. 
+If we want to talk about sorting in `.NET`, then there is no better place to start than `List<T>.Sort()`. We all know what this functions does. As a Junior, I have never bothered to actually check the source code of this function. Back then source was only available to `insiders`, a handfull of special people for `Microsoft`, considered worthy to look behind the curtain. I still remember times of Steve B. and his firm stand against `Open Source`. This days are gone, `Microsoft` did a massive `U-turn` and not only `Reference Source`[^reference-source-link] is available but also `CLR`[^clr-source] code. 
 
-[reference-source-link]:https://referencesource.microsoft.com
-[clr-source]:https://github.com/dotnet/coreclr
+[^reference-source-link]:[Reference Source Microsoft](https://referencesource.microsoft.com)
+[^clr-source]:[Github - coreclr](https://github.com/dotnet/coreclr)
 
 {% highlight csharp %}
 public class List<T> : IList<T>, System.Collections.IList, IReadOnlyList<T>
@@ -95,9 +95,9 @@ Usually just like with `Assertions` you need to add snippets of code like:
 Contract.Requires(x != null);
 {% endhighlight %}
 
-`Contract.EndContractBlock()` is special as it wraps preceeding `if` statements and code conditions into the `Code Contract` semantics. It is very usefull when using legacy code as you just mark `CodeContract Block` that reuses existing code. There is not need to change anything. [more info - `Code Contracts` docs][code-contracts]
+`Contract.EndContractBlock()` is special as it wraps preceeding `if` statements and code conditions into the `Code Contract` semantics. It is very usefull when using legacy code as you just mark `CodeContract Block` that reuses existing code. There is not need to change anything.[^code-contracts]
 
-[code-contracts]:https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/code-contracts#usage_guidelines
+[^code-contracts]:[Code Contracts](https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/code-contracts#usage_guidelines)
 
 {% highlight csharp %}
 Array.Sort<T>(_items, index, count, comparer);
@@ -183,9 +183,7 @@ output:
 
 There is something special happening when you join bot `foreach` and `List`. This special thing is called `Enumerator`.
 
-`foreach` is just a syntactic sugar, great [blog post][foreach-internals[ about the internal].
-
-We can use great tool called [sharplab.io][sharp-lab] to check how syntactic sugar is resolved by the compiler.
+`foreach` is just a syntactic sugar [^foreach-internals]. We can use great tool called [sharplab.io][sharp-lab] to check how it is resolved by the compiler.
 
 [sharp-lab]:https://sharplab.io/
 
@@ -254,9 +252,9 @@ finally
 }
 {% endhighlight %}
 
-For loop is gone and replaced by `while` with `Enumerator`. In this post, I ll skip the `intro` to enumerators and enumeration. You can once again [read more][foreach-internals] in this great article.
+For loop is gone and replaced by `while` with `Enumerator`. In this post, I ll skip the `intro` to enumerators and enumeration. You can once again in this great article. [^foreach-internals]
 
-[foreach-internals]:https://msdn.microsoft.com/en-us/magazine/mt797654.aspx
+[^foreach-internals]:[MSDN - Essential .NET Understanding C# foreach ... ](https://msdn.microsoft.com/en-us/magazine/mt797654.aspx)
 
 I want to focus on `_version` value. When we check `list.GetEnumerator()` function.
 
