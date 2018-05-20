@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    
+    <meta name="robots" content="all">
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="author" content="Michal Franc">
+    <meta name="keywords" content="michal franc,leader,programmer,coach,speaker">
+	<title>Calling Python from .Net | Michal Franc</title>
+	<meta name="description" content="In one of the projects i want to use scripting language featuers to easily change the behaviour of my application on the runtime. I choosed Python and its .N...">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata:700|Raleway" rel="stylesheet">
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+    <link rel="author" href="https://plus.google.com/104238159697387202725?rel=author">
+
+	<link rel="canonical" href="http://www.mfranc.com/blog/calling-python-from-net/">
+
+    <link rel="stylesheet" href="/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/sm.css" media="screen" />
+    <link rel="alternate" type="application/rss+xml" title="Michal Franc | Feed" href="http://feeds.feedburner.com/PassionateProgram">
+
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Calling Python from .Net | Michal Franc">
+    <meta property="og:description" content="In one of the projects i want to use scripting language featuers to easily change the behaviour of my application on the runtime. I choosed Python and its .N...">
+	<meta property="og:url" content="http://www.mfranc.com/blog/calling-python-from-net/">
+    <meta property="og:site_name" content="Michal Franc Blog">
+    <meta property="og:type" content="website">
+	<meta property="og:image" content="http://michal-franc.github.io/images/default_share_image.jpg">
+
+	<meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Calling Python from .Net | Michal Franc">
+    <meta name="twitter:site" content="@francmichal">
+    <meta name="twitter:creator" content="@francmichal">
+    <meta name="twitter:description" content="In one of the projects i want to use scripting language featuers to easily change the behaviour of my application on the runtime. I choosed Python and its .N...">
+	<meta name="twitter:image" content="http://michal-franc.github.io/images/default_share_image.jpg">
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-15894596-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+    <script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100563098); }catch(e){}</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100563098ns.gif" /></p></noscript>
+
+    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+    <!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1817837425153843'); // Insert your pixel ID here.
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1817837425153843&ev=PageView&noscript=1"
+/></noscript>
+<!-- DO NOT MODIFY -->
+<!-- End Facebook Pixel Code -->
+
+
+  </head>
+
+
+  <body>
+    <main>
+      <header class="site-header">
+  <div class="container">
+	  <h1><a href="/">Michal<span>Franc</span></a></h1>
+
+    <button type="button" class="sliding-panel-button">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="navbar sliding-panel-content">
+      <ul>
+        
+          <li><a href="/blog" title="Posts">Posts</a></li>
+        
+          <li><a href="/notes" title="Notes">Notes</a></li>
+        
+          <li><a href="/articles" title="Articles">Articles</a></li>
+        
+          <li><a href="/about" title="About">About</a></li>
+        
+        <li><a href="/feed.xml" target="_blank"><i class="icon icon-feed"></i></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="sliding-panel-fade-screen"></div>
+
+
+      <div class="container">
+        <article role="article" class="post">
+
+  <div class="card">
+    <header class="post-header">
+      <h1 class="post-title">Calling Python from .Net</h1>
+      <p class="post-meta">Jul 27, 2010 • Michal Franc - 
+		<small>
+			<i class="icon icon-comments"></i><span class="disqus-comment-count" data-disqus-url="http://mfranc.com/blog/calling-python-from-net/"></span>
+		</small>
+		<small>
+			
+		</small>
+	  </p>
+    </header>
+
+	<center>
+		
+	</center>
+
+    <div class="post-content">
+      
+      <p style="text-align:justify;">In one of the projects i want to use scripting language featuers to easily change the behaviour of my application on the runtime. I choosed Python and its .Net implementation IronPython beacuase it is a solid and popular language.</p>
+<p><strong>Before we can start we need :</strong></p>
+
+<ul>
+  <li><a href="http://ironpython.net/">IronPython Site</a>.</li>
+</ul>
+
+<p>There is also a nice Visual Studio 2010 integration tool which adds new project templates and interactive command prompt to Visual Studio <span style="white-space:pre;"> </span>IDE.</p>
+
+<p><strong>In our code we have to add assembly references :</strong></p>
+
+<ul>
+  <li>
+    <p>IronPython</p>
+  </li>
+  <li>
+    <p>IronPython.Modules</p>
+  </li>
+  <li>
+    <p>Microsoft.Dynamic</p>
+  </li>
+  <li>
+    <p>Microsoft.Scripting</p>
+  </li>
+  <li>
+    <p>Microsoft.Scripting.Debbuging</p>
+  </li>
+</ul>
+
+<p>You can find these files in the IronPython installation folder.</p>
+
+<p><strong>Create simple testing script with just one function declaration</strong></p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="n">def</span> <span class="nf">Simple</span><span class="p">():</span>
+
+	<span class="n">print</span> <span class="s">"Hello from Python Interpreter"</span>
+
+<span class="n">test</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span> <span class="n">filename</span></code></pre>
+</figure>
+
+<p>This script will print a “marvellous” Hello World style text :D</p>
+
+<p><strong>In .Net code we have to:</strong></p>
+
+<ol>
+  <li>
+    <p>Initialize Python Runtime</p>
+  </li>
+  <li>
+    <p>Load File with the script to dynamic object</p>
+  </li>
+  <li>
+    <p>Use dynamic [this keyword is a new addition to the .Net 4.0] object as class , referencing method in script file.</p>
+  </li>
+</ol>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="kt">var</span> <span class="n">ipy</span> <span class="p">=</span> <span class="n">Python</span><span class="p">.</span><span class="nf">CreateRuntime</span><span class="p">();</span>
+
+<span class="kt">dynamic</span> <span class="n">test</span> <span class="p">=</span> <span class="n">ipy</span><span class="p">.</span><span class="nf">UseFile</span><span class="p">(</span><span class="s">"Test.py"</span><span class="p">);</span>
+
+<span class="n">test</span><span class="p">.</span><span class="nf">Sample</span><span class="p">();</span></code></pre>
+</figure>
+
+<p style="text-align:justify;">This code will execute function Simple which is defined in the python script file.Test is a dynamic object , we dont know on the compile time what kind of object it is. The dynamic object will be defined on the runtime. Dynamic keyword is a new addition in the .Net 4.0 Framework. It is simmilar to the var keyword but , it has a different behaviour. Var is defined on the compile time [while the dynamic on the runtime] . Compilator while creating byte code  gueses object from the application cntext.DLR [Dynamic Language Runtime] is a link beetwen CLR and dynamicly typed languages like Python (IronPython) or Ruby (IronRuby). It is build on top of the CLR.</p>
+<p><strong>Where could we use a scripting language integration ?</strong></p>
+<p style="text-align:justify;">The game called “Civilization 4” is a great example of a architecture with core engine created in c++ and almost everything else , from the ai logic , scenarios , map generatior to the ui mechanics is created based on the python code. This architecture creates a great enviroment for end users. By using Python gamers created lot of great mods for the game.</p>
+
+      <span id="post-end"></span>
+    </div>
+
+    <div id="mc_embed_signup">
+<form action="https://mfranc.us13.list-manage.com/subscribe/post?u=8a5865e28c59044d419ecbe95&amp;id=d545f31150" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div id="mc_embed_signup_scroll">
+      <label for="mce-EMAIL">If you are interested in Cloud Native, Scalability, System Design and more meaty side of Engineering at Scale. Then subscribe to my mailing list.</label>
+      <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_8a5865e28c59044d419ecbe95_d545f31150" tabindex="-1" value=""></div>
+        <div class="clear">
+          <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+        </div>
+    </div>
+</form>
+</div>
+
+
+
+    
+<hr>
+
+<aside id="comments" class="disqus">
+  <div class="container">
+    <h3><i class="icon icon-comments-o"></i> Comments</h3>
+    <div id="disqus_thread"></div>
+    <script>
+      (function() {
+        var d = document,
+        s = d.createElement('script');
+        s.src = '//thesilenceofthelams.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</aside>
+
+
+
+  </div>
+
+</article>
+
+      </div>
+
+
+      <footer class="site-footer">
+  <div class="container">
+    <ul class="social">
+  <li><a href="http://github.com/michal-franc" target="_blank"><i class="icon icon-github"></i></a></li>
+  <li><a href="http://twitter.com/francmichal" target="_blank"><i class="icon icon-twitter"></i></a></li>
+  <li><a href="http://facebook.com/michalfrancblog" target="_blank"><i class="icon icon-facebook"></i></a></li>
+  <li><a href="https://uk.linkedin.com/in/michalfranc1" target="_blank"><i class="icon icon-linkedin"></i></a></li>
+</ul>
+
+    <p class="txt-medium-gray">
+      <small>&copy;2018 All rights reserved. Made with <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> and ♥</small>
+    </p>
+  </div>
+</footer>
+
+
+      <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	  <script type="text/javascript" src="/js/jquery.slick-modals.js"/></script>
+
+	  <!-- <script id="ulp-remote" src="http://tools.mfranc.com/wp-content/plugins/layered-popups/js/remote.min.js?ver=5.89" data-handler="http://tools.mfranc.com/wp-admin/admin-ajax.php"></script>
+	  <script>
+
+		    (function ($) {
+			"use strict";
+			var objectPositionTop = $('#post-end').offset().top - window.innerHeight;
+
+				ulp_add_event("onexit", {
+					popup:		"4AXWiVSrZD71uqiP",
+					mode:		"once-period",
+					period:		30
+				});
+
+				ulp_add_event("onidle", {
+					popup:		"85oltSbndJGZQzaW",
+					mode:		"once-period",
+					period:         30
+				});
+
+				ulp_add_event("onscroll", {
+					popup:		"INyhHrwTzxjvcqEb",
+					mode:		"once-period",
+					period:         30,
+					offset:		objectPositionTop / 2
+				});
+
+		    }(jQuery));
+
+    </script> -->
+
+		<script id="dsq-count-scr" src="//thesilenceofthelams.disqus.com/count.js" async></script>
+
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.7&appId=125980610784627";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    
+    <meta name="robots" content="noindex">
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="author" content="Michal Franc">
+    <meta name="keywords" content="michal franc,leader,programmer,coach,speaker">
+	<title>Everything you wanted to know about Sorting in .NET part 3 | Michal Franc</title>
+	<meta name="description" content="  Contents">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata:700|Raleway" rel="stylesheet">
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+    <link rel="author" href="https://plus.google.com/104238159697387202725?rel=author">
+
+	<link rel="canonical" href="http://www.mfranc.com/blog/net-sorting-part3/">
+
+    <link rel="stylesheet" href="/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/sm.css" media="screen" />
+    <link rel="alternate" type="application/rss+xml" title="Michal Franc | Feed" href="http://feeds.feedburner.com/PassionateProgram">
+
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Everything you wanted to know about Sorting in .NET part 3 | Michal Franc">
+    <meta property="og:description" content="  Contents">
+	<meta property="og:url" content="http://www.mfranc.com/blog/net-sorting-part3/">
+    <meta property="og:site_name" content="Michal Franc Blog">
+    <meta property="og:type" content="website">
+	<meta property="og:image" content="http://michal-franc.github.io/images/default_share_image.jpg">
+
+	<meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Everything you wanted to know about Sorting in .NET part 3 | Michal Franc">
+    <meta name="twitter:site" content="@francmichal">
+    <meta name="twitter:creator" content="@francmichal">
+    <meta name="twitter:description" content="  Contents">
+	<meta name="twitter:image" content="http://michal-franc.github.io/images/default_share_image.jpg">
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-15894596-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+    <script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100563098); }catch(e){}</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100563098ns.gif" /></p></noscript>
+
+    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+    <!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1817837425153843'); // Insert your pixel ID here.
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1817837425153843&ev=PageView&noscript=1"
+/></noscript>
+<!-- DO NOT MODIFY -->
+<!-- End Facebook Pixel Code -->
+
+
+  </head>
+
+
+  <body>
+    <main>
+      <header class="site-header">
+  <div class="container">
+	  <h1><a href="/">Michal<span>Franc</span></a></h1>
+
+    <button type="button" class="sliding-panel-button">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="navbar sliding-panel-content">
+      <ul>
+        
+          <li><a href="/blog" title="Posts">Posts</a></li>
+        
+          <li><a href="/notes" title="Notes">Notes</a></li>
+        
+          <li><a href="/articles" title="Articles">Articles</a></li>
+        
+          <li><a href="/about" title="About">About</a></li>
+        
+        <li><a href="/feed.xml" target="_blank"><i class="icon icon-feed"></i></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="sliding-panel-fade-screen"></div>
+
+
+      <div class="container">
+        <article role="article" class="post">
+
+  <div class="card">
+    <header class="post-header">
+      <h1 class="post-title">Everything you wanted to know about Sorting in .NET part 3</h1>
+      <p class="post-meta">Apr 1, 2018 • Michal Franc - 
+		<small>
+			<i class="icon icon-comments"></i><span class="disqus-comment-count" data-disqus-url="http://mfranc.com/blog/net-sorting-part3/"></span>
+		</small>
+		<small>
+			
+			<a class="tag-badge" href="/blog/tags/#algorithms">algorithms</a>
+			
+		</small>
+	  </p>
+    </header>
+
+	<center>
+		
+	</center>
+
+    <div class="post-content">
+      
+        
+
+
+
+
+
+
+<div class="seriesNote">
+    This article is <strong>Part 3</strong> in a <strong>7-Part</strong> Series.
+    <ul>
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+      
+        
+          
+              
+              <li>Part 1 - 
+              
+                  <a href="/blog/net-sorting-intro/">Journey through the internals of .NET Sort</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 2 - 
+              
+                  <a href="/blog/net-sorting-part1/">Everything you wanted to know about Sorting in .NET - part I</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 3 - 
+              
+                  This Article
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 4 - 
+              
+                  <a href="/blog/net-sorting-part2/">Everything you wanted to know about Sorting in .NET part 2</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 5 - 
+              
+                  <a href="/blog/net-sorting-part6/">Everything you wanted to know about Sorting in .NET part 6</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 6 - 
+              
+                  <a href="/blog/net-sorting-part5/">Everything you wanted to know about Sorting in .NET part 5</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 7 - 
+              
+                  <a href="/blog/net-sorting-part4/">Everything you wanted to know about Sorting in .NET part 4</a>
+              
+              </li>
+          
+        
+      
+    
+    </ul>
+</div>
+
+
+
+
+      
+      <div class="toc">
+  <h2>Contents</h2>
+<ol id="markdown-toc">
+  <li><a href="#why-is-part-of-the-sort-in-the-native-code" id="markdown-toc-why-is-part-of-the-sort-in-the-native-code">Why is part of the Sort in the native code?</a></li>
+  <li><a href="#calling-unmanaged-code" id="markdown-toc-calling-unmanaged-code">Calling unmanaged code</a>    <ol>
+      <li><a href="#pinvoke-platform-invocation" id="markdown-toc-pinvoke-platform-invocation">P/Invoke (Platform Invocation)</a></li>
+      <li><a href="#internalcall" id="markdown-toc-internalcall">InternalCall</a></li>
+    </ol>
+  </li>
+  <li><a href="#calling-clr-from-managed-code" id="markdown-toc-calling-clr-from-managed-code">Calling CLR from managed code</a>    <ol>
+      <li><a href="#fcall-and-tryszsort" id="markdown-toc-fcall-and-tryszsort">FCall and TrySZSort</a></li>
+    </ol>
+  </li>
+</ol>
+
+</div>
+
+<p>Last part ended with a <code class="highlighter-rouge">sneak peak</code> of a <code class="highlighter-rouge">native</code> code. This part is going to expand on it. We are entering <code class="highlighter-rouge">C++</code> world inside <code class="highlighter-rouge">CLR</code>. First things first, why doing all this complicated stuff and not have <code class="highlighter-rouge">TrySZSort</code> in managed code?</p>
+
+<h2 id="why-is-part-of-the-sort-in-the-native-code">Why is part of the Sort in the native code?</h2>
+
+<p>Actually <code class="highlighter-rouge">TrySZSort</code> uses <code class="highlighter-rouge">IntroSort</code> internaly. As we have discovered in the beginning of this serie when a custom <code class="highlighter-rouge">IComparer</code> is provided a managed version of <code class="highlighter-rouge">IntroSort</code> is used instead. Shall we check what would be the difference?</p>
+
+<p>I am going to use <code class="highlighter-rouge">BenchmarkDotNet</code> for that. A very good library that gives you a lot of data about your code, allocations, timing etc.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="k">internal</span> <span class="k">class</span> <span class="nc">CustomIntComparer</span> <span class="p">:</span> <span class="n">IComparer</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="kt">int</span> <span class="nf">Compare</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+  <span class="p">{</span>
+      <span class="k">return</span> <span class="n">x</span> <span class="p">&lt;</span> <span class="n">y</span> <span class="p">?</span> <span class="p">-</span><span class="m">1</span> <span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="p">==</span> <span class="n">y</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="m">1</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="na">[MemoryDiagnoser]</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">SortTest</span>
+<span class="p">{</span>
+  <span class="p">[</span><span class="nf">Params</span><span class="p">(</span><span class="m">10</span><span class="p">,</span> <span class="m">100</span><span class="p">,</span> <span class="m">1000</span><span class="p">,</span> <span class="m">10000</span><span class="p">)]</span>
+  <span class="k">public</span> <span class="kt">int</span> <span class="n">ListSize</span><span class="p">;</span>
+
+  <span class="k">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">ToSort</span><span class="p">;</span>
+  <span class="k">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">ToSort1</span><span class="p">;</span>
+
+  <span class="p">[</span><span class="n">GlobalSetup</span><span class="p">]</span>
+  <span class="k">public</span> <span class="k">void</span> <span class="nf">Setup</span><span class="p">()</span> 
+  <span class="p">{</span>
+      <span class="kt">var</span> <span class="n">rnd</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Random</span><span class="p">();</span>
+      <span class="n">ToSort</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;();</span>
+      <span class="n">ToSort1</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;();</span>
+
+      <span class="k">foreach</span><span class="p">(</span><span class="kt">var</span> <span class="n">i</span> <span class="k">in</span> <span class="n">Enumerable</span><span class="p">.</span><span class="nf">Range</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">ListSize</span><span class="p">))</span>
+      <span class="p">{</span>
+          <span class="kt">var</span> <span class="n">val</span> <span class="p">=</span> <span class="n">rnd</span><span class="p">.</span><span class="nf">Next</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">100</span><span class="p">);</span>
+
+          <span class="n">ToSort</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+          <span class="n">ToSort1</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+      <span class="p">};</span>
+  <span class="p">}</span>
+
+  <span class="k">private</span> <span class="k">void</span> <span class="nf">NativeSortCall</span><span class="p">()</span>
+  <span class="p">{</span>
+      <span class="n">ToSort</span><span class="p">.</span><span class="nf">Sort</span><span class="p">();</span>
+  <span class="p">}</span>
+  
+  <span class="k">private</span> <span class="k">void</span> <span class="nf">ManagedSortCall</span><span class="p">()</span>
+  <span class="p">{</span>
+      <span class="n">ToSort1</span><span class="p">.</span><span class="nf">Sort</span><span class="p">(</span><span class="k">new</span> <span class="nf">CustomIntComparer</span><span class="p">());</span>
+  <span class="p">}</span>
+
+  <span class="p">[</span><span class="n">Benchmark</span><span class="p">]</span>
+  <span class="k">public</span> <span class="k">void</span> <span class="nf">NativeSort</span><span class="p">()</span> <span class="p">=&gt;</span> <span class="nf">NativeSortCall</span><span class="p">();</span>
+  <span class="p">[</span><span class="n">Benchmark</span><span class="p">]</span>
+  <span class="k">public</span> <span class="k">void</span> <span class="nf">ManagedSort</span><span class="p">()</span> <span class="p">=&gt;</span> <span class="nf">ManagedSortCall</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Program</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+  <span class="p">{</span>
+      <span class="n">BenchmarkRunner</span><span class="p">.</span><span class="n">Run</span><span class="p">&lt;</span><span class="n">SortTest</span><span class="p">&gt;();</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre>
+</figure>
+
+<p>Results:</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp">      <span class="n">Method</span> <span class="p">|</span> <span class="n">ListSize</span> <span class="p">|</span>          <span class="n">Mean</span> 
+<span class="p">------------</span> <span class="p">|---------</span> <span class="p">|--------------:</span>
+  <span class="n">NativeSort</span> <span class="p">|</span>       <span class="m">10</span> <span class="p">|</span>      <span class="m">27.16</span> <span class="n">ns</span> 
+ <span class="n">ManagedSort</span> <span class="p">|</span>       <span class="m">10</span> <span class="p">|</span>     <span class="m">116.47</span> <span class="n">ns</span> 
+  <span class="n">NativeSort</span> <span class="p">|</span>      <span class="m">100</span> <span class="p">|</span>     <span class="m">326.75</span> <span class="n">ns</span> 
+ <span class="n">ManagedSort</span> <span class="p">|</span>      <span class="m">100</span> <span class="p">|</span>   <span class="m">1</span><span class="p">,</span><span class="m">431.44</span> <span class="n">ns</span> 
+  <span class="n">NativeSort</span> <span class="p">|</span>     <span class="m">1000</span> <span class="p">|</span>   <span class="m">5</span><span class="p">,</span><span class="m">450.18</span> <span class="n">ns</span> 
+ <span class="n">ManagedSort</span> <span class="p">|</span>     <span class="m">1000</span> <span class="p">|</span>  <span class="m">27</span><span class="p">,</span><span class="m">412.47</span> <span class="n">ns</span> 
+  <span class="n">NativeSort</span> <span class="p">|</span>    <span class="m">10000</span> <span class="p">|</span>  <span class="m">87</span><span class="p">,</span><span class="m">920.78</span> <span class="n">ns</span> 
+ <span class="n">ManagedSort</span> <span class="p">|</span>    <span class="m">10000</span> <span class="p">|</span> <span class="m">305</span><span class="p">,</span><span class="m">439.37</span> <span class="n">ns</span> </code></pre>
+</figure>
+
+<p>Looks like there is a 4-5x difference. In a nutshell like with every <code class="highlighter-rouge">complex</code> system you take it as it is. When you use <code class="highlighter-rouge">managed</code> code it gives you a lot of <code class="highlighter-rouge">security</code> and gets rid of many <code class="highlighter-rouge">problems</code>, but there is a price to pay. You have to give control and lose flexibility to <code class="highlighter-rouge">optimize</code>, plus all the things that give you other nice things do cost time and cpu power. You cannot do certain optimization in managed code. If you ask a <code class="highlighter-rouge">question</code> is <code class="highlighter-rouge">native</code> code always faster than <code class="highlighter-rouge">managed</code> code? It is difficult as it is based on too many variables. Running native code faster also costs - time and require knowledge and expertise. Also managed <code class="highlighter-rouge">JIT</code> compilers are getting more interesting optimizations that are making the code run faster.</p>
+
+<p>In example of <code class="highlighter-rouge">Sorting</code>, <code class="highlighter-rouge">TrySZSort</code> in native code is clearly optimized and leverages native code, but it is a code that is harder to maintain and reason about. Ok then lets go down the rabbit hole and discuss how to establish connection beetwen <code class="highlighter-rouge">native</code> and <code class="highlighter-rouge">managed</code> code.</p>
+
+<h2 id="calling-unmanaged-code">Calling unmanaged code</h2>
+
+<p>To connect <code class="highlighter-rouge">managed</code> and <code class="highlighter-rouge">unmanaged</code> code you need to use <code class="highlighter-rouge">extern</code> keyword. It is used to tell the runtime that implementation of this function is in a different (external) place. There are <code class="highlighter-rouge">two</code> ways to call external code.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">P/Invoke</code></li>
+  <li><code class="highlighter-rouge">InternalCall</code></li>
+</ul>
+
+<h3 id="pinvoke-platform-invocation">P/Invoke (Platform Invocation)</h3>
+
+<blockquote>
+  <p>Platform invocation is the mechanims provided by the <code class="highlighter-rouge">Common language runtime</code> to facilitate the calls from managed code to unmanaged code functions. Behind the sceneeess the runtime construcrs the so-called stub, or thunk, which allows the addressing of the unmanaged functon and conversion of managed argument types to the appropiate unmanaged types back. This conversion is known as parameter marshalling.<a href="https://books.google.co.uk/books?id=Xv_0AwAAQBAJ&amp;pg=PA15&amp;lpg=PA15&amp;dq=IL+pinvokeimpl&amp;source=bl&amp;ots=YlZ6ZsEFLm&amp;sig=5RSk1mnSNiMVBVQ11yCZRaqZjSw&amp;hl=en&amp;sa=X&amp;ved=0ahUKEwiCrNTUgYPbAhWCbMAKHfKdDt4Q6AEIPzAD#v=onepage&amp;q=IL%20pinvokeimpl&amp;f=false">[x]</a></p>
+</blockquote>
+
+<p>To call unmanaged code using <code class="highlighter-rouge">P/Invoke</code>, function has to be <code class="highlighter-rouge">extern</code> and have <code class="highlighter-rouge">DLLImport</code> attribute. This attribute takes <code class="highlighter-rouge">DLL file library</code> name as a parameters. <code class="highlighter-rouge">DLL</code> files are <code class="highlighter-rouge">Dynamically-linked-libraries</code> containing compiled code. This files expose <code class="highlighter-rouge">Export Address table</code> that hold <code class="highlighter-rouge">entry points</code> to functions. Entry points used by runtime to call functions.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="na">[DllImport("nonexistinglib.dll")]</span>
+<span class="k">static</span> <span class="k">extern</span> <span class="kt">bool</span> <span class="nf">Function</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">);</span></code></pre>
+</figure>
+
+<p>In this simple example, I am telling the compiler that <code class="highlighter-rouge">Function</code> is in <code class="highlighter-rouge">nonexistinglib.dll</code>. This generates <code class="highlighter-rouge">IL</code> code with <code class="highlighter-rouge">pinvokeimpl</code> keyword.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="n">IL</span>
+<span class="p">.</span><span class="n">method</span> <span class="k">private</span> <span class="n">hidebysig</span> <span class="k">static</span> <span class="nf">pinvokeimpl</span><span class="p">(</span><span class="s">"nonexistingLib.dll"</span> <span class="n">winapi</span><span class="p">)</span> 
+    <span class="kt">bool</span> <span class="nf">Function</span> <span class="p">(</span>
+        <span class="n">int32</span> <span class="n">i</span>
+    <span class="p">)</span> <span class="n">cil</span> <span class="n">managed</span> <span class="n">preservesig</span> 
+<span class="p">{</span>
+<span class="p">}</span></code></pre>
+</figure>
+
+<p><code class="highlighter-rouge">pinvokeimpl</code> tells the runtime that this is unmanaged method called using <code class="highlighter-rouge">P/Invoke</code>. This method is available in library <code class="highlighter-rouge">nonexistinglib.dll</code> and has the calling convention <code class="highlighter-rouge">winapi</code>. More on calling conventions later in this post, but in a nutshell - calling convention describes how to call function, something like contract. <code class="highlighter-rouge">unmanaged</code> dll expects certain <code class="highlighter-rouge">contract</code> to be met in order to accept the call to function. <code class="highlighter-rouge">winapi</code> convention is an alias of <code class="highlighter-rouge">__stdcall</code>.</p>
+
+<p>What is happening here is CLR:</p>
+
+<ul>
+  <li>JIT’s the code</li>
+  <li>finds pinvokeimpl</li>
+  <li>find the entrypoint to the unmanaged function</li>
+  <li>prepares the <code class="highlighter-rouge">contract</code> using winap calling convention and <code class="highlighter-rouge">marshalls</code> parameter int32 i</li>
+  <li>calls the function</li>
+  <li>getting <code class="highlighter-rouge">bool</code> value back</li>
+  <li>uses <code class="highlighter-rouge">winapi</code> calling convention to <code class="highlighter-rouge">unmarshall</code> the value</li>
+</ul>
+
+<p>It is actually a bit more complicated as there are things like <code class="highlighter-rouge">execution context</code> or <code class="highlighter-rouge">sentinel</code> item put on stack frame to mark the boundary beetwen managed and unmanaged code. but this blog post tries to draw a <code class="highlighter-rouge">big picture</code>.</p>
+
+<p>A good real life example of <code class="highlighter-rouge">P/Invoke</code> is <code class="highlighter-rouge">FileStream.Read</code>  When you call the <code class="highlighter-rouge">Read</code> in the end you are actually calling <code class="highlighter-rouge">Win Api DLL's KERNEL32</code> and <code class="highlighter-rouge">WIN32.ReadFile</code>. It uses this platform invocation to call <code class="highlighter-rouge">OS</code> api and read a file.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="n">FileStream</span><span class="p">.</span><span class="n">Read</span> 
+<span class="p">-&gt;</span> <span class="n">ReadCore</span>
+<span class="p">-&gt;</span> <span class="n">BeginReadCode</span>
+<span class="p">-&gt;</span> <span class="n">ReadFileNative</span>
+<span class="p">-&gt;</span> <span class="n">Win32</span><span class="p">.</span><span class="n">ReadFile</span>
+
+<span class="na">[DllImport(KERNEL32, SetLastError=true)]</span>
+<span class="k">unsafe</span> <span class="k">internal</span> <span class="k">static</span> <span class="k">extern</span> <span class="kt">int</span> <span class="n">Win32</span><span class="p">.</span><span class="n">ReadFile</span></code></pre>
+</figure>
+
+<h3 id="internalcall">InternalCall</h3>
+
+<p><code class="highlighter-rouge">InternallCall</code> is a different way to call unmanaged function. It is a bit more efficent (due to it being in CLR close environment giving possibility to relax some time consuming operations around security, exception handling etc.)  but you cannot create <code class="highlighter-rouge">InternalCalls</code> in <code class="highlighter-rouge">asemblies</code>. This call can be only used when calling functions implemented in <code class="highlighter-rouge">CLR</code>. <code class="highlighter-rouge">CLR</code> is not only about runtime, it also contains optimized code used in many places like <code class="highlighter-rouge">StringBuilder.ToString()</code>. This is main reason why using <code class="highlighter-rouge">StringBuilder</code> is faster and a good prctice.</p>
+
+<p>This is a good example of <code class="highlighter-rouge">InternalCall</code>. When <code class="highlighter-rouge">ToString</code> on <code class="highlighter-rouge">StringBuilder</code> <a href="https://referencesource.microsoft.com/#mscorlib/system/text/stringbuilder.cs,399">[x]</a> is called it is actually calling <code class="highlighter-rouge">FrameAllocatedString</code> down stack. Code that is in <code class="highlighter-rouge">CLR</code> and uses internallcall to do that.[[x]<a href="https://github.com/dotnet/coreclr/blob/a38ed985e11b0d56ecd44e3e6d2878cef8ca6052/src/vm/jithelpers.cpp#L2909">frame-allocated-string</a>]</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="n">StringBuilder</span><span class="p">.</span><span class="nf">ToString</span><span class="p">()</span>
+<span class="p">-&gt;</span> <span class="kt">string</span><span class="p">.</span><span class="n">FastAllocateString</span>
+<span class="p">-&gt;</span> <span class="n">FrameAllocatedString</span>
+
+<span class="na">[MethodImplAttribute(MethodImplOptions.InternalCall)]</span>
+<span class="k">internal</span> <span class="k">extern</span> <span class="k">static</span> <span class="n">String</span> <span class="nf">FastAllocatedString</span><span class="p">(</span><span class="kt">int</span> <span class="n">length</span><span class="p">);</span></code></pre>
+</figure>
+
+<p>From the IL point of view code looks a bit different and uses <code class="highlighter-rouge">internalcall</code> keyword.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="na">[MethodImpl(MethodImplOptions.InternalCall)]</span>
+<span class="k">static</span> <span class="k">extern</span> <span class="kt">bool</span> <span class="nf">Function</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">);</span>
+
+<span class="n">IL</span>
+<span class="p">.</span><span class="n">method</span> <span class="k">private</span> <span class="n">hidebysig</span> <span class="k">static</span> 
+    <span class="kt">bool</span> <span class="nf">CallFunction</span> <span class="p">(</span>
+        <span class="n">int32</span> <span class="n">i</span>
+    <span class="p">)</span> <span class="n">cil</span> <span class="n">managed</span> <span class="n">internalcall</span> 
+<span class="p">{</span>
+<span class="p">}</span></code></pre>
+</figure>
+
+<p><code class="highlighter-rouge">internalcall</code> - tells the runtime to look for the implementation of the code inside <code class="highlighter-rouge">CLR</code> itself. <code class="highlighter-rouge">CLR</code> maintains its own <code class="highlighter-rouge">Function entrypoint address table</code>(there will be example with one function mention lated in the post) used to find the entrypoint. It also uses special calling convention  <code class="highlighter-rouge">__fastcall</code> that is not visible in <code class="highlighter-rouge">IL</code> code as this is the only convention used. With <code class="highlighter-rouge">P/Invoke</code> examplke, based on the <code class="highlighter-rouge">unmanaged</code> code you are calling IL will have diffrent calling convention.</p>
+
+<p>It is possible add new <code class="highlighter-rouge">InternalCalls</code> but it requries changes in <code class="highlighter-rouge">CLR</code>. You would have to execute your <code class="highlighter-rouge">CLS compliant</code> language library using custom build <code class="highlighter-rouge">CLR</code>. Instruction on how to do this are  available on the github.<a href="https://github.com/dotnet/coreclr/blob/master/Documentation/building/windows-instructions.md">[2]</a>.</p>
+
+<h2 id="calling-clr-from-managed-code">Calling CLR from managed code</h2>
+
+<p>We discussed two ways to call unmanaged code. I want to focus now on calling <code class="highlighter-rouge">CLR</code> code as this is part of our <code class="highlighter-rouge">Sorting</code> journey and how <code class="highlighter-rouge">TrySZSort</code> is called.  Discussed methods above <code class="highlighter-rouge">InternalCall</code> and <code class="highlighter-rouge">P/Invoke</code> are translated to something sligthly different within the <code class="highlighter-rouge">CLR</code>, this this is called <code class="highlighter-rouge">ECall</code>.</p>
+
+<p>ECall is a <code class="highlighter-rouge">private native calling interface</code>. This interface is inside <code class="highlighter-rouge">CLR</code>.  When the managed code wants to access internal code in <code class="highlighter-rouge">CLR</code> it tells the runtime(<code class="highlighter-rouge">execution engine</code>) to use <code class="highlighter-rouge">ECall</code> to find the function and its entry point. Runtime then calls this function. As with previous examples there is also calling convention and marshalling done.</p>
+
+<blockquote>
+  <p><code class="highlighter-rouge">ECall</code> is a set of tables to call functions within the EE (Execution Engine) from the classlibs.  First we use the class name &amp; namespace to find an array of function pointers for a class, then use the function name (&amp; sometimes signature) to find the correct function pointer for your method. <br />
+<a href="https://github.com/dotnet/coreclr/blob/master/src/vm/ecall.cpp#L350">source</a></p>
+</blockquote>
+
+<p>There are two types of <code class="highlighter-rouge">ECall</code> - <code class="highlighter-rouge">QCall</code> and <code class="highlighter-rouge">FCall</code>. <code class="highlighter-rouge">FCall</code>[[x]]<a href="https://github.com/dotnet/coreclr/blob/master/src/vm/fcall.h">fcall</a> is more performant but also more <code class="highlighter-rouge">risky, much more difficcult to write correctly and uses </code>InterrnalCall<code class="highlighter-rouge">. </code>QCall<code class="highlighter-rouge"> is less performant but much more safe and uses </code>P/Invoke<code class="highlighter-rouge">. It is mentioned as default and  prefered option when calling code in </code>CLR<code class="highlighter-rouge">. </code>FCall` should only be used when there really a good reason for using it.</p>
+
+<blockquote>
+  <p><code class="highlighter-rouge">QCalls</code> are the preferred mechanism going forward. You should only use <code class="highlighter-rouge">FCalls</code> when you are “forced” to. This happens when there is common “short path” through the code that is important to optimize. This short path should not be more than a few hundred instructions, cannot allocate GC memory, take locks or throw exceptions 
+[[x]]]<a href="https://github.com/dotnet/coreclr/blob/master/Documentation/botr/mscorlib.md#choosing-between-fcall-qcall-pinvoke-and-writing-in-managed-code">qcall-preffered</a></p>
+</blockquote>
+
+<p>Microsoft is moving more code from FCall to managed code.</p>
+
+<blockquote>
+  <p>We have ported some parts of the CLR that were heavily reliant on FCalls to managed code in the past (such as Reflection and some Encoding &amp; String operations), and we want to continue this momentum. We may port our number formatting &amp; String comparison code to managed in the future.
+[source][fcall-deprecation]</p>
+</blockquote>
+
+<p><code class="highlighter-rouge">QCall</code><a href="https://github.com/dotnet/coreclr/blob/master/src/vm/qcall.h">[x]</a></p>
+
+<ul>
+  <li>is more safe but less performant</li>
+  <li>uses <code class="highlighter-rouge">P/Invoke</code></li>
+  <li>default and preferred choice</li>
+</ul>
+
+<p>Example of <code class="highlighter-rouge">QCall</code> declaration on managed side.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="na">[DllImport(JitHelpers.QCall, CharSet = CharSet.Unicode)]</span>
+<span class="k">static</span> <span class="k">extern</span> <span class="kt">bool</span> <span class="nf">Bar</span><span class="p">(</span><span class="kt">int</span> <span class="n">flags</span><span class="p">,</span> <span class="kt">string</span> <span class="n">inString</span><span class="p">,</span> <span class="n">StringHandleOnStack</span> <span class="n">retString</span><span class="p">);</span></code></pre>
+</figure>
+
+<p><code class="highlighter-rouge">FCall</code><a href="https://github.com/dotnet/coreclr/blob/master/src/vm/fcall.h">[x]</a></p>
+
+<ul>
+  <li>uses <code class="highlighter-rouge">InternalCall</code></li>
+  <li>should only be used when it is possible to make performance gains by using it</li>
+  <li>are more performant when <code class="highlighter-rouge">Frames</code> (HelperMethodFrame) are not used</li>
+  <li>you need to create <code class="highlighter-rouge">Frame</code> to handle Exceptions or <code class="highlighter-rouge">GC</code></li>
+  <li>susceptible to <code class="highlighter-rouge">GC holes</code><a href="https://github.com/dotnet/coreclr/blob/master/Documentation/coding-guidelines/clr-code-guide.md#2.1">[x]</a> and <code class="highlighter-rouge">GC starvation</code></li>
+  <li>more error prone due to manual control of <code class="highlighter-rouge">GC</code> and <code class="highlighter-rouge">Frames</code></li>
+</ul>
+
+<p>Example of <code class="highlighter-rouge">FCall</code> declaration on managed side.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="na">[MethodImplAttribute(MethodImplOptions.InternalCall)]</span>
+<span class="k">private</span> <span class="k">static</span> <span class="k">extern</span> <span class="kt">bool</span> <span class="nf">TrySZSort</span><span class="p">(</span><span class="n">Array</span> <span class="n">keys</span><span class="p">,</span> <span class="n">Array</span> <span class="n">items</span><span class="p">,</span> <span class="kt">int</span> <span class="n">left</span><span class="p">,</span> <span class="kt">int</span> <span class="n">right</span><span class="p">);</span></code></pre>
+</figure>
+
+<p>I was curious what needs to be done to generate new <code class="highlighter-rouge">FCALL</code>. This <a href="https://github.com/dotnet/coreclr/commit/c61525b5883e883621f98d44f479b15d790b0533#diff-3667dffbd11675529c85670ef344242e">commit</a> from MS team is a great example.</p>
+
+<ul>
+  <li>register function in a <a href="https://github.com/dotnet/coreclr/blob/master/src/vm/ecall.cpp#L27">ECClass table</a> - static table with entry points to <code class="highlighter-rouge">FCALL</code> functions. This is used by jitter to find the entry points. Example: <a href="https://github.com/dotnet/coreclr/blob/master/src/vm/ecalllist.h#L814">TrySZSort entrypoint</a></li>
+  <li>add function to the <code class="highlighter-rouge">ECFunc</code> array for a class that has this function. Example: <a href="https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arrayhelpers.h#L335">TrySZSort</a></li>
+  <li>add extern static function with <code class="highlighter-rouge">InternalCall</code> decorator in managed code</li>
+  <li>use FCIMPL macro to generate function - your code needs to be inside this macro</li>
+</ul>
+
+<h3 id="fcall-and-tryszsort">FCall and TrySZSort</h3>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="n">List</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;.</span><span class="nf">Sort</span><span class="p">()</span>
+<span class="p">---&gt;</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;.</span><span class="nf">Sort</span><span class="p">(</span><span class="n">index</span> <span class="p">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">count</span> <span class="p">=</span> <span class="n">Count</span><span class="p">,</span> <span class="n">comparer</span><span class="p">=</span><span class="k">null</span><span class="p">)</span>
+<span class="p">------&gt;</span> <span class="n">Array</span><span class="p">.</span><span class="n">Sort</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">_items</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">comparer</span><span class="p">);</span>
+<span class="p">---------</span><span class="n">C</span><span class="p">++</span> <span class="n">native</span> <span class="n">world</span> <span class="p">-------</span>
+<span class="p">-----------&gt;</span> <span class="n">TrySZSort</span></code></pre>
+</figure>
+
+<p><code class="highlighter-rouge">TrySZSort</code> is exposed to managed code using <code class="highlighter-rouge">InternalCall</code>, it is using <code class="highlighter-rouge">FCall</code>.On the <code class="highlighter-rouge">CLR</code> side it uses <code class="highlighter-rouge">FCIMPL4</code> macro to generate the function.[[x]][try-sz-sort-impl].</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="nf">FCIMPL4</span><span class="p">(</span><span class="n">FC_BOOL_RET</span><span class="p">,</span> <span class="n">ArrayHelper</span><span class="p">::</span><span class="n">TrySZSort</span><span class="p">,</span> <span class="n">ArrayBase</span> <span class="p">*</span> <span class="n">keys</span><span class="p">,</span> <span class="n">ArrayBase</span> <span class="p">*</span> <span class="n">items</span>
+<span class="p">,</span> <span class="n">UINT32</span> <span class="n">left</span><span class="p">,</span> <span class="n">UINT32</span> <span class="n">right</span><span class="p">)</span></code></pre>
+</figure>
+
+<p><code class="highlighter-rouge">4</code> is a number of arguments, <code class="highlighter-rouge">FC_BOOL_RET</code> tells the macro that this function returns <code class="highlighter-rouge">BOOL</code>. Why FCIMPL macro is needed?</p>
+
+<blockquote>
+  <p>Since <code class="highlighter-rouge">FCALLS</code> have to conform to the <code class="highlighter-rouge">Execution Engine</code> calling conventions and not to C calling conventions, <code class="highlighter-rouge">FCALLS</code>, need to be declared using special macros <code class="highlighter-rouge">(FCIMPL*)</code> that implement the correct calling conventions.</p>
+</blockquote>
+
+<p>It is all to do with <code class="highlighter-rouge">calling conventions</code>. It was mentiioned before that <code class="highlighter-rouge">calling convention</code> is like a contract but how does it work? As it is not a <code class="highlighter-rouge">small</code> topic I created a separate blog post for it. This will be our next part.</p>
+
+
+
+      <span id="post-end"></span>
+    </div>
+
+    <div id="mc_embed_signup">
+<form action="https://mfranc.us13.list-manage.com/subscribe/post?u=8a5865e28c59044d419ecbe95&amp;id=d545f31150" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div id="mc_embed_signup_scroll">
+      <label for="mce-EMAIL">If you are interested in Cloud Native, Scalability, System Design and more meaty side of Engineering at Scale. Then subscribe to my mailing list.</label>
+      <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_8a5865e28c59044d419ecbe95_d545f31150" tabindex="-1" value=""></div>
+        <div class="clear">
+          <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+        </div>
+    </div>
+</form>
+</div>
+
+
+
+    
+<hr>
+
+<aside id="comments" class="disqus">
+  <div class="container">
+    <h3><i class="icon icon-comments-o"></i> Comments</h3>
+    <div id="disqus_thread"></div>
+    <script>
+      (function() {
+        var d = document,
+        s = d.createElement('script');
+        s.src = '//thesilenceofthelams.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</aside>
+
+
+
+  </div>
+
+</article>
+
+      </div>
+
+
+      <footer class="site-footer">
+  <div class="container">
+    <ul class="social">
+  <li><a href="http://github.com/michal-franc" target="_blank"><i class="icon icon-github"></i></a></li>
+  <li><a href="http://twitter.com/francmichal" target="_blank"><i class="icon icon-twitter"></i></a></li>
+  <li><a href="http://facebook.com/michalfrancblog" target="_blank"><i class="icon icon-facebook"></i></a></li>
+  <li><a href="https://uk.linkedin.com/in/michalfranc1" target="_blank"><i class="icon icon-linkedin"></i></a></li>
+</ul>
+
+    <p class="txt-medium-gray">
+      <small>&copy;2018 All rights reserved. Made with <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> and ♥</small>
+    </p>
+  </div>
+</footer>
+
+
+      <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	  <script type="text/javascript" src="/js/jquery.slick-modals.js"/></script>
+
+	  <!-- <script id="ulp-remote" src="http://tools.mfranc.com/wp-content/plugins/layered-popups/js/remote.min.js?ver=5.89" data-handler="http://tools.mfranc.com/wp-admin/admin-ajax.php"></script>
+	  <script>
+
+		    (function ($) {
+			"use strict";
+			var objectPositionTop = $('#post-end').offset().top - window.innerHeight;
+
+				ulp_add_event("onexit", {
+					popup:		"4AXWiVSrZD71uqiP",
+					mode:		"once-period",
+					period:		30
+				});
+
+				ulp_add_event("onidle", {
+					popup:		"85oltSbndJGZQzaW",
+					mode:		"once-period",
+					period:         30
+				});
+
+				ulp_add_event("onscroll", {
+					popup:		"INyhHrwTzxjvcqEb",
+					mode:		"once-period",
+					period:         30,
+					offset:		objectPositionTop / 2
+				});
+
+		    }(jQuery));
+
+    </script> -->
+
+		<script id="dsq-count-scr" src="//thesilenceofthelams.disqus.com/count.js" async></script>
+
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.7&appId=125980610784627";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+    </main>
+  </body>
+</html>

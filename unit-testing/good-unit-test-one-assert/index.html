@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    
+    <meta name="robots" content="all">
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="author" content="Michal Franc">
+    <meta name="keywords" content="michal franc,leader,programmer,coach,speaker">
+	<title>Good unit test - One Assert | Michal Franc</title>
+	<meta name="description" content="In previous post, I defined a good unit test as one that:	tests single unit of work	contains only one assert	is self containedPresented sample of code with o...">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata:700|Raleway" rel="stylesheet">
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+    <link rel="author" href="https://plus.google.com/104238159697387202725?rel=author">
+
+	<link rel="canonical" href="http://www.mfranc.com/unit-testing/good-unit-test-one-assert/">
+
+    <link rel="stylesheet" href="/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/sm.css" media="screen" />
+    <link rel="alternate" type="application/rss+xml" title="Michal Franc | Feed" href="http://feeds.feedburner.com/PassionateProgram">
+
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Good unit test - One Assert | Michal Franc">
+    <meta property="og:description" content="In previous post, I defined a good unit test as one that:	tests single unit of work	contains only one assert	is self containedPresented sample of code with o...">
+	<meta property="og:url" content="http://www.mfranc.com/unit-testing/good-unit-test-one-assert/">
+    <meta property="og:site_name" content="Michal Franc Blog">
+    <meta property="og:type" content="website">
+	<meta property="og:image" content="http://michal-franc.github.io/images/default_share_image.jpg">
+
+	<meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Good unit test - One Assert | Michal Franc">
+    <meta name="twitter:site" content="@francmichal">
+    <meta name="twitter:creator" content="@francmichal">
+    <meta name="twitter:description" content="In previous post, I defined a good unit test as one that:	tests single unit of work	contains only one assert	is self containedPresented sample of code with o...">
+	<meta name="twitter:image" content="http://michal-franc.github.io/images/default_share_image.jpg">
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-15894596-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+    <script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100563098); }catch(e){}</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100563098ns.gif" /></p></noscript>
+
+    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+    <!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1817837425153843'); // Insert your pixel ID here.
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1817837425153843&ev=PageView&noscript=1"
+/></noscript>
+<!-- DO NOT MODIFY -->
+<!-- End Facebook Pixel Code -->
+
+
+  </head>
+
+
+  <body>
+    <main>
+      <header class="site-header">
+  <div class="container">
+	  <h1><a href="/">Michal<span>Franc</span></a></h1>
+
+    <button type="button" class="sliding-panel-button">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="navbar sliding-panel-content">
+      <ul>
+        
+          <li><a href="/blog" title="Posts">Posts</a></li>
+        
+          <li><a href="/notes" title="Notes">Notes</a></li>
+        
+          <li><a href="/articles" title="Articles">Articles</a></li>
+        
+          <li><a href="/about" title="About">About</a></li>
+        
+        <li><a href="/feed.xml" target="_blank"><i class="icon icon-feed"></i></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="sliding-panel-fade-screen"></div>
+
+
+      <div class="container">
+        <article role="article" class="post">
+
+  <div class="card">
+    <header class="post-header">
+      <h1 class="post-title">Good unit test - One Assert</h1>
+      <p class="post-meta">Jan 9, 2013 • Michal Franc - 
+		<small>
+			<i class="icon icon-comments"></i><span class="disqus-comment-count" data-disqus-url="http://mfranc.com/unit-testing/good-unit-test-one-assert/"></span>
+		</small>
+		<small>
+			
+			<a class="tag-badge" href="/blog/tags/#tdd">tdd</a>
+			
+		</small>
+	  </p>
+    </header>
+
+	<center>
+		
+	</center>
+
+    <div class="post-content">
+      
+      <p>In <a href="http://www.mfranc.com/unit-testing/unit-test-code-with-static-method-console-write/">previous post</a>, I defined a good unit test as one that:</p>
+<ul>
+	<li>tests single unit of work</li>
+	<li>contains only one assert</li>
+	<li>is self contained</li>
+</ul>
+<p align="justify">Presented sample of code with one unit test, unfortunately had two asserts. Clear violation of the second rule. One of the fellow bloggers <a href="http://macjedrzejewski.wordpress.com/">MJ</a> pointed out this mistake. It is time to “fix” it and talk about “Only one assert per test” rule.</p>
+
+<h2>Why only One Assert</h2>
+<p>There are couple of problems with multiple asserts.</p>
+<h3>Unit Test Misinformation</h3>
+<p>Frameworks like NUnit do notify about failing unit test when one of the asserts is not met. You get the message that some condition failed, but only this one condition. Code, behind the failing assert, is not executed. In a scenario with multiple asserts, when the first one fails, test procedure is lost and potential problem looks like related to the first assertion check. This is a misinformation.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="na">[Test]</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">GenerateDocumentNumber_when_new_document_then_contains_string_new_and_id</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="c1">// Arrange
+</span>  <span class="kt">var</span> <span class="n">newString</span> <span class="p">=</span> <span class="s">"new"</span><span class="p">;</span>
+  <span class="kt">var</span> <span class="n">id</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+
+  <span class="c1">// Act
+</span>  <span class="kt">var</span> <span class="n">documentNumber</span> <span class="p">=</span> <span class="n">generator</span><span class="p">.</span><span class="nf">GenerateDocumentNumber</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+
+  <span class="c1">// Assert
+</span>  <span class="n">Assert</span><span class="p">.</span><span class="nf">That</span><span class="p">(</span><span class="n">documentNumber</span><span class="p">,</span> <span class="n">Is</span><span class="p">.</span><span class="nf">StringContaining</span><span class="p">(</span><span class="n">newString</span><span class="p">));</span>
+  <span class="n">Assert</span><span class="p">.</span><span class="nf">That</span><span class="p">(</span><span class="n">documentNumber</span><span class="p">,</span> <span class="n">Is</span><span class="p">.</span><span class="nf">StringContaining</span><span class="p">(</span><span class="n">id</span><span class="p">));</span>
+<span class="p">}</span></code></pre>
+</figure>
+
+<p>Presented example tests GenerateDocumentNumber function. This function creates simple string based on provided ID.</p>
+
+<p>We want to check if :</p>
+<ul>
+	<li>document number contains 'id' value</li>
+	<li>document number contains keyword 'new'</li>
+</ul>
+<p>If procedure fails on newString assertion we know that one part of the algorithm doesnt work. The problem is that check for ID wasn’t done at all. We don’t know if ID is set correctly. Test like this, with multiple asserts, can’t be trusted.</p>
+<h3>Complicated Tests</h3>
+<p>There is another problem with the presented unit test sample. It is too complicated. Unit test has to be focused only on one part of the algorithm. First assertion, checks if there is a ‘new’ keyword. Second, looks for ‘ID’. Both of these scenarios are great candidates for separate test.</p>
+
+<p>Also, part of the code responsible for the ‘ID’, is probably more general and doesnt apply only to ‘new’ documents scenario. It is misleading, based solely on the unit test code and the name, we can assume that ‘ID’ is only added to new documents code.</p>
+
+<p>We can split this test in two:</p>
+<ul>
+	<li>GenerateDocumentNumber_when_new_document_then_contains_string_new</li>
+	<li>GenerateDocumentNumber_contains_id_of_the_document</li>
+</ul>
+<p>With one assert per unit test mindset there is better chance of creating good unit test, concentrated on one particular problem.</p>
+
+<p>Going back to <a href="http://www.mfranc.com/unit-testing/unit-test-code-with-static-method-console-write/">previous post</a> example.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="na">[Test]</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">If_two_chars_return_pass_and_output_coded_pass</span><span class="p">()</span>
+<span class="p">{</span>
+   <span class="c1">// Arrange
+</span>   <span class="kt">var</span> <span class="n">stub</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ConsoleWrapperStub</span><span class="p">(</span><span class="k">new</span> <span class="n">List</span>
+   <span class="p">{</span> <span class="n">ConsoleKey</span><span class="p">.</span><span class="n">A</span><span class="p">,</span> <span class="n">ConsoleKey</span><span class="p">.</span><span class="n">B</span><span class="p">,</span> <span class="n">ConsoleKey</span><span class="p">.</span><span class="n">Enter</span> <span class="p">});</span>
+
+   <span class="kt">var</span> <span class="n">expectedResult</span> <span class="p">=</span> <span class="s">"AB"</span><span class="p">;</span>
+   <span class="kt">var</span> <span class="n">expectedConsoleOutput</span> <span class="p">=</span> <span class="s">"**"</span><span class="p">;</span>
+
+   <span class="c1">// Act
+</span>   <span class="kt">var</span> <span class="n">actualResult</span> <span class="p">=</span> <span class="n">Program</span><span class="p">.</span><span class="nf">GetMaskedInput</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">,</span> <span class="n">stub</span><span class="p">);</span>
+
+   <span class="c1">//Assert     
+</span>   <span class="n">Assert</span><span class="p">.</span><span class="nf">That</span><span class="p">(</span><span class="n">actualResult</span><span class="p">,</span> <span class="n">Is</span><span class="p">.</span><span class="nf">EqualTo</span><span class="p">(</span><span class="n">expectedResult</span><span class="p">));</span>
+   <span class="n">Assert</span><span class="p">.</span><span class="nf">That</span><span class="p">(</span><span class="n">stub</span><span class="p">.</span><span class="n">Output</span><span class="p">,</span><span class="n">Is</span><span class="p">.</span><span class="nf">EqualTo</span><span class="p">(</span><span class="n">expectedConsoleOutput</span><span class="p">));</span>
+<span class="p">}</span></code></pre>
+</figure>
+
+<p>There are three behaviours that we have to test.</p>
+<ul>
+	<li>output '*' char for each char in provided password</li>
+	<li>return password</li>
+	<li>ConsoleKey.Enter breaks the procedure</li>
+</ul>
+<p>‘Output char’ and ‘return password’ logic should be tested separaterly. The Enter key functionality is unfortunately more complicated beacuse it is mandatory in each test scenario. However still we can test some edge scenarios like “What happens when there is no Enter key ?”</p>
+<h2>One test per concept</h2>
+<p>There are of course exceptions and unit tests that could use multiple asserts.</p>
+
+<p>Quote by <a href="http://osherove.com/">Roy Osherove</a> from <a href="http://www.owenpellegrin.com/blog/testing/how-do-you-solve-multiple-asserts/">Yeah it’s a blog</a></p>
+<blockquote>
+  <p align="justify">My guideline is usually that you test one logical CONCEPT per test. you can have multiple asserts on the same <em>object</em>. they will usually be the same concept being tested.</p>
+</blockquote>
+<p>This rule allows multiple asserts but they have to be related and linked with simillar CONCEPT. For instance, this is not bad if multiple asserts are testing something like this.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="na">[Test]</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">GetDocuments_returns_list_of_documents</span><span class="p">()</span>
+<span class="p">{</span>
+   <span class="c1">// Act
+</span>   <span class="kt">var</span> <span class="n">documents</span> <span class="p">=</span> <span class="n">repository</span><span class="p">.</span><span class="nf">GetDocuments</span><span class="p">();</span>
+
+   <span class="c1">//Assert     
+</span>   <span class="n">Assert</span><span class="p">.</span><span class="nf">That</span><span class="p">(</span><span class="n">documents</span><span class="p">,</span> <span class="n">Is</span><span class="p">.</span><span class="n">Not</span><span class="p">.</span><span class="n">Null</span><span class="p">);</span>
+   <span class="n">Assert</span><span class="p">.</span><span class="nf">That</span><span class="p">(</span><span class="n">documents</span><span class="p">,</span> <span class="n">Is</span><span class="p">.</span><span class="n">Not</span><span class="p">.</span><span class="n">Empty</span><span class="p">);</span>
+   <span class="n">Assert</span><span class="p">.</span><span class="nf">That</span><span class="p">(</span><span class="n">document</span><span class="p">[</span><span class="m">0</span><span class="p">],</span> <span class="n">Is</span><span class="p">.</span><span class="n">Not</span><span class="p">.</span><span class="n">Null</span><span class="p">);</span>
+<span class="p">}</span></code></pre>
+</figure>
+
+<p>We have three asserts but they are basically testing the same thing. If one of them fails then the rest can’t be ulfilled. Fail on the first one automaticlly means that whole test failed and something bad happened. Nothing is hidden.</p>
+<h2>Good Unit Test - Summary</h2>
+<ul>
+	<li>try to use one assert per test</li>
+	<li>if there is a need for multiple asserts, remember one test per concept rule</li>
+</ul>
+<h3>Links</h3>
+<p><a href="http://osherove.com/">Roy Osherove Site</a></p>
+
+<p><a href="http://www.owenpellegrin.com/blog/testing/how-do-you-solve-multiple-asserts/">Post with solution to “hide” asserts</a></p>
+
+      <span id="post-end"></span>
+    </div>
+
+    <div id="mc_embed_signup">
+<form action="https://mfranc.us13.list-manage.com/subscribe/post?u=8a5865e28c59044d419ecbe95&amp;id=d545f31150" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div id="mc_embed_signup_scroll">
+      <label for="mce-EMAIL">If you are interested in Cloud Native, Scalability, System Design and more meaty side of Engineering at Scale. Then subscribe to my mailing list.</label>
+      <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_8a5865e28c59044d419ecbe95_d545f31150" tabindex="-1" value=""></div>
+        <div class="clear">
+          <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+        </div>
+    </div>
+</form>
+</div>
+
+
+
+    
+<hr>
+
+<aside id="comments" class="disqus">
+  <div class="container">
+    <h3><i class="icon icon-comments-o"></i> Comments</h3>
+    <div id="disqus_thread"></div>
+    <script>
+      (function() {
+        var d = document,
+        s = d.createElement('script');
+        s.src = '//thesilenceofthelams.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</aside>
+
+
+
+  </div>
+
+</article>
+
+      </div>
+
+
+      <footer class="site-footer">
+  <div class="container">
+    <ul class="social">
+  <li><a href="http://github.com/michal-franc" target="_blank"><i class="icon icon-github"></i></a></li>
+  <li><a href="http://twitter.com/francmichal" target="_blank"><i class="icon icon-twitter"></i></a></li>
+  <li><a href="http://facebook.com/michalfrancblog" target="_blank"><i class="icon icon-facebook"></i></a></li>
+  <li><a href="https://uk.linkedin.com/in/michalfranc1" target="_blank"><i class="icon icon-linkedin"></i></a></li>
+</ul>
+
+    <p class="txt-medium-gray">
+      <small>&copy;2018 All rights reserved. Made with <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> and ♥</small>
+    </p>
+  </div>
+</footer>
+
+
+      <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	  <script type="text/javascript" src="/js/jquery.slick-modals.js"/></script>
+
+	  <!-- <script id="ulp-remote" src="http://tools.mfranc.com/wp-content/plugins/layered-popups/js/remote.min.js?ver=5.89" data-handler="http://tools.mfranc.com/wp-admin/admin-ajax.php"></script>
+	  <script>
+
+		    (function ($) {
+			"use strict";
+			var objectPositionTop = $('#post-end').offset().top - window.innerHeight;
+
+				ulp_add_event("onexit", {
+					popup:		"4AXWiVSrZD71uqiP",
+					mode:		"once-period",
+					period:		30
+				});
+
+				ulp_add_event("onidle", {
+					popup:		"85oltSbndJGZQzaW",
+					mode:		"once-period",
+					period:         30
+				});
+
+				ulp_add_event("onscroll", {
+					popup:		"INyhHrwTzxjvcqEb",
+					mode:		"once-period",
+					period:         30,
+					offset:		objectPositionTop / 2
+				});
+
+		    }(jQuery));
+
+    </script> -->
+
+		<script id="dsq-count-scr" src="//thesilenceofthelams.disqus.com/count.js" async></script>
+
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.7&appId=125980610784627";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    
+    <meta name="robots" content="noindex">
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="author" content="Michal Franc">
+    <meta name="keywords" content="michal franc,leader,programmer,coach,speaker">
+	<title>Journey through the internals of .NET Sort | Michal Franc</title>
+	<meta name="description" content="TODO:">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata:700|Raleway" rel="stylesheet">
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+    <link rel="author" href="https://plus.google.com/104238159697387202725?rel=author">
+
+	<link rel="canonical" href="http://www.mfranc.com/blog/net-sorting-intro/">
+
+    <link rel="stylesheet" href="/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/sm.css" media="screen" />
+    <link rel="alternate" type="application/rss+xml" title="Michal Franc | Feed" href="http://feeds.feedburner.com/PassionateProgram">
+
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Journey through the internals of .NET Sort | Michal Franc">
+    <meta property="og:description" content="TODO:">
+	<meta property="og:url" content="http://www.mfranc.com/blog/net-sorting-intro/">
+    <meta property="og:site_name" content="Michal Franc Blog">
+    <meta property="og:type" content="website">
+	<meta property="og:image" content="http://michal-franc.github.io/images/default_share_image.jpg">
+
+	<meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Journey through the internals of .NET Sort | Michal Franc">
+    <meta name="twitter:site" content="@francmichal">
+    <meta name="twitter:creator" content="@francmichal">
+    <meta name="twitter:description" content="TODO:">
+	<meta name="twitter:image" content="http://michal-franc.github.io/images/default_share_image.jpg">
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-15894596-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+    <script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100563098); }catch(e){}</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100563098ns.gif" /></p></noscript>
+
+    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+    <!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1817837425153843'); // Insert your pixel ID here.
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1817837425153843&ev=PageView&noscript=1"
+/></noscript>
+<!-- DO NOT MODIFY -->
+<!-- End Facebook Pixel Code -->
+
+
+  </head>
+
+
+  <body>
+    <main>
+      <header class="site-header">
+  <div class="container">
+	  <h1><a href="/">Michal<span>Franc</span></a></h1>
+
+    <button type="button" class="sliding-panel-button">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="navbar sliding-panel-content">
+      <ul>
+        
+          <li><a href="/blog" title="Posts">Posts</a></li>
+        
+          <li><a href="/notes" title="Notes">Notes</a></li>
+        
+          <li><a href="/articles" title="Articles">Articles</a></li>
+        
+          <li><a href="/about" title="About">About</a></li>
+        
+        <li><a href="/feed.xml" target="_blank"><i class="icon icon-feed"></i></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="sliding-panel-fade-screen"></div>
+
+
+      <div class="container">
+        <article role="article" class="post">
+
+  <div class="card">
+    <header class="post-header">
+      <h1 class="post-title">Journey through the internals of .NET Sort</h1>
+      <p class="post-meta">Apr 1, 2018 • Michal Franc - 
+		<small>
+			<i class="icon icon-comments"></i><span class="disqus-comment-count" data-disqus-url="http://mfranc.com/blog/net-sorting-intro/"></span>
+		</small>
+		<small>
+			
+			<a class="tag-badge" href="/blog/tags/#algorithms">algorithms</a>
+			
+		</small>
+	  </p>
+    </header>
+
+	<center>
+		
+	</center>
+
+    <div class="post-content">
+      
+        
+
+
+
+
+
+
+<div class="seriesNote">
+    This article is <strong>Part 1</strong> in a <strong>7-Part</strong> Series.
+    <ul>
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+      
+        
+          
+              
+              <li>Part 1 - 
+              
+                  This Article
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 2 - 
+              
+                  <a href="/blog/net-sorting-part1/">Everything you wanted to know about Sorting in .NET - part I</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 3 - 
+              
+                  <a href="/blog/net-sorting-part3/">Everything you wanted to know about Sorting in .NET part 3</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 4 - 
+              
+                  <a href="/blog/net-sorting-part2/">Everything you wanted to know about Sorting in .NET part 2</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 5 - 
+              
+                  <a href="/blog/net-sorting-part6/">Everything you wanted to know about Sorting in .NET part 6</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 6 - 
+              
+                  <a href="/blog/net-sorting-part5/">Everything you wanted to know about Sorting in .NET part 5</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 7 - 
+              
+                  <a href="/blog/net-sorting-part4/">Everything you wanted to know about Sorting in .NET part 4</a>
+              
+              </li>
+          
+        
+      
+    
+    </ul>
+</div>
+
+
+
+
+      
+      <p>TODO:</p>
+
+<ul>
+  <li>Matt Warren consult with this blog post</li>
+  <li>coreclr - docs ask for addng this post to the list</li>
+  <li>create new articles type of page - which contains one big article with introduction and Chapters sections + contents + link to all the single pages</li>
+  <li>add new jekyll plugin for TOC and series support (If github doesnt support it then use generation on your machine and just push statis website)</li>
+  <li>add drafts suport</li>
+  <li>there will be three types of posts - blog post - article - quick note
+    <ul>
+      <li>article is a serie of posts</li>
+      <li>quick note is just smaller blog post that i do spend only 30 min weekly to work on</li>
+      <li>https://bsn.io/2017/01/public-drafts-with-a-github-pages-blog</li>
+    </ul>
+  </li>
+  <li>Rename the series to - <code class="highlighter-rouge">Journey to the heart of .NET sorting</code></li>
+</ul>
+
+<p>Hey welcome to my new serie about <code class="highlighter-rouge">Sorting</code> and <code class="highlighter-rouge">.NET Internals</code>. It has started as a simple question <code class="highlighter-rouge">Hey, I wonder how Quicksort is implemented in .NET?</code>. I was planning to release one blog post, wrap up quickly and jump to another idea. But when I started the journey I just couldn’t stop asking question <code class="highlighter-rouge">why</code> and wanted to learn more. You cant think of this serie as a <code class="highlighter-rouge">journey log</code>. Me going trhough the code startign at <code class="highlighter-rouge">List.Sort()</code> function to <code class="highlighter-rouge">IntroSort</code> algorithm, documenting my observations and finding answers to the questions along the way.</p>
+
+<p>To make it more manageable, I divided this work to two chapters:</p>
+
+<ul>
+  <li>Chapter I - .NET internals - from <code class="highlighter-rouge">List&lt;T&gt;.Sort()</code> to <code class="highlighter-rouge">TrySZSort</code></li>
+</ul>
+
+<p>A journey through the code. Starting with <code class="highlighter-rouge">List&lt;T&gt;.Sort()</code> and ending on <code class="highlighter-rouge">assembly</code> code level explaining how functions communicate using <code class="highlighter-rouge">CPU</code> instructions. How <code class="highlighter-rouge">CLR</code> can handle <code class="highlighter-rouge">Exceptions</code> or <code class="highlighter-rouge">Garbage Collection</code>  from the unmanaged code - and many more. If you are interested in how <code class="highlighter-rouge">.NET</code> and <code class="highlighter-rouge">CLR</code> work internaly or what <code class="highlighter-rouge">FCall</code>, <code class="highlighter-rouge">QCall</code>, <code class="highlighter-rouge">P/Invoke</code>, <code class="highlighter-rouge">marshalling</code> is. This is must have chapter for you. If you are not interested in <code class="highlighter-rouge">.NET internals</code>, you can jump straight ahead to <code class="highlighter-rouge">Chapter II</code> but oh boy you might miss a lot of <code class="highlighter-rouge">fun</code> (It depends how  you define <code class="highlighter-rouge">fun</code>, I for sure had fun exploring all the topics in there).</p>
+
+<ul>
+  <li>Chapter II - Sorting in the real world - IntroSort</li>
+</ul>
+
+<h3 id="chapter-i---net-internals">Chapter I - .NET Internals:</h3>
+
+<ul>
+  <li><a href="/blog/net-sorting-part1/"><code class="highlighter-rouge">System.Collections.Generic.List&lt;T&gt;.Sort()</code></a>
+    <ul>
+      <li><code class="highlighter-rouge">_version++</code> - keeping enumaration save from unwanted changes</li>
+    </ul>
+  </li>
+  <li><a href="/blog/net-sorting-part2/"><code class="highlighter-rouge">Array.Sort&lt;T&gt;()</code></a>
+    <ul>
+      <li><code class="highlighter-rouge">[System.Security.SecuritySafeCritical]</code> and <code class="highlighter-rouge">[ReliabilityContract]</code></li>
+      <li><code class="highlighter-rouge">Array.CreateInstance</code> vs <code class="highlighter-rouge">new[]</code></li>
+      <li>Visual Basic and the world of non one based arrays</li>
+    </ul>
+  </li>
+  <li><a href="/blog/net-sorting-part3/"><code class="highlighter-rouge">TrySZSort</code></a>
+    <ul>
+      <li>why part of the sorting is in unmanaged code?</li>
+      <li>P/Invoke vs InternallCall</li>
+      <li>Calling CLR from managed code</li>
+      <li>FCall and QCall</li>
+    </ul>
+  </li>
+  <li><a href="/blog/net-sorting-part4/"><code class="highlighter-rouge">How functions communicate on the assemlby level</code></a>
+    <ul>
+      <li>calling conventions</li>
+      <li>fastcall vs cdecl</li>
+    </ul>
+  </li>
+  <li><a href="/blog/net-sorting-part5/"><code class="highlighter-rouge">FCall and __fastcall</code></a>
+    <ul>
+      <li>stubs and frames</li>
+      <li><code class="highlighter-rouge">garbage collection</code> and <code class="highlighter-rouge">exception</code> in <code class="highlighter-rouge">native CLR code</code></li>
+    </ul>
+  </li>
+  <li><a href="/blog/net-sorting-part6/"><code class="highlighter-rouge">FCALL_CONTRACT</code></a>
+    <ul>
+      <li><code class="highlighter-rouge">NanPrePass</code></li>
+      <li>Why <code class="highlighter-rouge">0xffffffff</code> = -1</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="chapter-ii---sorting-in-the-real-world---intosort">Chapter II - Sorting in the real world - IntoSort:</h3>
+
+<ul>
+  <li>Basics Of Quicksort</li>
+  <li>Overview of search algorithms - strength and weaknesses</li>
+  <li>IntroSort</li>
+  <li>CLR implementation</li>
+</ul>
+
+<p>Machine Learning based search
+https:ess//arxiv.org/pdf/1805.04272.pdf</p>
+
+<p>You might ask question. Why do you need to know sorting algorithms at all. There are frameworks that have tools to not be bothered about that at all. I call .Sort() function, magic happens time to go home. There is a lot of truth in that but …</p>
+
+<ul>
+  <li>Frameworks are great for <code class="highlighter-rouge">generic</code> majority of problems</li>
+  <li>There are however problems that might require sorting algorithms knoweledge</li>
+  <li>Even with frameworks support, it is good to know what stable nad unstable sorting algorithm is, it can influence your design</li>
+  <li>Sorting algorithms are a great introduction to the world of engineering <code class="highlighter-rouge">trade-offs</code></li>
+  <li>This is also an example of multiple <code class="highlighter-rouge">tools</code> doing same thing in different ways</li>
+  <li>It is a good way to learn about <code class="highlighter-rouge">divide and conquer</code>, <code class="highlighter-rouge">asympthotic complexity</code> and <code class="highlighter-rouge">recurssion</code></li>
+</ul>
+
+<p>W takim podejsciu jest wiele racji i nie jest ono zle. Framework to narzedzie do rozwiazywania naszych problemow biznesowych ktore w wiekszosci przypadkow sa wwanziejsze niz rozwazania nad tym jak dzialaja dokladnie algorytmy sortujace. Moj szef baardziej bedzie zadowolony jak dowioze nowy ficzer na produkcje zamiast ekscytujacego opowiaadania o tym ze .NET uzywa algorytmu IntroSort ktory dziala tak i tak. Wiedza ta tez nie zaimponuje moim znajomym.</p>
+
+<p>Po co wiec inwestowac czas I budowac takie powiazania w sieci Neuronowej. Po pierwsze czytajac ten post dostajesz juz gotowa wydystylowana wersje i wiedze. Wiec nie musisz spedzac tyle czasu co ja (autor) na przeszukiwaniu i googlowaniu internetow oraz czytaniu White Paperow.</p>
+
+<p>Po drugie drugie - Algorytmy sortujace i to jak sa skontsutrowane oraz jakie ‘tradeoffs’ sie w nich podejmuje jest bardzo ciekawe i wbrew pozorom moze sie przydac w przyszlej pracy. Na pewno przyda sie w pracy w ktorej wychodzimy poza framework i zderzamy sie z problemami dla ktorych framework nie jest wystarczajacy.</p>
+
+<p>&lt;przyklad takich problemow? -&gt; np sortowanie duzych ilosci danych albo sortowanie danych external, albo ficzer wymagajacy sortowania stabilnego&gt;</p>
+
+<p>Po trzecie - Na poziomie tak niskiego kodu jak sczegoly implementacyjne algorytmow sortujacych - sa to lata badan naukowcow - jest tam tona wiedzy ktora moze sie przydac w innych systemach. Czytajac o algorytmach sortuajcych mozna czerpac z tej wiedzy.</p>
+
+<p>Po czwarte, i ostatnie - jako Architekt-Inzynier na codzien w pracu musze lawirowac w niedoskonalych rozwiazaniach przy ktorych ciagle musze podejmowac decyzje ‘tradeoff’ - te decyzje czessto sa saa suma mniejszych calosci - i rzeczy na niskim poziomie.</p>
+
+<ul>
+  <li>Why is it usefull to have this kind of knowledge?
+– Where sorting is important?
+– What kind of things you need:
+— to know
+— could be usefull to know</li>
+</ul>
+
+<ol>
+  <li>We will go deep down to .NET and start getting deep inside the framework starting with List.Sort() operation discussing what is happening
+    <ul>
+      <li>Stack Trace road to the Algorithm</li>
+      <li>IEnumerable version and state management</li>
+    </ul>
+  </li>
+  <li>C++ native World</li>
+  <li>We will discuss IntroSosrt .NET Sorting implementation
+    <ul>
+      <li>introduction to QuickSort</li>
+      <li>brief characteristis and description of other algorithms</li>
+      <li>why quicksort?</li>
+      <li>Problem with Quickosrt?</li>
+      <li>pivot</li>
+      <li>wors case</li>
+      <li>ways to deal with quickSort problems - introsort</li>
+      <li>CS course vs Real World</li>
+    </ul>
+  </li>
+  <li>We will discuss Sort algorithms tradeoffs and design decision chosen by the .NET creators</li>
+  <li>Discussion around other frameworks and what sorting algorithms they have and why this idea
+    <ul>
+      <li>python Java timsort?</li>
+      <li>go quicksort?</li>
+      <li>javascript - weirdness and quicksort?</li>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>scala,</td>
+              <td>clojure ?</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>C++? C?</li>
+      <li>django?</li>
+      <li>ta java od JetBrainsa</li>
+      <li>why developers didnt standarised sorting algorithm across the industry and platform</li>
+    </ul>
+  </li>
+</ol>
+
+<ul>
+  <li>Gdzie sorotwanie jest wazne</li>
+  <li>Czego mozna sie z sortowania naauczyc zauwazyc</li>
+  <li>Real world vs theory</li>
+</ul>
+
+<h4 id="from-quick-sort-to-introsort">From Quick Sort To IntroSort</h4>
+
+<p>First of all, as it was mentioned before. .NET uses <a href="https://en.wikipecia.org/wiki/Introsort">IntroSort</a> algorithm. It is a enchanced <a href="https://en.wikipedia.org/wiki/Quicksort">Quicksort</a>. Before we get there we need to discuss <code class="highlighter-rouge">QuickSort</code> a bit.</p>
+
+<p>You might have implemented <code class="highlighter-rouge">QuickSort</code> on the university or other hobby projects. It was a standard algorithm in the past used in many frameworks. The basic idea is simple and uses <code class="highlighter-rouge">divide and conquer</code> to split <code class="highlighter-rouge">big</code> task into <code class="highlighter-rouge">smaller</code> tasks.  It is also great example of using recurrence. You might have to one day implement <code class="highlighter-rouge">Quicksort on some interview</code>.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="n">function</span> <span class="nf">quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+    <span class="n">less</span><span class="p">,</span> <span class="n">equal</span><span class="p">,</span> <span class="n">greater</span> <span class="p">:=</span> <span class="n">three</span> <span class="n">empty</span> <span class="n">arrays</span>
+    <span class="k">if</span> <span class="nf">length</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">1</span>  
+        <span class="n">pivot</span> <span class="p">:=</span> <span class="k">select</span> <span class="n">any</span> <span class="n">element</span> <span class="n">of</span> <span class="n">array</span>
+
+        <span class="err">#</span><span class="nf">O</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="n">operation</span> <span class="n">of</span> <span class="n">moving</span> <span class="n">items</span> <span class="k">on</span> <span class="n">the</span> <span class="n">left</span> <span class="n">or</span> <span class="n">right</span> <span class="n">side</span> <span class="n">of</span> <span class="n">pivot</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="n">x</span> <span class="k">in</span> <span class="n">array</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="p">&lt;</span> <span class="n">pivot</span> <span class="n">then</span> <span class="k">add</span> <span class="n">x</span> <span class="n">to</span> <span class="n">less</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="p">=</span> <span class="n">pivot</span> <span class="n">then</span> <span class="k">add</span> <span class="n">x</span> <span class="n">to</span> <span class="n">equal</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="p">&gt;</span> <span class="n">pivot</span> <span class="n">then</span> <span class="k">add</span> <span class="n">x</span> <span class="n">to</span> <span class="n">greater</span>
+
+        <span class="nf">quicksort</span><span class="p">(</span><span class="n">less</span><span class="p">)</span>
+        <span class="nf">quicksort</span><span class="p">(</span><span class="n">greater</span><span class="p">)</span>
+        <span class="n">array</span> <span class="p">:=</span> <span class="nf">concatenate</span><span class="p">(</span><span class="n">less</span><span class="p">,</span> <span class="n">equal</span><span class="p">,</span> <span class="n">greater</span><span class="p">)</span></code></pre>
+</figure>
+
+<p>This is a very simplified pseudo code of the <code class="highlighter-rouge">easiest</code> implementaion (using allocated arrays)  of <code class="highlighter-rouge">QuickSort</code>. The average sorting case is handled by <code class="highlighter-rouge">O(nlogn)</code> but <code class="highlighter-rouge">Quicksort</code> worst case scenario (when array is already sorted) will take <code class="highlighter-rouge">O(n^2)</code>. A lot depends on the pivot selection strategy - as it can potentialy identify already sorted array and adjust worst case scenario to the average one ( we will talk about it later).</p>
+
+<figure class="highlight">
+  <pre><code class="language-python" data-lang="python"><span class="n">quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+         <span class="k">return</span> <span class="n">array</span>
+     <span class="k">else</span><span class="p">:</span>
+         <span class="n">pivot</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+         <span class="n">less</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">array</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">]</span>
+         <span class="n">equal</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">array</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">pivot</span><span class="p">]</span>
+         <span class="n">greater</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">array</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">pivot</span><span class="p">]</span>
+         <span class="k">return</span> <span class="n">quicksort</span><span class="p">(</span><span class="n">less</span><span class="p">)</span> <span class="o">+</span> <span class="n">equal</span> <span class="o">+</span> <span class="n">quicksort</span><span class="p">(</span><span class="n">greater</span><span class="p">))</span></code></pre>
+</figure>
+
+<p>This is a simple code in python. Pivot selection strategy is <code class="highlighter-rouge">random</code>. This is good enough strategy. This example uses array allocation that can <code class="highlighter-rouge">be</code> deadly and can lead to <code class="highlighter-rouge">StackOverflow</code>. There are other implementations that avoid using <code class="highlighter-rouge">arrays</code> and operate on the same <code class="highlighter-rouge">array</code> using <code class="highlighter-rouge">indexes</code> to generate <code class="highlighter-rouge">sub arrays</code>.</p>
+
+<figure class="highlight">
+  <pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+    <span class="n">__quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">__quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">stop</span> <span class="o">-</span> <span class="n">start</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">pivot</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">start</span><span class="p">]</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="n">stop</span>
+
+        <span class="k">while</span> <span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span><span class="p">:</span>
+            <span class="k">while</span> <span class="n">array</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">:</span>
+                <span class="n">left</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">while</span> <span class="n">array</span><span class="p">[</span><span class="n">right</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">pivot</span><span class="p">:</span>
+                <span class="n">right</span> <span class="o">-=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span><span class="p">:</span>
+                <span class="n">array</span><span class="p">[</span><span class="n">left</span><span class="p">],</span> <span class="n">array</span><span class="p">[</span><span class="n">right</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">right</span><span class="p">],</span> <span class="n">array</span><span class="p">[</span><span class="n">left</span><span class="p">]</span>
+                <span class="n">left</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">right</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="n">__quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+        <span class="n">__quicksort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span></code></pre>
+</figure>
+
+<p>I had to show this code as later on in the .NET - IntroSort implementation there is also <code class="highlighter-rouge">right</code> and <code class="highlighter-rouge">left</code> being used with manipulation of <code class="highlighter-rouge">one</code> array.</p>
+
+<p>So what is <code class="highlighter-rouge">IntroSort</code>? It starts with <code class="highlighter-rouge">QuickSort</code> then switches to <code class="highlighter-rouge">HeapSort</code>. Why is it done like that? In a quick summary - this makes <code class="highlighter-rouge">QuickSort</code> average and worst case scenarios to be <code class="highlighter-rouge">O(nlogn)</code>. <code class="highlighter-rouge">IntroSort</code> takes the pros of <code class="highlighter-rouge">QuickSort</code> adn removes the <code class="highlighter-rouge">cons</code>. We will discuss how <code class="highlighter-rouge">HeapSort</code> makes it possible that worst case complexity of O(n^2) can be averted.</p>
+
+<figure class="highlight">
+  <pre><code class="language-python" data-lang="python"><span class="n">procedure</span> <span class="n">sort</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+    <span class="n">let</span> <span class="n">maxdepth</span> <span class="o">=</span> <span class="err">⌊</span><span class="n">log</span><span class="p">(</span><span class="n">length</span><span class="p">(</span><span class="n">A</span><span class="p">))</span><span class="err">⌋</span> <span class="err">×</span> <span class="mi">2</span>
+    <span class="n">introsort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">maxdepth</span><span class="p">)</span>
+
+<span class="n">procedure</span> <span class="n">introsort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">maxdepth</span><span class="p">):</span>
+    <span class="n">n</span> <span class="err">←</span> <span class="n">length</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="err">≤</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> 
+    <span class="k">else</span> <span class="k">if</span> <span class="n">maxdepth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">heapsort</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">p</span> <span class="err">←</span> <span class="n">partition</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> 
+        <span class="n">introsort</span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">p</span><span class="p">],</span> <span class="n">maxdepth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">introsort</span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">],</span> <span class="n">maxdepth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></code></pre>
+</figure>
+
+<p>As you can see here. There is a special parameter introduced - maxdepth. It is used to find when to start using <code class="highlighter-rouge">HeapSort</code>.</p>
+
+<p>Wiec co jest nie tak z QuickSortem? PRoblemem jest tutaj zachowanie w najgorszym przypadku gdy tablica na ktorej operujemy jest juz calkowicie badz w wiekszosci posrotowania. Wtedy mamy czas zlozonoscy na poziomie O(n^2). Badania empiryczzne wykazaly ze pomimo tej cechy Quick Sort i tak dziala szybciej niz inne znane nam algorytmu stortuajce. Nie zmienia to oczywiscie tego ze mozna dalej ten algorytm usprawniac i mozliwe ze da sie pozbyc tego O(n^2). Do akcji wkracza tutaj heapsort ktory ma zarowno sredni jak i najmniej korzysty scenariusz O(nlogn). Spostrzegawcza osoba moglaby teraz powiedizec, hallo halloo, skoro HeapSort ma takie cechy ktore sa lepsze niz Quicksort to dlaczego nie uzyc odrazu HeapSorta. Po co bawic sie z QuickSortem. Ano wlasnie z powodu tego ze analiza O jest wielka abstrakcja ktora moze ukryc ‘realny swiat’. Intuicja podpowiadaa nam ze HeapSort powinien byc lepszy a jednak okazuje sie ze w swiecie realnych danych to QuickSort okazuje sie najlepszy, ma tylko pewnie minusy ktore statystycznie nawet jak wystepuja to i tak powoduja ze algorytm ten dziala szzybciej niz inne (przy zalozeniu ze dane nie sa zawsze posorotwane wtedy to w zasadzie mozna uzyc Bubble Sort :D tlko po co sortowac posorotwane dane).</p>
+
+<p>Mala dygresja - bardzo duzo w algorytmach sortuajcych zalezy od wejsciowych danych i tego jakie maja charakterystyki. Jezeli to reczywiscie jest pelny random dane to quick sort wypada najlepiej. JEzeli natomiast mozna znalezc w tych danych pewne cechy wspolne ktore np ukladaja sie w ‘rozklad normalny’ to wtedy algorytmy z rodziny ‘bucket sort’ (czemu) robia dobra robote. Istneiej tez cala rodzina problemow ‘external sorting algorithms’ tzn takich w ktorych dane nie mieszcza sie w pamieci i trzeba tez je dociagac. MErge Sort <tutaj dopisz="" ze="" on="" jest="" good="" external="" i="" dlaczego="">  Tutaj tez pojawia sie kwestia tego jak te dane otrzymujemy i czy mamy ich calosc odrazu. Zalozmy np sytuacje w ktorej otrzymuje dane w paczkach (jakis stream). By te dane moc posorotwac quicksortem bedziemy potrzebowac zebrac caly strumien, poczekac na niego i dopiero wtedy odpalic quick sorta. Z pomoca moze nam przyjsc heap sort ktory pozwala odpalic sortowanie na pofrafmentowanych zbiorach danych ktore przychodza z czasem, nie potrzebujemy calego zbiory juz gotowego - wystarczy miec cokolwiek by zaczac. Jest tez kwestia czy algorytm jest stabilny czy nie ...</tutaj></p>
+
+<p>&lt;dlaczego max depth to log2() * 2&gt;
+&lt;dlaczego insertion sort -&gt; https://rosettacode.org/wiki/Sorting_algorithms/Insertion_sort -&gt; chyba chodzi o locality of data&gt;a</p>
+
+<p>Dlaczego przelaczac sie na heapsorta przez depth limit? Zachowanie QuickSorta O(n^2) wystepuje w momencie gdy algorytm tworzy duzo malycch podzialow poniewaz nie moze dobrac dobrze pivota przy posortowanej liscie.  PRzejscie na heapsorta likwiduje ten problem i do podzialu nei chodzi.   Jest to swego rodzaju wentyl bezpieczenstwa. FloorLog2 * 2 zapewnia przestrzen gdy podzialy sa nadal dobre i nie ma potrzeby przejsci an heapsorta bo pivot jest wybierany ‘dobrze’ &lt; pokazac przyklad&gt;   Naatomiast gdy jest prawdopodobienstwo ze cos dzieje sie nei tak i weszlismy w petrle O(n^2) algorytm zauwaza to i dostosowywuej sie przerywajac to zachowanie i operujac na innym algorytmie.</p>
+
+<p>Wartosc depth Limit nie moze byc za mala - bo bedzie to wywolywac heap sorta za czesto - nie moze tez byc za duza by spedzic za duzo czasu w Quadratic time sortowaniu. Wartosc FloorLotg 2 * 2 empirytcznie przez [paper] zostala wyliczona  jako ‘optymalna’ i dajaca najlepsze rezultaty.</p>
+
+<p>W przypadku gdy podzialy sa nierowne to miast glebokosc rosnac logarytmicznie rosnie linearnie. Najgorszy scenariusz to possortowania tablica i ilosc podzialow rowna n</p>
+
+<p>Depth of quicksort in ideals scenario is approx log2n</p>
+
+<p>Jak to wyglada w kodzie?</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="k">static</span> <span class="k">void</span> <span class="nf">IntrospectiveSort</span><span class="p">(</span><span class="n">KIND</span> <span class="n">keys</span><span class="p">[],</span> <span class="n">KIND</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">left</span><span class="p">,</span> <span class="kt">int</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">WRAPPER_NO_CONTRACT</span><span class="p">;</span>
+
+    <span class="c1">// Make sure left != right in your own code.   
+</span>
+    <span class="nf">_ASSERTE</span><span class="p">(</span><span class="n">keys</span> <span class="p">!=</span> <span class="n">NULL</span> <span class="p">&amp;&amp;</span> <span class="n">left</span> <span class="p">&lt;</span> <span class="n">right</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">length</span> <span class="p">=</span> <span class="n">right</span> <span class="p">-</span> <span class="n">left</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">length</span> <span class="p">&lt;</span> <span class="m">2</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span>
+
+    <span class="nf">IntroSort</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="m">2</span> <span class="p">*</span> <span class="nf">FloorLog2</span><span class="p">(</span><span class="n">length</span><span class="p">));</span>
+<span class="p">}</span></code></pre>
+</figure>
+
+<p>Mamy tu kolejne sprawdzenia parametrow wejsciowych. Sprawwdzenie  czy jest w ogole sens cokolwiek sprawdzac, jezeli right - left + 1 = &lt;2 to jest to albo 1 albo 0 elementowa tablica wiec nie ma sensu z nia nic robic.</p>
+
+<p>NAstepnie mamy wywolanie algorytmu IntroSort. Tyle bylo mowione o QuickSorcie a tu prosze cos innego, IntroSort. Czemu tak?a</p>
+
+<p>https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arrayhelpers.h#L155</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    static void IntroSort(KIND keys[], KIND items[], int lo, int hi, int depthLimit)
+    {
+        while (hi &gt; lo)
+        {
+            int partitionSize = hi - lo + 1;
+            if(partitionSize &lt;= introsortSizeThreshold)
+            {
+                if (partitionSize == 1)
+                {
+                    return;
+                }
+                if (partitionSize == 2)
+                {
+                    SwapIfGreaterWithItems(keys, items, lo, hi);
+                    return;
+                }
+                if (partitionSize == 3)
+                {
+                    SwapIfGreaterWithItems(keys, items, lo, hi-1);
+                    SwapIfGreaterWithItems(keys, items, lo, hi);
+                    SwapIfGreaterWithItems(keys, items, hi-1, hi);
+                    return;
+                }
+                
+                InsertionSort(keys, items, lo, hi);
+                return;
+            }
+
+            if (depthLimit == 0)
+            {
+                Heapsort(keys, items, lo, hi);
+                return;
+            }
+            depthLimit--;
+
+            int p = PickPivotAndPartition(keys, items, lo, hi);
+            IntroSort(keys, items, p + 1, hi, depthLimit);
+            hi = p - 1;            
+        }
+        return;
+    }
+</code></pre>
+</div>
+
+<p>Funkcja jest jeddnym duzym whilem ktorego waarunkiem stopu jest roznica hi &gt; lo. Hi to nic innego jak nasz poprzedni ‘right’ index a lo ‘left’ index. Nie dzieje sie tutaj nic innego jak iterowanie po tablicy in place. W calym tym algorytmie ciezko znalezc quick sort.</p>
+
+<p>IntroSort Paper David R. Musser
+http://liacs.leidenuniv.nl/~stefanovtp/courses/StudentenSeminarium/Papers/CO/ISSA.pdf</p>
+
+<p>Zanim to jednak omowmy przedstawny podstawowy zarys algorytmu.</p>
+
+<p>jesli wielkosc partycji &lt;3 
+   - zrob swapa
+ jestli wielkosc partycjji &lt;16
+   - uzyj insertionsorta
+ jessli depthlimit == 0
+   - uzyj heapsorta
+ w innym przypadku wybierz nowy pivot i partycje i wywolal funkcje jeszce raz zmniejszaac limit zagniezdzenia.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>   inline static void SwapIfGreaterWithItems(KIND keys[], KIND items[], int a, int b) {
+        if (a != b) {
+            if (keys[a] &gt; keys[b]) {
+                KIND key = keys[a];
+                keys[a] = keys[b];
+                keys[b] = key;
+                if (items != NULL) {
+                    KIND item = items[a];
+                    items[a] = items[b];
+                    items[b] = item;
+                }
+            }
+        }
+    }
+}
+</code></pre>
+</div>
+<p>Swapowanie jest dosyc prosta funkcja. Po prostu sortuje waaartosci jesli jedna jest wieksza od drugiej. Jest to standardowa operacja wykonywana w quicksorcie. Co tutaj jest ciekawe to wywolywanie tez etej funkcji w przypadku partycji 3 elementowej. Z pewnoscia jest to optymalizacja ktora ma za zadanie zmniejszych ilosc wywolan glownego algorytmu.</p>
+
+<p>&lt;sprawdzic jaka zmiane empiryczna to tworzy gdyby usunac partitionSize == 3 albo dodac partitionSize == 4, 5, 6, 7, 8, 9, 10&gt;</p>
+
+<p>TAka operacja ma czas uruchomienia O(1) i w calym rozrachunku nie ma zadnego znaczenia.</p>
+
+<p>&lt; czemu introsortSizeThreshold jest 16 a nie inna liczba? jak zostala ona wybrana? &gt;</p>
+
+<p>Przy depth 0 
+Odaplany jest heap sort - nie bedziemy w tym artykule omawiam heap sorta omowimy tylko jego cechy i przedyskutujemy dlaczego warto przy zagniezdzeniu takim a nie innym wykonac heapsorta.</p>
+
+<p>Wiecej o heapsorcie - <link do="" jakiegos="" algorytmu="" /></p>
+
+<p>Quick sort</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>            int p = PickPivotAndPartition(keys, items, lo, hi);
+            IntroSort(keys, items, p + 1, hi, depthLimit);
+            hi = p - 1;            
+</code></pre>
+</div>
+
+<p>https://en.wikipedia.org/wiki/Quicksort</p>
+
+<p>lo + (hi - lo)/2 is to avoid integer overflow</p>
+
+<p>It uses median of 3 algorithm for pivot 
+https://stackoverflow.com/questions/7559608/median-of-three-values-strategy</p>
+
+<p>teen fragment jest tak naprawde quick sortem. Mamy wybranie pivota pomiedzy lo i hi i wywolanie IntroSorta na innym segmencie tablicy. W tym przypadku od pivota do prawa.</p>
+
+<p>[     p      ]
+[p      ]</p>
+
+<p>Why picking pivot is soo important?</p>
+
+<p>Dlaczego wybor pivota nie mozna wyliczac po prostu? idealnie? a trzeba estymowac?</p>
+
+<p>Chodzi o koszt wyliczenia idealnego pivota jest on za duzy i tak naprawde idealny pivot nie daje taakich benefitow -&gt; pokazac przyklady.</p>
+
+<ul>
+  <li>Qucik sort would be without weaknessess if its worst case scenario when it can hit O(n^2)</li>
+  <li>when does this worst case happens? when the divide and conquer is not equal and created smaller and bigger arrays -&gt; worst worst case is when the sub arrays are single index based. 
+&lt; explanation here &gt;
+Mostly worst case is -&gt; sorted array</li>
+</ul>
+
+<p>Pivot picking strategy is used to manage risk of hitting worst case - there is a price of course.
+Another strategy is to change the algorithm to use different one and limit the risk of O(n^2).</p>
+
+<ul>
+  <li>the runtime of quick sort is heavilly dependent on correct array splitting. If splitting results in one big array and one small array O can become O(n^2).
+The more equal the splitting the close the O comes to O(nlogn)</li>
+</ul>
+
+<p>The more balanced the split the less recursive calls required -&gt; show example</p>
+
+<ul>
+  <li>
+    <p>why changing to insertion sort
+for small relatively small splits use insertion sorts that performs in linear time for almost ordered sub arrays</p>
+  </li>
+  <li>
+    <p>pivot strategies
+All this techniques want to avoid worst case scenario as much as possible</p>
+  </li>
+</ul>
+
+<p>-&gt; left-most | right-most -&gt; susceptibility to O(N^2) when sorted array
+-&gt; random -&gt; sligthly better, reduces risk of O(n^2) -&gt; but random generation costly and unpredictable
+-&gt; Mo3 -&gt; first | (first + last) / 2 | last -&gt; better than random but still not perfect (example on when it will still hit worst case) ( decreases worst case, increases average case)
+-&gt; Mo5 -&gt; Mo3 + 2 random values -&gt; better than Mo3 but random generation is costly
+-&gt; Mo5 -&gt; without random first | (first + last / 4) | (first + last /2 ) | (3 *(first + last ) / 4 ) | last -&gt; but takes time to pick 5 items
+-&gt; Mo7, Mo9 -&gt; increases more balanced split - but the time to pick a pivot increases -&gt; it is interesting challenge to find a balance
+-&gt; there is albo Dynamic Pivot -&gt; takes right-most then does a scan O(n) and and counts less or bigger items than pivot - then uses this values to generate next pivots increasing chance of balanced split 
+(https://www.researchgate.net/publication/235351491_Enhancing_QuickSort_Algorithm_using_a_Dynamic_Pivot_Selection_Technique)
+-&gt; problem with this technique is Extreme - values in the array</p>
+
+<p>In  his paper ISSA.pdf</p>
+
+<p>http://liacs.leidenuniv.nl/~stefanovtp/courses/StudentenSeminarium/Papers/CO/ISSA.pdf</p>
+
+<p>You can find MEdiaan 3 killer so it is still possible to change median algorithms to be quadratic</p>
+
+<p>-&gt; What would happen if I would implement Dynamic Pivot Selection Technique in QuickSort in .NET? or GO?</p>
+
+<p>Why it is always first and last? 
+- it is due to a plan to figth with ordered or almost ordered arrays
+-&gt; can i show some graph with probability of hitting worst case, average case? calculated in python with different techniques?</p>
+
+<p>Dlaczego HeapSort a nie inny algorytm wiec?</p>
+
+<p>Czy mozemy zamiast heaposorta na tym levelu uzyc insertion sorta albo merge sorta? Dlaczego HeapSort?</p>
+
+<p>https://cs.stackexchange.com/questions/24446/why-does-introsort-use-heapsort-rather-than-mergesort</p>
+
+<p>Heapsort’s O(1)O(1) extra space requirement makes it a better choice to mergsort’s O(n)O(n) where for a contrived array that nn could still be large.</p>
+
+<p>The reason heapsort isn’t used for the full sort is because it is slower than quicksort (due in part to the hidden constants in the big O expression and in part to the cache behavior)</p>
+
+<p>Dlaczego Insertion Sort skoro jest juz HeapSort?</p>
+
+<p>To stop generating subproblems after certain treshdold that is small enough to use Insertion Sort (Locality of data?)  we swithc to InsertionSort as it is more optimal.</p>
+
+<p>Although it is one of the elementary sorting algorithms with O(n2) worst-case time, insertion sort is the algorithm of choice either when the data is nearly sorted (because it is adaptive) or when the problem size is small (because it has low overhead).  For these reasons, and because it is also stable, insertion sort is often used as the recursive base case (when the problem size is small) for higher overhead divide-and-conquer sorting algorithms, such as merge sort or quick sort.</p>
+
+<p>+1. Insertion sort’s inner loop just happens to be a good fit for modern CPUs and caches – it’s a very tight loop that accesses memory in increasing order only.</p>
+
+<p>Insertion sort is also good because it’s useful in online situation, when you get one element at a time.</p>
+
+<p>https://stackoverflow.com/questions/736920/is-there-ever-a-good-reason-to-use-insertion-sort</p>
+
+<p>Insertion sort is faster for small n because Quick Sort has extra overhead from the recursive function calls. Insertion sort is also more stable than Quick sort and requires less memory.</p>
+
+<p>For the curious, the O(N^2) one will be faster than the O(N Log N) one until about N=9000 entries or so.</p>
+
+<p>However, the constant factor and overhead are still important. If your application ensures that N never gets very large, the asymptotic behavior of O(N^2) vs. O(N log N) doesn’t come into play.
+Insertion sort is simple and, for small lists, it is generally faster than a comparably implemented quicksort or mergesort. That is why a practical sort implementation will generally fall back on something like insertion sort for the “base case”, instead of recursing all the way down to single elements.</p>
+
+<p>https://algs4.cs.princeton.edu/23quicksort/</p>
+
+<p>Cutoff to insertion sort. As with mergesort, it pays to switch to insertion sort for tiny arrays. The optimum value of the cutoff is system-dependent, but any value between 5 and 15 is likely to work well in most situations.</p>
+
+<p>https://cs.stackexchange.com/questions/37956/why-is-the-optimal-cut-off-for-switching-from-quicksort-to-insertion-sort-machin</p>
+
+<p>Because the actual running time (in seconds) of real code on a real computer depends on how fast that computer runs the instructions and how fast it retrieves the relevant data from memory, how well it caches it and so on. Insertion sort and quicksort use different instructions and hava different memory access patterns. So the running time of quicksort versus insertion sort for any particular dataset on any particular system will depend both on the instructions used to implement those two sorting routines and the memory access patterns of the data. Given the different mixes of instructions, it’s perfectly possible that insertion sort is faster for lists of up to ten items on one system, but only for lists up to six items on some other system.</p>
+
+<p>https://www.quora.com/Among-quick-sort-insertion-sort-and-heap-sort-which-is-the-best-to-sort-data-and-why</p>
+
+<p>Dual Pivot QuickSort Algorithm
+http://codeblab.com/wp-content/uploads/2009/09/DualPivotQuicksort.pdf
+https://www.geeksforgeeks.org/dual-pivot-quicksort/
+https://stackoverflow.com/questions/20917617/whats-the-difference-of-dual-pivot-quick-sort-and-quick-sort</p>
+
+<p>Jaava python vs .NET?
+https://stackoverflow.com/questions/7770230/comparison-between-timsort-and-quicksort
+https://en.wikipedia.org/wiki/Timsort</p>
+
+<p>What are the internals of quicksort in Go?
+https://golang.org/src/sort/sort.go</p>
+
+<p>Different pivot -&gt; https://www.johndcook.com/blog/2009/06/23/tukey-median-ninther/</p>
+
+<p>Javascsript -
+https://stackoverflow.com/questions/6640347/javascript-native-sort-method-code
+Ecma script doesnt no standardize it</p>
+
+<p>Chrome - v8
+https://github.com/v8/v8/blob/master/src/js/array.js</p>
+
+<p>Source:
+https://bytes.com/topic/c-sharp/answers/817547-what-sz-array#post3257964
+https://stackoverflow.com/questions/21818889/why-is-my-c-sharp-quicksort-implementation-significantly-slower-than-listt-sor
+https://en.wikipedia.org/wiki/Introsort
+https://rosettacode.org/wiki/Sorting_algorithms/Quicksort#C.23
+https://referencesource.microsoft.com/#mscorlib/system/array.cs
+https://stackoverflow.com/questions/1863153/why-unsigned-int-0xffffffff-is-equal-to-int-1
+https://en.wikipedia.org/wiki/Two%27s_complement
+http://www.cs.utexas.edu/users/EWD/transcriptions/EWD08xx/EWD831.html
+https://softwareengineering.stackexchange.com/questions/110804/why-are-zero-based-arrays-the-norm
+http://me.dt.in.th/page/Quicksort/
+https://en.wikipedia.org/wiki/Introsort
+https://www.geeksforgeeks.org/external-sorting/
+https://www.geeksforgeeks.org/know-your-sorting-algorithm-set-2-introsort-cs-sorting-weapon/
+https://medium.com/basecs/pivoting-to-understand-quicksort-part-1-75178dfb9313
+https://medium.com/basecs/pivoting-to-understand-quicksort-part-2-30161aefe1d3
+https://www.cs.auckland.ac.nz/software/AlgAnim/qsort_perf.html
+https://www.cs.auckland.ac.nz/software/AlgAnim/qsort3.html</p>
+
+
+
+      <span id="post-end"></span>
+    </div>
+
+    <div id="mc_embed_signup">
+<form action="https://mfranc.us13.list-manage.com/subscribe/post?u=8a5865e28c59044d419ecbe95&amp;id=d545f31150" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div id="mc_embed_signup_scroll">
+      <label for="mce-EMAIL">If you are interested in Cloud Native, Scalability, System Design and more meaty side of Engineering at Scale. Then subscribe to my mailing list.</label>
+      <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_8a5865e28c59044d419ecbe95_d545f31150" tabindex="-1" value=""></div>
+        <div class="clear">
+          <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+        </div>
+    </div>
+</form>
+</div>
+
+
+
+    
+<hr>
+
+<aside id="comments" class="disqus">
+  <div class="container">
+    <h3><i class="icon icon-comments-o"></i> Comments</h3>
+    <div id="disqus_thread"></div>
+    <script>
+      (function() {
+        var d = document,
+        s = d.createElement('script');
+        s.src = '//thesilenceofthelams.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</aside>
+
+
+
+  </div>
+
+</article>
+
+      </div>
+
+
+      <footer class="site-footer">
+  <div class="container">
+    <ul class="social">
+  <li><a href="http://github.com/michal-franc" target="_blank"><i class="icon icon-github"></i></a></li>
+  <li><a href="http://twitter.com/francmichal" target="_blank"><i class="icon icon-twitter"></i></a></li>
+  <li><a href="http://facebook.com/michalfrancblog" target="_blank"><i class="icon icon-facebook"></i></a></li>
+  <li><a href="https://uk.linkedin.com/in/michalfranc1" target="_blank"><i class="icon icon-linkedin"></i></a></li>
+</ul>
+
+    <p class="txt-medium-gray">
+      <small>&copy;2018 All rights reserved. Made with <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> and ♥</small>
+    </p>
+  </div>
+</footer>
+
+
+      <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	  <script type="text/javascript" src="/js/jquery.slick-modals.js"/></script>
+
+	  <!-- <script id="ulp-remote" src="http://tools.mfranc.com/wp-content/plugins/layered-popups/js/remote.min.js?ver=5.89" data-handler="http://tools.mfranc.com/wp-admin/admin-ajax.php"></script>
+	  <script>
+
+		    (function ($) {
+			"use strict";
+			var objectPositionTop = $('#post-end').offset().top - window.innerHeight;
+
+				ulp_add_event("onexit", {
+					popup:		"4AXWiVSrZD71uqiP",
+					mode:		"once-period",
+					period:		30
+				});
+
+				ulp_add_event("onidle", {
+					popup:		"85oltSbndJGZQzaW",
+					mode:		"once-period",
+					period:         30
+				});
+
+				ulp_add_event("onscroll", {
+					popup:		"INyhHrwTzxjvcqEb",
+					mode:		"once-period",
+					period:         30,
+					offset:		objectPositionTop / 2
+				});
+
+		    }(jQuery));
+
+    </script> -->
+
+		<script id="dsq-count-scr" src="//thesilenceofthelams.disqus.com/count.js" async></script>
+
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.7&appId=125980610784627";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+    </main>
+  </body>
+</html>

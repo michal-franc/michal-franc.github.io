@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    
+    <meta name="robots" content="noindex">
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="author" content="Michal Franc">
+    <meta name="keywords" content="michal franc,leader,programmer,coach,speaker">
+	<title>Everything you wanted to know about Sorting in .NET part 6 | Michal Franc</title>
+	<meta name="description" content="  Contents">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata:700|Raleway" rel="stylesheet">
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+    <link rel="author" href="https://plus.google.com/104238159697387202725?rel=author">
+
+	<link rel="canonical" href="http://www.mfranc.com/blog/net-sorting-part6/">
+
+    <link rel="stylesheet" href="/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/sm.css" media="screen" />
+    <link rel="alternate" type="application/rss+xml" title="Michal Franc | Feed" href="http://feeds.feedburner.com/PassionateProgram">
+
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Everything you wanted to know about Sorting in .NET part 6 | Michal Franc">
+    <meta property="og:description" content="  Contents">
+	<meta property="og:url" content="http://www.mfranc.com/blog/net-sorting-part6/">
+    <meta property="og:site_name" content="Michal Franc Blog">
+    <meta property="og:type" content="website">
+	<meta property="og:image" content="http://michal-franc.github.io/images/default_share_image.jpg">
+
+	<meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Everything you wanted to know about Sorting in .NET part 6 | Michal Franc">
+    <meta name="twitter:site" content="@francmichal">
+    <meta name="twitter:creator" content="@francmichal">
+    <meta name="twitter:description" content="  Contents">
+	<meta name="twitter:image" content="http://michal-franc.github.io/images/default_share_image.jpg">
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-15894596-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+    <script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100563098); }catch(e){}</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100563098ns.gif" /></p></noscript>
+
+    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+    <!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1817837425153843'); // Insert your pixel ID here.
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1817837425153843&ev=PageView&noscript=1"
+/></noscript>
+<!-- DO NOT MODIFY -->
+<!-- End Facebook Pixel Code -->
+
+
+  </head>
+
+
+  <body>
+    <main>
+      <header class="site-header">
+  <div class="container">
+	  <h1><a href="/">Michal<span>Franc</span></a></h1>
+
+    <button type="button" class="sliding-panel-button">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="navbar sliding-panel-content">
+      <ul>
+        
+          <li><a href="/blog" title="Posts">Posts</a></li>
+        
+          <li><a href="/notes" title="Notes">Notes</a></li>
+        
+          <li><a href="/articles" title="Articles">Articles</a></li>
+        
+          <li><a href="/about" title="About">About</a></li>
+        
+        <li><a href="/feed.xml" target="_blank"><i class="icon icon-feed"></i></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="sliding-panel-fade-screen"></div>
+
+
+      <div class="container">
+        <article role="article" class="post">
+
+  <div class="card">
+    <header class="post-header">
+      <h1 class="post-title">Everything you wanted to know about Sorting in .NET part 6</h1>
+      <p class="post-meta">Apr 1, 2018 • Michal Franc - 
+		<small>
+			<i class="icon icon-comments"></i><span class="disqus-comment-count" data-disqus-url="http://mfranc.com/blog/net-sorting-part6/"></span>
+		</small>
+		<small>
+			
+			<a class="tag-badge" href="/blog/tags/#algorithms">algorithms</a>
+			
+		</small>
+	  </p>
+    </header>
+
+	<center>
+		
+	</center>
+
+    <div class="post-content">
+      
+        
+
+
+
+
+
+
+<div class="seriesNote">
+    This article is <strong>Part 5</strong> in a <strong>7-Part</strong> Series.
+    <ul>
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+      
+        
+          
+              
+              <li>Part 1 - 
+              
+                  <a href="/blog/net-sorting-intro/">Journey through the internals of .NET Sort</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 2 - 
+              
+                  <a href="/blog/net-sorting-part1/">Everything you wanted to know about Sorting in .NET - part I</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 3 - 
+              
+                  <a href="/blog/net-sorting-part3/">Everything you wanted to know about Sorting in .NET part 3</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 4 - 
+              
+                  <a href="/blog/net-sorting-part2/">Everything you wanted to know about Sorting in .NET part 2</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 5 - 
+              
+                  This Article
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 6 - 
+              
+                  <a href="/blog/net-sorting-part5/">Everything you wanted to know about Sorting in .NET part 5</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 7 - 
+              
+                  <a href="/blog/net-sorting-part4/">Everything you wanted to know about Sorting in .NET part 4</a>
+              
+              </li>
+          
+        
+      
+    
+    </ul>
+</div>
+
+
+
+
+      
+      <div class="toc">
+  <h2>Contents</h2>
+
+</div>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="err">`</span><span class="n">FCALL_CONTRACT</span><span class="err">`</span></code></pre>
+</figure>
+
+<p>This contract tells the compiler and macro certaing <code class="highlighter-rouge">properties</code> of the code it is applied to.</p>
+
+<p>« NEED EXPERT HERE »</p>
+
+<ul>
+  <li>STATIC_CONTRACT_SO_TOLERANT
+It means that the function can cope with Stack Overflow exception. When the function is SO_TOLERANT 
+SO_TOLERANT disables stack guard and stack probing this function doesnt generate any global state and can just die + we cant actually check if SO will be violated?</li>
+</ul>
+
+<p>There are couple of cases when you code cannot tollerate stack overflow:
+- your code updates global state that neesd to be cleaned up</p>
+
+<p>If you want to have a function that is SO Intollerant you need to use SO Probe to propely clean up resources generated by this function. SO probe is generated by using macto SO_INTOLERANT_XXX</p>
+
+<p>SO probe - is a tool to identify if there is enough space on SO to do the operation.  For instance during object allocation Stack Probe is used to determine if tthere is more than enough  space on the Stack.</p>
+
+<p>IF SO probing is disabled all the code is considere SO Intolerant.
+IF there is SO in intolerant code the proces is killed
+IF there is so in tolertant code and GC mode is preemptive the proces is killed 
+If there is a SO in Cooperative mode the domain is unloaded (by GC) or the process is killed if this is a default domain</p>
+
+<p>https://github.com/dotnet/coreclr/blob/1c8c59387cb5989b5494f346c8127feb9dff27bc/src/vm/eepolicy.cpp#L851</p>
+
+<p>https://github.com/dotnet/coreclr/blob/master/src/vm/stackprobe.h</p>
+
+<p>There are two types of SO - hard and soft (soft is when Stack Probe is acctive)
+https://github.com/dotnet/coreclr/blob/35da2c8a07d7aef8bd4c874b81241bab52af83ce/src/inc/ex.h#L132</p>
+
+<p>INTOLLERANT is the default state</p>
+
+<ul>
+  <li>STATIC_CONTRACT_GC_NOTRIGGER - this function cannot trigger <code class="highlighter-rouge">Garbage Collection</code> if this is also coop mode</li>
+</ul>
+
+<p>https://github.com/dotnet/coreclr/blob/master/Documentation/coding-guidelines/clr-code-guide.md#2110-how-to-know-if-a-function-can-trigger-a-gc</p>
+
+<p>Why you need to block GC?
+- STATIC_CONTRACT_THROWS - this function can throw Exception
+Why would you block exception throws?</p>
+
+<ul>
+  <li>STATIC_CONTRACT_MODE_COOPERATIVE</li>
+</ul>
+
+<p>https://github.com/dotnet/coreclr/blob/master/Documentation/coding-guidelines/clr-code-guide.md#2.1.8</p>
+
+<p>GC MODE on Entry?
+https://github.com/dotnet/coreclr/blob/32f0f9721afb584b4a14d69135bea7ddc129f755/src/inc/contract.h#L33</p>
+
+<p>https://github.com/dotnet/coreclr/blob/master/src/vm/perfinfo.cpp#L31</p>
+
+<p>https://github.com/dotnet/coreclr/blob/master/src/vm/fastserializer.cpp#L83</p>
+
+<p><a href="https://github.com/dotnet/coreclr/blob/master/src/vm/fcall.h#L1384">source</a></p>
+
+<p><a href="https://github.com/dotnet/coreclr/blob/master/Documentation/coding-guidelines/clr-code-guide.md">More on flags and basic CLR guidelines</a></p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp">    <span class="nf">VALIDATEOBJECT</span><span class="p">(</span><span class="n">keys</span><span class="p">);</span>
+    <span class="nf">VALIDATEOBJECT</span><span class="p">(</span><span class="n">items</span><span class="p">);</span>
+    <span class="nf">_ASSERTE</span><span class="p">(</span><span class="n">keys</span> <span class="p">!=</span> <span class="n">NULL</span><span class="p">);</span></code></pre>
+</figure>
+
+<p><code class="highlighter-rouge">VALIDATEOBJECT</code> is a diffferent <code class="highlighter-rouge">FCALL</code>  - not sure what it does but I would assume that it is just a check if args and params are Valid somehow - maybe null check etc  «EXPERT ADVICE NEEDED HERE»</p>
+
+<p><code class="highlighter-rouge">_ASSERTE</code> -&gt; https://msdn.microsoft.com/en-us/library/ezb1wyez.aspx</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp">   <span class="c1">// &lt;TODO&gt;@TODO: Eventually, consider adding support for single dimension arrays with
+</span>    <span class="c1">// non-zero lower bounds.  VB might care.  &lt;/TODO&gt;
+</span>    <span class="k">if</span> <span class="p">(</span><span class="n">keys</span><span class="p">-&gt;</span><span class="nf">GetRank</span><span class="p">()</span> <span class="p">!=</span> <span class="m">1</span> <span class="p">||</span> <span class="n">keys</span><span class="p">-&gt;</span><span class="nf">GetLowerBoundsPtr</span><span class="p">()[</span><span class="m">0</span><span class="p">]</span> <span class="p">!=</span> <span class="m">0</span><span class="p">)</span>
+        <span class="nf">FC_RETURN_BOOL</span><span class="p">(</span><span class="n">FALSE</span><span class="p">);</span></code></pre>
+</figure>
+
+<p>All right, now we are getting to something meaty. 
+First thing to spot here - TODO mentioning that VB non zero based array support was not added and is not supported. If this is non zero based array we just return with False</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="n">TypeHandle</span> <span class="n">keysTH</span> <span class="p">=</span> <span class="n">keys</span><span class="p">-&gt;</span><span class="nf">GetArrayElementTypeHandle</span><span class="p">();</span>
+<span class="k">const</span> <span class="n">CorElementType</span> <span class="n">keysElType</span> <span class="p">=</span> <span class="n">keysTH</span><span class="p">.</span><span class="nf">GetVerifierCorElementType</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(!</span><span class="n">CorTypeInfo</span><span class="p">::</span><span class="nf">IsPrimitiveType_NoThrow</span><span class="p">(</span><span class="n">keysElType</span><span class="p">))</span>
+    <span class="nf">FC_RETURN_BOOL</span><span class="p">(</span><span class="n">FALSE</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">items</span> <span class="p">!=</span> <span class="n">NULL</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">TypeHandle</span> <span class="n">itemsTH</span> <span class="p">=</span> <span class="n">items</span><span class="p">-&gt;</span><span class="nf">GetArrayElementTypeHandle</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">keysTH</span> <span class="p">!=</span> <span class="n">itemsTH</span><span class="p">)</span>
+        <span class="nf">FC_RETURN_BOOL</span><span class="p">(</span><span class="n">FALSE</span><span class="p">);</span>  
+<span class="p">}</span></code></pre>
+</figure>
+
+<p>Another two preconditions which may force the code to end prematurely.</p>
+
+<ul>
+  <li>first checkin if the sorted array contain only primitive types</li>
+  <li>second type of key is verified if has the same type as the items… wait what? arent’t we sorting array? Sure we are and that is why <code class="highlighter-rouge">items</code> in this scenario is null thus we dont check the other preconditions. TrySZSort not only supports arrays with only items but also by SortedList that is implementation of IDictionary - has both keys and items. Entry point for this function is here</li>
+</ul>
+
+<blockquote>
+  <p>https://referencesource.microsoft.com/#mscorlib/system/array.cs,1855</p>
+</blockquote>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">Sort</span><span class="p">&lt;</span><span class="n">TKey</span><span class="p">,</span> <span class="n">TValue</span><span class="p">&gt;(</span><span class="n">TKey</span><span class="p">[]</span> <span class="n">keys</span><span class="p">,</span> <span class="n">TValue</span><span class="p">[]</span> <span class="n">items</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="kt">int</span> <span class="n">length</span></code></pre>
+</figure>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="k">public</span> <span class="nf">SortedList</span><span class="p">(</span><span class="n">IDictionary</span> <span class="n">d</span><span class="p">,</span> <span class="n">IComparer</span> <span class="n">comparer</span><span class="p">)</span> 
+    <span class="p">:</span> <span class="k">this</span><span class="p">(</span><span class="n">comparer</span><span class="p">,</span> <span class="p">(</span><span class="n">d</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">?</span> <span class="n">d</span><span class="p">.</span><span class="n">Count</span> <span class="p">:</span> <span class="m">0</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">d</span><span class="p">==</span><span class="k">null</span><span class="p">)</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">ArgumentNullException</span><span class="p">(</span><span class="s">"d"</span><span class="p">,</span> <span class="n">Environment</span><span class="p">.</span><span class="nf">GetResourceString</span><span class="p">(</span><span class="s">"ArgumentNull_Dictionary"</span><span class="p">));</span>
+    <span class="n">Contract</span><span class="p">.</span><span class="nf">EndContractBlock</span><span class="p">();</span>
+    <span class="n">d</span><span class="p">.</span><span class="n">Keys</span><span class="p">.</span><span class="nf">CopyTo</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+    <span class="n">d</span><span class="p">.</span><span class="n">Values</span><span class="p">.</span><span class="nf">CopyTo</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+    <span class="n">Array</span><span class="p">.</span><span class="nf">Sort</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">comparer</span><span class="p">);</span>
+    <span class="n">_size</span> <span class="p">=</span> <span class="n">d</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span>
+<span class="p">}</span></code></pre>
+</figure>
+
+<p>https://referencesource.microsoft.com/#mscorlib/system/collections/sortedlist.cs,173</p>
+
+<p>You cannot sort SortedList but when it is created it Uses <code class="highlighter-rouge">Array.Sort</code> to generate initial sorted state. When new items are inserted Binary Serach is used to idenfity the index and place to insert new item.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="c1">// Handle special case of a 0 element range to sort.
+// Consider both Sort(array, x, x) and Sort(zeroLen, 0, zeroLen.Length-1);
+</span><span class="k">if</span> <span class="p">(</span><span class="n">left</span> <span class="p">==</span> <span class="n">right</span> <span class="p">||</span> <span class="n">right</span> <span class="p">==</span> <span class="m">0xffffffff</span><span class="p">)</span>
+    <span class="nf">FC_RETURN_BOOL</span><span class="p">(</span><span class="n">TRUE</span><span class="p">);</span></code></pre>
+</figure>
+
+<p><code class="highlighter-rouge">left == right</code> - cover scenario when slice of arrays is being sorted that has a length of <code class="highlighter-rouge">0</code>. <code class="highlighter-rouge">left</code> and <code class="highlighter-rouge">right</code> have the same value in that case.</p>
+
+<p>But what is <code class="highlighter-rouge">0xfffffffff</code>? and why right is checked for it?</p>
+
+<p><code class="highlighter-rouge">0xfffffffff</code> is a represantion of <code class="highlighter-rouge">-1</code> in <a href="https://en.wikipedia.org/wiki/Two%27s_complement">Two complement system</a>. How is <code class="highlighter-rouge">0xffffffff</code> -&gt; <code class="highlighter-rouge">-1</code>.</p>
+
+<p>To create value in two complement:</p>
+
+<ul>
+  <li>take one complement value</li>
+  <li>add + 1 
+if we take 32 bits values
+then 1 in Binary will be -&gt; 0x00000001 = 00000000 00000000 00000000 00000001
+<code class="highlighter-rouge">-1</code> in the one complement is the opposite = 0xFFFFFFFE -&gt; 11111111 11111111 11111111 1111110</li>
+</ul>
+
+<p>to make it two complement we need to add +1 so</p>
+
+<p>0xFFFFFFFE + 1 = 0xFFFFFFFF</p>
+
+<p>To check if that is the correct value we do arithmetic</p>
+
+<p><code class="highlighter-rouge">1</code> + <code class="highlighter-rouge">-1</code> = 0</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="k">unchecked</span>
+<span class="p">{</span>
+  <span class="kt">var</span> <span class="n">minus_one</span> <span class="p">=</span>  <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="m">0xFFFFFFFF</span><span class="p">;</span>
+  <span class="kt">var</span> <span class="n">one</span> <span class="p">=</span>  <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="m">0x00000001</span><span class="p">;</span>
+  
+  <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="err">$</span><span class="s">"0xFFFFFFFF is '{minus_one}'"</span><span class="p">);</span>
+  <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="err">$</span><span class="s">"0x00000001 is '{one}'"</span><span class="p">);</span>
+  <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="err">$</span><span class="s">"0xFFFFFFFF + 0x00000001 is '{minus_one + one}'"</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">result</span><span class="p">:</span>
+<span class="m">0xFFFFFFFF</span> <span class="k">is</span> <span class="err">'</span><span class="p">-</span><span class="m">1</span><span class="err">'</span>
+<span class="m">0x00000001</span> <span class="k">is</span> <span class="sc">'1'</span>
+<span class="m">0xFFFFFFFF</span> <span class="p">+</span> <span class="m">0x00000001</span> <span class="k">is</span> <span class="sc">'0'</span></code></pre>
+</figure>
+
+<p>Why then use <code class="highlighter-rouge">0xfffffffff</code> instead of <code class="highlighter-rouge">-1</code>. I got help from a friend <a href="https://dev.krzaq.cc/">krzaq</a> with this one. <code class="highlighter-rouge">right</code> argument is of type <code class="highlighter-rouge">UINT32</code>. It is a unsiged value for which <code class="highlighter-rouge">-1</code> doesn’t exist. But in order to still be able to check if it is <code class="highlighter-rouge">-1</code> you have to use <code class="highlighter-rouge">0xfffffffff</code>. Using <code class="highlighter-rouge">-1</code> might work it would be depend on the compiler implementation how situation like that is handled. With <code class="highlighter-rouge">0xfffffffff</code> you can be sure that code works correclty. <a href="https://stackoverflow.com/a/1863219/104135">more-details</a></p>
+
+<p>I also checked how will compiler behave in scenario with 0xFFFFFFFF using Compiler Explorer</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="n">unsigned</span> <span class="kt">int</span> <span class="nf">test</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="m">0xFFFFFFFF</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">gives</span>
+<span class="n">Gcc</span> <span class="m">7.3</span>
+<span class="nf">test</span><span class="p">():</span>
+  <span class="n">push</span> <span class="n">rbp</span>
+  <span class="n">mov</span> <span class="n">rbp</span><span class="p">,</span> <span class="n">rsp</span>
+  <span class="n">mov</span> <span class="n">eax</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span> <span class="p">&lt;----</span> <span class="n">weee</span>
+  <span class="n">pop</span> <span class="n">rbp</span>
+  <span class="n">ret</span>
+
+<span class="n">clang</span> <span class="m">6.0</span><span class="p">.</span><span class="m">0</span>
+<span class="nf">test</span><span class="p">():</span> <span class="err">#</span> <span class="nf">@test</span><span class="p">()</span>
+  <span class="n">push</span> <span class="n">rbp</span>
+  <span class="n">mov</span> <span class="n">rbp</span><span class="p">,</span> <span class="n">rsp</span>
+  <span class="n">mov</span> <span class="n">eax</span><span class="p">,</span> <span class="m">4294967295</span> <span class="p">&lt;-----</span> <span class="n">nooooo</span>
+  <span class="n">pop</span> <span class="n">rbp</span>
+  <span class="n">ret</span></code></pre>
+</figure>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="k">switch</span><span class="p">(</span><span class="n">keysElType</span><span class="p">)</span> <span class="p">{</span></code></pre>
+</figure>
+
+<p>This switch statement is used to check which generic implementation of IntrospectiveSort will be used.</p>
+
+<p>To find what does ELEMENT_TYPE_I1 there are two resources.</p>
+
+<p>First ENUM to hex - <a href="https://docs.microsoft.com/en-us/dotnet/framework/unmanaged-api/metadata/corelementtype-enumeration">source</a> then map <a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.cordebuginterop.corelementtype?view=visualstudiosdk-2017">decimal(hex) to type</a></p>
+
+<p>Based on that we get this nice mapping</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp">    <span class="n">ELEMENT_TYPE_BOOLEAN</span>        <span class="p">=</span> <span class="m">0x2</span><span class="p">,</span> <span class="p">=</span> <span class="n">Bool</span>
+    <span class="n">ELEMENT_TYPE_CHAR</span>           <span class="p">=</span> <span class="m">0x3</span><span class="p">,</span> <span class="p">=</span> <span class="n">Char</span>
+    <span class="n">ELEMENT_TYPE_I1</span>             <span class="p">=</span> <span class="m">0x4</span><span class="p">,</span> <span class="p">=</span> <span class="n">SByte</span>
+    <span class="n">ELEMENT_TYPE_U1</span>             <span class="p">=</span> <span class="m">0x5</span><span class="p">,</span> <span class="p">=</span> <span class="n">Byte</span>
+    <span class="n">ELEMENT_TYPE_I2</span>             <span class="p">=</span> <span class="m">0x6</span><span class="p">,</span> <span class="p">=</span> <span class="n">Short</span>
+    <span class="n">ELEMENT_TYPE_U2</span>             <span class="p">=</span> <span class="m">0x7</span><span class="p">,</span> <span class="p">=</span> <span class="n">UShort</span>
+    <span class="n">ELEMENT_TYPE_I4</span>             <span class="p">=</span> <span class="m">0x8</span><span class="p">,</span> <span class="p">=</span> <span class="n">Int</span>
+    <span class="n">ELEMENT_TYPE_U4</span>             <span class="p">=</span> <span class="m">0x9</span><span class="p">,</span> <span class="p">=</span> <span class="n">UInt</span>
+    <span class="n">ELEMENT_TYPE_I8</span>             <span class="p">=</span> <span class="m">0xa</span><span class="p">,</span> <span class="p">=</span> <span class="n">Long</span>
+    <span class="n">ELEMENT_TYPE_U8</span>             <span class="p">=</span> <span class="m">0xb</span><span class="p">,</span> <span class="p">=</span> <span class="n">ULong</span>
+    <span class="n">ELEMENT_TYPE_R4</span>             <span class="p">=</span> <span class="m">0xc</span><span class="p">,</span> <span class="p">=</span> <span class="n">Float</span>
+    <span class="n">ELEMENT_TYPE_R8</span>             <span class="p">=</span> <span class="m">0xd</span><span class="p">,</span> <span class="p">=</span> <span class="n">Double</span>
+    <span class="n">ELEMENT_TYPE_I</span>              <span class="p">=</span> <span class="m">0x18</span><span class="p">,</span> <span class="p">=</span> <span class="n">IntPtr</span>
+    <span class="n">ELEMENT_TYPE_U</span>              <span class="p">=</span> <span class="m">0x19</span><span class="p">,</span> <span class="p">=</span> <span class="n">UIntPtr</span></code></pre>
+</figure>
+
+<p>IntPTR and UINTPTr is not supported.</p>
+
+<p>For Float and Double there is a special case.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp">    <span class="k">case</span> <span class="n">ELEMENT_TYPE_R4</span><span class="p">:</span>
+    <span class="p">{</span>
+        <span class="n">R4</span> <span class="p">*</span> <span class="n">R4Keys</span> <span class="p">=</span> <span class="p">(</span><span class="n">R4</span><span class="p">*)</span> <span class="n">keys</span><span class="p">-&gt;</span><span class="nf">GetDataPtr</span><span class="p">();</span>
+        <span class="n">R4</span> <span class="p">*</span> <span class="n">R4Items</span> <span class="p">=</span> <span class="p">(</span><span class="n">R4</span><span class="p">*)</span> <span class="p">(</span><span class="n">items</span> <span class="p">==</span> <span class="n">NULL</span> <span class="p">?</span> <span class="n">NULL</span> <span class="p">:</span> <span class="n">items</span><span class="p">-&gt;</span><span class="nf">GetDataPtr</span><span class="p">());</span>
+
+        <span class="c1">// Comparison to NaN is always false, so do a linear pass 
+</span>        <span class="c1">// and swap all NaNs to the front of the array
+</span>        <span class="n">left</span> <span class="p">=</span> <span class="n">ArrayHelpers</span><span class="p">&lt;</span><span class="n">R4</span><span class="p">&gt;::</span><span class="nf">NaNPrepass</span><span class="p">(</span><span class="n">R4Keys</span><span class="p">,</span> <span class="n">R4Items</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">left</span> <span class="p">!=</span> <span class="n">right</span><span class="p">)</span> <span class="n">ArrayHelpers</span><span class="p">&lt;</span><span class="n">R4</span><span class="p">&gt;::</span><span class="nf">IntrospectiveSort</span><span class="p">(</span><span class="n">R4Keys</span><span class="p">,</span> <span class="n">R4Items</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">);</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">};</span></code></pre>
+</figure>
+
+<p>Before doing any sorting there is a Function <code class="highlighter-rouge">NanPrepass</code></p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp">    <span class="c1">// For sorting, move all NaN instances to front of the input array
+</span>    <span class="n">template</span> <span class="p">&lt;</span><span class="k">class</span> <span class="nc">REAL</span><span class="p">&gt;</span>
+    <span class="k">static</span> <span class="n">unsigned</span> <span class="kt">int</span> <span class="nf">NaNPrepass</span><span class="p">(</span><span class="n">REAL</span> <span class="n">keys</span><span class="p">[],</span> <span class="n">REAL</span> <span class="n">items</span><span class="p">[],</span> <span class="n">unsigned</span> <span class="kt">int</span> <span class="n">left</span><span class="p">,</span> <span class="n">unsigned</span> <span class="kt">int</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="n">left</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="n">right</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nf">_isnan</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="p">{</span>
+                <span class="n">REAL</span> <span class="n">temp</span> <span class="p">=</span> <span class="n">keys</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+                <span class="n">keys</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="p">=</span> <span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+                <span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">=</span> <span class="n">temp</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">items</span> <span class="p">!=</span> <span class="n">NULL</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">temp</span> <span class="p">=</span> <span class="n">items</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+                    <span class="n">items</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="p">=</span> <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+                    <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">=</span> <span class="n">temp</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="n">left</span><span class="p">++;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">left</span><span class="p">;</span>
+    <span class="p">}</span></code></pre>
+</figure>
+
+<p>This function in O(n) iterates through the list and moves all the <code class="highlighter-rouge">NULL</code> values to the left changing list start position to be the first element that is not <code class="highlighter-rouge">NULL</code>. Why not treating <code class="highlighter-rouge">NULL</code> as a value &lt; 0 and just sort it with the rest of values? There is a crucial note for that.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="n">Comparison</span> <span class="n">to</span> <span class="n">NaN</span> <span class="k">is</span> <span class="n">always</span> <span class="k">false</span></code></pre>
+</figure>
+
+<p><code class="highlighter-rouge">Prepass</code> is required to get rid of unspecified behaviour. If comparison to NaN always yields false then <code class="highlighter-rouge">1 &gt;= Nan = false</code> and <code class="highlighter-rouge">Nan &gt;= 1 = false</code>. It makes it imossible to make ‘deterministic’ comparisons.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="na">[1, NaN]</span> <span class="p">-&gt;</span> <span class="n">Sort</span> <span class="p">-&gt;</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="n">NaN</span><span class="p">]</span> <span class="n">or</span> <span class="p">[</span><span class="n">Nan</span><span class="p">,</span> <span class="m">1</span><span class="p">]</span></code></pre>
+</figure>
+
+<p>This operation is O(n). Later on <code class="highlighter-rouge">IntroSort</code> (more on it soon) algorithm is used to sort. It has oworst and average O(nlogn) so the complexity of doing <code class="highlighter-rouge">NaNPrepass</code> and <code class="highlighter-rouge">Sorting</code> is <code class="highlighter-rouge">O(nlogn) + O(n)</code>. nlogn is bigger than O(n) so the overall complexity is O(nlogn) as with Big O notation the most significant component is taking over.</p>
+
+<p>We have covered special scenario of Double types.</p>
+
+<p>When the <code class="highlighter-rouge">primitive</code> type is simple integer, IntrospectiveSort function is called without any other logic.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp">   <span class="k">case</span> <span class="n">ELEMENT_TYPE_I1</span><span class="p">:</span>
+    <span class="n">ArrayHelpers</span><span class="p">&lt;</span><span class="n">I1</span><span class="p">&gt;::</span><span class="nf">IntrospectiveSort</span><span class="p">((</span><span class="n">I1</span><span class="p">*)</span> <span class="n">keys</span><span class="p">-&gt;</span><span class="nf">GetDataPtr</span><span class="p">(),</span> <span class="p">(</span><span class="n">I1</span><span class="p">*)</span> <span class="p">(</span><span class="n">items</span> <span class="p">==</span> <span class="n">NULL</span> <span class="p">?</span> <span class="n">NULL</span> <span class="p">:</span> <span class="n">items</span><span class="p">-&gt;</span><span class="nf">GetDataPtr</span><span class="p">()),</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">);</span>
+    <span class="k">break</span><span class="p">;</span></code></pre>
+</figure>
+
+<p>Is it time to get to the sorting algorithm itself - yes it is.</p>
+
+
+      <span id="post-end"></span>
+    </div>
+
+    <div id="mc_embed_signup">
+<form action="https://mfranc.us13.list-manage.com/subscribe/post?u=8a5865e28c59044d419ecbe95&amp;id=d545f31150" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div id="mc_embed_signup_scroll">
+      <label for="mce-EMAIL">If you are interested in Cloud Native, Scalability, System Design and more meaty side of Engineering at Scale. Then subscribe to my mailing list.</label>
+      <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_8a5865e28c59044d419ecbe95_d545f31150" tabindex="-1" value=""></div>
+        <div class="clear">
+          <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+        </div>
+    </div>
+</form>
+</div>
+
+
+
+    
+<hr>
+
+<aside id="comments" class="disqus">
+  <div class="container">
+    <h3><i class="icon icon-comments-o"></i> Comments</h3>
+    <div id="disqus_thread"></div>
+    <script>
+      (function() {
+        var d = document,
+        s = d.createElement('script');
+        s.src = '//thesilenceofthelams.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</aside>
+
+
+
+  </div>
+
+</article>
+
+      </div>
+
+
+      <footer class="site-footer">
+  <div class="container">
+    <ul class="social">
+  <li><a href="http://github.com/michal-franc" target="_blank"><i class="icon icon-github"></i></a></li>
+  <li><a href="http://twitter.com/francmichal" target="_blank"><i class="icon icon-twitter"></i></a></li>
+  <li><a href="http://facebook.com/michalfrancblog" target="_blank"><i class="icon icon-facebook"></i></a></li>
+  <li><a href="https://uk.linkedin.com/in/michalfranc1" target="_blank"><i class="icon icon-linkedin"></i></a></li>
+</ul>
+
+    <p class="txt-medium-gray">
+      <small>&copy;2018 All rights reserved. Made with <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> and ♥</small>
+    </p>
+  </div>
+</footer>
+
+
+      <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	  <script type="text/javascript" src="/js/jquery.slick-modals.js"/></script>
+
+	  <!-- <script id="ulp-remote" src="http://tools.mfranc.com/wp-content/plugins/layered-popups/js/remote.min.js?ver=5.89" data-handler="http://tools.mfranc.com/wp-admin/admin-ajax.php"></script>
+	  <script>
+
+		    (function ($) {
+			"use strict";
+			var objectPositionTop = $('#post-end').offset().top - window.innerHeight;
+
+				ulp_add_event("onexit", {
+					popup:		"4AXWiVSrZD71uqiP",
+					mode:		"once-period",
+					period:		30
+				});
+
+				ulp_add_event("onidle", {
+					popup:		"85oltSbndJGZQzaW",
+					mode:		"once-period",
+					period:         30
+				});
+
+				ulp_add_event("onscroll", {
+					popup:		"INyhHrwTzxjvcqEb",
+					mode:		"once-period",
+					period:         30,
+					offset:		objectPositionTop / 2
+				});
+
+		    }(jQuery));
+
+    </script> -->
+
+		<script id="dsq-count-scr" src="//thesilenceofthelams.disqus.com/count.js" async></script>
+
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.7&appId=125980610784627";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+    </main>
+  </body>
+</html>

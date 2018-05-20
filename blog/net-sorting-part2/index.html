@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    
+    <meta name="robots" content="noindex">
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="author" content="Michal Franc">
+    <meta name="keywords" content="michal franc,leader,programmer,coach,speaker">
+	<title>Everything you wanted to know about Sorting in .NET part 2 | Michal Franc</title>
+	<meta name="description" content="  Contents">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata:700|Raleway" rel="stylesheet">
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+    <link rel="author" href="https://plus.google.com/104238159697387202725?rel=author">
+
+	<link rel="canonical" href="http://www.mfranc.com/blog/net-sorting-part2/">
+
+    <link rel="stylesheet" href="/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/sm.css" media="screen" />
+    <link rel="alternate" type="application/rss+xml" title="Michal Franc | Feed" href="http://feeds.feedburner.com/PassionateProgram">
+
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Everything you wanted to know about Sorting in .NET part 2 | Michal Franc">
+    <meta property="og:description" content="  Contents">
+	<meta property="og:url" content="http://www.mfranc.com/blog/net-sorting-part2/">
+    <meta property="og:site_name" content="Michal Franc Blog">
+    <meta property="og:type" content="website">
+	<meta property="og:image" content="http://michal-franc.github.io/images/default_share_image.jpg">
+
+	<meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Everything you wanted to know about Sorting in .NET part 2 | Michal Franc">
+    <meta name="twitter:site" content="@francmichal">
+    <meta name="twitter:creator" content="@francmichal">
+    <meta name="twitter:description" content="  Contents">
+	<meta name="twitter:image" content="http://michal-franc.github.io/images/default_share_image.jpg">
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-15894596-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+    <script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100563098); }catch(e){}</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100563098ns.gif" /></p></noscript>
+
+    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+    <!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1817837425153843'); // Insert your pixel ID here.
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1817837425153843&ev=PageView&noscript=1"
+/></noscript>
+<!-- DO NOT MODIFY -->
+<!-- End Facebook Pixel Code -->
+
+
+  </head>
+
+
+  <body>
+    <main>
+      <header class="site-header">
+  <div class="container">
+	  <h1><a href="/">Michal<span>Franc</span></a></h1>
+
+    <button type="button" class="sliding-panel-button">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="navbar sliding-panel-content">
+      <ul>
+        
+          <li><a href="/blog" title="Posts">Posts</a></li>
+        
+          <li><a href="/notes" title="Notes">Notes</a></li>
+        
+          <li><a href="/articles" title="Articles">Articles</a></li>
+        
+          <li><a href="/about" title="About">About</a></li>
+        
+        <li><a href="/feed.xml" target="_blank"><i class="icon icon-feed"></i></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="sliding-panel-fade-screen"></div>
+
+
+      <div class="container">
+        <article role="article" class="post">
+
+  <div class="card">
+    <header class="post-header">
+      <h1 class="post-title">Everything you wanted to know about Sorting in .NET part 2</h1>
+      <p class="post-meta">Apr 1, 2018 • Michal Franc - 
+		<small>
+			<i class="icon icon-comments"></i><span class="disqus-comment-count" data-disqus-url="http://mfranc.com/blog/net-sorting-part2/"></span>
+		</small>
+		<small>
+			
+			<a class="tag-badge" href="/blog/tags/#algorithms">algorithms</a>
+			
+		</small>
+	  </p>
+    </header>
+
+	<center>
+		
+	</center>
+
+    <div class="post-content">
+      
+        
+
+
+
+
+
+
+<div class="seriesNote">
+    This article is <strong>Part 4</strong> in a <strong>7-Part</strong> Series.
+    <ul>
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+      
+        
+          
+              
+              <li>Part 1 - 
+              
+                  <a href="/blog/net-sorting-intro/">Journey through the internals of .NET Sort</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 2 - 
+              
+                  <a href="/blog/net-sorting-part1/">Everything you wanted to know about Sorting in .NET - part I</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 3 - 
+              
+                  <a href="/blog/net-sorting-part3/">Everything you wanted to know about Sorting in .NET part 3</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 4 - 
+              
+                  This Article
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 5 - 
+              
+                  <a href="/blog/net-sorting-part6/">Everything you wanted to know about Sorting in .NET part 6</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 6 - 
+              
+                  <a href="/blog/net-sorting-part5/">Everything you wanted to know about Sorting in .NET part 5</a>
+              
+              </li>
+          
+        
+      
+        
+          
+              
+              <li>Part 7 - 
+              
+                  <a href="/blog/net-sorting-part4/">Everything you wanted to know about Sorting in .NET part 4</a>
+              
+              </li>
+          
+        
+      
+    
+    </ul>
+</div>
+
+
+
+
+      
+      <div class="toc">
+  <h2>Contents</h2>
+<ol id="markdown-toc">
+  <li><a href="#arraysort" id="markdown-toc-arraysort">Array.Sort</a>    <ol>
+      <li><a href="#securitysafecritical" id="markdown-toc-securitysafecritical">SecuritySafeCritical</a></li>
+      <li><a href="#reliabilitycontract" id="markdown-toc-reliabilitycontract">ReliabilityContract</a></li>
+    </ol>
+  </li>
+  <li><a href="#what-is-tryszsort" id="markdown-toc-what-is-tryszsort">What is TrySZSort?</a>    <ol>
+      <li><a href="#single-dimensioned-zero-based-arrays" id="markdown-toc-single-dimensioned-zero-based-arrays">Single-dimensioned zero based arrays</a></li>
+      <li><a href="#arraycreateinstance-vs-new" id="markdown-toc-arraycreateinstance-vs-new">Array.CreateInstance vs new[]</a></li>
+      <li><a href="#first-peek-at-unmanaged-world" id="markdown-toc-first-peek-at-unmanaged-world">First peek at unmanaged world</a></li>
+    </ol>
+  </li>
+</ol>
+
+</div>
+
+<p>In the previous part we haven’t yet touched the sorting part of <code class="highlighter-rouge">Sort</code>. This was just a first step into the world of <code class="highlighter-rouge">.NET</code> source code. Time to make another one and go down the rabbit hole into the world of …</p>
+
+<h2 id="arraysort">Array.Sort</h2>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="n">List</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;.</span><span class="nf">Sort</span><span class="p">()</span>
+<span class="p">---&gt;</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;.</span><span class="nf">Sort</span><span class="p">(</span><span class="n">index</span> <span class="p">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">count</span> <span class="p">=</span> <span class="n">Count</span><span class="p">,</span> <span class="n">comparer</span><span class="p">=</span><span class="k">null</span><span class="p">)</span>
+<span class="p">------&gt;</span> <span class="n">Array</span><span class="p">.</span><span class="n">Sort</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">_items</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">comparer</span><span class="p">);</span></code></pre>
+</figure>
+
+<p><code class="highlighter-rouge">List</code> is just a wrapper around <code class="highlighter-rouge">array</code>. Due to this, call to <code class="highlighter-rouge">Sort</code> is redirected to <code class="highlighter-rouge">Array.Sort&lt;T&gt;</code> which takes array as an argument.</p>
+
+<p>Parameters:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">array</code> -&gt; <code class="highlighter-rouge">_items</code> from the list</li>
+  <li><code class="highlighter-rouge">index</code> -&gt; <code class="highlighter-rouge">0</code> - begginging of the list</li>
+  <li><code class="highlighter-rouge">length</code> -&gt; count of the list as we want to sort all of it</li>
+  <li><code class="highlighter-rouge">comparer</code> -&gt; <code class="highlighter-rouge">null</code></li>
+</ul>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="na">[System.Security.SecuritySafeCritical]</span>
+<span class="na">[ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]</span>
+<span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">Array</span><span class="p">.</span><span class="n">Sort</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">T</span><span class="p">[]</span> <span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="kt">int</span> <span class="n">length</span><span class="p">,</span> <span class="n">IComparer</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="n">comparer</span><span class="p">)</span> <span class="p">{</span></code></pre>
+</figure>
+
+<p>There are two interesting attributes added to this function.</p>
+
+<h3 id="securitysafecritical">SecuritySafeCritical</h3>
+<p><code class="highlighter-rouge">Code Access Security</code> attribute. Marks function as being callable by tansparent code. This is a special section of your code (or you can mark whole assembly to be transparent) that creates a <code class="highlighter-rouge">sandboxed limited environment</code> with rules like - cannot call native code, can call only other transparent code or <code class="highlighter-rouge">SecuritySafeCritical</code> code, cannot elevate priviledges or access protected resources. This feature is not really useful for web developers as we use HTTP and API layer to create our own <code class="highlighter-rouge">sandbox</code> with defined can dos and cannot dos in the <code class="highlighter-rouge">contract</code>. Situation is different in desktop and library development space. <code class="highlighter-rouge">SecuritySafeCritical</code> attribute makes it possible for <code class="highlighter-rouge">sandboxed</code> parts of the code to use <code class="highlighter-rouge">Sorting</code>.
+<a href="https://docs.microsoft.com/en-us/dotnet/framework/misc/code-access-security-basics">[1]</a><a href="https://docs.microsoft.com/en-us/dotnet/framework/misc/security-transparent-code-level-2">[2]</a><a href="https://docs.microsoft.com/en-us/dotnet/framework/misc/code-access-security-basics">[3]</a></p>
+
+<h3 id="reliabilitycontract">ReliabilityContract</h3>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="na">[ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]</span></code></pre>
+</figure>
+
+<p>This attribute is used in a feature called <code class="highlighter-rouge">Constrained Execution Region</code>. It was added to the framework for <code class="highlighter-rouge">CLR</code> integration with <code class="highlighter-rouge">SQL Server 2005</code>.</p>
+
+<blockquote>
+  <p>starting with the SQL Server™ 2005 release, SQL Server is able to host the common language runtime (CLR), allowing stored procedures, functions, and triggers to be written in managed code. Since access to these stored procedures must be fast, SQL Server hosts the CLR in-process. <a href="https://web.archive.org/web/20150423173148/https://msdn.microsoft.com/en-us/magazine/cc163716.aspx">[4]</a>.</p>
+</blockquote>
+
+<p>This feature is really usefull when you write processes that have to be <code class="highlighter-rouge">reliable</code> and long running and you want to limit amount of <code class="highlighter-rouge">failures</code>. This is not your usual web service that just die as most of the work is done in <code class="highlighter-rouge">request / response</code> manner. User can just repeat request, right? Then why bother. Well the case is different in <code class="highlighter-rouge">SQL Server</code> example</p>
+
+<blockquote>
+  <p>Remember that in SQL Server, MTBF(Mean time beetwen failures)<a href="https://en.wikipedia.org/wiki/Mean_time_between_failures">[6]</a> is measured in months not hours and the process restarting because an unhandled exception happened is completely unacceptable.<a href="https://stackoverflow.com/a/747680/104135">[5]</a></p>
+</blockquote>
+
+<p>In order to achieve more reliable code which was requirement for a code running in <code class="highlighter-rouge">SQL Server</code>. <code class="highlighter-rouge">CER</code> provides certain guarantess like:</p>
+
+<ul>
+  <li>runtime delays throwing Thread.Abort exception waiting for <code class="highlighter-rouge">CER</code> code to execute.</li>
+  <li>runtime prepares <code class="highlighter-rouge">CER</code> code as a priority to make sure there is a space on stack and in memory limiting the likelyhood of throwing <code class="highlighter-rouge">StackOverFlow</code> and <code class="highlighter-rouge">OutOfMemory</code> exception. This is very usefull in a scenario with <code class="highlighter-rouge">finally</code> block not being able to execute beacuse there is no memory lefet and <code class="highlighter-rouge">OutOfMemory</code> exception is thrown by the runtime. This is <code class="highlighter-rouge">unlinkely</code> scenario, but if your service is running for <code class="highlighter-rouge">months</code> or <code class="highlighter-rouge">years</code> this can happen.</li>
+</ul>
+
+<blockquote>
+  <p>the runtime is constrained from throwing certain asynchronous exceptions that would prevent the region from executing in its entirety.<a href="https://web.archive.org/web/20150423173148/https://msdn.microsoft.com/en-us/magazine/cc163716.aspx">[4]</a></p>
+</blockquote>
+
+<p>This is not only about the runtime there are limitation on the developer side that are checked by the CLR like code cannot:</p>
+
+<ul>
+  <li>acquire lock</li>
+  <li>explicitly allocate</li>
+  <li>call reflection</li>
+  <li>use <code class="highlighter-rouge">Monitor.Enter</code></li>
+  <li>run <code class="highlighter-rouge">Serialization</code> and more</li>
+</ul>
+
+<p>This is to prevent writing code that can <code class="highlighter-rouge">break</code> in constrained blocks of code making the <code class="highlighter-rouge">likelyhood</code> of it being <code class="highlighter-rouge">more reliable</code>.</p>
+
+<blockquote>
+  <p>This creates a framework and an enforcement mechanism for authoring reliable managed code <a href="https://web.archive.org/web/20150423173148/https://msdn.microsoft.com/en-us/magazine/cc163716.aspx">[4]</a></p>
+</blockquote>
+
+<blockquote>
+  <p>CERs are a way to move any runtime-induced failure point from your code to a time either before the code runs (in the case of JIT compiling), or after the code completes (for thread aborts). <a href="https://web.archive.org/web/20150423173148/https://msdn.microsoft.com/en-us/magazine/cc163716.aspx">[4]</a></p>
+</blockquote>
+
+<p>Ok, but what about <code class="highlighter-rouge">[ReliabilityContract]</code> on <code class="highlighter-rouge">Sort</code> method? First, this attribute is only usefull in the <code class="highlighter-rouge">CER</code>. You create <code class="highlighter-rouge">CER</code> by using <code class="highlighter-rouge">PrepareConstrainedRegions()</code> function. It is a explicit decision.</p>
+
+<p>Peter Oehlert posted on SO nice example - <code class="highlighter-rouge">list.Sort</code> was added to make it more visible where <code class="highlighter-rouge">ReliabilityContract</code> attribute would be used. <a href="https://stackoverflow.com/a/747680/104135">[5]</a></p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="nf">PrepareConstrainedRegions</span><span class="p">();</span>
+<span class="k">try</span> 
+<span class="p">{</span>
+   <span class="n">list</span><span class="p">.</span><span class="nf">Sort</span><span class="p">()</span>  <span class="c1">// this is not CER and atribute is not used  
+</span>
+<span class="p">}</span> 
+<span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span> 
+<span class="p">{</span>
+   <span class="n">list</span><span class="p">.</span><span class="nf">Sort</span><span class="p">()</span>  <span class="c1">// this is CER and atribute is used  
+</span>
+<span class="p">}</span> 
+<span class="k">finally</span> 
+<span class="p">{</span>
+   <span class="n">list</span><span class="p">.</span><span class="nf">Sort</span><span class="p">()</span>  <span class="c1">// this is CER and atribute is used  
+</span>
+<span class="p">}</span></code></pre>
+</figure>
+
+<blockquote>
+  <p>when used from within a constrained execution region a method marked with a ReliabilityContract will be prepared before execution by the JIT to be pre-compiled and the memory for the method will be pre-allocated when entering the PrepareConstrainedRegions. <a href="https://stackoverflow.com/a/747680/104135">[5]</a></p>
+</blockquote>
+
+<p>Reading about <code class="highlighter-rouge">CER</code>, I also stumbled upon concept called <code class="highlighter-rouge">out-of-band exception</code>. These are exceptions that are thrown by the runtime not the code - StackOverflowException, OutOfMemoryException and ThreadAbortException.<a href="https://stackoverflow.com/questions/747551/difference-between-critical-section-critical-region-and-constrained-execut#comment3611344_747680">[9]</a></p>
+
+<blockquote>
+  <p>Writing reliable code in the face of everything that go wrong can be a daunting task. The good news is that unless you’re writing a framework or a library for use in CLR hosts that require prolonged periods of up time, you probably won’t need to think about this stuff too often.<a href="https://web.archive.org/web/20150423173148/https://msdn.microsoft.com/en-us/magazine/cc163716.aspx">[4]</a></p>
+</blockquote>
+
+<p>In order to avoid potential <code class="highlighter-rouge">OutOfMemoryException</code> and <code class="highlighter-rouge">StackOverFlowException</code>.
+Before entering <code class="highlighter-rouge">try</code> block if you have used <code class="highlighter-rouge">PrepareConstrainedRegion</code> and your method has attribute <code class="highlighter-rouge">ReliabilityContract</code>. For this method:</p>
+
+<ul>
+  <li>all the assemblies are loaded</li>
+  <li>code is compiled</li>
+  <li>there is a check if stack has (48KB) of space available (apparently 48K is an average method size)</li>
+</ul>
+
+<p>If <code class="highlighter-rouge">CER</code> got you interested then try this presentation<a href="https://youtu.be/U92Ts53win4?t=530">[10]</a> (big thanks to Grzegorz Kotfis<a href="https://devsession.pl/">[11]</a> for the link)</p>
+
+<h2 id="what-is-tryszsort">What is TrySZSort?</h2>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">Sort</span><span class="p">(</span><span class="n">Array</span> <span class="n">keys</span><span class="p">,</span> <span class="n">Array</span> <span class="n">items</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="kt">int</span> <span class="n">length</span><span class="p">,</span> <span class="n">IComparer</span> <span class="n">comparer</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">keys</span><span class="p">==</span><span class="k">null</span><span class="p">)</span>
+      <span class="c1">// Exception   
+</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">keys</span><span class="p">.</span><span class="n">Rank</span> <span class="p">!=</span> <span class="m">1</span> <span class="p">||</span> <span class="p">(</span><span class="n">items</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">items</span><span class="p">.</span><span class="n">Rank</span> <span class="p">!=</span> <span class="m">1</span><span class="p">))</span>
+      <span class="c1">// Exception   
+</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">items</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">keys</span><span class="p">.</span><span class="nf">GetLowerBound</span><span class="p">(</span><span class="m">0</span><span class="p">)</span> <span class="p">!=</span> <span class="n">items</span><span class="p">.</span><span class="nf">GetLowerBound</span><span class="p">(</span><span class="m">0</span><span class="p">))</span>
+      <span class="c1">// Exception   
+</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="p">&lt;</span> <span class="n">keys</span><span class="p">.</span><span class="nf">GetLowerBound</span><span class="p">(</span><span class="m">0</span><span class="p">)</span> <span class="p">||</span> <span class="n">length</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">)</span>
+      <span class="c1">// Exception  
+</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">keys</span><span class="p">.</span><span class="n">Length</span> <span class="p">-</span> <span class="p">(</span><span class="n">index</span> <span class="p">-</span> <span class="n">keys</span><span class="p">.</span><span class="nf">GetLowerBound</span><span class="p">(</span><span class="m">0</span><span class="p">))</span> <span class="p">&lt;</span> <span class="n">length</span> 
+      <span class="p">||</span> <span class="p">(</span><span class="n">items</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="p">(</span><span class="n">index</span> <span class="p">-</span> <span class="n">items</span><span class="p">.</span><span class="nf">GetLowerBound</span><span class="p">(</span><span class="m">0</span><span class="p">))</span> <span class="p">&gt;</span> <span class="n">items</span><span class="p">.</span><span class="n">Length</span> <span class="p">-</span> <span class="n">length</span><span class="p">))</span>
+      <span class="c1">// Exception
+</span>
+  <span class="n">Contract</span><span class="p">.</span><span class="nf">EndContractBlock</span><span class="p">();</span>
+  
+  <span class="k">if</span> <span class="p">(</span><span class="n">length</span> <span class="p">&gt;</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">comparer</span> <span class="p">==</span> <span class="n">Comparer</span><span class="p">.</span><span class="n">Default</span> <span class="p">||</span> <span class="n">comparer</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+          <span class="kt">bool</span> <span class="n">r</span> <span class="p">=</span> <span class="nf">TrySZSort</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">index</span> <span class="p">+</span> <span class="n">length</span> <span class="p">-</span> <span class="m">1</span><span class="p">);</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">r</span><span class="p">)</span>
+              <span class="k">return</span><span class="p">;</span>
+      <span class="p">}}</span>
+<span class="p">...</span></code></pre>
+</figure>
+
+<p>We have discussed attributes, time to talk about the code. This is source of <code class="highlighter-rouge">Array.Sort</code>. Exception throwing logic was replaced with comments to make it more readable.</p>
+
+<p>I want to focus on this code. This is were <code class="highlighter-rouge">managed</code> code mixes with <code class="highlighter-rouge">unamanged</code> one. <code class="highlighter-rouge">TrySZSort</code> - this is the real underlaying function that is not part of <code class="highlighter-rouge">.NET</code>.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp">  <span class="k">if</span> <span class="p">(</span><span class="n">length</span> <span class="p">&gt;</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">comparer</span> <span class="p">==</span> <span class="n">Comparer</span><span class="p">.</span><span class="n">Default</span> <span class="p">||</span> <span class="n">comparer</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+          <span class="kt">bool</span> <span class="n">r</span> <span class="p">=</span> <span class="nf">TrySZSort</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">index</span> <span class="p">+</span> <span class="n">length</span> <span class="p">-</span> <span class="m">1</span><span class="p">);</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">r</span><span class="p">)</span>
+              <span class="k">return</span><span class="p">;</span>
+      <span class="p">}}</span>
+<span class="p">...</span></code></pre>
+</figure>
+
+<p>Before we event hit this function <code class="highlighter-rouge">length &gt; 1</code> is used to check if array requires sorting. If there is only one element there is no need to sort at all. It is also worht noting that <code class="highlighter-rouge">TrySZSort</code> is called only for default comparer. It is a <code class="highlighter-rouge">external native function</code>. Under the hood it calls <code class="highlighter-rouge">C++</code> code that is part of <code class="highlighter-rouge">CLR</code>. This code is heavily optimized. If you provide custom <code class="highlighter-rouge">Comparer</code> it won’t be used. For custom <code class="highlighter-rouge">Comparers</code> similar sorting algorithm as the one in <code class="highlighter-rouge">TrySZSort</code> is executed inside <code class="highlighter-rouge">managed</code> code. This of course lacks all the benefits of <code class="highlighter-rouge">unmanaged</code> code and misses most of the native optimizations.</p>
+
+<p><code class="highlighter-rouge">TrySZSort</code> what does it mean? - There are two parts <code class="highlighter-rouge">SZ</code> and <code class="highlighter-rouge">Sort</code>. <code class="highlighter-rouge">Sort</code> is obvious. <code class="highlighter-rouge">SZ</code> comes from <code class="highlighter-rouge">S</code>ingle-dimensioned <code class="highlighter-rouge">Z</code>ero-based arrays.</p>
+
+<h3 id="single-dimensioned-zero-based-arrays">Single-dimensioned zero based arrays</h3>
+
+<p><code class="highlighter-rouge">Single-dimensioned</code> - It is your typical arrays with one dimension. <code class="highlighter-rouge">TrySZSort</code> doesn’t support <code class="highlighter-rouge">multi-dimension</code> arrays.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="n">one</span> <span class="n">dimensional</span>
+<span class="na">[1, 2, 3, 4 ... n]</span>
+
+<span class="n">two</span> <span class="n">dimensional</span>
+<span class="p">[</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span> <span class="p">...</span> <span class="n">n</span>
+  <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span> <span class="p">...</span> <span class="n">n</span>
+  <span class="m">3</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">4</span> <span class="p">...</span> <span class="n">n</span>
+  <span class="m">4</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">4</span> <span class="p">...</span> <span class="n">n</span>
+  <span class="m">5</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">4</span> <span class="p">...</span> <span class="n">n</span>
+  <span class="m">5</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">4</span> <span class="p">...</span> <span class="n">n</span>
+  <span class="n">m</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="p">...</span> <span class="n">n</span> <span class="p">]</span></code></pre>
+</figure>
+
+<p><code class="highlighter-rouge">Zero-based</code> - <code class="highlighter-rouge">TrySZSort</code> supports only arrays starting with <code class="highlighter-rouge">0</code> index.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="n">zero</span> <span class="n">based</span> <span class="n">indexing</span> 
+<span class="na">[0, 1, 2, 3 ... n - 1]</span>
+
+<span class="n">one</span> <span class="n">based</span> <span class="n">indexing</span> 
+<span class="na">[1, 2, 3, 4 ... n]</span></code></pre>
+</figure>
+
+<p>It got me thinking. If <code class="highlighter-rouge">zero based</code> is explicit, does it mean that arrays could be <code class="highlighter-rouge">one based</code>? Was there no consensus in the past?. For me <code class="highlighter-rouge">zero</code> was always the first index. I just assumed that this is the standard. It kind of is now … but it was’nt in the past. Can you create <code class="highlighter-rouge">non zero based</code> array in <code class="highlighter-rouge">C#</code>?</p>
+
+<p>Based on <code class="highlighter-rouge">CLS</code> (Common Language Specification) - which is a set of rules and limitations that you need to follow to be <code class="highlighter-rouge">Compliant</code>. Which means that your <code class="highlighter-rouge">code</code> is usable by any <code class="highlighter-rouge">CLR</code> language - (This is important when building frameworks or librarires).</p>
+
+<blockquote>
+  <p>All dimensions of an array must have a lower bound of zero.<a href="(https://docs.microsoft.com/en-us/dotnet/standard/language-independence-and-language-independent-components#arrays)">[10]</a></p>
+</blockquote>
+
+<p>It looks like it is against the rules but still <code class="highlighter-rouge">CLR</code> supports it and in <code class="highlighter-rouge">C#</code> you can make <code class="highlighter-rouge">one, two, ... x index based</code> arrays. By default, indexing is <code class="highlighter-rouge">zero based</code> but you can force <code class="highlighter-rouge">C#</code> to show <code class="highlighter-rouge">its</code> hidden parts (don’t use it in your code as it won<code class="highlighter-rouge">t be CLS compliant, it it is a bad and non intuitive practice this days). Code is also optimized to operate on </code>zero-based` arrays.</p>
+
+<blockquote>
+  <p>since zero-based arrays are by far the most common, Microsoft has spent a lot of time optimizing their performance. However, the CLR does support non-zero-based arrays but they are discouraged.<a href="https://stackoverflow.com/a/23893504/104135">[11]</a></p>
+</blockquote>
+
+<p>I know what you are thinking right not <code class="highlighter-rouge">Show me how to make one based array</code> ^^.You need to use <code class="highlighter-rouge">Array.CreateInstance</code>. Brace for impact here it goes</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="k">public</span> <span class="k">static</span> <span class="n">Array</span> <span class="nf">CreateInstance</span><span class="p">(</span><span class="n">Type</span> <span class="n">elementType</span><span class="p">,</span> <span class="kt">int</span><span class="p">[]</span> <span class="n">lengths</span><span class="p">,</span> <span class="kt">int</span><span class="p">[]</span> <span class="n">lowerBounds</span><span class="p">)</span></code></pre>
+</figure>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="c1">// Zero Based
+</span>
+<span class="kt">var</span> <span class="n">zeroBased</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="m">1</span><span class="p">];</span>
+<span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">zeroBased</span><span class="p">.</span><span class="nf">GetValue</span><span class="p">(</span><span class="m">0</span><span class="p">));</span>
+<span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">zeroBased</span><span class="p">.</span><span class="nf">GetLowerBound</span><span class="p">(</span><span class="m">0</span><span class="p">));</span>
+
+<span class="n">output</span><span class="p">:</span>
+<span class="m">0</span>
+<span class="m">0</span> <span class="p">&lt;-</span> <span class="n">zero</span> <span class="n">based</span>
+
+<span class="c1">// One Based
+</span>
+<span class="kt">var</span> <span class="n">oneBased</span> <span class="p">=</span> <span class="n">Array</span><span class="p">.</span><span class="nf">CreateInstance</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span> <span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="m">1</span> <span class="p">},</span> <span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="m">1</span> <span class="p">});</span>
+<span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">oneBased</span><span class="p">.</span><span class="nf">GetValue</span><span class="p">(</span><span class="m">1</span><span class="p">));</span>
+<span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">oneBased</span><span class="p">.</span><span class="nf">GetLowerBound</span><span class="p">(</span><span class="m">0</span><span class="p">));</span>
+
+<span class="n">output</span><span class="p">:</span>
+<span class="m">0</span>
+<span class="m">1</span> <span class="p">&lt;-</span> <span class="n">one</span> <span class="n">based</span>
+
+<span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">oneBased</span><span class="p">.</span><span class="nf">GetValue</span><span class="p">(</span><span class="m">0</span><span class="p">));</span> <span class="p">//</span> <span class="n">throws</span> <span class="n">Exception</span></code></pre>
+</figure>
+
+<p><code class="highlighter-rouge">CLR</code> keeps this as a backward compatibility for <code class="highlighter-rouge">Visual Basic</code> code. <code class="highlighter-rouge">TrySZSort</code> contains a glimpse of long and complicated programming history. in <code class="highlighter-rouge">VB</code> you were able to create arrays starting from index <code class="highlighter-rouge">1</code>. <a href="(http://www.panopticoncentral.net/2004/03/17/non-zero-lower-bounded-arrays-the-other-side-of-the-coin)">[12]</a>
+Since <code class="highlighter-rouge">VB .NET 2002</code> - you were able to create <code class="highlighter-rouge">x based arrays</code>. VB evolved from different language history than <code class="highlighter-rouge">C#</code> took a lot from <code class="highlighter-rouge">C</code> and <code class="highlighter-rouge">Java</code>.</p>
+
+<p>The concept of arrays starting from <code class="highlighter-rouge">0</code> has also interesting history. It wasn’t that obvious which approach was <code class="highlighter-rouge">better</code>. Diging around this topic yields interesting discussions about easier <code class="highlighter-rouge">pointer arithmetic</code> if arrays are <code class="highlighter-rouge">zero based</code>.  <code class="highlighter-rouge">0</code> representing start of memory address is more <code class="highlighter-rouge">intuitive</code> than <code class="highlighter-rouge">1</code>. Some peope point to the <code class="highlighter-rouge">Math</code> and certain operations that are easier if we assume start of the array as <code class="highlighter-rouge">0</code>.<a href="(https://softwareengineering.stackexchange.com/questions/110804/why-are-zero-based-arrays-the-norm)">[13]</a></p>
+
+<h3 id="arraycreateinstance-vs-new">Array.CreateInstance vs new[]</h3>
+
+<p>When I used <code class="highlighter-rouge">Array.CreateInstance</code> for the first time, I wondered … how different it is from using <code class="highlighter-rouge">new[]</code>. Jon Skeet points to some dirrections in his SO answer<a href="https://stackoverflow.com/a/43581012/104135">[14]</a></p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="k">new</span> <span class="kt">int</span> <span class="p">[</span><span class="m">99</span><span class="p">]</span>
+<span class="c1">//Simplified IL code
+</span>
+<span class="n">ldc</span><span class="p">.</span><span class="n">i4</span><span class="p">.</span><span class="n">s</span> <span class="m">99</span>
+<span class="n">newarr</span> <span class="p">[</span><span class="n">mscorlib</span><span class="p">]</span><span class="n">System</span><span class="p">.</span><span class="n">In32</span>
+
+<span class="n">Array</span><span class="p">.</span><span class="n">CreateInstance</span>
+<span class="c1">//Simplified IL code
+</span>
+<span class="n">ldc</span><span class="p">.</span><span class="n">i4</span><span class="p">.</span><span class="n">s</span> <span class="m">99</span>
+<span class="n">call</span> <span class="k">class</span> <span class="err">[</span><span class="nc">mscorlib</span><span class="p">]</span><span class="n">System</span><span class="p">.</span><span class="n">Array</span><span class="p">::</span><span class="n">CreateInstance</span></code></pre>
+</figure>
+
+<p><code class="highlighter-rouge">newarr</code> is built into the language while <code class="highlighter-rouge">CreateInstance</code> is a method call that actually leads to the unmanaged code inside <code class="highlighter-rouge">CLR</code><a href="https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arraynative.cpp#L1162">[x]</a>. <code class="highlighter-rouge">newarr</code> is a IL instructions responsible for creation of <code class="highlighter-rouge">vector</code> - vector is a different name for zero based single dimensional array. Size of array <code class="highlighter-rouge">99</code> is pushed to the stack using <code class="highlighter-rouge">ldc.i4.s</code> instruction. <code class="highlighter-rouge">newarr</code> uses this value from the stack to create the vector.</p>
+
+<p>Just like <code class="highlighter-rouge">CreateInstance</code> is in unmanaged code We are actually going to the unmanaged world with <code class="highlighter-rouge">TrySZSort</code>.</p>
+
+<h3 id="first-peek-at-unmanaged-world">First peek at unmanaged world</h3>
+
+<p>As I mentioned earlier <code class="highlighter-rouge">TrySZSort</code> is extern function. <code class="highlighter-rouge">extern</code> is a special keyword used to indicate `external’ resources.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="na">[System.Security.SecurityCritical]</span>
+<span class="na">[ResourceExposure(ResourceScope.None)]</span>
+<span class="na">[MethodImplAttribute(MethodImplOptions.InternalCall)]</span>
+<span class="na">[ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]</span>
+<span class="k">private</span> <span class="k">static</span> <span class="k">extern</span> <span class="kt">bool</span> <span class="nf">TrySZSort</span><span class="p">(</span><span class="n">Array</span> <span class="n">keys</span><span class="p">,</span> <span class="n">Array</span> <span class="n">items</span><span class="p">,</span> <span class="kt">int</span> <span class="n">left</span><span class="p">,</span> <span class="kt">int</span> <span class="n">right</span><span class="p">);</span></code></pre>
+</figure>
+
+<blockquote>
+  <p>When a method declaration includes an extern modifier, that method is said to be an external method. External methods are implemented externally, typically using a language other than C#.<a href="https://books.google.co.uk/books?id=s-IH_x6ytuQC&amp;pg=PT642&amp;dq=C%23+10.6.7&amp;hl=en&amp;sa=X&amp;ved=0ahUKEwi8-rWOvf7aAhVBKcAKHUyOC_MQ6AEIKTAA#v=onepage&amp;q=C%23%2010.6.7&amp;f=false">[x]</a></p>
+</blockquote>
+
+<p>In this case <code class="highlighter-rouge">TrySZSort</code> is a method with implementation in <code class="highlighter-rouge">CLR</code> - extern is used to make that connection beetwen managed code and the <code class="highlighter-rouge">CLR</code> one. We are entering <code class="highlighter-rouge">C++</code> world now. Source code for <code class="highlighter-rouge">TrySZSort</code> can be found here[<a href="(https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arrayhelpers.cpp#L268)">x</a>]. It is great that microsoft open sourced, as we can check its code and analyse it. This will be covered in next post of the serie. We are going to cover this function <code class="highlighter-rouge">FCIMPL4</code> and how <code class="highlighter-rouge">managed</code> code calls the `unmanaged one’.</p>
+
+<figure class="highlight">
+  <pre><code class="language-csharp" data-lang="csharp"><span class="nf">FCIMPL4</span><span class="p">(</span><span class="n">FC_BOOL_RET</span><span class="p">,</span> <span class="n">ArrayHelper</span><span class="p">::</span><span class="n">TrySZSort</span><span class="p">,</span> <span class="n">ArrayBase</span> <span class="p">*</span> <span class="n">keys</span><span class="p">,</span> <span class="n">ArrayBase</span> <span class="p">*</span> <span class="n">items</span>
+<span class="p">,</span> <span class="n">UINT32</span> <span class="n">left</span><span class="p">,</span> <span class="n">UINT32</span> <span class="n">right</span><span class="p">)</span></code></pre>
+</figure>
+
+
+
+      <span id="post-end"></span>
+    </div>
+
+    <div id="mc_embed_signup">
+<form action="https://mfranc.us13.list-manage.com/subscribe/post?u=8a5865e28c59044d419ecbe95&amp;id=d545f31150" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div id="mc_embed_signup_scroll">
+      <label for="mce-EMAIL">If you are interested in Cloud Native, Scalability, System Design and more meaty side of Engineering at Scale. Then subscribe to my mailing list.</label>
+      <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_8a5865e28c59044d419ecbe95_d545f31150" tabindex="-1" value=""></div>
+        <div class="clear">
+          <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+        </div>
+    </div>
+</form>
+</div>
+
+
+
+    
+<hr>
+
+<aside id="comments" class="disqus">
+  <div class="container">
+    <h3><i class="icon icon-comments-o"></i> Comments</h3>
+    <div id="disqus_thread"></div>
+    <script>
+      (function() {
+        var d = document,
+        s = d.createElement('script');
+        s.src = '//thesilenceofthelams.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</aside>
+
+
+
+  </div>
+
+</article>
+
+      </div>
+
+
+      <footer class="site-footer">
+  <div class="container">
+    <ul class="social">
+  <li><a href="http://github.com/michal-franc" target="_blank"><i class="icon icon-github"></i></a></li>
+  <li><a href="http://twitter.com/francmichal" target="_blank"><i class="icon icon-twitter"></i></a></li>
+  <li><a href="http://facebook.com/michalfrancblog" target="_blank"><i class="icon icon-facebook"></i></a></li>
+  <li><a href="https://uk.linkedin.com/in/michalfranc1" target="_blank"><i class="icon icon-linkedin"></i></a></li>
+</ul>
+
+    <p class="txt-medium-gray">
+      <small>&copy;2018 All rights reserved. Made with <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> and ♥</small>
+    </p>
+  </div>
+</footer>
+
+
+      <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	  <script type="text/javascript" src="/js/jquery.slick-modals.js"/></script>
+
+	  <!-- <script id="ulp-remote" src="http://tools.mfranc.com/wp-content/plugins/layered-popups/js/remote.min.js?ver=5.89" data-handler="http://tools.mfranc.com/wp-admin/admin-ajax.php"></script>
+	  <script>
+
+		    (function ($) {
+			"use strict";
+			var objectPositionTop = $('#post-end').offset().top - window.innerHeight;
+
+				ulp_add_event("onexit", {
+					popup:		"4AXWiVSrZD71uqiP",
+					mode:		"once-period",
+					period:		30
+				});
+
+				ulp_add_event("onidle", {
+					popup:		"85oltSbndJGZQzaW",
+					mode:		"once-period",
+					period:         30
+				});
+
+				ulp_add_event("onscroll", {
+					popup:		"INyhHrwTzxjvcqEb",
+					mode:		"once-period",
+					period:         30,
+					offset:		objectPositionTop / 2
+				});
+
+		    }(jQuery));
+
+    </script> -->
+
+		<script id="dsq-count-scr" src="//thesilenceofthelams.disqus.com/count.js" async></script>
+
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.7&appId=125980610784627";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+Nice TO HAve
+- support for blog series ( do it like with tags )
+- support for js executable code easilly ( maybe C# )
+- support for running unit tests on blog
+- support for Q/A sessions
+- Category the best of! 
+- Category Articles
+
+Admin tools:
+Maybe a service called 'sharer' that would be sharing my post in multiple places ?
+- add support to share on slack
+- add support to share on reddit
+- add support to share on wykop 
