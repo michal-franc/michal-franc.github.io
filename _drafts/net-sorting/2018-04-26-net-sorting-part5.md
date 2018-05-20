@@ -47,23 +47,27 @@ There are more stubs in the CLR and this are used in different scenarions like:
 
 ### What is a frame
 
-In the `OSI model` frame is a data structure holding a `packet`.
+There are many usages of word `frame` the one I am mostly used to is `OSI model` frame. It is a data structure that holds sender/receiver information and the `packet` - payload.
 
 ![Network frame image](/images/network-frame.png "OSI network frame")
 {: .tofigure }
 
-In `CLR` it is used in  
+When reading `CLR` code and documentations you can encounter multiple references to `frame`. It gets confusing as this word is used for many different things. There is a `stack frame`, a region on the stack that holds the context of method call: arguments, local variables, return values.
 
-- stack frame - part of stack that holds functions arguments, local variables, return values etc
-- exception handler frame - used for exception handling
-- execution engine frame - act like a runtime marker in SScli book [^sscli-book] they use `bookkeeping` to describe its usefullness..
+![Stack frame](/images/stack-frame.PNG "Simple stack frame for a + b + c function")
+{: .tofigure }
+
+
+- stack frame - part of stack `reserved` for a single method call, contains arguments, local variables, return values etc
+- exception handler frame - used in exception handling
+- execution engine frame - kept on stack and used like runtime marker - in SScli book [^sscli-book] they use `bookkeeping` to describe its usefullness..
+
+`EE` frame is interestng as it used in many different ways.
 
 > Execution engine frame  
 > 
 >  - Track and update stack-stored object references for garbage collection
->  - Hold state for security checks
 >  - Recognize transitions, such as cross-domain or managed-to-unmanaged calls
->  - Find the correct handler and unwind the stack during an exception
 >  - Generate human-readable call traces for debugger and exception support
 >  - Keep track of exception resources
 
