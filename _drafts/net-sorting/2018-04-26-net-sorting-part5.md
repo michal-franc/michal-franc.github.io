@@ -59,7 +59,7 @@ When reading `CLR` code and documentations you can encounter multiple references
 
 UThere is a `exception handler frame` used in exception handling and `execution engine frame`, this one is interesting as it is used as a structure to hold various metadata used by the runtime to generate exection context. There are many EE frames [^frames-list]. 
 
-[^frames-list]: https://github.com/dotnet/coreclr/blob/master/src/vm/frames.h#L24
+[^frames-list]:[github/coreclr frames.h](https://github.com/dotnet/coreclr/blob/master/src/vm/frames.h#L24)
 
 FCall is faster beacuse it limits number of frames and stubs it requires to operate thus saving cpu cycles:
 
@@ -67,8 +67,8 @@ FCall is faster beacuse it limits number of frames and stubs it requires to oper
 - as FCall is inside execution engine and matches IL calling convention not requiring `marshalling stub` to help with the communcation
 - number of frames used with FCall is smaller, you need to manually create frames in order to throw exception or call garbage collection [^fcall-frames] (but when you do this QCall is faster and preferred choice [^qcall-faster])
 
-[^fcall-frames]:https://github.com/dotnet/coreclr/blob/master/src/vm/fcall.h#L14
-[^qcall-faster]:https://github.com/dotnet/coreclr/blob/master/src/vm/qcall.h#L24
+[^fcall-frames]:[github/coreclr fcall.h](https://github.com/dotnet/coreclr/blob/master/src/vm/fcall.h#L14)
+[^qcall-faster]:[github/coreclr qcall.h](https://github.com/dotnet/coreclr/blob/master/src/vm/qcall.h#L24)
 
 [^sscli-book]:[Share Source CLI 2.0 Internals](http://www.newardassociates.com/files/SSCLI2.pdf)
 [^ssess-book]:[Shared Sources CLI Essentials](https://books.google.co.uk/books?id=XibbpjWeRlMC&pg=PA156&lpg=PA156&dq=JIT+calling+convention&source=bl&ots=33wM50sGqh&sig=k3NQH4yu763HtT9gicujX3Xu_6s&hl=en&sa=X&ved=0ahUKEwiL9J_Q2JLbAhVKKcAKHcWXB-gQ6AEINTAC#v=onepage&q=JIT%20calling%20convention&f=false)
