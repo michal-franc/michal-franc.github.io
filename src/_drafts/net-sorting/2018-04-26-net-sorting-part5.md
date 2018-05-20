@@ -49,10 +49,8 @@ There are more stubs in the CLR and this are used in different scenarions like:
 
 In the `OSI model` frame is a data structure holding a `packet`.
 
-![network-frame-img]
-
-[network-frame-img]: /images/network-frame.png
-{: width="600px" .img-center }
+![Network frame image](/images/network-frame.png "OSI network frame")
+{: .tofigure }
 
 In `CLR` it is used in  
 
