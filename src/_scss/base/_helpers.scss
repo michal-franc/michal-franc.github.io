@@ -11,10 +11,11 @@
 .txt-center { text-align: center; }
 .txt-justify { text-align: justify; }
 
-.img-center {
+.tofigure {
   margin-left: auto;
   margin-right: auto;
   display: block;
+  max-width: 600px;
 }
 
 .word-wrap {
