@@ -57,49 +57,22 @@ When reading `CLR` code and documentations you can encounter multiple references
 ![Stack frame](/images/stack-frame.PNG "Simple stack frame for a + b + c function")
 {: .tofigure }
 
+UThere is a `exception handler frame` used in exception handling and `execution engine frame`, this one is interesting as it is used as a structure to hold various metadata used by the runtime to generate exection context. There are many EE frames [^frames-list]. 
 
-- stack frame - part of stack `reserved` for a single method call, contains arguments, local variables, return values etc
-- exception handler frame - used in exception handling
-- execution engine frame - kept on stack and used like runtime marker - in SScli book [^sscli-book] they use `bookkeeping` to describe its usefullness..
+[^frames-list]: https://github.com/dotnet/coreclr/blob/master/src/vm/frames.h#L24
 
-`EE` frame is interestng as it used in many different ways.
+FCall is faster beacuse it limits number of frames and stubs it requires to operate thus saving cpu cycles:
 
-> Execution engine frame  
-> 
->  - Track and update stack-stored object references for garbage collection
->  - Recognize transitions, such as cross-domain or managed-to-unmanaged calls
->  - Generate human-readable call traces for debugger and exception support
->  - Keep track of exception resources
+- there is no `pre stub` jitted code calls directly FCall entry point
+- as FCall is inside execution engine and matches IL calling convention not requiring `marshalling stub` to help with the communcation
+- number of frames used with FCall is smaller, you need to manually create frames in order to throw exception or call garbage collection [^fcall-frames] (but when you do this QCall is faster and preferred choice [^qcall-faster])
 
-`frames` - stack is filled with `frames`. When a method is called a new frame is erected and it contains informations about `params`, `variables` and many other thingss. 
-
-
-
-FCALL benefits - functions implemented within Exceution Enginer and no need marshalling stubs.
-
-With `FCall` there is not `pre stub` and the native code is not JIT compiled.
-
-Example:
-tak samo jak np wyjatek w c++ jest zrozumialy w c#
-using frames
-
-albo jak wywolac garbage collector z niezarzadzanego kodu ( uzywa sie stosu i specjalnym ramek ktore koduja informacje ze hej wywolaj garbage collector :smile: ) (edited)
-
-??
-
-Frames are needed to be able to read the `stack` supporting many different features like multiple calling conventions. It is a mechanism to  [^sscli-book]
-
-Beacuse bby default there is no need for `frames` or `stubs` and `FCall` entry pint is directly calledd this method is faster. You have to create frames for scenarios like `throwing exception` or calling `garbage collection` in `FCall`.
-
-In `QCall` and `P/Invoke` frames and marshalling stubs are genereted automatically. This is a hit to the performance but it provides features that can help write safer code. Also if you use `FCall` and need to throw `Exception` or call `Garbage Collection` you need to ceate a `frame` - `frame is required` to pass information to the runtime that you want to do this operation??
-
-Different language also represent types differently in the memory that I why you need marshaling stub to translate between two worlds.
-
-What is the IL calling convention. how does it's look like in the visual studio dism. That is why fcimpl and fcall is great, it matches convention to the one's use by il and that I generate by jitter to remove intermediary step like marshaling stub. 
-(frame has to provide something with GC and exceptions asm code in cpp exception looks different than the exception in il, runtime wouldnt be able to understand exception thrown in cpp without this translational step) frame I encoding state in one context it is then use im different context to rebuild it. Stack frame is like a meta data conteact. 
+[^fcall-frames]:https://github.com/dotnet/coreclr/blob/master/src/vm/fcall.h#L14
+[^qcall-faster]:https://github.com/dotnet/coreclr/blob/master/src/vm/qcall.h#L24
 
 [^sscli-book]:[Share Source CLI 2.0 Internals](http://www.newardassociates.com/files/SSCLI2.pdf)
 [^ssess-book]:[Shared Sources CLI Essentials](https://books.google.co.uk/books?id=XibbpjWeRlMC&pg=PA156&lpg=PA156&dq=JIT+calling+convention&source=bl&ots=33wM50sGqh&sig=k3NQH4yu763HtT9gicujX3Xu_6s&hl=en&sa=X&ved=0ahUKEwiL9J_Q2JLbAhVKKcAKHcWXB-gQ6AEINTAC#v=onepage&q=JIT%20calling%20convention&f=false)
 
 
 *[CLR]:Common Language Runtime
+*[NGEN]:Native Image Generator
