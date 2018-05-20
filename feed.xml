@@ -1,149 +1,30 @@
+---
+layout: null
+---
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Michal Franc | Leader, Engineer, Speaker</title>
-    <description>Experienced engineering Lead that can help your team work smarter and better</description>
-    <link>http://www.mfranc.com/</link>
-    <atom:link href="http://www.mfranc.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 20 May 2018 20:22:01 +0100</pubDate>
-    <lastBuildDate>Sun, 20 May 2018 20:22:01 +0100</lastBuildDate>
-    <generator>Jekyll v3.3.1</generator>
-    
+    <title>{{ site.title | xml_escape }}</title>
+    <description>{{ site.description | xml_escape }}</description>
+    <link>{{ site.url }}{{ site.baseurl }}/</link>
+    <atom:link href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" rel="self" type="application/rss+xml"/>
+    <pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
+    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+    <generator>Jekyll v{{ jekyll.version }}</generator>
+    {% for post in site.posts limit:10 %}
       <item>
-        <title>Evolution of Engineer - critical neurone mass and negative code value</title>
-        <description>Why Eric Evans book bored me to death? And why I think that code is useless. My thoughts on engineer learning process from a technical minded person to a balanced tech / business focused professional. An important post for every engineer to read.</description>
-        <pubDate>Mon, 24 Apr 2017 00:00:00 +0100</pubDate>
-        <link>http://www.mfranc.com/blog/evolution-of-engineer/</link>
-        <guid isPermaLink="true">http://www.mfranc.com/blog/evolution-of-engineer/</guid>
-        
-        <category>career</category>
-        
-        
-        <category>Career</category>
-        
+        <title>{{ post.title | xml_escape }}</title>
+        <description>{{ post.summary | xml_escape }}</description>
+        <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+        <link>{{ post.url | prepend: site.baseurl | prepend: site.url }}</link>
+        <guid isPermaLink="true">{{ post.url | prepend: site.baseurl | prepend: site.url }}</guid>
+        {% for tag in post.tags %}
+        <category>{{ tag | xml_escape }}</category>
+        {% endfor %}
+        {% for cat in post.categories %}
+        <category>{{ cat | xml_escape }}</category>
+        {% endfor %}
       </item>
-    
-      <item>
-        <title>Code Review - C# Code</title>
-        <description>Interesting code review of less complex code.</description>
-        <pubDate>Mon, 17 Apr 2017 10:00:00 +0100</pubDate>
-        <link>http://www.mfranc.com/blog/code-review-one/</link>
-        <guid isPermaLink="true">http://www.mfranc.com/blog/code-review-one/</guid>
-        
-        <category>code-review</category>
-        
-        
-        <category>tech</category>
-        
-      </item>
-    
-      <item>
-        <title>Docker container to container communication</title>
-        <description></description>
-        <pubDate>Mon, 10 Apr 2017 10:00:00 +0100</pubDate>
-        <link>http://www.mfranc.com/blog/docker-containers-communication/</link>
-        <guid isPermaLink="true">http://www.mfranc.com/blog/docker-containers-communication/</guid>
-        
-        <category>docker</category>
-        
-        
-        <category>tech</category>
-        
-      </item>
-    
-      <item>
-        <title>My first workshop - lessons learned and observations</title>
-        <description>I did my first workshop ever in Warsaw. In this post, I am sharing my thoughgs, problems, ideas and potential fixes for the future.</description>
-        <pubDate>Sun, 02 Apr 2017 10:00:00 +0100</pubDate>
-        <link>http://www.mfranc.com/blog/first-workshop-devwarsztaty/</link>
-        <guid isPermaLink="true">http://www.mfranc.com/blog/first-workshop-devwarsztaty/</guid>
-        
-        <category>workshop</category>
-        
-        
-        <category>Career</category>
-        
-      </item>
-    
-      <item>
-        <title>2016 was a good year</title>
-        <description></description>
-        <pubDate>Tue, 03 Jan 2017 10:00:00 +0000</pubDate>
-        <link>http://www.mfranc.com/blog/2016-review/</link>
-        <guid isPermaLink="true">http://www.mfranc.com/blog/2016-review/</guid>
-        
-        
-        <category>career</category>
-        
-      </item>
-    
-      <item>
-        <title>Don't forget about questions - programmer job interview mistake</title>
-        <description>Asking questions at the end of interview is critical. Find out why and how to prepare to ask important and valuable questions that will enchance your chances of landing a job.</description>
-        <pubDate>Mon, 26 Sep 2016 10:00:00 +0100</pubDate>
-        <link>http://www.mfranc.com/blog/programmer-interview-mistake-questions/</link>
-        <guid isPermaLink="true">http://www.mfranc.com/blog/programmer-interview-mistake-questions/</guid>
-        
-        <category>job-interview</category>
-        
-        
-        <category>Career</category>
-        
-      </item>
-    
-      <item>
-        <title>SwanseaCon 2016</title>
-        <description>Review of SwanseaCon 2016.</description>
-        <pubDate>Thu, 22 Sep 2016 10:00:00 +0100</pubDate>
-        <link>http://www.mfranc.com/blog/swansea-con-2016/</link>
-        <guid isPermaLink="true">http://www.mfranc.com/blog/swansea-con-2016/</guid>
-        
-        <category>speaking</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>QA - React, Javascript and the state of .NET</title>
-        <description>Answering questions of .NET backend dev about about frontend world</description>
-        <pubDate>Thu, 18 Aug 2016 10:00:00 +0100</pubDate>
-        <link>http://www.mfranc.com/blog/qa-react-js-and-the-dotnet/</link>
-        <guid isPermaLink="true">http://www.mfranc.com/blog/qa-react-js-and-the-dotnet/</guid>
-        
-        <category>js</category>
-        
-        
-        <category>Qa</category>
-        
-      </item>
-    
-      <item>
-        <title>NDC Oslo 2016</title>
-        <description>Review of NDC Oslo conference, some info about my talk and a bit about other talks too.</description>
-        <pubDate>Mon, 25 Jul 2016 20:05:00 +0100</pubDate>
-        <link>http://www.mfranc.com/blog/ndc-oslo-2016/</link>
-        <guid isPermaLink="true">http://www.mfranc.com/blog/ndc-oslo-2016/</guid>
-        
-        <category>speaking</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Simulating microservices using F# and Suave.io</title>
-        <description>Brief overview of a way to deploy simple services on local machine.</description>
-        <pubDate>Tue, 15 Mar 2016 02:21:00 +0000</pubDate>
-        <link>http://www.mfranc.com/blog/simulating-microservices-using-f-and-suave/</link>
-        <guid isPermaLink="true">http://www.mfranc.com/blog/simulating-microservices-using-f-and-suave/</guid>
-        
-        <category>f#</category>
-        
-        <category>microservices</category>
-        
-        
-        <category>Tech</category>
-        
-      </item>
-    
+    {% endfor %}
   </channel>
 </rss>
