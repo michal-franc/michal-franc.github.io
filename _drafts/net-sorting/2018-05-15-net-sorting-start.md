@@ -1,6 +1,6 @@
 ---
 layout: draft
-title: Journey through the internals of .NET Sort
+title: Journey through the .NET internals - Sort
 date: 2018-04-01 07:00
 author: Michal Franc
 comments: true

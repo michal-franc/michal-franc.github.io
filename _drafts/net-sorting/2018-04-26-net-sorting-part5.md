@@ -61,6 +61,8 @@ UThere is a `exception handler frame` used in exception handling and `execution 
 
 [^frames-list]:[github/coreclr frames.h](https://github.com/dotnet/coreclr/blob/master/src/vm/frames.h#L24)
 
+## Benefits of FCall
+
 FCall is faster beacuse it limits number of frames and stubs it requires to operate thus saving cpu cycles:
 
 - there is no `pre stub` jitted code calls directly FCall entry point
