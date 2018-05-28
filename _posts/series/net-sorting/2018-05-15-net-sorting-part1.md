@@ -39,7 +39,7 @@ This is just a slice of the `List<T>` implementation. Couple of things to note h
 
 `_items` - Internally `List<T>` uses `array` to store values. List is a wrapper that adds new functionalities to array like: dynamic resizing, sorting, add, remove and more.
 
-`_size` - integer value with current List size. `List.Count` returns this one. If new item is added `_size` increments by one. This makes `List.Count` a bit faster as it doesn't have to count the elements in array which would take O(n) operations. An interesting question here is - why keeping _size if array already has a property Length? I am not sure about this probably to avoid calling Length that is inside `CLR`. Matt Warren made a great blog post about it [^array-length]. I think length is encoded in the memory representation of array [^array-lengt-encoding]. Max number of items is 2.146.435.071 [^array-max-cap].
+`_size` - integer value with current List size. `List.Count` returns this one. If new item is added `_size` increments by one. This makes `List.Count` a bit faster as it doesn't have to count the elements in array which would take O(n) operations. An interesting question here is - why keeping _size if array already has a property Length? This is due to the array having different size than the list most of the time. Array size is always multiplication of 2 while list can grow by +1. Matt Warren made a great blog post about it [^array-length]. I think length is encoded in the memory representation of array [^array-lengt-encoding]. Max number of items is 2.146.435.071 [^array-max-cap].
 
 `_syncRoot` - used for thread synchronization. There is a great stack overflow answer explaining `SyncRoot` pattern [^sync-root].
 
