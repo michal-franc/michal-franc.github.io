@@ -45,9 +45,7 @@ author:
 navbar:
   - slug: blog
     title: Posts
-  - slug: notes
-    title: Notes
-  - slug: articles
+  - slug: blog/articles
     title: Articles
   - slug: about 
     title: About

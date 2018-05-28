@@ -1,10 +1,10 @@
 ---
 layout: default
 ---
-<span class="category-title">Career</span>
+<span class="category-title">Articles</span>
 <section class="post-list">
 	{% for category in site.categories %}
-		{% if category contains 'Career' %}
+		{% if category contains 'Article' %}
 			{% for posts in category %}
 			  {% for post in posts %}
 				  {% if post.url %}
