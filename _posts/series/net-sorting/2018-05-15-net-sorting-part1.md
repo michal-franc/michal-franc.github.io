@@ -8,6 +8,7 @@ categories: [Tech]
 tags: [.net]
 series: net-sorting
 permalink: /blog/net-internals-sorting-part1/
+image: net-sorting/part1.png
 ---
 {% include toc.html %}
 

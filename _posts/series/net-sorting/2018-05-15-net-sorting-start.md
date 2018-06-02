@@ -7,6 +7,7 @@ comments: true
 categories: [Article]
 tags: [.net]
 series: net-sorting
+image: net-sorting/part0.png
 permalink: /blog/net-internals-journey-sort/
 ---
 
