@@ -9,6 +9,7 @@ tags: [.net]
 series: net-sorting
 permalink: /blog/net-internals-sorting-part1/
 image: net-sorting/part1.png
+summary: Dive into .NET internals and explore List.Sort source code. Discussing Enumeration, state management and internal implementation of the list and Sort.
 ---
 {% include toc.html %}
 

@@ -9,6 +9,7 @@ tags: [.net]
 series: net-sorting
 image: net-sorting/part0.png
 permalink: /blog/net-internals-journey-sort/
+description:
 ---
 
 Welcome to my new series about Sorting and .NET Internals. It has started as a simple question `Hey, I wonder how sorting implementation looks like in .NET?`. This was planned as one one blog post, quick wrap up and another topic. But when I started reading, I just couldn't stop asking question `Why?`. This series is a journey through the code starting with `List.Sort()` and ending at `IntroSort` algorithm.
