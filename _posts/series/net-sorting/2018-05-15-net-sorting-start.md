@@ -28,7 +28,7 @@ Today there is only first part available. Next parts publication is planned to h
 
 * [`System.Collections.Generic.List<T>.Sort()`] [part1]
   * `_version++` - keeping enumaration save from unwanted change
-* [`Array.Sort<T>()`] (in the making)
+* [`Array.Sort && TrySZSort`] [part2]
   * `[System.Security.SecuritySafeCritical]` and `[ReliabilityContract]`
   * `Array.CreateInstance` vs `new[]`
   * Visual Basic and the world of non one based arrays
@@ -48,6 +48,7 @@ Today there is only first part available. Next parts publication is planned to h
   * Why `0xffffffff` = -1
 
 [part1]:/blog/net-internals-sorting-part1
+[part2]:/blog/net-internals-sorting-part2
 
 ### Chapter II - Sorting in the real world - IntoSort:  
 
