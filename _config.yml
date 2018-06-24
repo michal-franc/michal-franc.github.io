@@ -18,7 +18,7 @@ sass:
 
 # SEO settings
 title: Michal Franc | Leader, Engineer, Speaker
-description: "Experienced engineering Lead that can help your team work smarter and better"
+description: "Experienced Engineering Lead - architect, distributed systems, cloudnative, system design expert"
 keywords: "michal franc,leader,programmer,coach,speaker"
 image: "default_share_image.jpg"
 url: http://www.mfranc.com
@@ -32,7 +32,7 @@ disqus_site_shortname: "thesilenceofthelams"
 author:
   name      : Michal Franc
   job       : Engineer @ Just Eat
-  bio       : "Experienced Engineer, Presenter, Speaker, Coach, <3 Vim"
+  bio       : "Experienced Engineering Lead, <3 vim, mint and i3wm, expert in: architecture, distributed systems, systems design and #cloudnative"
   thumb     : /images/author.jpg
   email     : lam.michal.franc@gmail.com
   url       : http://www.mfranc.com
