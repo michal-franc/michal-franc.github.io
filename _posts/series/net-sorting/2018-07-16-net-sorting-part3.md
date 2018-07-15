@@ -5,7 +5,7 @@ date: 2018-07-16 08:00
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [algorithms]
+tags: [.net]
 series: net-sorting
 image: net-sorting/part3.png
 permalink: /blog/net-internals-sorting-part3
