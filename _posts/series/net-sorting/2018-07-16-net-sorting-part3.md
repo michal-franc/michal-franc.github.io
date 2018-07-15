@@ -1,14 +1,20 @@
 ---
 layout: draft
-title: Everything you wanted to know about Sorting in .NET part 3
-date: 2018-04-01 07:00
+title: Managed vs Unmanaged code and interop 
+date: 2018-07-16 08:00
 author: Michal Franc
 comments: true
 categories: [Tech]
 tags: [algorithms]
 series: net-sorting
-permalink: /blog/net-sorting-part3/
+image: net-sorting/part3.png
+permalink: /blog/net-internals-sorting-part3
+summary: Third part of the series. Discussing managed vs unmanaged world and how does communication happen beetwen them.
 ---
+Todo:
+- summary dla part 3
+- gramarrly
+
 {% include toc.html %}
 
 Last part ended with a `sneak peak` of a `native` code. This part is going to expand on it. We are entering `CLR` world. But, first things first. Why doing all this complicated stuff and not have `TrySZSort` in managed code ? The answer is of course speed, lets look into that.

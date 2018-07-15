@@ -32,7 +32,7 @@ Today there is only first part available. Next parts publication is planned to h
   * `[System.Security.SecuritySafeCritical]` and `[ReliabilityContract]`
   * `Array.CreateInstance` vs `new[]`
   * Visual Basic and the world of non one based arrays
-* [`TrySZSort`] (in the making)
+* [`Managed vs Unmanaged code and interop][part3]
   * why part of the sorting is in unmanaged code?
   * P/Invoke vs InternallCall
   * Calling CLR from managed code
@@ -49,6 +49,7 @@ Today there is only first part available. Next parts publication is planned to h
 
 [part1]:/blog/net-internals-sorting-part1
 [part2]:/blog/net-internals-sorting-part2
+[part3]:/blog/net-internals-sorting-part3
 
 ### Chapter II - Sorting in the real world - IntoSort:  
 
