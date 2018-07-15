@@ -11,13 +11,16 @@ permalink: /blog/net-sorting-part3/
 ---
 {% include toc.html %}
 
-Last part ended with a `sneak peak` of a `native` code. This part is going to expand on it. We are entering `C++` world inside `CLR`. First things first, why doing all this complicated stuff and not have `TrySZSort` in managed code?
+Last part ended with a `sneak peak` of a `native` code. This part is going to expand on it. We are entering `CLR` world. But, first things first. Why doing all this complicated stuff and not have `TrySZSort` in managed code ? The answer is of course speed, lets look into that.
 
-## Why is part of the Sort in the native code?
+## Why part of the Sort is in the native code?
 
-Actually `TrySZSort` uses `IntroSort` internaly. As we have discovered in the beginning of this serie when a custom `IComparer` is provided a managed version of `IntroSort` is used instead. Shall we check what would be the difference?
+We can easilly check how this code works in managed code. It was mentioned before but if you use custom `IComparer` a managed verions of the code is used. I am going to use `BenchmarkDotNet` to check the difference. This library is excellent and beats `Stopwatch` based mentod.
 
-I am going to use `BenchmarkDotNet` for that. A very good library that gives you a lot of data about your code, allocations, timing etc.
+![BenchmarkDotNet](/images/net-sorting/benchmark-dotnet-logo.png "BenchmarkDotNet logo.")
+{: .tofigure }
+
+Code below defines custom comparer as we need it to force managed version of the sort. Then `BenchmarkDotNet` is used to generate a benchmar. There are four different runs: unamanged and managed with size of the list from ten to ten thousand. Each list contains radnom integers (0-100 range).
 
 {% highlight csharp %}
 internal class CustomIntComparer : IComparer<int>
@@ -94,30 +97,30 @@ Results:
  ManagedSort |    10000 | 305,439.37 ns 
 {% endhighlight %}
 
-Looks like there is a 4-5x difference. In a nutshell like with every `complex` system you take it as it is. When you use `managed` code it gives you a lot of `security` and gets rid of many `problems`, but there is a price to pay. You have to give control and lose flexibility to `optimize`, plus all the things that give you other nice things do cost time and cpu power. You cannot do certain optimization in managed code. If you ask a `question` is `native` code always faster than `managed` code? It is difficult as it is based on too many variables. Running native code faster also costs - time and require knowledge and expertise. Also managed `JIT` compilers are getting more interesting optimizations that are making the code run faster.
-
-In example of `Sorting`, `TrySZSort` in native code is clearly optimized and leverages native code, but it is a code that is harder to maintain and reason about. Ok then lets go down the rabbit hole and discuss how to establish connection beetwen `native` and `managed` code.
+This test is definitelly not perfect but it still shows 4-5x difference in favour on native unamanged code. Perfectly written and manually tuned native code will be faster, that is the case with `TrySZSort`. Managed code hides manual memory handling, providing simplicity and security. It helps comoditiaze our work as it is cheaper to write software. But like every abstraction there is a price to pay. We give up some control and flexibility to `optimize` the code by ourselves. The impact of that choice depends on the workloads, as in typical line of business app you might not have to worry about performance price. Even if you have to, you optimize the bottlenecks, not the whole system. `Sorting` is a specialized problem to solve and gains a lot from native code optimizations.
 
 ## Calling unmanaged code
 
-To connect `managed` and `unmanaged` code you need to use `extern` keyword. It is used to tell the runtime that implementation of this function is in a different (external) place. There are `two` ways to call external code. 
+There is a special keyword `extern` that is used to create connection beetwen `managed` and `native` code. It is used to tell the runtime that implementation of a function is in a different (external) place. There are `two` ways to call external code. 
 
 * `P/Invoke` 
 * `InternalCall`
 
 ### P/Invoke (Platform Invocation)
 
-> Platform invocation is the mechanims provided by the `Common language runtime` to facilitate the calls from managed code to unmanaged code functions. Behind the sceneeess the runtime construcrs the so-called stub, or thunk, which allows the addressing of the unmanaged functon and conversion of managed argument types to the appropiate unmanaged types back. This conversion is known as parameter marshalling.[\[x\]][net-il-assembler]
+> Platform invocation is the mechanims provided by the `Common language runtime` to facilitate the calls from managed code to unmanaged code functions. Behind the sceneeess the runtime construcrs the so-called stub, or thunk, which allows the addressing of the unmanaged functon and conversion of managed argument types to the appropiate unmanaged types back. This conversion is known as parameter marshalling.[^net-il-assembler]
 
-To call unmanaged code using `P/Invoke`, function has to be `extern` and have `DLLImport` attribute. This attribute takes `DLL file library` name as a parameters. `DLL` files are `Dynamically-linked-libraries` containing compiled code. This files expose `Export Address table` that hold `entry points` to functions. Entry points used by runtime to call functions.
+To call unmanaged code using `P/Invoke`, function has to be `extern` and have `DLLImport` attribute. This attribute takes DLL file library name as a parameters. DLL files are `Dynamically-linked-libraries` containing compiled code and metadata about it. One of the metadata is aaddress table holding memory addreses to all exported functions - entry points. 
+
+![DllExport](/images/net-sorting/dll-export.png "Dll export viewer - http://www.nirsoft.net/utils/dll_export_viewer.html")
+{: .tofigure }
 
 {% highlight csharp %}
 [DllImport("nonexistinglib.dll")]
 static extern bool Function(int i);
-
 {% endhighlight csharp %}
 
-In this simple example, I am telling the compiler that `Function` is in `nonexistinglib.dll`. This generates `IL` code with `pinvokeimpl` keyword.
+In this example, Function is in a external DLL, it is generate to a IL code with `pinvokeimpl` keyword.
 
 {% highlight csharp %}
 IL
@@ -129,28 +132,30 @@ IL
 }
 {% endhighlight csharp %}
 
-`pinvokeimpl` tells the runtime that this is unmanaged method called using `P/Invoke`. This method is available in library `nonexistinglib.dll` and has the calling convention `winapi`. More on calling conventions later in this post, but in a nutshell - calling convention describes how to call function, something like contract. `unmanaged` dll expects certain `contract` to be met in order to accept the call to function. `winapi` convention is an alias of `__stdcall`.
+`Pinvokeimpl` tells the runtime that this is unmanaged method called using `P/Invoke`. It is available in library `nonexistinglib.dll` and has the calling convention `winapi`. More on calling conventions later in this post, but in a nutshell - calling convention describes how to call this particular function, something like contract beetwen HTTP services. `unmanaged` dll expects certain `contract` to be met in order to accept the call to a function. `winapi` convention is an alias of `__stdcall`.
 
-What is happening here is CLR:
+![Calling Conventions](/images/net-sorting/calling_conventions.png "Calling convention is like a 'contract' or OSI frame. It describes how functions can communicate. In this example we have cdecl and stdcall with 'red' color showing differences. More on calling conventions in next post.")
+{: .tofigure }
 
-* JIT's the code
+What is happening in this example with boolean function, is CLR:
+
+* JIT's the code (Just in time compilation)
 * finds pinvokeimpl
-* find the entrypoint to the unmanaged function
-* prepares the `contract` using winap calling convention and `marshalls` parameter int32 i
+* finds the entrypoint to the unmanaged function
+* prepares the `contract` using winapi calling convention and `marshalls` parameter int32 i (marshalling -> serialization)
 * calls the function
-* getting `bool` value back
-* uses `winapi` calling convention to `unmarshall` the value
+* gets `bool` value back
+* uses `winapi` calling convention to `unmarshall` the bool value
 
-It is actually a bit more complicated as there are things like `execution context` or `sentinel` item put on stack frame to mark the boundary beetwen managed and unmanaged code. but this blog post tries to draw a `big picture`. 
+It is actually a bit more complicated as there are things like `execution context` or `sentinel` item put on the stack frame to mark the boundary beetwen managed and unmanaged code, but we are not going to get into these details.
 
-[expert-net-programming-book]:https://books.google.co.uk/books?id=IiB0FpGdCJ0C
+[^net-il-assembler]:[NET IL Assembler Book](https://books.google.co.uk/books?id=Xv_0AwAAQBAJ&pg=PA15&lpg=PA15&dq=IL+pinvokeimpl&source=bl&ots=YlZ6ZsEFLm&sig=5RSk1mnSNiMVBVQ11yCZRaqZjSw&hl=en&sa=X&ved=0ahUKEwiCrNTUgYPbAhWCbMAKHfKdDt4Q6AEIPzAD#v=onepage&q=IL%20pinvokeimpl&f=false)
 
-[net-il-assembler]:https://books.google.co.uk/books?id=Xv_0AwAAQBAJ&pg=PA15&lpg=PA15&dq=IL+pinvokeimpl&source=bl&ots=YlZ6ZsEFLm&sig=5RSk1mnSNiMVBVQ11yCZRaqZjSw&hl=en&sa=X&ved=0ahUKEwiCrNTUgYPbAhWCbMAKHfKdDt4Q6AEIPzAD#v=onepage&q=IL%20pinvokeimpl&f=false
-
-A good real life example of `P/Invoke` is `FileStream.Read`  When you call the `Read` in the end you are actually calling `Win Api DLL's KERNEL32` and `WIN32.ReadFile`. It uses this platform invocation to call `OS` api and read a file.
+A good real life example of `P/Invoke` is `FileStream.Read`[^filestream-read]. When `Read` is called in the end `Win Api DLL's KERNEL32` and `WIN32.ReadFile` is used. This dll is part of Windows kernel.
 
 {% highlight csharp %}
 
+// Stack trace of FileStream.Read
 FileStream.Read 
 -> ReadCore
 -> BeginReadCode
@@ -161,17 +166,17 @@ FileStream.Read
 unsafe internal static extern int Win32.ReadFile
 {% endhighlight csharp %}
 
-[filestream-read]:https://referencesource.microsoft.com/#mscorlib/system/io/filestream.cs,1497
+[^filestream-read]:[FileStream.Read source code](https://referencesource.microsoft.com/#mscorlib/system/io/filestream.cs,1497)
 
 ### InternalCall
 
-`InternallCall` is a different way to call unmanaged function. It is a bit more efficent (due to it being in CLR close environment giving possibility to relax some time consuming operations around security, exception handling etc.)  but you cannot create `InternalCalls` in `asemblies`. This call can be only used when calling functions implemented in `CLR`. `CLR` is not only about runtime, it also contains optimized code used in many places like `StringBuilder.ToString()`. This is main reason why using `StringBuilder` is faster and a good prctice. 
+`InternallCall` is a different way to call unmanaged function. It is more efficent due to InternallCalls being in the CLR context, giving possibility to relax some time consuming rules and save on operations around security, exception handling etc. . Unfortunately you it is not possible to create `InternalCalls` in `asemblies`. This call can be only be used when calling functions implemented in `CLR`. `CLR` is not only about runtime, it contains optimized code used in many places like `StringBuilder.ToString()`. This is one of the reasons why using `StringBuilder` is a good practice.
 
 
-This is a good example of `InternalCall`. When `ToString` on `StringBuilder` [\[x\]][string-builder-internal] is called it is actually calling `FrameAllocatedString` down stack. Code that is in `CLR` and uses internallcall to do that.[\[x\][frame-allocated-string]]
+`StringBuilder` provides good example of `InternalCall`. When `ToString` on `StringBuilder` [^string-builder-internal] is called it is actually calling `FrameAllocatedString` down the stack. This function is inside `CLR` and uses.[^frame-allocated-string]
 
-[frame-allocated-string]:https://github.com/dotnet/coreclr/blob/a38ed985e11b0d56ecd44e3e6d2878cef8ca6052/src/vm/jithelpers.cpp#L2909
-[string-builder-internal]:https://referencesource.microsoft.com/#mscorlib/system/text/stringbuilder.cs,399
+[^frame-allocated-string]:[Github - jithelpers.cpp](https://github.com/dotnet/coreclr/blob/master/src/vm/jithelpers.cpp#L2909)
+[^string-builder-internal]:[Github - stringbuilder.cs](https://referencesource.microsoft.com/#mscorlib/system/text/stringbuilder.cs,399)
 
 {% highlight csharp %}
 StringBuilder.ToString()
@@ -182,7 +187,7 @@ StringBuilder.ToString()
 internal extern static String FastAllocatedString(int length);
 {% endhighlight %}
 
-From the IL point of view code looks a bit different and uses `internalcall` keyword.
+From the IL point of view the code looks a bit different than in `P\Invoke` and uses `internalcall` keyword.
 
 {% highlight csharp %}
 [MethodImpl(MethodImplOptions.InternalCall)]
@@ -197,42 +202,41 @@ IL
 }
 {% endhighlight csharp %}
 
-`internalcall` - tells the runtime to look for the implementation of the code inside `CLR` itself. `CLR` maintains its own `Function entrypoint address table`(there will be example with one function mention lated in the post) used to find the entrypoint. It also uses special calling convention  `__fastcall` that is not visible in `IL` code as this is the only convention used. With `P/Invoke` examplke, based on the `unmanaged` code you are calling IL will have diffrent calling convention.
+`internalcall` - tells the runtime to look for the implementation of the code inside `CLR` itself. `CLR` maintains its own function entrypoint `address table`(example late in the post) used to find the address with the entrypoint. It also uses special calling convention  `__fastcall` (more on this in next post). 
 
-It is possible add new `InternalCalls` but it requries changes in `CLR`. You would have to execute your `CLS compliant` language library using custom build `CLR`. Instruction on how to do this are  available on the github.[\[2\]][coreclr-building]. 
+It is possible to add new `InternalCalls` but it requires changes in `CLR`. You would then have to complie your customized CLR and run your code using this new runtime. Instruction on how to do this are available on the github - building[^coreclr-building] - running[^running-custom-clr]. 
 
-[coreclr-building]:https://github.com/dotnet/coreclr/blob/master/Documentation/building/windows-instructions.md
+[^coreclr-building]:[Core CLR building instructions](https://github.com/dotnet/coreclr/blob/master/Documentation/building/windows-instructions.md)
+[^running-custom-clr]:[Using custom CLR Runtime](https://github.com/dotnet/coreclr/blob/master/Documentation/workflow/UsingYourBuild.md)
+
+![Managed Unmanaged Calls](/images/net-sorting/managed-unmanaged.png "Types of calling unmanaged code from managed ones. IJW and COM interop are not discussed in this blog post.")
+{: .tofigure }
 
 ## Calling CLR from managed code
 
-We discussed two ways to call unmanaged code. I want to focus now on calling `CLR` code as this is part of our `Sorting` journey and how `TrySZSort` is called.  Discussed methods above `InternalCall` and `P/Invoke` are translated to something sligthly different within the `CLR`, this this is called `ECall`. 
+We have discussed two ways of calling unmanaged code. I want to focus now on how actually `CLR` called. Both `P/Invoke` and `InternalCall` are translated to something sligthly different within the `CLR` context - `ECall`. 
  
-ECall is a `private native calling interface`. This interface is inside `CLR`.  When the managed code wants to access internal code in `CLR` it tells the runtime(`execution engine`) to use `ECall` to find the function and its entry point. Runtime then calls this function. As with previous examples there is also calling convention and marshalling done.
+ECall is a `private native calling interface`. This interface is inside `CLR`.  When the managed code wants to access internal code in `CLR` it tells the runtime (`execution engine`) to use `ECall` to find the function and its entry point. As with previous examples there is also calling convention and marshalling done along the way.
 
-> `ECall` is a set of tables to call functions within the EE (Execution Engine) from the classlibs.  First we use the class name & namespace to find an array of function pointers for a class, then use the function name (& sometimes signature) to find the correct function pointer for your method.   
-[source][ecall-source]
+> `ECall` is a set of tables to call functions within the EE (Execution Engine) from the classlibs.  First we use the class name & namespace to find an array of function pointers for a class, then use the function name (& sometimes signature) to find the correct function pointer for your method. [^ecall-source]
 
-[ecall-source]: https://github.com/dotnet/coreclr/blob/master/src/vm/ecall.cpp#L350
+[^ecall-source]:[Github - Ecall](https://github.com/dotnet/coreclr/blob/master/src/vm/ecall.cpp#L350)
 
-There are two types of `ECall` - `QCall` and `FCall`. `FCall`[\[x]][fcall] is more performant but also more `risky, much more difficcult to write correctly and uses `InterrnalCall`. `QCall` is less performant but much more safe and uses `P/Invoke`. It is mentioned as default and  prefered option when calling code in `CLR`. `FCall` should only be used when there really a good reason for using it. 
+There are two types of `ECalls` - `QCall` and `FCall`. `FCall`[^fcall] is more performant but more `risky, much more difficult to write correctly and uses `InterrnalCall`. `QCall` is less performant but much more safe and uses `P/Invoke`. `Qcall`t is mentioned as prefered option when calling code in `CLR`. `FCall` should only be used when there really a good reason for it.
 
-[fcall]:https://github.com/dotnet/coreclr/blob/master/src/vm/fcall.h
+[^fcall]:[Github - FCall](https://github.com/dotnet/coreclr/blob/master/src/vm/fcall.h)
 
-> `QCalls` are the preferred mechanism going forward. You should only use `FCalls` when you are "forced" to. This happens when there is common "short path" through the code that is important to optimize. This short path should not be more than a few hundred instructions, cannot allocate GC memory, take locks or throw exceptions 
-[\[x\]]][qcall-preffered]
+> `QCalls` are the preferred mechanism going forward. You should only use `FCalls` when you are "forced" to. This happens when there is common "short path" through the code that is important to optimize. This short path should not be more than a few hundred instructions, cannot allocate GC memory, take locks or throw exceptions [^qcall-preffered]
 
 Microsoft is moving more code from FCall to managed code.
 
-> We have ported some parts of the CLR that were heavily reliant on FCalls to managed code in the past (such as Reflection and some Encoding & String operations), and we want to continue this momentum. We may port our number formatting & String comparison code to managed in the future.
-[source][fcall-deprecation]
+> We have ported some parts of the CLR that were heavily reliant on FCalls to managed code in the past (such as Reflection and some Encoding & String operations), and we want to continue this momentum. We may port our number formatting & String comparison code to managed in the future.  [^fcall-deprecation]
 
-[fcall-depreccation]:https://github.com/dotnet/coreclr/blob/master/Documentation/botr/mscorlib.md#choosing-between-fcall-qcall-pinvoke-and-writing-in-managed-code
+[^fcall-depreccation]:[Github - FCall is being deprecated](https://github.com/dotnet/coreclr/blob/master/Documentation/botr/mscorlib.md#choosing-between-fcall-qcall-pinvoke-and-writing-in-managed-code)
 
-[qcall-preffered]:https://github.com/dotnet/coreclr/blob/master/Documentation/botr/mscorlib.md#choosing-between-fcall-qcall-pinvoke-and-writing-in-managed-code
+[^qcall-preffered]:[QCall - as preffered choide](https://github.com/dotnet/coreclr/blob/master/Documentation/botr/mscorlib.md#choosing-between-fcall-qcall-pinvoke-and-writing-in-managed-code)
 
-[qcall-vs-fcall]:https://github.com/dotnet/coreclr/blob/master/Documentation/botr/mscorlib.md#calling-from-managed-to-native-code
-
-`QCall`[\[x\]][qcall-source]  
+`QCall`[^qcall-source]  
 
 - is more safe but less performant
 - uses `P/Invoke`
@@ -245,14 +249,17 @@ Example of `QCall` declaration on managed side.
 static extern bool Bar(int flags, string inString, StringHandleOnStack retString);
 {% endhighlight %}
 
-`FCall`[\[x\]][fcall-source]
+`FCall`[^fcall-source]
 
 - uses `InternalCall`
 - should only be used when it is possible to make performance gains by using it
 - are more performant when `Frames` (HelperMethodFrame) are not used
 - you need to create `Frame` to handle Exceptions or `GC`
-- susceptible to `GC holes`[\[x\]][gc-hole] and `GC starvation`
+- susceptible to `GC holes`[^gc-hole] and `GC starvation`
 - more error prone due to manual control of `GC` and `Frames`
+
+![FCAll QCall - calling CLR](/images/net-sorting/calling-clr.png "Two ways to call CLR. QCall and FCall.")
+{: .tofigure }
 
 Example of `FCall` declaration on managed side.
 
@@ -261,9 +268,9 @@ Example of `FCall` declaration on managed side.
 private static extern bool TrySZSort(Array keys, Array items, int left, int right);
 {% endhighlight %}
 
-[fcall-source]:https://github.com/dotnet/coreclr/blob/master/src/vm/fcall.h
-[qcall-source]:https://github.com/dotnet/coreclr/blob/master/src/vm/qcall.h
-[gc-hole]:https://github.com/dotnet/coreclr/blob/master/Documentation/coding-guidelines/clr-code-guide.md#2.1
+[^fcall-source]:[FCall source](https://github.com/dotnet/coreclr/blob/master/src/vm/fcall.h)
+[^qcall-source]:[QCall source](https://github.com/dotnet/coreclr/blob/master/src/vm/qcall.h)
+[^gc-hole]:[GC Hole](https://github.com/dotnet/coreclr/blob/master/Documentation/coding-guidelines/clr-code-guide.md#2.1)
 
 I was curious what needs to be done to generate new `FCALL`. This [commit][example-new-fcall] from MS team is a great example.
 
@@ -277,7 +284,7 @@ I was curious what needs to be done to generate new `FCALL`. This [commit][examp
 [ecfunc-in-class]:https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arrayhelpers.h#L335
 [example-new-fcall]:https://github.com/dotnet/coreclr/commit/c61525b5883e883621f98d44f479b15d790b0533#diff-3667dffbd11675529c85670ef344242e
 
-### FCall and TrySZSort
+### .NET Sort -> TrySZSort uses FCall
 
 {% highlight csharp %}
 List<T>.Sort()
@@ -287,17 +294,15 @@ List<T>.Sort()
 -----------> TrySZSort
 {% endhighlight csharp %}
 
-`TrySZSort` is exposed to managed code using `InternalCall`, it is using `FCall`.On the `CLR` side it uses `FCIMPL4` macro to generate the function.[\[x\]][try-sz-sort-impl].
+`TrySZSort` is exposed to managed code using `InternalCall`, it is using `FCall`. On the `CLR` side it uses `FCIMPL4` macro for function generation.
 
 {% highlight csharp %}
 FCIMPL4(FC_BOOL_RET, ArrayHelper::TrySZSort, ArrayBase * keys, ArrayBase * items
 , UINT32 left, UINT32 right)
 {% endhighlight %}
 
-`4` is a number of arguments, `FC_BOOL_RET` tells the macro that this function returns `BOOL`. Why FCIMPL macro is needed?
+`4` is a number of arguments, `FC_BOOL_RET` tells the macro that this function returns `BOOL`. Why `FCIMPL` macro is needed?
 
 > Since `FCALLS` have to conform to the `Execution Engine` calling conventions and not to C calling conventions, `FCALLS`, need to be declared using special macros `(FCIMPL*)` that implement the correct calling conventions.
 
-It is all to do with `calling conventions`. It was mentiioned before that `calling convention` is like a contract but how does it work? As it is not a `small` topic I created a separate blog post for it. This will be our next part.
-
-[calling-conventions-mfranc]: /blog/net-sorting-part4/
+It is all to do with `calling conventions`. It was mentioned before that `calling convention` is like a contract describing the way functions communicate using stack and registers  but how does it work? This will be covered in next post with a journey to the assembly code.
