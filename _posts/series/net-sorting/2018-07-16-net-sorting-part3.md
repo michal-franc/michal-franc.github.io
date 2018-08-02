@@ -101,6 +101,33 @@ Results:
 
 This test is definitely not perfect but it still shows a 4-5x difference in favour of a native unmanaged code. Perfectly written and manually tuned native code will be faster, that is the case with `TrySZSort`. Managed code hides manual memory handling, providing simplicity and security. It helps commoditize work as it is cheaper to write software. But like every abstraction, there is a price to pay. We give up some control and flexibility to `optimize` the code by ourselves. The impact of that choice depends on the workloads, as in a typical line of a business app you might not have to worry about performance price. Even if you have to, you optimize the bottlenecks, not the whole system. `Sorting` is a specialized problem to solve and gains a lot from native code optimizations.
 
+EDIT:
+
+Marc Gravell pointed out that current Compare method is not optimal. 
+
+<blockquote class="twitter-tweet" data-conversation="none" data-cards="hidden" data-partner="tweetdeck">
+<p lang="en" dir="ltr">very interesting, but also looks like an artificially slow managed compare; why not just =&gt; x - y ?</p>&mdash; Marc Gravell (@marcgravell) <a href="https://twitter.com/marcgravell/status/1024790105532375040?ref_src=twsrc%5Etfw">August 1, 2018</a>
+</blockquote>
+
+After implementation of `x-y` logic the results looks slightly better for ManagedSort.
+
+{% highlight csharp %}
+
+      Method | ListSize |          Mean |
+------------ |--------- |--------------:|
+  NativeSort |       10 |      27.26 ns |
+ ManagedSort |       10 |     126.69 ns |
+  NativeSort |      100 |     332.49 ns |
+ ManagedSort |      100 |   1,235.43 ns |
+  NativeSort |     1000 |   5,870.38 ns |
+ ManagedSort |     1000 |  20,316.62 ns |
+  NativeSort |    10000 |  89,473.91 ns |
+ ManagedSort |    10000 | 265,889.76 ns |
+
+{% endhighlight %}
+
+For `10000` items the mean time for managed sort has dropped by around `14%`.
+
 ## Calling unmanaged code
 
 There is a special keyword `extern` that is used to create connection beetwen `managed` and `native` code. It is used to tell the runtime that implementation of a function is in a different (external) place. There are `two` ways to call external code. 
