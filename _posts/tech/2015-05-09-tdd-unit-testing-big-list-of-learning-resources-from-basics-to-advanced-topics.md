@@ -78,15 +78,17 @@ I haven't checked this course yet, but its Roy and 8hrs of pair programming awes
 Explanation of two different approaches to TDD
 
 <blockquote>
-<a href=" http://www.davesquared.net/2011/03/why-learning-tdd-is-hard-and-what-to-do.html/">Blog Post - Why learning TDD is hard, and what to do about it by David Tchepak</a>
-
-<a href="http://hoff2.com/2014/01/24/tdd_is_a_path.html">Blog Post - The TDD That Can be Spoken Is Not the Eternal TDD by Charles Hoffman</a>
-
-<a href="http://stevenjackson.github.io/2014/01/26/tdd-is-a-path/">Blog Post - TDD is a path by Steve Jackson </a>
-
-<a href="http://blog.testdouble.com/posts/2014-01-25-the-failures-of-intro-to-tdd.html">Blog Post - The Failures of "Intro to TDD" by  Justin Searls</a>
+<a href="http://www.davesquared.net/2011/03/why-learning-tdd-is-hard-and-what-to-do.html/">Blog Post - Why learning TDD is hard, and what to do about it by David Tchepak</a>  
+<a href="http://hoff2.com/2014/01/24/tdd_is_a_path.html">Blog Post - The TDD That Can be Spoken Is Not the Eternal TDD by Charles Hoffman</a>  
+<a href="http://stevenjackson.github.io/2014/01/26/tdd-is-a-path/">Blog Post - TDD is a path by Steve Jackson </a>  
+<a href="http://blog.testdouble.com/posts/2014-01-25-the-failures-of-intro-to-tdd.html">Blog Post - The Failures of "Intro to TDD" by  Justin Searls</a>  
 </blockquote>
 Insights into why learning TDD is not that easy and needs a lot of practice and try / error approach.
+
+<blockquote>
+<a href="https://www.simform.com/unit-testing-tdd/">How Unit Testing Improves Code Quality in TDD</a>  
+</blockquote>
+Full overview of TDD practice with patterns, good practices and case studies with experts.
 
 <h3>Advanced</h3>
 Topics that might be going out of TDD and sometimes into more philosophical issues.
