@@ -18,7 +18,8 @@ Polyglot programmer oriented on backend technologies. Can code in many languages
 ‘Eventual Consistency’, ‘Cap Theorem’, ‘Dynamo Paper’, ‘Consensus Problems’, ‘CRDT data structures’ are the things that make me really happy. I am spending a lot of time researching - how to build, maintain and operate scalable and reliable solutions. Apart from that, I do spend a lot of time with GO, Python and Kubernetes.
 
 #### In love with linux, mint, i3wm and vim
-Since I started using vim out of boredon in one of the less interesting projects, I got sucked into Linux world. At the moment most of my work is done from Mint virtual machine running i3wm with vim as a main editor.
+Since I started using vim out of boredom in one of the less interesting projects, I got sucked into Linux world. At the moment most of my work is done from Mint virtual machine running i3wm with vim as a main editor.
+
 
 #### Natural Leader
 Natural leader that understands people, their emotions and aspirations. Great **mediatior** that knows how to connect business and tech. Using this knowledge and experience everyday to **inspire** and **multiply** work of my teams. Experience working in **Agile** enviroments. Passionate about growing teams and people. Practicioner of **self-organizing** teams and serving leadership.
