@@ -6,9 +6,9 @@ permalink: /about/
 
 <img src="/images/swansea_michal_franc.jpg" width="200" style="float: right; margin-top: 100px; margin-left: 20px;"/>
 
-**Experienced Engineering Lead** expert in distributed systems, system design, cloud-native and devops - based in **London**. 
+**Experienced Engineering Lead** expert in distributed systems, system design, cloud-native and devops - working remotely from **London** area.
 
-If you would like to hire me visit - [hire me](/hire-me).
+<!-- If you would like to hire me visit - [hire me](/hire-me).-->
 
 #### Experienced Software Engineer
 10 years of experience building products in different domains: e-commerce, finance, charity, consumer facing sites.

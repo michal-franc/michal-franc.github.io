@@ -31,7 +31,7 @@ disqus_site_shortname: "thesilenceofthelams"
 # Author settings
 author:
   name      : Michal Franc
-  job       : Engineer @ Just Eat
+  job       : Engineer @ Form 3 
   bio       : "Experienced Engineering Lead, <3 vim, mint and i3wm, expert in: architecture, distributed systems, systems design and #cloudnative"
   thumb     : /images/author.jpg
   email     : lam.michal.franc@gmail.com
@@ -49,8 +49,6 @@ navbar:
     title: Articles
   - slug: about 
     title: About
-  - slug: hire-me
-    title: Hire Me
 
 # draft support
 collections:
