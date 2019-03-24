@@ -12,16 +12,9 @@ permalink: /blog/net-sorting-part4/
 
 {% include toc.html %}
 
-In this blog post we will answer the question `What is a calling convention?`
+In this blog post we will answer the question `What is a calling convention?`.  A calling convention is like a contract that describes how the functions call each other, on the `assembly` level using `cpu` instructions`.
 
-TODO:
-- description how machine code looks like and how function work
-
-### Calling convention
-
-A calling convention is like a contract that describes how the functions, on the `assembly` code level, communicate with each other using `cpu` instructions`.
-
-Contract defines things like:
+This contract defines things like:
 
 - the way arguments are passed to a function
 - how values are returned
@@ -34,7 +27,6 @@ Contract defines things like:
 
 [calling-conventions]:https://www.codeproject.com/Articles/1388/Calling-Conventions-Demystified
 
-
 If we go down to the lowest levels of `code`, there is a `machine code`[^machine-code].
 
 [^machine-code]:[https://en.wikipedia.org/wiki/Low-level_programming_language](https://en.wikipedia.org/wiki/Low-level_programming_language)
@@ -46,9 +38,9 @@ B9010000 008D0419 83FA0376 078BD989
 C14AEBF1 5BC3
 {% endhighlight %}
 
-This is btw a Fibonnaacci number generation code in `machine code`. I wouldn't be able to write it that way, but what is important is that on this `lowest level` it really doesn't matter if this code  was `created` from `C++`, `Java`, `Python` or `C#`.
+This btw is a Fibonnaacci number generation code in `machine code`. I wouldn't be able to write it that way, but what is important is that on this `lowest level` it really doesn't matter if this code  comes from `C++`, `Java`, `Python` or `C#`. It would an `impossible` task(almost) to write code that way. That is why we have a higher abstraciton on top of machine code - `assembly` language. 
 
-It would an `impossible` task(almost) to write code that way and that is why new abstractions were invented like `assembly` language. Example below is the same `fibonacci number` generation code but in `assembly`.
+Example below is the same `fibonacci number` generation code but in `assembly`.
 
 {% highlight asm %}
 fib:
@@ -83,10 +75,19 @@ fib:
     ret
 {% endhighlight %}
 
-On this level which is still very low. We operate very close to `CPU` using - registers, stacks, various operations like `mov`, `jmp`. Every machine supports different `registers` and `instructions`[\[x\]][instruction-sets]. Some operate on very primitive instructions and some have more complicated ones. Example [\[x\]][arm-vs-x86-so].
+On this level which is still very low. We operate very close to the `CPU` using - registers, stacks, and cpu instructions like `mov` or `jmp`. Every cpu supports different `registers` and `instructions`[^instruction-sets].
 
-[arm-vs-x86-so]:https://stackoverflow.com/questions/14794460/how-does-the-arm-architecture-differ-from-x86
-[instruction-sets]:https://en.wikipedia.org/wiki/List_of_instruction_sets
+First micro processor[^first-micro-processor] had `46` instructions[^i4004-instruction-set]. These days you can check this list [^instructions-listings], there are hundreds of them. It all started with simple instructions, which were used to generate more complex operations. As these operations become very common, cpu designer added them as new instructions, often designing cpus to make them more optimized.
+
+Then there is also a difference beetwen `(RISC)ARM` and `(CISC)x86` processors. The former have smaller number of instructions but require fewer transistors making them more power efficient[^arm-vs-x86-so].
+
+You can check the difference down below.
+
+[^instructions-listings]:[CPU instructions listing](https://en.wikipedia.org/wiki/X86_instruction_listings)
+[^i4004-instruction-set]:[Intel 4004 instruction set](http://e4004.szyc.org/iset.html)
+[^first-micro-processor]:[First Micro Processor](https://en.wikipedia.org/wiki/Intel_4004)
+[^arm-vs-x86-so]:[Arm vs x86](https://stackoverflow.com/questions/14794460/how-does-the-arm-architecture-differ-from-x86)
+[^instruction-sets]:[Instructions sets](https://en.wikipedia.org/wiki/List_of_instruction_sets)
 
 {% highlight asm %}
 x86
@@ -105,20 +106,24 @@ beq  top           /* branch(/jump) if result is zero                 */
 
 {% endhighlight %}
 
-It is the same code but on different architecture with different instruction sets. It is just like diffeences on the `high` level beetwen languages like `C#` and `Java`. Due to this differences you need to compile the code for specific machine. If you are int linux world, it is pretty standard procedure to download source code of some program, tool and build by your own on your machine for your machine specific architecture and instructions sets. More popular distributions have packages with already precompiled binaries. That is why things like `java virtual machine` and `clr` were created. They server as a intermidiary beetwen code and machine using `byte code` and `JIT` compilation, compiling code on the fly to match the machine.
+It is the same code but on different cpu families with different instruction sets. Due to this difference you need to compile the code for a specific machine. If you are familliar with linux world, it is pretty standard procedure to download source code of some program and build it itself on your machine for your machine specific context. More popular distributions have packages with already precompiled binaries. Usually when you go to a release page of some software - example (ripgrep [^ripgrep]) you will see different binares, for different operating systems, linux, kernels or families of cpus. (Btw ripgrep is an amazing replacement of grep).
 
-If in the the end all there is 'assembly' then it should be easy to communicate beetwen different languages. Devil is in the details. The machine doesn't really know which language ultimately generated instructions set that is execcuted by it. But the more we go `one level up` the more differences are there. There are different compilers, different flags, different languages, different architecture, different contexts and different conventions.
+[^ripgrep]:[Ripgrep release](https://github.com/BurntSushi/ripgrep/releases)
 
-One of the important difference, I want to talk aobut is `calling convention`. As mentioned earlier it is like a contract exposed by one function to other to tell it how to communicate with it. If function `A` uses different convention than function `B` they won't be able to call each other.
+This is partially why `virtual machine` was created with platforms like `JAVA` or `.NET`. It helps with portability of software as instead of compiling your code to a specific instruction set. You compile it to intermediary language `IL` or `Java Bytecode` which is then compiled, usually lazilly on the fly, by the vritual machine to this machine specific context. It automates the whole process of building the code for your cpu. 
 
-## How does machine code works? how does code works? Turning machine?
+Ok, all of this is cool but if in the the end all there is is 'assembly' then it should be easy to communicate beetwen different languages. My code from `C#` should be able to talk to `Java` or `C` or `C++`. Well, devil is in the details. The machine doesn't really know which language ultimately generated instructions set that is execcuted by it. But the more we go `one level up` the more differences are there. There are different compilers, different flags, different languages, different architectures, different contexts and different conventions.
+
+This is finally where we can jump on function `calling conventions`. As this is one of the important differences. As I mentioned earlier, `calling convention` is like a contract that tells two function how to communicate with each other.
+
+#TODO HERE
 
 Calling conventions can differ in many ways:
 
 - storage of arguments - registers, stack
 - how are the arguments added to the stack - left to right or right to left
 - where do you put result of the function call (stack, register, memory)
-- who is responsible for stack cleanup - caller or calle ( this makes a difference in assembly code size, if caller is cleaning up the stack - the compiler has to generate cleaning logic every time a function is called)
+- who is responsible for stack cleanup - caller or calle ( this makes a difference in assembly code size, if caller is cleaning up the stack - the compiler has to generate cleanup instructions next to the function call)
 - who is responsible for `cleaning` up `registers` and bringing them back to previous state (before the function was called)
 
 Analysing few examples, based on `x86 calling conventions`[\[x\]][x86-conventions].
