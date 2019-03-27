@@ -1,31 +1,37 @@
 ---
-layout: draft
+layout: post
 title: Everything you wanted to know about Sorting in .NET part 4
-date: 2018-04-01 07:00
+date: 2019-03-28 07:00
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [algorithms]
+tags: [assembler, .net]
+image: net-sorting/part4.png
 series: net-sorting
-permalink: /blog/net-sorting-part4/
+permalink: /blog/net-internal-sorting-part4/
+summary: Fourth part of the series. Calling conventions deep dive.
 ---
 
 {% include toc.html %}
 
-In this blog post we will answer the question `What is a calling convention?`.  A calling convention is like a contract that describes how the functions call each other, on the `assembly` level using `cpu` instructions`.
+In this blog post we will answer the question `What is a calling convention?`. A calling convention is like a contract that describes how the functions call each other, on the `assembly` level using `cpu` instructions`.
 
-This contract defines things like:
+## Calling Convention
+
+It defines things like:
 
 - the way arguments are passed to a function
 - how values are returned
 - how the function name is decorated
-- who: `caller` or `calle` handles `stack` or `registers` cleanup
+- who: `caller` or `calle` handles `stack` or `registers` clean up
 
 > It specifies how (at a low level) the compiler will pass input parameters to the function and retrieve its results once it's been executed.[^calling-convs-so]
 
 [^calling-convs-so]:[StackOverflow 'What is the fastcall keyword...'](https://stackoverflow.com/questions/10671281/what-is-the-fastcall-keyword-used-for-in-visual-c)
 
 [calling-conventions]:https://www.codeproject.com/Articles/1388/Calling-Conventions-Demystified
+
+## CPU, Machine code and instruction sets
 
 If we go down to the lowest levels of `code`, there is a `machine code`[^machine-code].
 
@@ -38,7 +44,7 @@ B9010000 008D0419 83FA0376 078BD989
 C14AEBF1 5BC3
 {% endhighlight %}
 
-This btw is a Fibonnacci number generation code in `machine code`. I wouldn't be able to write it that way, but what is important is that on this `lowest level` it really doesn't matter if this code  comes from `C++`, `Java`, `Python` or `C#`. It would an `impossible` task(almost) to write code that way. That is why we have a higher abstraciton on top of machine code - `assembly` language. 
+This BTW is a Fibonacci number generation code in `machine code`. I wouldn't be able to write it that way, but what is important is that on this `lowest level` it really doesn't matter if this code  comes from `C++`, `Java`, `Python` or `C#`. It would an `impossible` task(almost) to write code that way. That is why we have a higher abstraction on top of machine code - `assembly` language. 
 
 Example below is the same `fibonacci number` generation code but in `assembly`.
 
@@ -75,11 +81,11 @@ fib:
     ret
 {% endhighlight %}
 
-On this level which is still very low. We operate very close to the `CPU` using - registers, stacks, and cpu instructions like `mov` or `jmp`. Every cpu supports different `registers` and `instructions`[^instruction-sets].
+On this level which is still very low. We operate very close to the `CPU` using - registers, stacks, and CPU instructions like `mov` or `jmp`. Every CPU supports different `registers` and `instructions`[^instruction-sets].
 
-First micro processor[^first-micro-processor] had `46` instructions[^i4004-instruction-set]. These days you can check this list [^instructions-listings], there are hundreds of them. It all started with simple instructions, which were used to generate more complex operations. As these operations become very common, cpu designer added them as new instructions, often designing cpus to make them more optimized.
+First micro processor[^first-micro-processor] had `46` instructions[^i4004-instruction-set]. These days you can check this list [^instructions-listings], there are hundreds of them. It all started with simple instructions, which were used to generate more complex operations. As these operations become very common, CPU designer added them as new instructions, often designing CPUs to make them more optimized.
 
-Then there is also a difference beetwen `(RISC)ARM` and `(CISC)x86` processors. The former have smaller number of instructions but require fewer transistors making them more power efficient[^arm-vs-x86-so].
+Then there is also a difference between `(RISC)ARM` and `(CISC)x86` processors. The former have smaller number of instructions but require fewer transistors making them more power efficient[^arm-vs-x86-so].
 
 You can check the difference down below.
 
@@ -93,7 +99,7 @@ You can check the difference down below.
 x86
 -----
 
-repe cmpsb         /* repeat while equal compare string bytewise */
+repe cmpsb         /* repeat while equal compare string byte-wise */
 
 ARM
 -----
@@ -106,13 +112,15 @@ beq  top           /* branch(/jump) if result is zero                 */
 
 {% endhighlight %}
 
-It is the same code but on different cpu families with different instruction sets. Due to this difference you need to compile the code for a specific machine. If you are familliar with linux world, it is pretty standard procedure to download source code of some program and build it itself on your machine for your machine specific context. More popular distributions have packages with already precompiled binaries. Usually when you go to a release page of some software - example (ripgrep [^ripgrep]) you will see different binares, for different operating systems, linux, kernels or families of cpus. (Btw ripgrep is an amazing replacement of grep).
+It is the same code but on different CPU families with different instruction sets. Due to this difference you need to compile the code for a specific machine. If you are familiar with Linux world, it is pretty standard procedure to download source code of some program and build it itself on your machine for your machine specific context. More popular distributions have packages with already pre-compiled binaries. Usually when you go to a release page of some software - example (ripgrep [^ripgrep]) you will see different binaries, for different operating systems, Linux, kernels or families of CPUs. (BTW ripgrep is an amazing replacement of grep).
 
 [^ripgrep]:[Ripgrep release](https://github.com/BurntSushi/ripgrep/releases)
 
-This is partially why `virtual machine` was created with platforms like `JAVA` or `.NET`. It helps with portability of software as instead of compiling your code to a specific instruction set. You compile it to intermediary language `IL` or `Java Bytecode` which is then compiled, usually lazilly on the fly, by the vritual machine to this machine specific context. It automates the whole process of building the code for your cpu. 
+This is partially why `virtual machine` was created with platforms like `JAVA` or `.NET`. It helps with portability of software as instead of compiling your code to a specific instruction set. You compile it to intermediary language `IL` or `Java Bytecode` which is then compiled, usually lazily on the fly, by the Virtual machine to this machine specific context. It automates the whole process of building the code for your . 
 
-On this low level we operate with cpu instructions. The concept of function, argument, returning value from a function doesn't exist. We can only use `simple` primitives like accumulator, registers, stack, label and cpu instructions. These primitives can be used to create more complex code and something similar to functions.
+## Functions in assembly
+
+On this low level we operate with CPU instructions. The concept of function, argument, returning value from a function doesn't exist. We can only use `simple` primitives like accumulator, registers, stack, label and CPU instructions. These primitives can be used to create more complex code and something similar to functions.
 
 {% highlight c %}
 int sum(int a, int b) {
@@ -130,7 +138,7 @@ sum:                          <- label
   ret                         <- return
 {% endhighlight %}
 
-When you compile this code to assembly. You get a different view with things like labels `sum:`, cpu instructions `mov, add, ret`, operation on stack `[esp+4]`, stack pointer `esp` and  registers `edx, eax`. It is a completely different world.
+When you compile this code to assembly. You get a different view with things like labels `sum:`, CPU instructions `mov, add, ret`, operation on stack `[esp+4]`, stack pointer `esp` and  registers `edx, eax`. It is a completely different world.
 
 Looking at this code you might ask:
 
@@ -144,14 +152,14 @@ Calling conventions can differ in many ways:
 
 * where are the arguments stored - registers, stack
 * where do you put the result of the function call (stack, register, memory)
-* who is responsible for cleanup - caller or calle ( this makes a difference in assembly code size, if caller is cleaning up the stack - the compiler has to generate cleanup instructions next to the function call)
+* who is responsible for clean-up - caller or callee ( this makes a difference in assembly code size, if caller is cleaning up the stack - the compiler has to generate clean-up instructions next to the function call)
 * who is responsible for `cleaning` up `registers` and bringing them back to previous state (before the function was called)
 
 You can check the list of x86 calling conventions here [^x86-conventions]. We will use `cdecl` and `fastcall` as an example.
 
 [^x86-conventions]:[X86 calling conventions](https://en.wikipedia.org/wiki/X86_calling_conventions)
 
-### CDECL and FASTCALL
+## CDECL and FASTCALL
 
 If one of the functions expects call using `cdecl` convention. It is expecting:
 
@@ -183,9 +191,9 @@ This simple function `multiplies` numbers. We have function  `cdecl` which is ma
 
 I am compiling this code with these flags:
 
-* `-m32` - forces 32 bit executable - without this flag calling coventions are ignored (couldn't find why)
+* `-m32` - forces 32 bit executable - without this flag calling conventions are ignored (couldn't find why)
 * `-O0` - I don't want to optimize this code as with such a simple example `-O1` in the caller puts a static value `(2 * 3 = 6)`
-* `-fomit-frame-pointer` - one optimization that removes `frame pointers` to make the `asm` code a bit simpler. (At the end of this post there is a example without this optimization explained if you are curious what is the diffference).
+* `-fomit-frame-pointer` - one optimization that removes `frame pointers` to make the `asm` code a bit simpler. (At the end of this post there is a example without this optimization explained if you are curious what is the difference).
 
 > -fomit-frame-pointer   
 > Don't keep the frame pointer in a register for functions that don't need one. This avoids the instructions to save, set up and restore frame pointers; it also makes an extra register available in many functions. It also makes debugging impossible on some machines. [^fomit-frame-pointer]
@@ -261,7 +269,7 @@ fastcall:
   ret 4
 {% endhighlight %}
 
-There is no need to reserver place on the `stack`, move values from registers to the `stack` and then get values from the `stack`. Compiler potentialy does it due to `consistency`.
+There is no need to reserve place on the `stack`, move values from registers to the `stack` and then get values from the `stack`. Compiler potentially does it due to `consistency`.
 
 > Arguments are first saved in stack then fetched from stack, rather than be used directly. This is because the compiler wants a consistent way to use all arguments via stack access, not only one compiler does like that. [^fastcall-diss]
 
@@ -276,7 +284,7 @@ fastcall:
                             -> in fastcall called function expects arguments in the registers
   imul eax, DWORD PTR [esp] multiply `a*b` by `c` on the stack, esp is pointing at the top of stack
                             -> in fastcall third parameters is on the stack
-  ret 4                     -> return to the caller and cleanup stack from `c`
+  ret 4                     -> return to the caller and clean-up stack from `c`
                             -> in fastcall called function is cleaning up the stack
 caller:
   push 4                    -> move `c` to the stack
@@ -288,7 +296,7 @@ caller:
   ret
 {% endhighlight %}
 
-We just discussed differences beetwen `fastcall` and `cdecl` but what if `caller` function used different convention than `calle` funciton ? Assuming for a while this scenario - the code will look like this.
+So this is it. Examples of differences between `fastcall` and `cdecl`. What would happen then if we would `mix` conventions. Example below shows what happens when a `caller` and `calle` are not abiding to the same convention.
 
 {% highlight c %}
 fastcall:
@@ -296,91 +304,24 @@ fastcall:
   imul eax, edx   
   ret
 caller:
-  push 3          -> but caller pushed arguments on the stack
+  push 3          -> but caller pushed arguments to the stack
   push 2         
   call fastcall
   add esp, 8 
   ret
 {% endhighlight %}
 
-In this example `fastcall` function will use `somekind` of data on the registers. It wouldn't get the data it was expecting `3` and `2` but something. This would generate an unexpected and hard to debug behaviour. That is why `calling conventions` are important. There is a long history behind them [^cc-history1][^cc-history2][^cc-history3][^cc-history4]
-
-Next post in the series will expand on it and describe the link beetwen `JIT`, `CLR`, `calling conventions` and `FCall`.
+`fastcall` still thinks that arguments were passed through registers and obviously there will be `some` data. It is not the data passed by the caller as he used `cdecl` conventions and passed arguments through the stack. This would generate an unexpected and hard to debug behaviour. That is why `calling conventions` are important. There is a long history behind them [^cc-history1][^cc-history2][^cc-history3][^cc-history4]
 
 [^cc-history1]:[The history of calling conventions, part1](https://blogs.msdn.microsoft.com/oldnewthing/20040102-00/?p=41213)
 [^cc-history2]:[The history of calling conventions, part2](https://blogs.msdn.microsoft.com/oldnewthing/20040107-00/?p=41183)
 [^cc-history3]:[The history of calling conventions, part3](https://blogs.msdn.microsoft.com/oldnewthing/20040108-00/?p=41163)
 [^cc-history4]:[The history of calling conventions, part4](https://blogs.msdn.microsoft.com/oldnewthing/20040113-00/?p=41073)
 
-https://msdn.microsoft.com/en-us/library/6xa169sk.aspx
-https://msdn.microsoft.com/en-us/library/984x0h58.aspx
+More Links: [^fastcall-ms][^naming-conventions-ms][^conventions-gxx][^stack]
 
-https://gcc.gnu.org/onlinedocs/gcc/x86-Function-Attributes.html
-
-{% highlight c %}
-This code is using no opitmizations -O0 
-Other flags used:
--m32 - to force 32 bits as on 64 calling conventions are ignored
-
-cdecl:
-  push ebp                    <- preserve the caller function entry point on the stack
-  mov ebp, esp                <- point ebp to this function stack frame pointer (create stack frame)
-  mov eax, DWORD PTR [ebp+8]  <- move value 'a' from the stack frame to the accumulator eax
-  imul eax, DWORD PTR [ebp+12]<- multiply eax by 'b' from the stack frame
-  pop ebp                     <- restore entry point from the stack of the calling function to be able to go back
-  ret                         <- return to the entry point of the calling function
-fastcall:                     
-  push ebp                    <- preserve caller function entry point on the stack
-  mov ebp, esp                <- point ebp to this function stack pointer (create stack frame)
-  sub esp, 8                  <- allocate space for 2 items on the stack frame (using substraction) 
-  mov DWORD PTR [ebp-4], ecx  <- put the `a` from ecx register on the stack
-  mov DWORD PTR [ebp-8], edx  <- put the `b` from edx register on the stack
-  mov eax, DWORD PTR [ebp-4]  <- move `a` to accumulator eax
-  imul eax, DWORD PTR [ebp-8] <- multiply by `b`
-  mov esp, ebp                <- `destroy` the stack
-  pop ebp                     <- restore entry point of the caller
-  ret                         <- return to the entry point of the calling function
-caller:
-  push ebp                    
-  mov ebp, esp
-  sub esp, 24                 <- make space on the stack
-  sub esp, 8
-  push 3                      <- push `a` to the stack
-  push 2                      <- push `b` to the stack 
-  call cdecl
-  add esp, 16                 <- 'clean up' the stack
-  mov DWORD PTR [ebp-12], eax <- after cdecl call eax contains a*b result of cdecl function, put it on the stack
-  mov edx, 3                  <- move `a` to edx register
-  mov ecx, 2                  <- move `b` to ecx register
-  call fastcall
-  mov DWORD PTR [ebp-16], eax <- eax contains result of a*b from fastcall function put it on the stack
-  mov edx, DWORD PTR [ebp-12] <- put result of cdecl on the register
-  mov eax, DWORD PTR [ebp-16] <- put result of fastcall on the register
-  add eax, edx                <- add and leave the value on eax for the caller to use
-  mov esp, ebp                <- `destroy` stack
-  pop ebp
-  ret
-
-With level 1 optimziation -01 this looks even more clear
-
-{% endhighlight %}
-
-Diffs: (in the simplified code example)
-
-- fastcall uses edx and ecx registers
-- cdecl uses stack
-- fastcall using mov esp, ebp cleans up the stack
-- cdeccl doesnt do this the caller is ussing add esp, 16 to clea up the stack
-
-
-
-I replaced leave instructions with 
-mov esp, ebp
-pop ebp
-
-sub esp
-add esp
-instructions are nicely explained here stack operations[\[x\]][stack]
-
-[stack]: https://en.wikibooks.org/wiki/X86_Disassembly/The_Stack
-[leave-enter]: https://stackoverflow.com/questions/5858996/enter-and-leave-in-assembly
+[^fastcall-ms]:[fastcall docs from Microsoft](https://msdn.microsoft.com/en-us/library/6xa169sk.aspx)
+[^naming-conventions-ms]:[calling conventions from Microsoft](https://msdn.microsoft.com/en-us/library/984x0h58.aspx)
+[^conventions-gxx]:[GCC docs for calling conventions](https://gcc.gnu.org/onlinedocs/gcc/x86-Function-Attributes.html)
+[^stack]:[Disasembly the stack](https://en.wikibooks.org/wiki/X86_Disassembly/The_Stack)
+[^leave-enter]:[labels, stack-frame and goodies](https://stackoverflow.com/questions/5858996/enter-and-leave-in-assembly)

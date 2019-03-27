@@ -1,5 +1,5 @@
 ---
-layout: draft
+layout: post
 title: Managed vs Unmanaged code and interop 
 date: 2018-07-16 08:00
 author: Michal Franc
