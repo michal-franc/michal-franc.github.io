@@ -38,7 +38,7 @@ B9010000 008D0419 83FA0376 078BD989
 C14AEBF1 5BC3
 {% endhighlight %}
 
-This btw is a Fibonnaacci number generation code in `machine code`. I wouldn't be able to write it that way, but what is important is that on this `lowest level` it really doesn't matter if this code  comes from `C++`, `Java`, `Python` or `C#`. It would an `impossible` task(almost) to write code that way. That is why we have a higher abstraciton on top of machine code - `assembly` language. 
+This btw is a Fibonnacci number generation code in `machine code`. I wouldn't be able to write it that way, but what is important is that on this `lowest level` it really doesn't matter if this code  comes from `C++`, `Java`, `Python` or `C#`. It would an `impossible` task(almost) to write code that way. That is why we have a higher abstraciton on top of machine code - `assembly` language. 
 
 Example below is the same `fibonacci number` generation code but in `assembly`.
 
@@ -112,37 +112,57 @@ It is the same code but on different cpu families with different instruction set
 
 This is partially why `virtual machine` was created with platforms like `JAVA` or `.NET`. It helps with portability of software as instead of compiling your code to a specific instruction set. You compile it to intermediary language `IL` or `Java Bytecode` which is then compiled, usually lazilly on the fly, by the vritual machine to this machine specific context. It automates the whole process of building the code for your cpu. 
 
-Ok, all of this is cool but if in the the end all there is is 'assembly' then it should be easy to communicate beetwen different languages. My code from `C#` should be able to talk to `Java` or `C` or `C++`. Well, devil is in the details. The machine doesn't really know which language ultimately generated instructions set that is execcuted by it. But the more we go `one level up` the more differences are there. There are different compilers, different flags, different languages, different architectures, different contexts and different conventions.
+On this low level we operate with cpu instructions. The concept of function, argument, returning value from a function doesn't exist. We can only use `simple` primitives like accumulator, registers, stack, label and cpu instructions. These primitives can be used to create more complex code and something similar to functions.
 
-This is finally where we can jump on function `calling conventions`. As this is one of the important differences. As I mentioned earlier, `calling convention` is like a contract that tells two function how to communicate with each other.
+{% highlight c %}
+int sum(int a, int b) {
+    return a + b;
+}
+{% endhighlight %}
 
-#TODO HERE
+This code is readable and it has concepts of types `int`, function, arguments, `+` operator, return and of course scope `{}`.
+
+{% highlight c %}
+sum:                          <- label
+  mov edx, DWORD PTR [esp+4]  <- move value a from stack to register
+  mov eax, DWORD PTR [esp+8]  <- move value b from stack to register
+  add eax, edx                <- add b to a
+  ret                         <- return
+{% endhighlight %}
+
+When you compile this code to assembly. You get a different view with things like labels `sum:`, cpu instructions `mov, add, ret`, operation on stack `[esp+4]`, stack pointer `esp` and  registers `edx, eax`. It is a completely different world.
+
+Looking at this code you might ask:
+
+* Ok I see `ret` function which I assume is return, but how does it work? 
+* Which value is returned?
+* If I call it how will another function how to get the value?
+
+And that is why we have `calling conventions` to create a contract with information for functions on how to call each other.
 
 Calling conventions can differ in many ways:
 
-- storage of arguments - registers, stack
-- how are the arguments added to the stack - left to right or right to left
-- where do you put result of the function call (stack, register, memory)
-- who is responsible for stack cleanup - caller or calle ( this makes a difference in assembly code size, if caller is cleaning up the stack - the compiler has to generate cleanup instructions next to the function call)
-- who is responsible for `cleaning` up `registers` and bringing them back to previous state (before the function was called)
+* where are the arguments stored - registers, stack
+* where do you put the result of the function call (stack, register, memory)
+* who is responsible for cleanup - caller or calle ( this makes a difference in assembly code size, if caller is cleaning up the stack - the compiler has to generate cleanup instructions next to the function call)
+* who is responsible for `cleaning` up `registers` and bringing them back to previous state (before the function was called)
 
-Analysing few examples, based on `x86 calling conventions`[\[x\]][x86-conventions].
+You can check the list of x86 calling conventions here [^x86-conventions]. We will use `cdecl` and `fastcall` as an example.
 
-[x86-conventions]:https://en.wikipedia.org/wiki/X86_calling_conventions
+[^x86-conventions]:[X86 calling conventions](https://en.wikipedia.org/wiki/X86_calling_conventions)
+
+### CDECL and FASTCALL
 
 If one of the functions expects call using `cdecl` convention. It is expecting:
 
 * arguments to be on the stack
-* caller cleaning up the stack
+* caller cleaning the stack
 
 If we then call this function using `fastcall` convention both requirements won't be met:
 
-* for fastcall first `three` (for Microsoft `two`) arguments are kept in the reggisters, and calle expectes this values on the stack when it is empty
+* for fastcall first `three` (for Microsoft `two`) arguments are kept in the registers
 * stack won't be cleaned up as fastcall assumes that `callee` is responsible for that.
 
-cdecl example [\[x\]][cdecl-example]
-
-[cdecl-example]:https://godbolt.org/g/qTgVGm
 
 {% highlight c %}
 
@@ -155,19 +175,22 @@ int caller() {
 }
 
 {% endhighlight %}
+Source code [^cdecl-example].
 
-This is a simple function that all it does is `multiply` numbers. We have a `cdecl` which is marked with `cdecl` attribute to force this calling convention (this is actually default and this attribute is not needed).
+[^cdecl-example]:[cdecl sample](https://godbolt.org/g/qTgVGm)
 
-I am compiling this code with two important flags:
+This simple function `multiplies` numbers. We have function  `cdecl` which is marked with `cdecl` attribute to force this calling convention (this is actually default and this attribute is not needed).
 
-* -m32 - forces 32 bit executable - without this flag calling coventions are ignored (couldn't find why)
-* -O0 - I don't want to optimize this code as with such a simple example `-O1` in the caller puts a static value `(2 * 3 = 6)`
+I am compiling this code with these flags:
+
+* `-m32` - forces 32 bit executable - without this flag calling coventions are ignored (couldn't find why)
+* `-O0` - I don't want to optimize this code as with such a simple example `-O1` in the caller puts a static value `(2 * 3 = 6)`
 * `-fomit-frame-pointer` - one optimization that removes `frame pointers` to make the `asm` code a bit simpler. (At the end of this post there is a example without this optimization explained if you are curious what is the diffference).
 
 > -fomit-frame-pointer   
-> Don't keep the frame pointer in a register for functions that don't need one. This avoids the instructions to save, set up and restore frame pointers; it also makes an extra register available in many functions. It also makes debugging impossible on some machines. [\[x\]][fomit-frame-pointer]
+> Don't keep the frame pointer in a register for functions that don't need one. This avoids the instructions to save, set up and restore frame pointers; it also makes an extra register available in many functions. It also makes debugging impossible on some machines. [^fomit-frame-pointer]
 
-It removes instructions
+It removes these instructions.
 
 {% highlight c %}
   - push ebp      <- preserve the caller function entry point on the stack
@@ -176,31 +199,28 @@ It removes instructions
   - pop ebp       <- restore entry point from the stack of the calling function to be able to go back
 {% endhighlight %}
 
-[fomit-frame-pointer]:https://stackoverflow.com/questions/14666665/trying-to-understand-gcc-option-fomit-frame-pointer
+[^fomit-frame-pointer]:[Omit frame pointer flag](https://stackoverflow.com/questions/14666665/trying-to-understand-gcc-option-fomit-frame-pointer)
 
-So how does the `asm` code looks like with all this flags?
+This simplifis the code to this form.
 
 {% highlight c %}
 cdecl:
-  mov eax, DWORD PTR [ebp+4]  move value 'a' from the stack to the accumulator eax
-  imul eax, DWORD PTR [ebp+8] multiply eax by 'b' from the stack
+  mov eax,  DWORD PTR [ebp+4] -> move value 'a' from the stack to  eax
+  imul eax, DWORD PTR [ebp+8] -> multiply eax by 'b' from the stack
                               -> in cdecl called function expects arguments on the stack
   ret
+
 caller:
-  push 3                      push `a` to the stack
-  push 2                      push `b` to the stack 
+  push 3                      -> push `a` to the stack
+  push 2                      -> push `b` to the stack 
                               -> in cdecl arguments are pushed to the stack
   call cdecl
-  add esp, 8                  'clean up' the stack by moving the pointer
+  add esp, 8                  -> 'clean up' the stack by moving the pointer
                               -> in cdecl caller cleans up the stack
   ret
 {% endhighlight %}
 
-We can see all the characteristics of `cdecl` call in this `code`. I am going to compile now fastcall function using similar flags.
-
-Example of fastcall [\[x\]][example-fastcall-asm]
-
-[example-fastcall-asm]: https://godbolt.org/g/VFQQmL
+For comparison lets look at `fastcall`.
 
 {% highlight c %}
 
@@ -213,7 +233,11 @@ int caller() {
 }
 {% endhighlight %}
 
-I added `third` parameter to show that only first `two` arguments are passed through the registers.  There is one thing, I am going to change in the code to make it more readable - `fastcall` looks like this.
+Source code [^example-fastcall-asm].
+
+[^example-fastcall-asm]:[Fcall sample](https://godbolt.org/z/TSn4K9)
+
+I added `third` parameter to show that only first `two` arguments are passed through the registers.
 
 {% highlight c %}
 fastcall:
@@ -227,21 +251,21 @@ fastcall:
   ret 4                        -> return to the caller and move stack pointer cleaning up `c`
 {% endhighlight %}
 
-But it can be simplified to this.
+For simplicity we can simplify this code to this.
 
 {% highlight c %}
 fastcall:
-  mov eax, ecx
-  imul eax, edx
-  imul eax, DWORD PTR [esp]
+  mov eax, ecx                 -> move `a` to eax
+  imul eax, edx                -> multiply eax by `b`
+  imul eax, DWORD PTR [esp]    -> multiply eax by `c`
   ret 4
 {% endhighlight %}
 
-There is no need to reserver place on `stack`, move values from registers to the `stack` and then get values from the `stack`. Compiler potentialy does it due to `consistency`.
+There is no need to reserver place on the `stack`, move values from registers to the `stack` and then get values from the `stack`. Compiler potentialy does it due to `consistency`.
 
-> Arguments are first saved in stack then fetched from stack, rather than be used directly. This is because the compiler wants a consistent way to use all arguments via stack access, not only one compiler does like that.[\[x\]][fastcall-diss]
+> Arguments are first saved in stack then fetched from stack, rather than be used directly. This is because the compiler wants a consistent way to use all arguments via stack access, not only one compiler does like that. [^fastcall-diss]
 
-[fastcall-diss]: https://en.wikibooks.org/wiki/X86_Disassembly/Calling_Convention_Examples
+[^fastcall-diss]:[Fastcall diss](https://en.wikibooks.org/wiki/X86_Disassembly/Calling_Convention_Examples)
 
 In the end we will analyse this code.
 
@@ -250,18 +274,16 @@ fastcall:
   mov eax, ecx              move `a` to eax 
   imul eax, edx             multiply `a` in the eax by `b` in edx
                             -> in fastcall called function expects arguments in the registers
-  imul eax, DWORD PTR [esp] multiply by `a*b` by `c` on the stack, esp is pointing at the top of stack
+  imul eax, DWORD PTR [esp] multiply `a*b` by `c` on the stack, esp is pointing at the top of stack
                             -> in fastcall third parameters is on the stack
-  ret 4                     return to the caller and cleanup stack from `c`
+  ret 4                     -> return to the caller and cleanup stack from `c`
                             -> in fastcall called function is cleaning up the stack
-fastcall:
-  ret
 caller:
-  push 4          move `c` to the stack
-                  -> in fastcall third argument is passed using stack
-  mov edx, 3      move `a` to edx
-  mov ecx, 2      move `b` to ecx
-                  -> in fastcall first 2 arguments are passed by registers
+  push 4                    -> move `c` to the stack
+                            -> in fastcall third argument is passed using stack
+  mov edx, 3                -> move `a` to edx
+  mov ecx, 2                -> move `b` to ecx
+                            -> in fastcall first 2 arguments are passed by registers
   call fastcall   
   ret
 {% endhighlight %}
