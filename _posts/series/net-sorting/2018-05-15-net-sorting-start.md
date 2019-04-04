@@ -37,19 +37,19 @@ Today there is only first part available. Next parts publication is planned to h
   * P/Invoke vs InternallCall
   * Calling CLR from managed code
   * FCall and QCall
-* [`How functions communicate on the assemlby level`] (in the making)
+* [`How functions communicate on the assemlby level`][part4]
   * calling conventions
   * fastcall vs cdecl
 * [`FCall and __fastcall`] (in the making)
   * stubs and frames
   * `garbage collection` and `exception` in `native CLR code`
-* [`FCALL_CONTRACT`] (in the making)
   * `NanPrePass`
   * Why `0xffffffff` = -1
 
 [part1]:/blog/net-internals-sorting-part1
 [part2]:/blog/net-internals-sorting-part2
 [part3]:/blog/net-internals-sorting-part3
+[part4]:/blog/net-internals-sorting-part4
 
 ### Chapter II - Sorting in the real world - IntoSort:  
 
