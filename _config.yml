@@ -17,10 +17,10 @@ sass:
   style: compressed # expanded
 
 # SEO settings
-title: Michal Franc | Leader, Engineer, Speaker
-description: "Experienced Engineering Lead - architect, distributed systems, cloudnative, system design expert"
-keywords: "michal franc,leader,programmer,coach,speaker"
-image: "default_share_image.jpg"
+title: Michal Franc | Cloud Native, Devops, Architecture
+description: "Experienced Engineering Lead - architect, distributed systems, cloud-native, system design"
+keywords: "michal franc,leader,engineer,cloud,architecture"
+image:
 url: http://www.mfranc.com
 baseurl: ""
 
