@@ -93,7 +93,9 @@ The network expanded to 4 hosts the same year.
 The first packet send in this network was character `l`. Engineers in UCLA wanted to send `login` message from their terminal to terminal in SRI. The system crashed when they got to `g` character. Internet was born with a crash.
 
 [^rfc208]:[rfc208 - Address Tables](https://tools.ietf.org/html/rfc208)
-[^rfc226]:[rfc208 - Address Tables](https://tools.ietf.org/html/rfc208)
+[^rfc226]:[rfc226 - Standardization of Host Mneumonics](https://tools.ietf.org/html/rfc226)
+[^rfc236]:[rfc236 - Standard Host Names](https://tools.ietf.org/html/rfc236)
+[^rfc247]:[rfc247 - Preferred Set of Standard Host Names](https://tools.ietf.org/html/rfc247)
 
 #### First Address Table
 
@@ -104,50 +106,58 @@ Early network had two types of machines. `HOSTS` and `IMPS`. IMP is responsible 
 
 Eeach packet had an 8-bit address - six bits for IMP devivce number and two bits for Host. With 2 bits you can only have 4 differents states `[00, 01, 10, 11]`, this ment that one IMP could support only 4 HOST machines. With 6 bits for IMP address there was also a limit to (2^6 = 64) IMPS. This type of address specification limited whole system to have `256` HOSTS attached to it.
 
+![HOSTS and IMPS](/images/imp_packet.png "http://mercury.lcs.mit.edu/~jnc/tech/arpapkt.html")
+{: .tofigure }
+
+
 Addressing of IMP devices was handled internaly as a User you only had to know which HOST machine you want to send data to. RFC208[^rfc208] contain first address table. 
 
 ![Early addressing](/images/early_addressing.png "It is August 1971 there are 30 IMP devices and around 40 HOSTS. Each pair of Imp Number, Host number is translated network address.")
 {: .tofigure }
 
-As a User you specify which HOST you want to reach and it is translated to Network Address. This HOST list was manintained manually on each Host. So each HOST had its onw list with its own naming conventions. This was then standarized in 
+As a User you specify which HOST you want to reach and it is translated to Network Address. This HOST list was manintained manually on each Host. So each HOST had its onw list with its own naming conventions.
 
-#### First naming convention
+First standarizaiton happened in RFC226[^rfc226] with a 6 letter designator poiting to a HOST (network address).
 
-### RFC nr 1 and addresing in early days
-- some small explanation what was imp router
-https://tools.ietf.org/html/rfc1
+![rfc226](/images/rfc226.png "First standarization of designator and host number.")
+{: .tofigure }
 
-- IMP and how the communication worked
-- packet was not called yet a packet but message
-- there was no 'IP' yet or a concept of address
+#### Alternate hostnamess and first authorization process
 
-http://nrg.cs.ucl.ac.uk/internet-history.html
-- costs here of imp
-- that it could support max 4 hosts
-- The packet format had an 8-bit address; six bits were for the IMP number, and two for the Host. Thus up to 64 IMPs, each with up to 4 Hosts could be supported. A TIP could support only three Hosts in addition to its Terminal Processor.
+![rfc236](/images/rfc236.png "Expanded list of hostnames with alternate names.")
+{: .tofigure }
 
-http://www.bitsavers.org/pdf/bbn/imp/BBN1822_Jan1976.pdf
-- imp docs
+This list was then expanded and included alternate names. These were added due to very interesting reasons, user experience, apparently early users were to lazy to use longer names.[^rfc236].
 
-http://mercury.lcs.mit.edu/~jnc/tech/arpapkt.html
-http://mercury.lcs.mit.edu/~jnc/tech/arpanet.html
-packet formats
-http://mercury.lcs.mit.edu/~jnc/tech/ARPANet_Maps.gif
-http://www.cbi.umn.edu/hostedpublications/pdf/McKenzieNCP1972.pdf
+> It has been brought to my attention that programmers are lazy and don't like
+to deal with character strings longer than one computer word or containing
+characters other than the capital letters A-Z or the digits 0-9.  Thus, I
+have included an alternate list which is limited to 4 character names using
+only the alphanumerics.
+
+There is also mention of first type of hostname authorization process in RFC236
+
+> It also seems to me to be a good idea to consult with each host's technical liaison officer before assigning that host's name.
+
+Then in RFC247[^rfc247]. Network Address was attached to a name constructed from `site` name and `machine` name.
+
+![rfc247](/images/rfc247.png "Figure todo")
+{: .tofigure }
+
+Hostnames and addressing was a really hot topic back in these days, as there are a lot of RFCs dedicated to discussions around it, also in RFC247 you can find this sentence.
+
+> an RFC actually generated comments!!!
 
 #### Rapid expansion of the internet
 
 - show maps and numbers how quickly it has expanded
-- Hosts vs Terminals
-
-http://mercury.lcs.mit.edu/~jnc/tech/arpapkt.html
-http://mercury.lcs.mit.edu/~jnc/tech/arpanet.html
-packet formats
 http://mercury.lcs.mit.edu/~jnc/tech/ARPANet_Maps.gif
 http://www.cbi.umn.edu/hostedpublications/pdf/McKenzieNCP1972.pdf
 
-#### Addresing in the early days
-How was addressing done with only 2 hosts? 4 hosts? Why it wasnt scalable for more.
+First problems https://tools.ietf.org/html/rfc305
+How was the host uptadet?
+- There was a BBN notification mentioning new imp devices and Hosts, operators updates it on theirs site.
+- This of course generates problems as some sites might not update in time or forget it, or make mistakes. The process was manuall.
 
 Each node has its own hosts table. And it was not transferable really beetwen people departments.
 
@@ -156,12 +166,6 @@ https://tools.ietf.org/html/rfc690
 - mention that 16mln was considered a lot :D
 - and now we reached out ipv4
 - and how about ipv6
-
-Ahh yes that is an important question. In this simple first network how was the DNS addressing done? The answer is simple, there was no DNS yes. It was too early. It was year 1969 there was no IP protocol yet which dates back to 1981.
-
-List of hosts
-https://tools.ietf.org/html/rfc226
-
 
 
 #### Centralised HOSTS.txt - file driven address resolution
