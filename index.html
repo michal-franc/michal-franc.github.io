@@ -7,9 +7,9 @@ layout: home
   <div class="hero-inner container">
 
     <img src="{{ site.author.thumb | prepend: site.baseurl }}" alt="author thumb" class="dot">
-    <h1>__________<h1>
     <h3>Hey, I'm <strong itemprop="name">{{ site.author.name }}</strong></h3>
-    <h3>{{ site.author.bio }}</h3>
+    <h5 style="text-align:left;">{{ site.author.bio1 }}</h5>
+    <h5 style="text-align:left;">{{ site.author.bio2 }}</h5>
 
     <a href="{{ '/about' | prepend: site.baseurl }}" class="btn btn-ghost">about</a>
     <a href="{{ '/blog' | prepend: site.baseurl }}" class="btn btn-ghost">blog</a>
