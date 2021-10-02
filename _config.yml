@@ -18,8 +18,8 @@ sass:
 
 # SEO settings
 title: Michal Franc | Cloud Native, Devops, Architecture
-description: "Experienced Engineering Lead - architect, distributed systems, cloud-native, system design"
-keywords: "michal franc,leader,engineer,cloud,architecture"
+description: "Software Engineer/Architect-distributed systems, cloud-native, system design, platform engineering, golang, kubernetes"
+keywords: "michal franc,engineer,cloud,architecture,cloud native,platform,distributed systems,golang, kubernetes"
 image:
 url: http://www.mfranc.com
 baseurl: ""
@@ -32,7 +32,7 @@ disqus_site_shortname: "thesilenceofthelams"
 author:
   name      : Michal Franc
   job       : Engineer @ Form 3 
-  bio       : "Experienced Engineering Lead, <3 vim, mint and i3wm, expert in: architecture, distributed systems, systems design and #cloudnative"
+  bio       : "Experienced Software Engineer/Architect - expert in: cloud-native, platform engineering, kuberntes, devops/sre, architecture, and distributed systems"
   thumb     : /images/author.jpg
   email     : lam.michal.franc@gmail.com
   url       : http://www.mfranc.com
