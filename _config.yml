@@ -48,6 +48,8 @@ navbar:
     title: Articles
   - slug: about 
     title: About
+  - slug: hire-me 
+    title: Hire Me
 
 # draft support
 collections:
