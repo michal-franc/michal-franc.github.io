@@ -24,7 +24,7 @@
 
     <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
 	<link rel="stylesheet" type="text/css" href="{{ "/css/sm.css" | prepend: site.baseurl }}" media="screen" />
-    <link rel="alternate" type="application/rss+xml" title="Michal Franc | Feed" href="http://feeds.feedburner.com/PassionateProgram">
+    <link rel="alternate" type="application/rss+xml" title="Michal Franc | Feed" href="https://feeds.feedburner.com/PassionateProgram">
 
     <meta property="og:locale" content="en_US">
     <meta property="og:title" content="{% if page.title %}{{ page.title }} | Michal Franc{% else %}{{ site.title }}{% endif %}">
@@ -32,14 +32,14 @@
 	<meta property="og:url" content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
     <meta property="og:site_name" content="Michal Franc Blog">
     <meta property="og:type" content="website">
-	<meta property="og:image" content="http://michal-franc.github.io/images/{% if page.image %}{{ page.image }}{% else %}{{ site.image }}{% endif %}">
+	<meta property="og:image" content="https://michal-franc.github.io/images/{% if page.image %}{{ page.image }}{% else %}{{ site.image }}{% endif %}">
 
 	<meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{% if page.title %}{{ page.title }} | Michal Franc{% else %}{{ site.title }}{% endif %}">
     <meta name="twitter:site" content="@francmichal">
     <meta name="twitter:creator" content="@francmichal">
     <meta name="twitter:description" content="{% if page.summary %}{{ page.summary }} {% elsif page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
-	<meta name="twitter:image" content="http://michal-franc.github.io/images/{% if page.image %}{{ page.image }}{% else %}{{ site.image }}{% endif %}">
+	<meta name="twitter:image" content="https://michal-franc.github.io/images/{% if page.image %}{{ page.image }}{% else %}{{ site.image }}{% endif %}">
 
     {% include clicky.html %}
   </head>
