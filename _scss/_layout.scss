@@ -196,7 +196,7 @@ body {
   @extend %button;
 
   &.btn-ghost {
-    background-color: transparent;
+    background-color: white;
     border: 2px solid $primary-color;
     color: $primary-color;
     margin-bottom: 2px;
@@ -419,6 +419,17 @@ article[role="pagination"] {
   &:hover .octo-arm {
     animation: octocat-wave 560ms ease-in-out;
   }
+}
+
+h5.index {
+  padding-top:30px;
+  text-align: left;
+}
+
+ol.index {
+  padding-bottom: 30px;
+  list-style: disc;
+  text-align: left;
 }
 
 @keyframes octocat-wave {
