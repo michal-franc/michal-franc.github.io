@@ -1,3 +1,0 @@
-- lets build another type of microservice
-- this type worker - service that runs in backgroudn and does 'something'
-- worker - runner that does run in the background and updates a redis db
