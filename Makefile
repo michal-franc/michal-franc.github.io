@@ -1,2 +1,2 @@
 run:
-	sudo bundle exec jekyll serve --future
+	bundle exec jekyll serve --future
