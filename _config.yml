@@ -31,7 +31,7 @@ disqus_site_shortname: "thesilenceofthelams"
 # Author settings
 author:
   name      : Michal Franc
-  bio1      : "Staff+ Engineer with 16+ years of experience including 12 years designing/building/supporting cloud based systems on top of AWS. Experienced in, and able to, wear different types of `hats` from Individual Contributor to Architecture and Leadership roles."
+  bio1      : "Staff+ Engineer with 16+ years of experience including 12 years designing/building/supporting cloud based systems. Experienced in, and able to, wear different types of `hats` from Individual Contributor to Architecture and Leadership roles."
   bio2      : "expert in: cloud-native, platform engineering, k8s, devops/sre, architecture, and distributed systems"
   thumb     : /images/author.jpg
   email     : lam.michal.franc@gmail.com
