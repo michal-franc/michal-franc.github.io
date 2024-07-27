@@ -1,11 +1,8 @@
 ---
 layout: home
 ---
-
 <section class="hero">
-
   <div class="hero-inner container">
-
     <img src="{{ site.author.thumb | prepend: site.baseurl }}" alt="author thumb" class="dot">
     <h3>Hey, I'm <strong itemprop="name">{{ site.author.name }},</strong></h3>
     <h4>
@@ -23,8 +20,8 @@ layout: home
     <a href="{{ '/blog' | prepend: site.baseurl }}" class="btn btn-ghost">blog</a>
     <!-- <a href="{{ '/speaking' | prepend: site.baseurl }}" class="btn btn-ghost">speaking</a> -->
     <a href="{{ '/hire-me' | prepend: site.baseurl }}" class="btn btn-ghost">hire me</a>
-
     {% include social.html %}
+    {% include carousel.html %}
 
   </div>
 
