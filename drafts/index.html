@@ -7,7 +7,7 @@ meta_robots:  noindex
 
 These are draft posts for previewing.
 
-{% assign sorted = (site.drafts | sort: 'date') | reverse %}
+{% assign sorted = site.drafts | sort: 'date' | reverse %}
 {% for draft in sorted %}
   {{ draft.date | date: site.date_format }}
   <a href="{{ draft.url }}" class="post-link"><h3 class="post-title">{{ draft.title }}</h3></a>
