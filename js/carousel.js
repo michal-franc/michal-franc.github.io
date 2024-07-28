@@ -21,12 +21,12 @@ let people = [
 		profession: "Senior Product Manager at FORM3",
 		description: "Michal is business focused and a very experienced engineer, he is happy to wear many hats to ensure he and the teams he works with are delivering the most value. He is a fountain of knowledge and strategic ideas, always delivering quality work and happy to receive feedback. This approach and his openness to collaboration makes him the type of engineer any product person would love to work with. Michal as a team lead and as an individual contributor cares deeply about the people and projects he works on. He is committed to making an impact and successfully motivates and influences people to make this happen."
 	},
-//	{
-//		photo: "url('https://media.licdn.com/dms/image/C4E03AQGp3F59xz3uCg/profile-displayphoto-shrink_100_100/0/1619701737272?e=1727308800&v=beta&t=AFMKGeji_QMVC2S6qG0yzrg7LFh-LGrLOeZc0zioCp8')",
-//		name: "Patryk Żmigrodzki",
-//		profession: "Senior Software Engineer at FORM3",
-//		description: "I worked with Michal in various capacities, including him as a Senior Software Engineer, Team Leader, and Staff Engineer, and I can confidently say that he is one of the best engineers I have ever encountered. As a Staff Engineer, Michal truly could see the bigger picture. He effectively planned long-term initiatives and facilitated efforts across an engineering organization composed of hundreds of engineers. His strategic vision and coordination skills ensure that projects are not only successful but also aligned with the overarching goals of the company."
-//	}
+	{
+		photo: "url('https://media.licdn.com/dms/image/C4E03AQGp3F59xz3uCg/profile-displayphoto-shrink_100_100/0/1619701737272?e=1727308800&v=beta&t=AFMKGeji_QMVC2S6qG0yzrg7LFh-LGrLOeZc0zioCp8')",
+		name: "Patryk Żmigrodzki",
+		profession: "Senior Software Engineer at FORM3",
+		description: "I worked with Michal in various capacities, including him as a Senior Software Engineer, Team Leader, and Staff Engineer, and I can confidently say that he is one of the best engineers I have ever encountered. As a Staff Engineer, Michal truly could see the bigger picture. He effectively planned long-term initiatives and facilitated efforts across an engineering organization composed of hundreds of engineers. His strategic vision and coordination skills ensure that projects are not only successful but also aligned with the overarching goals of the company."
+	}
 ];
 
 imgDiv.style.backgroundImage = people[0].photo;
