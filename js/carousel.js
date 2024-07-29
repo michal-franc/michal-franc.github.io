@@ -10,22 +10,28 @@ const chicken = document.querySelector(".chicken");
 
 let people = [
 	{
-		photo: "url('https://media.licdn.com/dms/image/C4E03AQFs1OY_nTJ7_A/profile-displayphoto-shrink_100_100/0/1516949579752?e=1727308800&v=beta&t=NLEgw76HoBO_5rDGky3u7ItYIuU6jo6oh6GSL89AQBU')",
+		photo: "url('/images/aw.jpeg')",
 		name: "Aleksandra Woźniak",
 		profession: "Head of Engineering at FORM3",
 		description: "Michał is great at juggling multiple responsibilities and is always ready to tackle the most tricky problems. Thanks to his vast technical expertise and decisiveness, he has an outstanding ability to efficiently analyse and diagnose technical issues and take necessary actions to solve the problem at hand, even in crisis situations. As a Staff Engineer, Michał continuously provided technical designs and recommendations. Advice that he gave was always well thought-through, based on a deep and multi-faceted analysis of the problem. Moreover, he always incorporated business perspective in his proposals, which I greatly appreciated."
 	},
 	{
-		photo: 'url("https://media.licdn.com/dms/image/D4E03AQHuw5JB4sUowQ/profile-displayphoto-shrink_100_100/0/1697195915170?e=1727308800&v=beta&t=QWpXNHf5BfMN1zXFaDclyeVFw7QTPB5xJZIjw5uNU5Q")',
+		photo: 'url("/images/js.jpeg")',
 		name: "Jake Scutt",
 		profession: "Senior Product Manager at FORM3",
 		description: "Michal is business focused and a very experienced engineer, he is happy to wear many hats to ensure he and the teams he works with are delivering the most value. He is a fountain of knowledge and strategic ideas, always delivering quality work and happy to receive feedback. This approach and his openness to collaboration makes him the type of engineer any product person would love to work with. Michal as a team lead and as an individual contributor cares deeply about the people and projects he works on. He is committed to making an impact and successfully motivates and influences people to make this happen."
 	},
 	{
-		photo: "url('https://media.licdn.com/dms/image/C4E03AQGp3F59xz3uCg/profile-displayphoto-shrink_100_100/0/1619701737272?e=1727308800&v=beta&t=AFMKGeji_QMVC2S6qG0yzrg7LFh-LGrLOeZc0zioCp8')",
+		photo: "url('/images/pz.jpeg')",
 		name: "Patryk Żmigrodzki",
 		profession: "Senior Software Engineer at FORM3",
 		description: "I worked with Michal in various capacities, including him as a Senior Software Engineer, Team Leader, and Staff Engineer, and I can confidently say that he is one of the best engineers I have ever encountered. As a Staff Engineer, Michal truly could see the bigger picture. He effectively planned long-term initiatives and facilitated efforts across an engineering organization composed of hundreds of engineers. His strategic vision and coordination skills ensure that projects are not only successful but also aligned with the overarching goals of the company."
+	},
+	{
+		photo: "url('/images/lc.jpeg')",
+		name: "Łukasz Chrząszcz",
+		profession: "Senior Software Engineer at FORM3",
+		description: "Michał is one of the best Staff Engineers I worked with. He was able to bring clarity and order to a chaotic project with no clear ownership and vision. Michał guided the whole team step be step to make that project managable. Michał is that type of engineer that I appreciate the most - he is focused on the impact and value. He understand that the best products are built by joining leadership, communication and relations with top-notch engineering knowledge. So the company that is lucky enough to have Michał on board will be flabbergasted by impressive results he will single-handedly achieve."
 	}
 ];
 
