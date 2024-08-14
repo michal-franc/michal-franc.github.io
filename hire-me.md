@@ -4,7 +4,9 @@ title: How can I help you?
 permalink: /hire-me/
 ---
 <br>
-Hey, Throughout my career, I have witnessed software being build from many different angles.  
+Hey, Throughout my career, I have witnessed software being build from many different angles.   
+You can check my experience here - <a href="/cv.pdf">CV</a>  
+If you want  to see recommendations check the bottom of the page.
  
 ## I have worked as:
 - Frontend 
