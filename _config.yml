@@ -17,7 +17,7 @@ sass:
   style: compressed # expanded
 
 # SEO settings
-title: Michal Franc | Cloud Native, Devops, Architecture
+title: Michal Franc | Cloud Native, Architecture, Platform Engineering
 description: "Software Engineer/Architect-distributed systems, cloud-native, system design, platform engineering, golang, kubernetes"
 keywords: "michal franc,engineer,cloud,architecture,cloud native,platform,distributed systems,golang, kubernetes"
 image:
