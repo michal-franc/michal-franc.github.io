@@ -42,7 +42,7 @@ body {
 
 .container {
   @include outer-container;
-  max-width: 900px;
+  max-width: 950px;
   min-width: 300px;
   padding: {
     left: $small-spacing;
