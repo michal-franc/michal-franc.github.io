@@ -1,0 +1,21 @@
+<div class="post-metadata">
+  <h3>Published</h3>
+  <p>{{ page.date | date: "%B %-d, %Y" }}</p>
+
+  {% if page.author %}
+  <h3>Author</h3>
+  <p>{{ page.author }}</p>
+  {% endif %}
+
+  {% if page.tags and page.tags.size > 0 %}
+  <h3>Tags</h3>
+  <p>
+    {% for tag in page.tags %}
+    <a class="tag-badge" href="/blog/tags/#{{tag}}">{{tag}}</a>{% unless forloop.last %} {% endunless %}
+    {% endfor %}
+  </p>
+  {% endif %}
+
+  <h3>Social</h3>
+  {% include social.html %}
+</div>

@@ -11,7 +11,6 @@ image: net-sorting/part3.png
 permalink: /blog/net-internals-sorting-part3
 summary: Third part of the series. Discussing managed vs unmanaged world and how does communication happen between them.
 ---
-{% include toc.html %}
 
 Last part ended with a `sneak peek` of a `native` code. This part is going to expand on it. We are entering `CLR` world. But, first things first. Why do all this complicated stuff and not have `TrySZSort` in managed code? The answer is of course speed, let's look into that.
 

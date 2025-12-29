@@ -11,7 +11,6 @@ permalink: /blog/net-internals-sorting-part1/
 image: net-sorting/part1.png
 summary: Dive into .NET internals and explore List.Sort source code. Discussing Enumeration, state management and internal implementation of the list and Sort.
 ---
-{% include toc.html %}
 
 If we want to discover sorting in .NET, then there is no better place to start than `List<T>.Sort()`. We all know what this function. As a Junior, I have never bothered to actually check the source code behind it. Back then source was only available to `insiders`, a handful of people and partners, considered worthy to look behind the curtain. I still remember times of Steve Ballmer and his firm stand against Open Source. It was actually lack of understanding from Microsoft CEO and a bit of a Goliath telling David that he is not ready yet. These days are gone, Microsoft did a massive U-turn, changed busines model and realised that open source can be a great 'marketing tool' to bring people onto services they sell. Nowadays both `Reference Source`[^reference-source-link] and `CLR`[^clr-source] code are available. For other communities like Java it is nothing special but  for .NET that was  a massive change. Time to look behind the scenes and analyse the code - if you are curious, follow this [link][list-source].
 

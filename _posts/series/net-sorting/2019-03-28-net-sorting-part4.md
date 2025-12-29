@@ -12,8 +12,6 @@ permalink: /blog/net-internal-sorting-part4/
 summary: Fourth part of the series. Calling conventions deep dive.
 ---
 
-{% include toc.html %}
-
 In this blog post we will answer the question `What is a calling convention?`. A calling convention is like a contract that describes how the functions call each other, on the `assembly` level using `cpu` instructions`.
 
 ## Calling Convention

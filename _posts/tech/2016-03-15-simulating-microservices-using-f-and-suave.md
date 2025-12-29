@@ -9,8 +9,6 @@ categories: [Tech]
 tags: [f#, microservices]
 ---
 
-{% include toc.html %}
-
 <p>I have this small hobby project called Overseer. It is a tool used to debug and troubleshoot microservices. I was planning to use it in production, but because that is the only prototype. I decided to use it with simulated services. This way it will be a lot easier to create many different 'test' scenarios.</p>
 
 <p>The current solution for spawning those 'tests services' is implemented in Suave.io and F#. Why these technologies? I just like F# and Suave.io seems like a nice decent framework. <a href="https://github.com/michal-franc/OverSeer/blob/master/OverSeer.Servers/Program.fs">Full code</a> If you can, please review this code. I am not a F# expert and would love to learn how to make it better.</p>

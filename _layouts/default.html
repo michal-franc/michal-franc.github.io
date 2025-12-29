@@ -15,6 +15,9 @@
       <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	  <script type="text/javascript" src="{{ "/js/jquery.slick-modals.js" | prepend: site.baseurl }}"/></script>
     <script src="/js/custom-jquery.js"></script>
+    {% if page.layout == "post" %}
+    <script src="{{ "/js/toc.js" | prepend: site.baseurl }}"></script>
+    {% endif %}
 
 
 	  <!-- <script id="ulp-remote" src="http://tools.mfranc.com/wp-content/plugins/layered-popups/js/remote.min.js?ver=5.89" data-handler="http://tools.mfranc.com/wp-admin/admin-ajax.php"></script>

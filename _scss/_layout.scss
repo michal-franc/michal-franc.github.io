@@ -11,7 +11,7 @@ body {
 
 body {
   border-top: 5px solid $primary-color;
-  background: $base-background-color url("../images/bg_pattern.png");
+  background: #faf9f6;
 }
 
 .tag-badge {
@@ -48,6 +48,12 @@ body {
     left: $small-spacing;
     right: $small-spacing;
   };
+
+  // Override for post layout container
+  &:has(.post-layout-container) {
+    max-width: 100%;
+    padding: 0;
+  }
 }
 
 .card {
@@ -299,7 +305,10 @@ strong {
 }
 
 .post-image {
-  margin-bottom: 20px;
+  width: 100%;
+  display: block;
+  margin: 0;
+  vertical-align: top;
 }
 
 .post-content {
@@ -307,12 +316,17 @@ strong {
 		font-weight: 500;
 	}
 
-  > p:first-of-type:first-letter { 
+  > p:first-of-type:first-letter {
     float:left;
     font-family:helvetica, arial, geneva, sans-serif;
     font-size:4.25rem;
     line-height:0.7em;
     margin:5px 10px 0 0;
+  }
+
+  // Hide TOC if manually included in content (we show it in sidebar instead)
+  .toc {
+    display: none;
   }
 }
 
@@ -460,4 +474,195 @@ ol.index {
   color: #337ab7;
   margin-top: -10px;
   font-size: 1.27rem;
+}
+
+//
+// 3-Column Blog Post Layout
+//
+
+.post-layout-container {
+  display: grid;
+  grid-template-columns: 180px 1fr 240px;
+  gap: 0;
+  align-items: start;
+  max-width: 1400px;
+  margin: 0 auto $base-spacing;
+  padding: 0;
+  background-color: $white-color;
+  box-shadow: 0 1px 3px rgba($black-color, .1);
+
+  @include media($tablet) {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 0 $small-spacing $base-spacing;
+  }
+
+  @include media($mobile) {
+    gap: 0;
+    margin: 0 $small-spacing $base-spacing;
+  }
+}
+
+.post-sidebar-left {
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+
+  @include media($tablet) {
+    position: static;
+  }
+}
+
+.post-main-content {
+  min-width: 0;
+  border-left: 1px solid #e8e8e8;
+  border-right: 1px solid #e8e8e8;
+  padding: 0;
+  overflow: hidden;
+
+  .card {
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .post-header {
+    padding: $base-spacing $base-spacing 0;
+
+    @include media($mobile) {
+      padding: $base-spacing $small-spacing 0;
+    }
+  }
+
+  .post-content {
+    padding: $base-spacing;
+
+    @include media($mobile) {
+      padding: $base-spacing $small-spacing;
+    }
+  }
+
+  .post-comments {
+    padding: 0 $base-spacing $base-spacing;
+
+    @include media($mobile) {
+      padding: 0 $small-spacing $base-spacing;
+    }
+  }
+
+  @include media($tablet) {
+    border-left: none;
+    border-right: none;
+  }
+}
+
+.post-sidebar-right {
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+
+  @include media($tablet) {
+    position: static;
+  }
+}
+
+// Left sidebar metadata styles
+.post-metadata {
+  font-family: $heading-font-family;
+  font-size: rem(14);
+  line-height: 1.6;
+  padding: 1.5rem;
+
+  h3 {
+    font-size: rem(11);
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    color: $medium-gray-color;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+    margin-top: 1.5rem;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  p {
+    margin: 0 0 0.5rem 0;
+    color: $dark-gray-color;
+    font-size: rem(14);
+  }
+
+  .social {
+    padding: 0;
+    margin-top: 1rem;
+
+    li {
+      padding: 0 0.5rem 0 0;
+    }
+  }
+
+  @include media($tablet) {
+    padding: 1rem;
+    border-bottom: 1px solid #e8e8e8;
+  }
+}
+
+// Right sidebar TOC styles
+.post-toc {
+  font-family: $heading-font-family;
+  padding: 1.5rem;
+
+  h2 {
+    font-size: rem(11);
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    color: $medium-gray-color;
+    letter-spacing: 0.5px;
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  ol {
+    margin: 0;
+    padding: 0 0 0 1.5rem;
+    list-style-type: decimal;
+
+    li {
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+      padding-left: 0.25rem;
+
+      a {
+        color: $base-font-color;
+        font-size: rem(14);
+        text-decoration: none;
+
+        &:hover {
+          color: $primary-color;
+        }
+      }
+
+      // Nested list (h3 headings)
+      ol {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        padding-left: 1.5rem;
+        list-style-type: lower-alpha;
+
+        li {
+          margin-bottom: 0.3rem;
+
+          a {
+            font-size: rem(13);
+            color: $medium-gray-color;
+          }
+        }
+      }
+    }
+  }
+
+  @include media($tablet) {
+    border-top: 1px solid #e8e8e8;
+  }
 }

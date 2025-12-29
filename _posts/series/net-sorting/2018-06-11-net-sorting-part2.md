@@ -11,7 +11,6 @@ image: net-sorting/part2.png
 permalink: /blog/net-internals-sorting-part2/
 summary: Second part of the series. Getting into Array.Sort details and first look at TrySZSort function.
 ---
-{% include toc.html %}
 
 In the previous part, we have explored the list internals, ending on `Array.Sort` function. This one we will go down the rabbit hole and explore source code of `Array.Sort` with a sneak peek of a mysterious `TrySZSort` function. 
 
