@@ -323,11 +323,6 @@ strong {
     line-height:0.7em;
     margin:5px 10px 0 0;
   }
-
-  // Hide TOC if manually included in content (we show it in sidebar instead)
-  .toc {
-    display: none;
-  }
 }
 
 .post-list {
@@ -482,7 +477,7 @@ ol.index {
 
 .post-layout-container {
   display: grid;
-  grid-template-columns: 180px 1fr 240px;
+  grid-template-columns: 1fr 320px;
   gap: 0;
   align-items: start;
   max-width: 1400px;
@@ -503,19 +498,9 @@ ol.index {
   }
 }
 
-.post-sidebar-left {
-  position: sticky;
-  top: 2rem;
-  align-self: start;
-
-  @include media($tablet) {
-    position: static;
-  }
-}
 
 .post-main-content {
   min-width: 0;
-  border-left: 1px solid #e8e8e8;
   border-right: 1px solid #e8e8e8;
   padding: 0;
   overflow: hidden;
@@ -551,7 +536,6 @@ ol.index {
   }
 
   @include media($tablet) {
-    border-left: none;
     border-right: none;
   }
 }
@@ -560,58 +544,119 @@ ol.index {
   position: sticky;
   top: 2rem;
   align-self: start;
+  padding: 1.5rem;
 
   @include media($tablet) {
     position: static;
-  }
-}
-
-// Left sidebar metadata styles
-.post-metadata {
-  font-family: $heading-font-family;
-  font-size: rem(14);
-  line-height: 1.6;
-  padding: 1.5rem;
-
-  h3 {
-    font-size: rem(11);
-    font-weight: $font-weight-bold;
-    text-transform: uppercase;
-    color: $medium-gray-color;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.5rem;
-    margin-top: 1.5rem;
-
-    &:first-child {
-      margin-top: 0;
-    }
-  }
-
-  p {
-    margin: 0 0 0.5rem 0;
-    color: $dark-gray-color;
-    font-size: rem(14);
-  }
-
-  .social {
-    padding: 0;
-    margin-top: 1rem;
-
-    li {
-      padding: 0 0.5rem 0 0;
-    }
-  }
-
-  @include media($tablet) {
     padding: 1rem;
+  }
+
+  // Metadata section in right sidebar
+  .post-metadata {
+    font-family: $heading-font-family;
+    font-size: rem(14);
+    line-height: 1.6;
+    padding: 0 0 1.5rem 0;
+    margin-bottom: 1.5rem;
     border-bottom: 1px solid #e8e8e8;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: auto auto;
+    row-gap: 1.5rem;
+    column-gap: 1.5rem;
+
+    // Vertical separator column
+    .metadata-separator {
+      grid-column: 2;
+      grid-row: 1 / -1;
+      width: 1px;
+      background-color: $light-gray-color;
+    }
+
+    .metadata-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+
+      &:nth-child(1) {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      &:nth-child(2) {
+        grid-column: 3;
+        grid-row: 1;
+      }
+
+      &:nth-child(4) {
+        grid-column: 1;
+        grid-row: 2;
+      }
+
+      &:nth-child(5) {
+        grid-column: 3;
+        grid-row: 2;
+      }
+
+      h3 {
+        font-size: rem(11);
+        font-weight: $font-weight-bold;
+        text-transform: uppercase;
+        color: $medium-gray-color;
+        letter-spacing: 0.5px;
+        margin: 0;
+      }
+
+      p {
+        margin: 0;
+        color: $dark-gray-color;
+        font-size: rem(14);
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+
+      .social {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+
+        li {
+          padding: 0 0.5rem 0 0;
+          display: flex;
+          align-items: center;
+        }
+
+        a {
+          display: flex;
+          align-items: center;
+        }
+
+        i {
+          display: block;
+        }
+      }
+    }
+
+    @include media($tablet) {
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .metadata-separator {
+        display: none;
+      }
+    }
   }
 }
 
 // Right sidebar TOC styles
 .post-toc {
   font-family: $heading-font-family;
-  padding: 1.5rem;
+  padding: 0;
 
   h2 {
     font-size: rem(11);
@@ -660,9 +705,5 @@ ol.index {
         }
       }
     }
-  }
-
-  @include media($tablet) {
-    border-top: 1px solid #e8e8e8;
   }
 }

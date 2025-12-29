@@ -4,22 +4,12 @@ layout: default
 
 <div class="post-layout-container">
 
-  <!-- Left Sidebar: Metadata and Social -->
-  <aside class="post-sidebar-left">
-    {% include post-sidebar-left.html %}
-  </aside>
-
   <!-- Main Content -->
   <article role="article" class="post post-main-content">
     <div class="card">
       {% if page.image %}
         <img class="post-image" src="/images/{{ page.image }}"/>
       {% endif %}
-
-      <header class="post-header">
-        <h1 class="post-title">{{ page.title }}</h1>
-      </header>
-
       <div class="post-content">
         {% if page.series %}
           {% include series.html %}
@@ -34,8 +24,9 @@ layout: default
     </div>
   </article>
 
-  <!-- Right Sidebar: Table of Contents -->
+  <!-- Right Sidebar: Metadata + TOC -->
   <aside class="post-sidebar-right">
+    {% include post-sidebar-left.html %}
     {% include toc.html %}
   </aside>
 

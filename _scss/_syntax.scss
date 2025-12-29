@@ -15,12 +15,11 @@ $dt-yellow: #f1fa8c;
   clear: both;
   @extend %clearfix;
   padding: 0;
-  margin: {
-    top: 1.2em;
-    bottom: 1.2em;
-    left: -24px;
-    right: -24px;
-  };
+  margin-top: 1.2em;
+  margin-bottom: 1.2em;
+  margin-left: calc(-1 * $base-spacing);
+  margin-right: calc(-1 * $base-spacing);
+  width: calc(100% + 2 * $base-spacing);
 
   &, .hll, pre, code {
     background-color: $dt-gray-dark !important;
@@ -29,7 +28,7 @@ $dt-yellow: #f1fa8c;
 
   pre {
     margin: 0;
-    padding: 1.3em;
+    padding: 1.3em $base-spacing;
     white-space: pre;
     line-height: 0.1em;
     overflow-x: auto;
@@ -177,5 +176,16 @@ $dt-yellow: #f1fa8c;
 
   .gd {
     color: $dt-red;
+  }
+
+  @include media($mobile) {
+    margin-left: calc(-1 * $small-spacing);
+    margin-right: calc(-1 * $small-spacing);
+    width: calc(100% + 2 * $small-spacing);
+
+    pre {
+      padding-left: $small-spacing;
+      padding-right: $small-spacing;
+    }
   }
 }

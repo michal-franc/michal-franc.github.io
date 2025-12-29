@@ -1,21 +1,29 @@
 <div class="post-metadata">
-  <h3>Published</h3>
-  <p>{{ page.date | date: "%B %-d, %Y" }}</p>
+  <div class="metadata-item">
+    <h3>Published</h3>
+    <p>{{ page.date | date: "%B %-d, %Y" }}</p>
+  </div>
 
-  {% if page.author %}
-  <h3>Author</h3>
-  <p>{{ page.author }}</p>
-  {% endif %}
+  <div class="metadata-item">
+    <h3>Author</h3>
+    <p>{% if page.author %}{{ page.author }}{% else %}Michal Franc{% endif %}</p>
+  </div>
 
-  {% if page.tags and page.tags.size > 0 %}
-  <h3>Tags</h3>
-  <p>
-    {% for tag in page.tags %}
-    <a class="tag-badge" href="/blog/tags/#{{tag}}">{{tag}}</a>{% unless forloop.last %} {% endunless %}
-    {% endfor %}
-  </p>
-  {% endif %}
+  <div class="metadata-separator"></div>
 
-  <h3>Social</h3>
-  {% include social.html %}
+  <div class="metadata-item">
+    <h3>Tags</h3>
+    <p>
+      {% if page.tags and page.tags.size > 0 %}
+        {% for tag in page.tags %}
+        <a class="tag-badge" href="/blog/tags/#{{tag}}">{{tag}}</a>{% unless forloop.last %} {% endunless %}
+        {% endfor %}
+      {% endif %}
+    </p>
+  </div>
+
+  <div class="metadata-item">
+    <h3>Social</h3>
+    {% include social.html %}
+  </div>
 </div>
