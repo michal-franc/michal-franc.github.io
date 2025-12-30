@@ -1,17 +1,8 @@
 {% if page.comments %}
-<script src="https://giscus.app/client.js"
-        data-repo="michal-franc/michal-franc.github.io"
-        data-repo-id="MDEwOlJlcG9zaXRvcnkzNjYwNTU0Ng=="
-        data-category="Comments"
-        data-category-id="DIC_kwDOAi6Oas4ChVU-"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="light"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
+<script>
+  // Set giscus theme based on saved preference
+  const savedTheme = localStorage.getItem('theme-preference') || 'light';
+  const giscusTheme = savedTheme === 'dark' ? 'dark' : 'light';
+  document.write('<script src="https://giscus.app/client.js" data-repo="michal-franc/michal-franc.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkzNjYwNTU0Ng==" data-category="Comments" data-category-id="DIC_kwDOAi6Oas4ChVU-" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="' + giscusTheme + '" data-lang="en" crossorigin="anonymous" async><\/script>');
 </script>
 {% endif %}
