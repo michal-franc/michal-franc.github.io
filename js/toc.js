@@ -11,7 +11,7 @@
 
     if (headings.length === 0) {
       // Hide TOC if no headings
-      var tocSection = document.querySelector('.post-sidebar-right');
+      var tocSection = document.querySelector('.post-toc-content');
       if (tocSection) tocSection.style.display = 'none';
       return;
     }
