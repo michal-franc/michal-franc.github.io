@@ -591,7 +591,7 @@ ol.index {
     padding: $base-spacing $base-spacing 0;
 
     @include media($mobile) {
-      padding: $base-spacing $small-spacing 0;
+      padding: $small-spacing $small-spacing 0;
     }
   }
 
@@ -599,7 +599,7 @@ ol.index {
     padding: $base-spacing;
 
     @include media($mobile) {
-      padding: $base-spacing $small-spacing;
+      padding: $small-spacing;
     }
   }
 
@@ -607,7 +607,7 @@ ol.index {
     padding: 0 $base-spacing $base-spacing;
 
     @include media($mobile) {
-      padding: 0 $small-spacing $base-spacing;
+      padding: 0 $small-spacing $small-spacing;
     }
   }
 
@@ -622,7 +622,7 @@ ol.index {
 
   @include media($tablet) {
     display: block;
-    padding: $base-spacing $small-spacing;
+    padding: $small-spacing;
     border-bottom: 1px solid #e8e8e8;
     background-color: #f9f9f9;
   }
@@ -632,9 +632,29 @@ ol.index {
     margin: 0;
     border: none;
 
-    // Hide the "Article" title section on mobile
+    // Show the "Article" title section on mobile
     .metadata-title {
-      display: none;
+      display: block;
+      text-align: center;
+      padding-bottom: 0.75rem;
+      margin-bottom: 0.75rem;
+      border-bottom: 1px solid #e8e8e8;
+
+      h3 {
+        font-size: rem(11);
+        font-weight: $font-weight-bold;
+        text-transform: uppercase;
+        color: $medium-gray-color;
+        letter-spacing: 0.5px;
+        margin: 0 0 0.5rem 0;
+      }
+
+      p {
+        font-size: rem(15);
+        font-weight: $font-weight-bold;
+        margin: 0;
+        color: $dark-gray-color;
+      }
     }
 
     // Adjust grid for mobile - simpler layout
