@@ -33,13 +33,13 @@
       // Get the content
       let content = (codeBlock.textContent || codeBlock.innerText).trim();
 
-      // Extract custom title if present
+      // Extract custom title if present (format: _title_)
       let customTitle = null;
-      const titleMatch = content.match(/<title>\s*(.+?)\s*<\/title>/);
+      const titleMatch = content.match(/^_(.+?)_/);
       if (titleMatch) {
         customTitle = titleMatch[1];
-        // Remove the title tag from content
-        content = content.replace(/<title>\s*.+?\s*<\/title>\s*/, '').trim();
+        // Remove the title from content
+        content = content.replace(/^_(.+?)_\s*/, '').trim();
       }
 
       // Create admonition HTML
