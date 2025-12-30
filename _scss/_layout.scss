@@ -632,12 +632,14 @@ ol.index {
     margin: 0;
     border: none;
 
-    // Show the "Article" title section on mobile
+    // Show the "Article" title section on mobile - styled like other metadata items
     .metadata-title {
-      display: block;
-      text-align: center;
-      padding-bottom: 0.75rem;
-      margin-bottom: 0.75rem;
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+      gap: 0.5rem;
+      padding-bottom: 1rem;
+      margin-bottom: 0;
       border-bottom: 1px solid #e8e8e8;
 
       h3 {
@@ -646,11 +648,12 @@ ol.index {
         text-transform: uppercase;
         color: $medium-gray-color;
         letter-spacing: 0.5px;
-        margin: 0 0 0.5rem 0;
+        margin: 0;
+        min-width: 80px;
       }
 
       p {
-        font-size: rem(15);
+        font-size: rem(14);
         font-weight: $font-weight-bold;
         margin: 0;
         color: $dark-gray-color;
@@ -673,11 +676,18 @@ ol.index {
       gap: 0.5rem;
 
       h3 {
+        font-size: rem(11);
+        font-weight: $font-weight-bold;
+        text-transform: uppercase;
+        color: $medium-gray-color;
+        letter-spacing: 0.5px;
         margin: 0;
         min-width: 80px;
       }
 
       p {
+        font-size: rem(14);
+        color: $dark-gray-color;
         margin: 0;
       }
     }
