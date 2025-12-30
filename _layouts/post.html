@@ -10,6 +10,12 @@ layout: default
       {% if page.image %}
         <img class="post-image" src="/images/{{ page.image }}"/>
       {% endif %}
+
+      <!-- Metadata for mobile - shown only on mobile -->
+      <div class="post-metadata-mobile">
+        {% include post-sidebar-left.html %}
+      </div>
+
       <div class="post-content">
         {% if page.series %}
           {% include series.html %}
@@ -26,7 +32,9 @@ layout: default
 
   <!-- Right Sidebar: Metadata + TOC -->
   <aside class="post-sidebar-right">
-    {% include post-sidebar-left.html %}
+    <div class="post-metadata-desktop">
+      {% include post-sidebar-left.html %}
+    </div>
     {% include toc.html %}
   </aside>
 
