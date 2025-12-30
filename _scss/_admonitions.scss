@@ -1,0 +1,234 @@
+/*=====================================
+=         Admonitions (Obsidian)      =
+=====================================*/
+
+.admonition {
+  margin: 1.5em 0;
+  padding: 0;
+  border-left: 4px solid;
+  border-radius: 4px;
+  background-color: rgba(68, 138, 255, 0.1);
+  overflow: hidden;
+
+  .admonition-title {
+    font-family: $heading-font-family;
+    font-weight: $font-weight-bold;
+    font-size: rem(14);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: rgba(68, 138, 255, 0.1);
+    margin: 0;
+
+    &::before {
+      content: "";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: currentColor;
+      color: white;
+      font-size: rem(12);
+      font-weight: $font-weight-bold;
+      flex-shrink: 0;
+    }
+  }
+
+  .admonition-content {
+    padding: 0.5rem;
+
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+
+    p {
+      margin: 0.5em 0;
+    }
+  }
+}
+
+// Note / Info
+.admonition.ad-note,
+.admonition.ad-info {
+  border-left-color: #448aff;
+
+  .admonition-title {
+    color: #448aff;
+    background-color: rgba(68, 138, 255, 0.1);
+
+    &::before {
+      content: "i";
+    }
+  }
+}
+
+// Abstract / Summary / TLDR
+.admonition.ad-abstract,
+.admonition.ad-summary,
+.admonition.ad-tldr {
+  border-left-color: #00b0ff;
+  background-color: rgba(0, 176, 255, 0.1);
+
+  .admonition-title {
+    color: #00b0ff;
+    background-color: rgba(0, 176, 255, 0.1);
+
+    &::before {
+      content: "≡";
+    }
+  }
+}
+
+// Tip / Hint / Important
+.admonition.ad-tip,
+.admonition.ad-hint,
+.admonition.ad-important {
+  border-left-color: #00bfa5;
+  background-color: rgba(0, 191, 165, 0.1);
+
+  .admonition-title {
+    color: #00bfa5;
+    background-color: rgba(0, 191, 165, 0.1);
+
+    &::before {
+      content: "!";
+    }
+  }
+}
+
+// Success / Check / Done
+.admonition.ad-success,
+.admonition.ad-check,
+.admonition.ad-done {
+  border-left-color: #00c853;
+  background-color: rgba(0, 200, 83, 0.1);
+
+  .admonition-title {
+    color: #00c853;
+    background-color: rgba(0, 200, 83, 0.1);
+
+    &::before {
+      content: "✓";
+    }
+  }
+}
+
+// Question / Help / FAQ
+.admonition.ad-question,
+.admonition.ad-help,
+.admonition.ad-faq {
+  border-left-color: #64dd17;
+  background-color: rgba(100, 221, 23, 0.1);
+
+  .admonition-title {
+    color: #64dd17;
+    background-color: rgba(100, 221, 23, 0.1);
+
+    &::before {
+      content: "?";
+    }
+  }
+}
+
+// Warning / Caution / Attention
+.admonition.ad-warning,
+.admonition.ad-caution,
+.admonition.ad-attention {
+  border-left-color: #ff9800;
+  background-color: rgba(255, 152, 0, 0.1);
+
+  .admonition-title {
+    color: #ff9800;
+    background-color: rgba(255, 152, 0, 0.1);
+
+    &::before {
+      content: "!";
+    }
+  }
+}
+
+// Failure / Fail / Missing
+.admonition.ad-failure,
+.admonition.ad-fail,
+.admonition.ad-missing {
+  border-left-color: #ff5252;
+  background-color: rgba(255, 82, 82, 0.1);
+
+  .admonition-title {
+    color: #ff5252;
+    background-color: rgba(255, 82, 82, 0.1);
+
+    &::before {
+      content: "×";
+    }
+  }
+}
+
+// Danger / Error
+.admonition.ad-danger,
+.admonition.ad-error {
+  border-left-color: #ff1744;
+  background-color: rgba(255, 23, 68, 0.1);
+
+  .admonition-title {
+    color: #ff1744;
+    background-color: rgba(255, 23, 68, 0.1);
+
+    &::before {
+      content: "!";
+    }
+  }
+}
+
+// Bug
+.admonition.ad-bug {
+  border-left-color: #f50057;
+  background-color: rgba(245, 0, 87, 0.1);
+
+  .admonition-title {
+    color: #f50057;
+    background-color: rgba(245, 0, 87, 0.1);
+
+    &::before {
+      content: "b";
+    }
+  }
+}
+
+// Example
+.admonition.ad-example {
+  border-left-color: #7c4dff;
+  background-color: rgba(124, 77, 255, 0.1);
+
+  .admonition-title {
+    color: #7c4dff;
+    background-color: rgba(124, 77, 255, 0.1);
+
+    &::before {
+      content: "e";
+    }
+  }
+}
+
+// Quote / Cite
+.admonition.ad-quote,
+.admonition.ad-cite {
+  border-left-color: #9e9e9e;
+  background-color: rgba(158, 158, 158, 0.1);
+
+  .admonition-title {
+    color: #757575;
+    background-color: rgba(158, 158, 158, 0.1);
+
+    &::before {
+      content: "\201C";
+    }
+  }
+}

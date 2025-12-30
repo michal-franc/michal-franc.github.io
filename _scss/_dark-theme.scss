@@ -425,4 +425,197 @@ body.dark-theme {
   .main-line-2 {
     color: $dark-heading-orange;
   }
+
+  // Admonitions - dark theme
+  .admonition {
+    background-color: rgba(255, 255, 255, 0.05);
+
+    .admonition-content {
+      color: $dark-text;
+    }
+
+    .admonition-title::before {
+      color: white;
+    }
+  }
+
+  // Note / Info
+  .admonition.ad-note,
+  .admonition.ad-info {
+    border-left-color: #5c9cff;
+    background-color: rgba(68, 138, 255, 0.1);
+
+    .admonition-title {
+      color: #5c9cff;
+      background-color: rgba(68, 138, 255, 0.15);
+
+      &::before {
+        background-color: #5c9cff;
+      }
+    }
+  }
+
+  // Abstract / Summary / TLDR
+  .admonition.ad-abstract,
+  .admonition.ad-summary,
+  .admonition.ad-tldr {
+    border-left-color: #3dbfff;
+    background-color: rgba(0, 176, 255, 0.1);
+
+    .admonition-title {
+      color: #3dbfff;
+      background-color: rgba(0, 176, 255, 0.15);
+
+      &::before {
+        background-color: #3dbfff;
+      }
+    }
+  }
+
+  // Tip / Hint / Important
+  .admonition.ad-tip,
+  .admonition.ad-hint,
+  .admonition.ad-important {
+    border-left-color: #00d4b5;
+    background-color: rgba(0, 191, 165, 0.1);
+
+    .admonition-title {
+      color: #00d4b5;
+      background-color: rgba(0, 191, 165, 0.15);
+
+      &::before {
+        background-color: #00d4b5;
+      }
+    }
+  }
+
+  // Success / Check / Done
+  .admonition.ad-success,
+  .admonition.ad-check,
+  .admonition.ad-done {
+    border-left-color: #00e563;
+    background-color: rgba(0, 200, 83, 0.1);
+
+    .admonition-title {
+      color: #00e563;
+      background-color: rgba(0, 200, 83, 0.15);
+
+      &::before {
+        background-color: #00e563;
+      }
+    }
+  }
+
+  // Question / Help / FAQ
+  .admonition.ad-question,
+  .admonition.ad-help,
+  .admonition.ad-faq {
+    border-left-color: #7af22d;
+    background-color: rgba(100, 221, 23, 0.1);
+
+    .admonition-title {
+      color: #7af22d;
+      background-color: rgba(100, 221, 23, 0.15);
+
+      &::before {
+        background-color: #7af22d;
+      }
+    }
+  }
+
+  // Warning / Caution / Attention
+  .admonition.ad-warning,
+  .admonition.ad-caution,
+  .admonition.ad-attention {
+    border-left-color: #ffad33;
+    background-color: rgba(255, 152, 0, 0.1);
+
+    .admonition-title {
+      color: #ffad33;
+      background-color: rgba(255, 152, 0, 0.15);
+
+      &::before {
+        background-color: #ffad33;
+      }
+    }
+  }
+
+  // Failure / Fail / Missing
+  .admonition.ad-failure,
+  .admonition.ad-fail,
+  .admonition.ad-missing {
+    border-left-color: #ff6b6b;
+    background-color: rgba(255, 82, 82, 0.1);
+
+    .admonition-title {
+      color: #ff6b6b;
+      background-color: rgba(255, 82, 82, 0.15);
+
+      &::before {
+        background-color: #ff6b6b;
+      }
+    }
+  }
+
+  // Danger / Error
+  .admonition.ad-danger,
+  .admonition.ad-error {
+    border-left-color: #ff5566;
+    background-color: rgba(255, 23, 68, 0.1);
+
+    .admonition-title {
+      color: #ff5566;
+      background-color: rgba(255, 23, 68, 0.15);
+
+      &::before {
+        background-color: #ff5566;
+      }
+    }
+  }
+
+  // Bug
+  .admonition.ad-bug {
+    border-left-color: #ff3377;
+    background-color: rgba(245, 0, 87, 0.1);
+
+    .admonition-title {
+      color: #ff3377;
+      background-color: rgba(245, 0, 87, 0.15);
+
+      &::before {
+        background-color: #ff3377;
+      }
+    }
+  }
+
+  // Example
+  .admonition.ad-example {
+    border-left-color: #9a6fff;
+    background-color: rgba(124, 77, 255, 0.1);
+
+    .admonition-title {
+      color: #9a6fff;
+      background-color: rgba(124, 77, 255, 0.15);
+
+      &::before {
+        background-color: #9a6fff;
+      }
+    }
+  }
+
+  // Quote / Cite
+  .admonition.ad-quote,
+  .admonition.ad-cite {
+    border-left-color: #b0b0b0;
+    background-color: rgba(158, 158, 158, 0.1);
+
+    .admonition-title {
+      color: #b0b0b0;
+      background-color: rgba(158, 158, 158, 0.15);
+
+      &::before {
+        background-color: #b0b0b0;
+      }
+    }
+  }
 }
