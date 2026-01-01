@@ -1,9 +1,0 @@
-Most of the developers do CRUD apps. Those apps seems simple and easy to do. This probably creates this notion that coding is just copy paste. But is it really ? 
-
-I am not sure where this question comes from but I have never considered myself as a copy paste programmer. There are allways difficult problems to solve. I think someone who thinks that it is the case with programmers might be lookking into the job incorrectly focusing too much on coding. This is popular approach that programming == coding and it is unexperienced dev way of thinking. With more skills and mostly experience developers see that it not about code, keystrokes but solving problems.
-
-There are many different problems and you wont find answer to them in places like StackOverflow. You cant just copy paste many decision beacuse they depend on the context. What kind of context ? Something around - type of project, domain, skill of the team, budget, time, complexity etc. etc. The developer job is to find the perfect middle spot that fulfiss all the needs in the best way possible.
-
-One example. There is a huge microservices hype. Netflix does microservices and blog about it a lot. With copy paste approach my implementation would probably look like the Netflix one. Do I need it ? I don't know but for sure their solution was suited for their specific needs. My needs are different, for sure the project is different. I can't really approach suitable for something else. Oww yes sure it is possible but it feels like forcing the solution on the problem not the other way around when the problems creats a solution.
-
-We are not simple copy pasters. 
