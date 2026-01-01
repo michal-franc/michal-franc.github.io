@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 <p style="text-align:justify;">In one of the projects i want to use scripting language featuers to easily change the behaviour of my application on the runtime. I choosed Python and its .Net implementation IronPython beacuase it is a solid and popular language.</p>
 <strong>Before we can start we need :</strong>

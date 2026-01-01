@@ -5,7 +5,7 @@ date: 2014-06-24 08:00
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [f#]
+tags: [f#, archive]
 ---
 I am a F# apprentice. The best way to learn new language is to do some project. That's why I have started to code one game idea that was following me for some time. 
 

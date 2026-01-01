@@ -5,7 +5,7 @@ date: 2013-02-06 16:00
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [tdd]
+tags: [tdd, archive]
 ---
 In <a href="http://www.mfranc.com/unit-testing/good-unit-test-one-assert/">previous posts</a> we discussed the problem with multiple asserts in the unit test. One of the reasons to create test with only single assert was "Unit Test Misinformation". 
 

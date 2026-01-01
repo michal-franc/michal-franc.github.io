@@ -5,6 +5,7 @@ date: 2012-04-06 20:14
 author: Michal Franc
 comments: true
 categories: []
+tags: [archive]
 ---
 <p align="justify">I have been using <strong>R#</strong> for about one year. This is a very good addin to <strong>Visual Studio</strong> , I am not able to work without it anymore <img class="wlEmoticon wlEmoticon-winkingsmile" style="border-style: none;" src="http://www.mfranc.com/wp-content/uploads/2012/04/wlEmoticon-winkingsmile1.png" alt="Winking smile" /></p>
 <p align="justify">It provides a lot of cool stuff. Best features ? Simplified navigation with <strong>Ctr+T </strong>and <strong>Shift+Alt+T, </strong>code inspections and great code generation.</p>

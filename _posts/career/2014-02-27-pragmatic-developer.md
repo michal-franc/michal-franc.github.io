@@ -5,7 +5,7 @@ date: 2014-02-27 23:36
 author: Michal Franc
 comments: true
 categories: [Career]
-tags: [basics]
+tags: [basics, archive]
 ---
 I have changed the Blog name from "Passionate Programmer" to "Pragmatic Developer". Why this change you could ask ? :)
 

@@ -5,7 +5,7 @@ date: 2014-11-24 08:00
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [f#]
+tags: [f#, archive]
 permalink: /f/f-and-nancy-beyond-hello-world/
 ---
 <p lang="pl">

@@ -5,7 +5,7 @@ date: 2013-04-30 12:00
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [nosql]
+tags: [nosql, archive]
 ---
 Long long time ago in one of the posts ... I briefly described CouchDB installation process on the local machine.
 

@@ -5,7 +5,7 @@ date: 2013-03-05 08:07
 author: Michal Franc
 comments: true
 categories: [Carrer]
-tags: [advices]
+tags: [advices, archive]
 permalink: "/career/software-developer-career-hard-truths/"
 ---
 <p>I am a software developer. From my experience I can say, that this is one of the best jobs someone can do. It is creative, demanding and extremely rewarding plus it has an awesome community with friendly and intelligent people. When i was entering the work market in my first company i had various assumptions ans misconceptions that i learned in university. Boy i was so wrong about a lot of things. In this post i want to discuss some of them.</p>

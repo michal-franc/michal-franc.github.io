@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 I have recently found a great add-in <strong>Visual studio 2010 - Productivity Power Tools</strong>. It adds new options. It’s not that good like the commercial versions of <strong>CodeRush</strong> or <strong>R#.</strong> It’s for free and that’s a great thing.
 

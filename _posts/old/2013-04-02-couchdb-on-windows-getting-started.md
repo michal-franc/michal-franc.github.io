@@ -5,7 +5,7 @@ date: 2013-04-02 08:00
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [nosql]
+tags: [nosql, archive]
 permalink: /nosql/couchdb-on-windows-getting-started/
 ---
 This post will be a little note with steps needed to setup a working CouchDb instance on windows machine.

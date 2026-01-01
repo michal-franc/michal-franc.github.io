@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 <p><span style="font-family:helvetica, arial, freesans, clean, sans-serif;font-size:13px;line-height:18px;"> </span></p>
 <p style="line-height:1.5em!important;margin:1em 0!important;padding:0;">There is one thing we are losing constantly in our lives , Time. it is our most precious assests and we can not do a thing to stop this process. If we can&rsquo;t stop it let's do something else , let's use is effectively. Time management should be our most important skill. This assumption gave me a motivation to learn about this process and to start this project.&nbsp;</p>

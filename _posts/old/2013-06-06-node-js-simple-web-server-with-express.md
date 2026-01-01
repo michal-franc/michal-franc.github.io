@@ -5,7 +5,7 @@ date: 2013-06-06 08:00
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [node.js]
+tags: [node.js, archive]
 permalink: /node-js/node-js-simple-web-server-with-express/
 ---
 I have been playing with Node.js recently. Mostly doing some small hobby projects. One of them needed server side badly, some of the cool features were not possible with the client side only web app. 

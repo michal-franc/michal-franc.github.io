@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 In software development job we are doing lots of repetitive tasks. Like recycling iis , copying files , connecting to remote server etc etc. On Sharepoint there are lots of „boring” things to do. One of those "things " is deploying dll to a remote server. I hate this . You have to log in to a server,  copy the file , open the gac and manually drag n drop it to a folder. You can't just copy it by  „Total Commander”.
 Ok i aggree it is not a problem with 1 - 2 deploys in an hour but if you are testing something it can get to 10 - 20 times per hour.

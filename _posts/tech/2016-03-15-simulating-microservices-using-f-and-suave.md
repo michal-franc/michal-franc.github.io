@@ -6,7 +6,7 @@ author: Michal Franc
 comments: true
 summary: Brief overview of a way to deploy simple services on local machine.
 categories: [Tech]
-tags: [f#, microservices]
+tags: [f#, microservices, archive]
 ---
 
 <p>I have this small hobby project called Overseer. It is a tool used to debug and troubleshoot microservices. I was planning to use it in production, but because that is the only prototype. I decided to use it with simulated services. This way it will be a lot easier to create many different 'test' scenarios.</p>

@@ -5,7 +5,7 @@ date: 2013-01-14 10:00
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [tools]
+tags: [tools, archive]
 permalink: /tools/git-custom-command/
 ---
 I am really happy that I can use git for my every day job. Earlier I was only using it in hobby projects. Now I can learn and experience git in real projects, with real people and problems. So far, I love it :)

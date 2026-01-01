@@ -5,7 +5,7 @@ date: 2013-01-01 16:47
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [tdd]
+tags: [tdd, archive]
 permalink: /unit-testing/unit-test-code-with-static-method-console-write/
 ---
 <strong>tl;dr : Wrap theses methods inside the layer of abstraction. Then create a stub and use it to create test scenarios.</strong>

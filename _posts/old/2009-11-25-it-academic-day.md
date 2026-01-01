@@ -6,6 +6,7 @@ author: Michal Franc
 comments: true
 categories: []
 tags: [community]
+tags: [archive]
 ---
 Minął prawie tydzień wypadałoby coś napisać o IT Academic Day. W weekend miałem fajną wyprawę ze znajomym z uczelni do Głuchołaz [ oczywiście stosowny wpis na blogu będzie wkrótce] , stąd takie "małe" opóźnienie.
 

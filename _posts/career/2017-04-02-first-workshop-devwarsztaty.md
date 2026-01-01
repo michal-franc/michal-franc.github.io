@@ -6,7 +6,7 @@ date: 2017-04-02 10:00
 author: Michal Franc
 comments: true
 categories: [Career]
-tags: [workshop]
+tags: [workshop, archive]
 image: micro-workshop-main.png
 ---
 Two weeks ago, me and my wife, we have packed our stuff and went for a weekend ‘break’ to Warsaw. It wasn’t a usual break as I was doing a workshop on Saturday. Still we have managed to find some time to check Polish capital - interesting city. Blend of old and new, mix of capitalism and remnants of communism. There is a lot of history waiting for exploration. If you are into Polish dumplings ‘Pierogi’ you have to check ‘Zapieciek’ excellent stuff, plus they also have amazing ‘Flaki’, no idea how to translate this one to English. Cooked intensities? Hmm. 

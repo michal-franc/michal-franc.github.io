@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 Lately, I have started an internship in one of the IT Companies located in Wroclaw. I am really happy because this is a great opportunity to catch "real job" experience. Academic projects are a different kind of story.
 

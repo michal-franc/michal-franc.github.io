@@ -4,6 +4,7 @@ title: Testowanie jednostkowe metody prywatnej
 date: 2009-12-30 20:04
 author: Michal Franc
 comments: true
+tags: [archive]
 ---
 Natknąłem się ostatnio na pewien problem.
 

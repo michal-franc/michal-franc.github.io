@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 My Little project TimeIsMoney is participating in a contest by <a href="http://www.maciejaniserowicz.com/">Maciej Aniserowicz.</a>
 

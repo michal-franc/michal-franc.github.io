@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 permalink: /uncategorized/debugging-dynamic-javascript-in-chrome
 ---
 When developing web apps, I am using <strong>Chrome </strong>it has a great <strong>JS</strong> debugger unfortunately there is a small problem. Modern Web Applications contain a lot of dynamically loaded <strong>Javascript</strong> on the page. One common scenario is to load a modal with asynchronously loaded content. If this content would be a normal page with some<strong> Javascript</strong>. Well we have a problem, we are not able to examine the scrpts and set breakpoints on this page. It wont work on default.

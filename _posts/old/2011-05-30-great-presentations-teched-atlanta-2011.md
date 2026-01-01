@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 I have spent some time on the weekend watching Tech Ed on channel 9
 

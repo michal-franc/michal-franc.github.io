@@ -5,7 +5,7 @@ date: 2013-07-03 18:05
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [tools]
+tags: [tools, archive]
 ---
 In this post, I want to write about my conversion to Vim, a complex but powerful text editor. It's learning curve is quite step but once grasped, it can increase your productivity.
 

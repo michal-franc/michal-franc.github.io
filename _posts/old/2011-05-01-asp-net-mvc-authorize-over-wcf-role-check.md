@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 <p align="justify">In Asp.Net MVC you can attach various attributes to the controllers actions. One of them is <strong><a href="http://msdn.microsoft.com/en-us/library/system.web.mvc.authorizeattribute.aspx">Authorize</a></strong> which is used to managed access.</p>
 

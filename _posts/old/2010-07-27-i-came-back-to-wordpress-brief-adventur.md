@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 I came back to Wordpress. Brief adventure with BlogEngine .Net is over.
 <p style="text-align:justify;">It is not that BlogEngine is bad or something. It's really a great software but ... I just want to write blog posts and Wordpress gives everything you need in a nice easy to use package. BlogEngine is different. You have to do a lot of things by yourself. No no no i just want to write :D.</p>

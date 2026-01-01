@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 <p align="justify">I have been working on a simple side project. It is a idea of View Engine that uses Database in order to get Views. It is maybe not so useful scenario, but a good one to learn more about inner workings of Asp.Net MVC and also <strong>NoSql</strong> databases. There is a  big hype around <strong>NoSql</strong>. I will use <strong>RavenDB</strong> because this implementation is very close to .<strong>Net</strong> community.</p>
 <p align="justify">First we will explore <strong>ViewEngines</strong> and <strong>HTML</strong> response generation,then we will move into the custom View Engine World. If you are interested dear reader then “Stay while and listen …” <img class="wlEmoticon wlEmoticon-openmouthedsmile" style="border-style: none;" src="http://www.mfranc.com/wp-content/uploads/2012/01/wlEmoticon-openmouthedsmile.png" alt="Open-mouthed smile" /></p>

@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 permalink: /uncategorized/faking-modelstate-isvalidunit-tests-in-asp-net-mvc/
 ---
 <p align="justify">As a part of my thesis , I am creating web app in Asp.net MVC. I m using <a href="http://nhforge.org/Default.aspx">NHibernate</a> , <a href="http://www.nunit.org/">NUnit</a> , <a href="https://github.com/hibernating-rhinos/rhino-mocks">RhinoMocks</a> , <a href="http://msdn.microsoft.com/en-us/netframework/aa663324">WCF</a> , <a href="http://ninject.org/">Ninject</a> , <a href="http://www.nuget.org/List/Packages/Glimpse">Glimpse</a> and also <a href="https://code.google.com/p/elmah/">Elmah</a> . This is a quite big project with a lot of unit tests. I am treating it as a playground.</p>

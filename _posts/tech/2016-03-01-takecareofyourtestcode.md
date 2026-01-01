@@ -5,7 +5,7 @@ date: 2016-03-01 01:32
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [tdd]
+tags: [tdd, archive]
 ---
 <p>As developers we tend to write complicated unit tests that are hard to read and maintain. Maybe it comes from the feeling that test code is not a proper code ? There is some magic in writing 'proper' unit tests. Using word proper might not be even suitable here because how do you define 'proper'. It is the same problem as with the definition of 'unit, everyone has his own definition that depends on the context.</p>
 

@@ -5,7 +5,7 @@ date: 2016-02-27 20:20
 author: Michal Franc
 comments: true
 categories: []
-tags: [community]
+tags: [community, archive]
 ---
 <p>Polish .NET community and <a href="http://www.maciejaniserowicz.com/">Maciej Aniserowicz</a> has started another edition of "Daj sie poznac" event ( translation: something along "Show yourself!" ).</p>
 

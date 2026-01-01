@@ -5,7 +5,7 @@ date: 2014-06-10 08:00
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [f#]
+tags: [f#, archive]
 ---
 <p>I have started learning F# again, thanks to @isaac_abraham and his great presentation in my company. This time hopefully, I will move past the "WTF", barrier and move to "AHA" moment. I am ready to finally start serious F# learning with couple of milestones like: project euler, tool, web-app, complex project. I will try to document whole process on the blog. I want to force myself and learn new functional paradigm. Hopefully it will give me a new way to look at problems and solutions for them. To this day I have spent most of the time in OO world, meh, it gets boring, really. I might also get a chance to do something cool with F# for my company. Me and 3 of my coworkers, we are trying to explore together DDD with F# and find a better way to model our code/ To start somewhere, I was given a link to a great site with a list of advices <a href="http://fsharpforfunandprofit.com/learning-fsharp/">http://fsharpforfunandprofit.com/learning-fsharp/</a> Do's and Don'ts section is very helpful. You can consider this as "House rules" constraining you with a form of "force yourself to think differently".</p>
 

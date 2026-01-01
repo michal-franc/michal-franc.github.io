@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 <h1 align="justify"></h1>
 <h3 align="justify">FluentNHibernate</h3>

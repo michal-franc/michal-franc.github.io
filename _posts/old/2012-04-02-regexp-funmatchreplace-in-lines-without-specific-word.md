@@ -5,6 +5,7 @@ date: 2012-04-02 18:31
 author: Michal Franc
 comments: true
 categories: []
+tags: [archive]
 ---
 <h2>Problem</h2>
 Today in work I got a nice task.

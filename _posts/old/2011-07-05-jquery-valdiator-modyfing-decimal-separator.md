@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 permalink: /javascript/jquery-valdiator-modyfing-decimal-separator/
 ---
 <h2>Problem</h2>

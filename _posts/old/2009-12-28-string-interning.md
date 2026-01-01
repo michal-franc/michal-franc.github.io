@@ -4,6 +4,7 @@ title: String Interning
 date: 2009-12-28 13:22
 author: Michal Franc
 comments: true
+tags: [archive]
 ---
 Czytając blog <a href="http://ayende.com/Blog/default.aspx">Ayende Rahien-a</a> natknąłem się na dość ciekawą technikę przetrzymywania stringów w pamięci. "String Interning".
 

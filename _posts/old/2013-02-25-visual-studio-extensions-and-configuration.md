@@ -5,6 +5,7 @@ date: 2013-02-25 08:00
 author: Michal Franc
 comments: true
 categories: []
+tags: [archive]
 ---
 In this post, I want to share some details about my Visual Studio 2012 configuration. You can find here a list of plugins, some options and various customization that I am using.
 

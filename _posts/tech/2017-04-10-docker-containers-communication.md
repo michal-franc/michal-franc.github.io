@@ -6,7 +6,7 @@ date: 2017-04-10 10:00
 author: Michal Franc
 comments: true
 categories: [tech]
-tags: [docker]
+tags: [docker, archive]
 image: containers.jpg
 ---
 

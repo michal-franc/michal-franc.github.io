@@ -6,7 +6,7 @@ author: Michal Franc
 comments: true
 summary: Answering questions of .NET backend dev about about frontend world
 categories: [Qa]
-tags: [js]
+tags: [js, archive]
 ---
 
 1. [Is react making ASP.NET MVC obsolete](#1)

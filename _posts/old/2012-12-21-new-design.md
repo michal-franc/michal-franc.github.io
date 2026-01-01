@@ -5,6 +5,7 @@ date: 2012-12-21 22:52
 author: Michal Franc
 comments: true
 categories: []
+tags: [archive]
 ---
 <p>Hurray we have survived the armageddon. To celebrate this marvelous achievement, I redesigned my blog.</p>
 <p>Well seriously my site needed new layout, fonts and colors.  Previous version was just unreadable,  I barely was able to focus on anything. My blog is mostly about content, so I wanted to shift focus onto this content. Previous version caused a lot of problems, with all the different colors, weird fonts and odd headings. There is still a lot to learn for me in the typography, editing and writing, but this new design is a first step in good direction.</p>

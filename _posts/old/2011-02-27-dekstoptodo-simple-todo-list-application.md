@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 I am a time management freak. That’s why I was creating application TimeIsMoney. Currently, I m not working on this app. Instead I had another idea based on an earlier project, I m creating a new simpler app. “Desktop Todo”.
 

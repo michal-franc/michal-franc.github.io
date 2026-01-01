@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 <p align="justify">I m currently implementing some project using the NHibernate. I dont like the mappongs stored in xml files so I am using FluentNhiberante.</p>
 <p align="justify"></p>

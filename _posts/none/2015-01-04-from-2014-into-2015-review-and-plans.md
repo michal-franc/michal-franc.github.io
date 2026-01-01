@@ -5,6 +5,7 @@ date: 2015-01-04 23:39
 author: Michal Franc
 comments: true
 categories: []
+tags: [archive]
 ---
 A lot has happened in the last year 2014.
 <ul>

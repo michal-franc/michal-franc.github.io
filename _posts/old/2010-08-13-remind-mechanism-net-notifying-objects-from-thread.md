@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 In TimeIsMoney project, I am planning to add a lot of notifiers . I was looking for a mechanism but could find any solution, so I created one from the scratch.  Reminder should work on a thread not to interrupt the main application, I have created a simple  class which uses the thread to check if a condition is met on particular time.
 

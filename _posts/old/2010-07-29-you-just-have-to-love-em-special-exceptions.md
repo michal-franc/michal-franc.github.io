@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 Today I was doing the “boring” stuff. Yeah , creating list definitions , field definitions and installing features it is … boooring. You have to “click click click”.
 

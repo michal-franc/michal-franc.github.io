@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 Zupdatowałem źródło projekciku Seam Carving.
 

@@ -5,7 +5,7 @@ date: 2014-05-28 03:29
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [tdd]
+tags: [tdd, archive]
 permalink: /tdd/tdd-commit-by-commit-string-calculator-kata-iv/
 ---
 <p>Previous part in the series <a href="http://www.mfranc.com/tdd/tdd-commit-by-commit-string-calculator-kata-iii/">TDD – commit by commit String Calculator Kata (III)</a> Last time I finished on negative values requirement. This will be the "almost" last part of the series about String Calculator Kata. There was some interest in more practical TDD examples in business context with services, layers, mocks and external dependencies like database. I will start next series to cover scenarios like that. Current kata is quite simple and was just a start.</p>

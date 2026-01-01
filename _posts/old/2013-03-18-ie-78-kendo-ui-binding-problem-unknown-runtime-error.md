@@ -5,7 +5,7 @@ date: 2013-03-18 08:00
 author: Michal Franc
 comments: true
 categories: []
-tags: [js]
+tags: [js, archive]
 ---
 <strong>TL;DR; If you are getting unknown runtime error in the kendo javascript code. Check if you are using correct binding methods as per the demo on telerik site.</strong>
 

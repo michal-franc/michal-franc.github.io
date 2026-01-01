@@ -1,0 +1,13 @@
+---
+layout: default
+---
+<span class="category-title">Archive</span>
+<section class="post-list">
+	{% for tag in site.tags %}
+		{% if tag[0] == 'archive' %}
+			{% for post in tag[1] %}
+				{% include article.html %}
+			{% endfor %}
+		{% endif %}
+	{% endfor %}
+</section>

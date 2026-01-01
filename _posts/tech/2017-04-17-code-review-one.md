@@ -6,7 +6,7 @@ date: 2017-04-17 10:00
 author: Michal Franc
 comments: true
 categories: [tech]
-tags: [code-review]
+tags: [code-review, archive]
 image: code_review.jpeg
 ---
 

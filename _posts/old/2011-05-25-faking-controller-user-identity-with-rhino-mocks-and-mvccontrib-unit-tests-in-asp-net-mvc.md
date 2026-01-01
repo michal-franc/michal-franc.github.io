@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 permalink: /uncategorized/faking-controller-user-identity-with-rhino-mocks-and-mvccontrib-unit-tests-in-asp-net-mvc
 ---
 <p align="justify">Some of the actions that we are writing in Asp.Net <a href="http://www.asp.net/mvc">MVC</a> contains logic which uses data from the <strong>User </strong>context eg. user authentication or user name. <strong>Controller </strong>base class contains <strong>User</strong> property which is the instance of  <strong>IPrincipal</strong> with two important properties.</p>

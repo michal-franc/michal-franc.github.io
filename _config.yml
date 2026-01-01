@@ -5,7 +5,7 @@ highlighter : rouge
 gems: [jekyll-paginate, jekyll-sitemap]
 repository: https://github.com/michal-franc/michal-franc.github.io
 
-paginate: 10
+paginate: 1000
 paginate_path: "/blog/page/:num/"
 comments: true
 
@@ -46,9 +46,11 @@ navbar:
     title: Posts
   - slug: blog/articles
     title: Articles
-  - slug: about 
+  - slug: blog/archive
+    title: Archive
+  - slug: about
     title: About
-  - slug: hire-me 
+  - slug: hire-me
     title: Hire Me
 
 # draft support

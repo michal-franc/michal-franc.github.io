@@ -5,6 +5,7 @@ date: 2014-01-25 01:31
 author: Michal Franc
 comments: true
 categories: []
+tags: [archive]
 ---
 It have been a while, but my blog is not dead ... yet. Finally, I have found motivation to write my 100th post.
 

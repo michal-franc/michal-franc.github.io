@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 After styling and Data binding time has come for the logic implementation. I need a simple counter with a timer. At first I tried to use the Timer class which has an Elapsed event but there were some problems with <strong>DataBinding</strong>, so I have decided to create my own thread with a one second sleep time. Its main purpose is to increment the counter.
 

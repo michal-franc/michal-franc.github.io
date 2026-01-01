@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 <p style="text-align: justify;">I have started another mini tool which will be a part of the <strong>TimeIsMoney</strong> project. <a href="http://screeperzone.com/products/"><strong>Activity Tracker</strong></a><strong>.</strong> Look at the simple example. Right now I am using this tool in my job. It’s great but for my project i need something more advanced.</p>
 <p style="text-align: justify;"><a href="http://lammichalfranc.files.wordpress.com/2010/08/image35.png"><img style="display: block; float: none; margin-left: auto; margin-right: auto; border-width: 0;" title="image" src="http://lammichalfranc.files.wordpress.com/2010/08/image_thumb35.png" alt="image" width="198" height="244" border="0" /></a></p>

@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 <h3>TL;DR; SPPersistedObject is a usefull class that can be used to store parameters for SPTimerJob in SPFarm.</h3>
 

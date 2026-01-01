@@ -5,7 +5,7 @@ date: 2013-08-04 10:35
 author: Michal Franc
 comments: true
 categories: [Tech]
-tags: [c#]
+tags: [c#, archive]
 ---
 In the project, I am working with, there is a simple feature that imports data from external source. Import is only interested in new records. This condition is fulfilled with 'DateTime' comparision.
 

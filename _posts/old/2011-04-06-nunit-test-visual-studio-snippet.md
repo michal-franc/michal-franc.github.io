@@ -6,6 +6,7 @@ author: Michal Franc
 
 comments: true
 categories: []
+tags: [archive]
 ---
 I am using NUnit framework to write Unit Tests. To simplify my work I have a simple snippet which generates test method.
 
