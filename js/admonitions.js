@@ -6,6 +6,12 @@
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
+  // Convert markdown links to HTML
+  function parseMarkdownLinks(text) {
+    // Match [text](url) pattern
+    return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+  }
+
   // Parse and convert admonitions
   function parseAdmonitions() {
     // Find all code blocks in the post content
@@ -65,7 +71,7 @@
           .split('\n\n')
           .map(function(para) {
             if (para.trim()) {
-              return '<p>' + para.trim() + '</p>';
+              return '<p>' + parseMarkdownLinks(para.trim()) + '</p>';
             }
             return '';
           })
