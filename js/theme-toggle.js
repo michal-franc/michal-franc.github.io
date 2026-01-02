@@ -4,9 +4,9 @@
   const THEME_KEY = 'theme-preference';
   const DARK_THEME_CLASS = 'dark-theme';
 
-  // Check for saved theme preference or default to light mode
+  // Check for saved theme preference or default to dark mode
   function getThemePreference() {
-    return localStorage.getItem(THEME_KEY) || 'light';
+    return localStorage.getItem(THEME_KEY) || 'dark';
   }
 
   // Save theme preference to localStorage
