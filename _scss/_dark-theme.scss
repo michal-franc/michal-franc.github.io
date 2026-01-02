@@ -1,20 +1,26 @@
 /*=====================================
-=         Dark Theme (Darcula)        =
+=         Dark Theme (Dracula)        =
 =====================================*/
 
-// Dark theme color palette (matching the Darcula screenshot)
-$dark-bg: #2B2B2B;
-$dark-bg-lighter: #323232;
-$dark-bg-card: #313335;
-$dark-text: #A9B7C6;
-$dark-text-muted: #808080;
-$dark-heading-orange: #CC7832;
-$dark-heading-purple: #9876AA;
-$dark-link: #6897BB;
-$dark-link-hover: #87939F;
-$dark-border: #515151;
-$dark-tag-green: #629755;
-$dark-code-bg: #1E1E1E;
+// Dracula theme color palette
+$dark-bg: #282a36;
+$dark-bg-lighter: #44475a;
+$dark-bg-card: #44475a;
+$dark-bg-secondary: #20212B;
+$dark-text: #f8f8f2;
+$dark-text-muted: #6272a4;
+$dark-heading-purple: #bd93f9;
+$dark-heading-orange: #ffb86c;
+$dark-heading-green: #50fa7b;
+$dark-heading-red: #ff5555;
+$dark-heading-yellow: #f1fa8c;
+$dark-link: #8be9fd;
+$dark-link-hover: #50fa7b;
+$dark-border: #44475a;
+$dark-tag-green: #50fa7b;
+$dark-code-bg: #20212B;
+$dark-pink: #ff79c6;
+$dark-comment: #6272a4;
 
 // Theme toggle button styles
 .theme-toggle {
@@ -170,14 +176,14 @@ body.dark-theme {
     }
   }
 
-  // Tags - darker background like in screenshot
+  // Tags - Dracula green accent
   .tag-badge {
-    background: #444444;
-    color: #A9B7C6 !important;
+    background: $dark-bg-secondary;
+    color: $dark-tag-green !important;
 
     &:hover,
     &:focus {
-      background: #555555;
+      background: $dark-bg-lighter;
     }
   }
 
@@ -342,7 +348,7 @@ body.dark-theme {
   // Blockquotes
   blockquote {
     background-color: $dark-bg-lighter;
-    border-left-color: $dark-border;
+    border-left-color: $dark-heading-purple;
     color: $dark-text;
 
     cite, footer {
@@ -439,18 +445,18 @@ body.dark-theme {
     }
   }
 
-  // Note / Info
+  // Note / Info - Dracula cyan
   .admonition.ad-note,
   .admonition.ad-info {
-    border-left-color: #5c9cff;
-    background-color: rgba(68, 138, 255, 0.1);
+    border-left-color: $dark-link;
+    background-color: rgba(139, 233, 253, 0.1);
 
     .admonition-title {
-      color: #5c9cff;
-      background-color: rgba(68, 138, 255, 0.15);
+      color: $dark-link;
+      background-color: rgba(139, 233, 253, 0.15);
 
       &::before {
-        background-color: #5c9cff;
+        background-color: $dark-link;
       }
     }
   }
@@ -472,149 +478,149 @@ body.dark-theme {
     }
   }
 
-  // Tip / Hint / Important
+  // Tip / Hint / Important - Dracula green
   .admonition.ad-tip,
   .admonition.ad-hint,
   .admonition.ad-important {
-    border-left-color: #00d4b5;
-    background-color: rgba(0, 191, 165, 0.1);
+    border-left-color: $dark-heading-green;
+    background-color: rgba(80, 250, 123, 0.1);
 
     .admonition-title {
-      color: #00d4b5;
-      background-color: rgba(0, 191, 165, 0.15);
+      color: $dark-heading-green;
+      background-color: rgba(80, 250, 123, 0.15);
 
       &::before {
-        background-color: #00d4b5;
+        background-color: $dark-heading-green;
       }
     }
   }
 
-  // Success / Check / Done
+  // Success / Check / Done - Dracula green
   .admonition.ad-success,
   .admonition.ad-check,
   .admonition.ad-done {
-    border-left-color: #00e563;
-    background-color: rgba(0, 200, 83, 0.1);
+    border-left-color: $dark-heading-green;
+    background-color: rgba(80, 250, 123, 0.1);
 
     .admonition-title {
-      color: #00e563;
-      background-color: rgba(0, 200, 83, 0.15);
+      color: $dark-heading-green;
+      background-color: rgba(80, 250, 123, 0.15);
 
       &::before {
-        background-color: #00e563;
+        background-color: $dark-heading-green;
       }
     }
   }
 
-  // Question / Help / FAQ
+  // Question / Help / FAQ - Dracula yellow
   .admonition.ad-question,
   .admonition.ad-help,
   .admonition.ad-faq {
-    border-left-color: #7af22d;
-    background-color: rgba(100, 221, 23, 0.1);
+    border-left-color: $dark-heading-yellow;
+    background-color: rgba(241, 250, 140, 0.1);
 
     .admonition-title {
-      color: #7af22d;
-      background-color: rgba(100, 221, 23, 0.15);
+      color: $dark-heading-yellow;
+      background-color: rgba(241, 250, 140, 0.15);
 
       &::before {
-        background-color: #7af22d;
+        background-color: $dark-heading-yellow;
       }
     }
   }
 
-  // Warning / Caution / Attention
+  // Warning / Caution / Attention - Dracula orange
   .admonition.ad-warning,
   .admonition.ad-caution,
   .admonition.ad-attention {
-    border-left-color: #ffad33;
-    background-color: rgba(255, 152, 0, 0.1);
+    border-left-color: $dark-heading-orange;
+    background-color: rgba(255, 184, 108, 0.1);
 
     .admonition-title {
-      color: #ffad33;
-      background-color: rgba(255, 152, 0, 0.15);
+      color: $dark-heading-orange;
+      background-color: rgba(255, 184, 108, 0.15);
 
       &::before {
-        background-color: #ffad33;
+        background-color: $dark-heading-orange;
       }
     }
   }
 
-  // Failure / Fail / Missing
+  // Failure / Fail / Missing - Dracula red
   .admonition.ad-failure,
   .admonition.ad-fail,
   .admonition.ad-missing {
-    border-left-color: #ff6b6b;
-    background-color: rgba(255, 82, 82, 0.1);
+    border-left-color: $dark-heading-red;
+    background-color: rgba(255, 85, 85, 0.1);
 
     .admonition-title {
-      color: #ff6b6b;
-      background-color: rgba(255, 82, 82, 0.15);
+      color: $dark-heading-red;
+      background-color: rgba(255, 85, 85, 0.15);
 
       &::before {
-        background-color: #ff6b6b;
+        background-color: $dark-heading-red;
       }
     }
   }
 
-  // Danger / Error
+  // Danger / Error - Dracula red
   .admonition.ad-danger,
   .admonition.ad-error {
-    border-left-color: #ff5566;
-    background-color: rgba(255, 23, 68, 0.1);
+    border-left-color: $dark-heading-red;
+    background-color: rgba(255, 85, 85, 0.1);
 
     .admonition-title {
-      color: #ff5566;
-      background-color: rgba(255, 23, 68, 0.15);
+      color: $dark-heading-red;
+      background-color: rgba(255, 85, 85, 0.15);
 
       &::before {
-        background-color: #ff5566;
+        background-color: $dark-heading-red;
       }
     }
   }
 
-  // Bug
+  // Bug - Dracula pink
   .admonition.ad-bug {
-    border-left-color: #ff3377;
-    background-color: rgba(245, 0, 87, 0.1);
+    border-left-color: $dark-pink;
+    background-color: rgba(255, 121, 198, 0.1);
 
     .admonition-title {
-      color: #ff3377;
-      background-color: rgba(245, 0, 87, 0.15);
+      color: $dark-pink;
+      background-color: rgba(255, 121, 198, 0.15);
 
       &::before {
-        background-color: #ff3377;
+        background-color: $dark-pink;
       }
     }
   }
 
-  // Example
+  // Example - Dracula purple
   .admonition.ad-example {
-    border-left-color: #9a6fff;
-    background-color: rgba(124, 77, 255, 0.1);
+    border-left-color: $dark-heading-purple;
+    background-color: rgba(189, 147, 249, 0.1);
 
     .admonition-title {
-      color: #9a6fff;
-      background-color: rgba(124, 77, 255, 0.15);
+      color: $dark-heading-purple;
+      background-color: rgba(189, 147, 249, 0.15);
 
       &::before {
-        background-color: #9a6fff;
+        background-color: $dark-heading-purple;
       }
     }
   }
 
-  // Quote / Cite
+  // Quote / Cite - Dracula comment color
   .admonition.ad-quote,
   .admonition.ad-cite {
-    border-left-color: #b0b0b0;
-    background-color: rgba(158, 158, 158, 0.1);
+    border-left-color: $dark-comment;
+    background-color: rgba(98, 114, 164, 0.1);
 
     .admonition-title {
-      color: #b0b0b0;
-      background-color: rgba(158, 158, 158, 0.15);
+      color: $dark-comment;
+      background-color: rgba(98, 114, 164, 0.15);
 
       &::before {
-        background-color: #b0b0b0;
+        background-color: $dark-comment;
       }
     }
   }
