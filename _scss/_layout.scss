@@ -65,6 +65,10 @@ body {
   @include media($mobile-up) {
     padding: $base-spacing;
   }
+
+  p {
+    white-space: pre-wrap;
+  }
 }
 
 .site-header {
@@ -578,6 +582,7 @@ ol.index {
 .post-main-content {
   min-width: 0;
   border-right: 1px solid #e8e8e8;
+  box-shadow: 2px 0 3px rgba($black-color, .05);
   padding: 0;
   overflow: hidden;
 
