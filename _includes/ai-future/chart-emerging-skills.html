@@ -1,0 +1,81 @@
+<!-- CHART 2: Emerging Skills -->
+<div class="chart-container">
+    <div class="chart-title">Emerging Skills Demand: Testing, DevOps, Cloud & AI (relative %)</div>
+    <svg id="skills-chart" class="chart-svg"></svg>
+    <div class="legend" id="skills-legend"></div>
+    <div class="chart-note">* Non authorative Sources - data to visualize transitions</div>
+</div>
+<script>
+const skillsData = {
+"Manual QA": [
+  { year: 1990, value: 95 },
+  { year: 1995, value: 95 },
+  { year: 2000, value: 90 },
+  { year: 2005, value: 85 },
+  { year: 2010, value: 80 },
+  { year: 2015, value: 70 },
+  { year: 2020, value: 65 },
+  { year: 2025, value: 60 }
+],
+
+"Test Automation": [
+  { year: 1990, value: 5 },
+  { year: 1995, value: 8 },
+  { year: 2000, value: 15 },
+  { year: 2005, value: 25 },
+  { year: 2010, value: 40 },
+  { year: 2015, value: 55 },
+  { year: 2020, value: 65 },
+  { year: 2025, value: 75 }
+],
+
+"DevOps/SRE": [
+  { year: 1995, value: 0 },
+  { year: 2000, value: 2 },
+  { year: 2005, value: 5 },
+  { year: 2010, value: 15 },
+  { year: 2015, value: 35 },
+  { year: 2020, value: 55 },
+  { year: 2025, value: 70 }
+],
+
+"Cloud (AWS/Azure/GCP)": [
+  { year: 1995, value: 0 },
+  { year: 2000, value: 1 },
+  { year: 2005, value: 3 },
+  { year: 2010, value: 10 },
+  { year: 2015, value: 35 },
+  { year: 2020, value: 60 },
+  { year: 2025, value: 80 }
+],
+
+"AI/ML Engineering": [
+  { year: 1995, value: 0 },
+  { year: 2000, value: 1 },
+  { year: 2005, value: 2 },
+  { year: 2010, value: 5 },
+  { year: 2015, value: 10 },
+  { year: 2020, value: 20 },
+  { year: 2025, value: 45 }
+],
+"LLM-assisted Development": [
+  { year: 2015, value: 0 },
+  { year: 2020, value: 2 },
+  { year: 2025, value: 65 }
+],
+"Security/DevSecOps": [
+  { year: 1990, value: 5 },
+  { year: 1995, value: 7 },
+  { year: 2000, value: 10 },
+  { year: 2005, value: 12 },
+  { year: 2010, value: 18 },
+  { year: 2015, value: 30 },
+  { year: 2020, value: 50 },
+  { year: 2025, value: 70 }
+]
+
+};
+const skillsColors = {"Manual QA": "#888888", "Test Automation": "#00d4ff", "DevOps/SRE": "#7b2cbf", "Cloud (AWS/Azure/GCP)": "#ff6b6b", "AI/ML Engineering": "#4ade80", "Security/DevSecOps": "#ffd93d", "LLM-assisted Development": "#00d93d"};
+renderLineChart("skills-chart", "skills-legend", skillsData, skillsColors, 100);
+window.addEventListener('resize', () => renderLineChart("skills-chart", "skills-legend", skillsData, skillsColors, 100));
+</script>

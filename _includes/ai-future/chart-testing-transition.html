@@ -1,0 +1,156 @@
+<!-- CHART 6: QA Skills Transition - Supply/Demand Gap -->
+<div class="chart-container">
+    <div class="chart-title">QA Skills Transition: Manual QA → Test Automation → AI Testing</div>
+    <svg id="qa-transition-chart" class="chart-svg"></svg>
+    <div class="legend" id="qa-transition-legend"></div>
+    <div class="chart-note">* Illustrative to show potential transtition.</div>
+</div>
+<script>
+// Adoption rates (what companies need/use)
+const qaManualAdoption = [
+    {year: 1990, value: 95}, {year: 1995, value: 95}, {year: 2000, value: 90},
+    {year: 2005, value: 85}, {year: 2010, value: 80}, {year: 2015, value: 70},
+    {year: 2020, value: 65}, {year: 2025, value: 40}
+];
+const qaAutoAdoption = [
+    {year: 1990, value: 5}, {year: 1995, value: 8}, {year: 2000, value: 15},
+    {year: 2005, value: 25}, {year: 2010, value: 40}, {year: 2015, value: 55},
+    {year: 2020, value: 65}, {year: 2023, value: 70}, {year: 2025, value: 65}
+];
+const qaAIAdoption = [
+    {year: 2023, value: 5}, {year: 2024, value: 18}, {year: 2025, value: 35}
+];
+
+// Supply (workforce skills) - lags behind adoption/demand
+const qaManualSupply = [
+    {year: 1990, value: 95}, {year: 1995, value: 96}, {year: 2000, value: 94},
+    {year: 2005, value: 92}, {year: 2010, value: 88}, {year: 2015, value: 82},
+    {year: 2020, value: 75}, {year: 2025, value: 70}
+];
+const qaAutoSupply = [
+    {year: 1990, value: 3}, {year: 1995, value: 5}, {year: 2000, value: 10},
+    {year: 2005, value: 18}, {year: 2010, value: 30}, {year: 2015, value: 42},
+    {year: 2020, value: 55}, {year: 2023, value: 62}, {year: 2025, value: 65}
+];
+const qaAISupply = [
+    {year: 2023, value: 2}, {year: 2024, value: 8}, {year: 2025, value: 18}
+];
+
+function renderQATransitionChart() {
+    const container = document.getElementById("qa-transition-chart").parentElement;
+    const width = container.offsetWidth - 40;
+    const isMobile = width < 768;
+    const height = isMobile ? 320 : 380;
+    const margin = isMobile ? { top: 30, right: 20, bottom: 35, left: 45 } : { top: 35, right: 120, bottom: 40, left: 55 };
+    
+    const svg = d3.select("#qa-transition-chart").attr("width", width).attr("height", height);
+    svg.selectAll("*").remove();
+    
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+    
+    const xScale = d3.scaleLinear().domain([1990, 2026]).range([0, innerWidth]);
+    const yScale = d3.scaleLinear().domain([0, 100]).range([innerHeight, 0]);
+    
+    // Gradients
+    const defs = svg.append("defs");
+    const autoGapGrad = defs.append("linearGradient").attr("id", "autoGapGrad").attr("x1", "0%").attr("y1", "0%").attr("x2", "0%").attr("y2", "100%");
+    autoGapGrad.append("stop").attr("offset", "0%").attr("stop-color", "#4ade80").attr("stop-opacity", 0.4);
+    autoGapGrad.append("stop").attr("offset", "100%").attr("stop-color", "#4ade80").attr("stop-opacity", 0.1);
+    const manualGapGrad = defs.append("linearGradient").attr("id", "manualGapGrad").attr("x1", "0%").attr("y1", "0%").attr("x2", "0%").attr("y2", "100%");
+    manualGapGrad.append("stop").attr("offset", "0%").attr("stop-color", "#ff6b6b").attr("stop-opacity", 0.4);
+    manualGapGrad.append("stop").attr("offset", "100%").attr("stop-color", "#ff6b6b").attr("stop-opacity", 0.1);
+    
+    // Era dividers
+    if (!isMobile) drawEras(g, xScale, innerHeight);
+    
+    const line = d3.line().x(d => xScale(d.year)).y(d => yScale(d.value)).curve(d3.curveMonotoneX);
+    
+    // Automation shortage gap (adoption/demand > supply)
+    const autoGapArea = d3.area().x(d => xScale(d.year))
+        .y0(d => { const s = qaAutoSupply.find(s => s.year === d.year); return s ? yScale(s.value) : yScale(0); })
+        .y1(d => yScale(d.value)).curve(d3.curveMonotoneX);
+    g.append("path").datum(qaAutoAdoption).attr("fill", "url(#autoGapGrad)").attr("d", autoGapArea);
+    
+    // AI Testing shortage gap
+    const aiGapGrad = defs.append("linearGradient").attr("id", "aiGapGrad").attr("x1", "0%").attr("y1", "0%").attr("x2", "0%").attr("y2", "100%");
+    aiGapGrad.append("stop").attr("offset", "0%").attr("stop-color", "#4ade80").attr("stop-opacity", 0.5);
+    aiGapGrad.append("stop").attr("offset", "100%").attr("stop-color", "#4ade80").attr("stop-opacity", 0.15);
+    const aiGapArea = d3.area().x(d => xScale(d.year))
+        .y0(d => { const s = qaAISupply.find(s => s.year === d.year); return s ? yScale(s.value) : yScale(0); })
+        .y1(d => yScale(d.value)).curve(d3.curveMonotoneX);
+    g.append("path").datum(qaAIAdoption).attr("fill", "url(#aiGapGrad)").attr("d", aiGapArea);
+    
+    // Manual oversupply gap (supply > adoption/demand)
+    const manualGapArea = d3.area().x(d => xScale(d.year))
+        .y0(d => { const dem = qaManualAdoption.find(x => x.year === d.year); return dem ? yScale(dem.value) : yScale(0); })
+        .y1(d => yScale(d.value)).curve(d3.curveMonotoneX);
+    g.append("path").datum(qaManualSupply).attr("fill", "url(#manualGapGrad)").attr("d", manualGapArea);
+    
+    // Lines
+    g.append("path").datum(qaAutoAdoption).attr("fill", "none").attr("stroke", "#00d4ff").attr("stroke-width", 2.5).attr("d", line);
+    g.append("path").datum(qaAutoSupply).attr("fill", "none").attr("stroke", "#00d4ff").attr("stroke-width", 2.5).attr("stroke-dasharray", "6,3").attr("d", line);
+    g.append("path").datum(qaManualAdoption).attr("fill", "none").attr("stroke", "#888").attr("stroke-width", 2.5).attr("d", line);
+    g.append("path").datum(qaManualSupply).attr("fill", "none").attr("stroke", "#888").attr("stroke-width", 2.5).attr("stroke-dasharray", "6,3").attr("d", line);
+    g.append("path").datum(qaAIAdoption).attr("fill", "none").attr("stroke", "#f97316").attr("stroke-width", 2.5).attr("d", line);
+    g.append("path").datum(qaAISupply).attr("fill", "none").attr("stroke", "#f97316").attr("stroke-width", 2.5).attr("stroke-dasharray", "6,3").attr("d", line);
+    
+    // Points with tooltips
+    const allData = [
+        {data: qaAutoAdoption, color: "#00d4ff", label: "Automation Demand"},
+        {data: qaAutoSupply, color: "#00d4ff", label: "Automation Supply"},
+        {data: qaManualAdoption, color: "#888", label: "Manual QA Demand"},
+        {data: qaManualSupply, color: "#888", label: "Manual QA Supply"},
+        {data: qaAIAdoption, color: "#f97316", label: "AI Testing Demand"},
+        {data: qaAISupply, color: "#f97316", label: "AI Testing Supply"}
+    ];
+    allData.forEach(series => {
+        g.selectAll(".point-" + series.label.replace(/\s/g, "")).data(series.data).enter().append("circle")
+            .attr("cx", d => xScale(d.year)).attr("cy", d => yScale(d.value)).attr("r", isMobile ? 3 : 4)
+            .attr("fill", series.color).attr("stroke", "#0a0a12").attr("stroke-width", 1.5).style("cursor", "pointer")
+            .on("mouseenter", function(event, d) {
+                d3.select(this).attr("r", isMobile ? 5 : 6);
+                chartTooltip.html(`<h4 style="color:${series.color}">${series.label}</h4><p><strong>${d.year}:</strong> ${d.value}%</p>`)
+                    .style("left", (event.clientX + 15) + "px").style("top", (event.clientY - 10) + "px").classed("active", true);
+            })
+            .on("mouseleave", function() { d3.select(this).attr("r", isMobile ? 3 : 4); chartTooltip.classed("active", false); });
+    });
+    
+    // Axes
+    g.append("g").attr("class", "axis").attr("transform", `translate(0,${innerHeight})`).call(d3.axisBottom(xScale).tickFormat(d3.format("d")).ticks(isMobile ? 5 : 8));
+    g.append("g").attr("class", "axis").call(d3.axisLeft(yScale).ticks(5).tickFormat(d => d + "%"));
+    
+    // Legend
+    if (!isMobile) {
+        const legend = g.append("g").attr("transform", `translate(${innerWidth + 15}, 10)`);
+        const items = [
+            {label: "Auto Demand", color: "#00d4ff", dash: false},
+            {label: "Auto Supply", color: "#00d4ff", dash: true},
+            {label: "AI Demand", color: "#f97316", dash: false},
+            {label: "AI Supply", color: "#f97316", dash: true},
+            {label: "Manual Demand", color: "#888", dash: false},
+            {label: "Manual Supply", color: "#888", dash: true},
+            {label: "Shortage", color: "#4ade80", isArea: true},
+            {label: "Oversupply", color: "#ff6b6b", isArea: true}
+        ];
+        items.forEach((item, i) => {
+            const y = i * 18;
+            if (item.isArea) {
+                legend.append("rect").attr("x", 0).attr("y", y - 5).attr("width", 18).attr("height", 10).attr("fill", item.color).attr("opacity", 0.4);
+            } else {
+                legend.append("line").attr("x1", 0).attr("y1", y).attr("x2", 18).attr("y2", y).attr("stroke", item.color).attr("stroke-width", 2).attr("stroke-dasharray", item.dash ? "4,3" : "none");
+            }
+            legend.append("text").attr("x", 23).attr("y", y + 4).attr("fill", "#888").attr("font-size", "9px").text(item.label);
+        });
+    }
+    
+    document.getElementById("qa-transition-legend").innerHTML = `
+        <div class="legend-item"><div class="legend-line" style="background:#00d4ff"></div>Test Automation (solid=demand, dashed=supply)</div>
+        <div class="legend-item"><div class="legend-line" style="background:#f97316"></div>AI Testing (solid=demand, dashed=supply)</div>
+        <div class="legend-item"><div class="legend-line" style="background:#888"></div>Manual QA (solid=demand, dashed=supply)</div>
+    `;
+}
+renderQATransitionChart();
+window.addEventListener('resize', renderQATransitionChart);
+</script>

@@ -1,0 +1,41 @@
+---
+layout: d3default
+---
+
+<div class="post-layout-container">
+
+  <!-- Main Content -->
+  <article role="article" class="post post-main-content">
+    <div class="card">
+      {% if page.image %}
+        <img class="post-image" src="/images/{{ page.image }}"/>
+      {% endif %}
+
+      <!-- Metadata for mobile - shown only on mobile -->
+      <div class="post-metadata-mobile">
+        {% include post-sidebar-left.html %}
+      </div>
+
+      <div class="post-content">
+        {% if page.series %}
+          {% include series.html %}
+        {% endif %}
+        {{ content }}
+        <span id="post-end"></span>
+      </div>
+
+      <div id="post-comments" class="post-comments">
+        {% include comments.html %}
+      </div>
+    </div>
+  </article>
+
+  <!-- Right Sidebar: Metadata + TOC -->
+  <aside class="post-sidebar-right">
+    <div class="post-metadata-desktop">
+      {% include post-sidebar-left.html %}
+    </div>
+    {% include toc.html %}
+  </aside>
+
+</div>

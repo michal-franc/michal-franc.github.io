@@ -1,0 +1,57 @@
+<!-- CHART 3: Methodologies -->
+<div class="chart-container">
+    <div class="chart-title">Development Methodologies Adoption (relative %)</div>
+    <svg id="methodology-chart" class="chart-svg"></svg>
+    <div class="legend" id="methodology-legend"></div>
+    <div class="chart-note">* Non authorative Sources - data to visualize transitions</div>
+</div>
+<script>
+const methodologyData = {
+    "Waterfall": [
+      { year: 1990, value: 90 },
+      { year: 1995, value: 85 },
+      { year: 2000, value: 75 },
+      { year: 2005, value: 55 },
+      { year: 2010, value: 35 },
+      { year: 2015, value: 22 },
+      { year: 2020, value: 15 },
+      { year: 2025, value: 10 }
+    ],
+
+    "Agile/Scrum": [
+      { year: 1990, value: 0 },
+      { year: 1995, value: 1 },
+      { year: 2000, value: 5 },
+      { year: 2005, value: 20 },
+      { year: 2010, value: 45 },
+      { year: 2015, value: 60 },
+      { year: 2020, value: 65 },
+      { year: 2025, value: 60 }
+    ],
+
+    "Hybrid": [
+      { year: 1990, value: 10 },
+      { year: 1995, value: 14 },
+      { year: 2000, value: 20 },
+      { year: 2005, value: 25 },
+      { year: 2010, value: 20 },
+      { year: 2015, value: 18 },
+      { year: 2020, value: 20 },
+      { year: 2025, value: 30 }
+    ],
+    "Kanban": [
+      { year: 1990, value: 0 },
+      { year: 1995, value: 0 },
+      { year: 2000, value: 1 },
+      { year: 2005, value: 5 },
+      { year: 2010, value: 10 },
+      { year: 2015, value: 18 },
+      { year: 2020, value: 22 },
+      { year: 2025, value: 25 }
+    ],
+    "DevOps": [{year: 2000, value: 0}, {year: 2005, value: 5}, {year: 2010, value: 15}, {year: 2015, value: 35}, {year: 2020, value: 50}, {year: 2025, value: 60}],
+};
+const methodologyColors = {"Waterfall": "#888888", "Agile/Scrum": "#00d4ff", "Kanban": "#ffd93d", "DevOps": "#7b2cbf", "Hybrid": "#f97316"};
+renderLineChart("methodology-chart", "methodology-legend", methodologyData, methodologyColors, 90);
+window.addEventListener('resize', () => renderLineChart("methodology-chart", "methodology-legend", methodologyData, methodologyColors, 90));
+</script>

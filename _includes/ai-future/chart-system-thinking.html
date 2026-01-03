@@ -1,0 +1,126 @@
+<!-- CHART 7: Software Engineer Focus Evolution (Stacked Area) -->
+<div class="chart-container">
+    <div class="chart-title">Software Engineer Evolution: Focus of Software Engineers</div>
+    <svg id="engineer-focus-chart" class="chart-svg"></svg>
+    <div class="legend" id="engineer-focus-legend"></div>
+    <div class="chart-note">*Illustrative - Shows how the composition of "what it means to be an engineer" has shifted over time</div>
+</div>
+<script>
+const engineerFocusData = [
+    { year: 1990, algorithmsDS: 60, coding: 40, testing: 0, systemDesign: 0, productThinking: 0 },
+    { year: 1992, algorithmsDS: 50, coding: 50, testing: 0, systemDesign: 0, productThinking: 0 },
+    { year: 1993, algorithmsDS: 40, coding: 60, testing: 0, systemDesign: 0, productThinking: 0 },
+    { year: 1994, algorithmsDS: 30, coding: 70, testing: 0, systemDesign: 0, productThinking: 0 },
+    { year: 1995, algorithmsDS: 20, coding: 80, testing: 0, systemDesign: 0, productThinking: 0 },
+    { year: 2000, algorithmsDS: 10, coding: 80, testing: 5, systemDesign: 5, productThinking: 0 },
+    { year: 2005, algorithmsDS: 10, coding: 75, testing: 10, systemDesign: 5, productThinking: 0 },
+    { year: 2010, algorithmsDS: 10, coding: 65, testing: 15, systemDesign: 10, productThinking: 0 },
+    { year: 2015, algorithmsDS: 10, coding: 60, testing: 18, systemDesign: 12, productThinking: 0 },
+    { year: 2020, algorithmsDS: 10, coding: 55, testing: 18, systemDesign: 12, productThinking: 5 },
+    { year: 2025, algorithmsDS: 5, coding: 50, testing: 20, systemDesign: 15, productThinking: 10 },
+    { year: 2030, algorithmsDS: 5, coding: 20, testing: 25, systemDesign: 25, productThinking: 25 },
+    { year: 2035, algorithmsDS: 5, coding: 15, testing: 27, systemDesign: 26, productThinking: 27 },
+];
+
+const focusKeys = ["algorithmsDS", "coding", "testing", "systemDesign", "productThinking"];
+const focusLabels = {
+    "algorithmsDS": "Algorithms/DS",
+    "coding": "Coding",
+    "testing": "Testing",
+    "systemDesign": "System Design",
+    "productThinking": "Product Thinking"
+};
+const focusColors = {
+    "algorithmsDS": "#4ade80",
+    "coding": "#00d4ff",
+    "testing": "#e879f9",
+    "systemDesign": "#22c55e",
+    "productThinking": "#f97316"
+};
+
+function renderEngineerFocusChart() {
+
+    const eras_config = {
+        xDomain: [1990, 2035],
+        eras: [
+            { start: 1990, end: 2000, label: "Desktop" },
+            { start: 2000, end: 2010, label: "Web" },
+            { start: 2010, end: 2023, label: "Cloud & Mobile" },
+            { start: 2023, end: 2035, label: "AI" }
+        ]
+    };
+
+
+    const container = document.getElementById("engineer-focus-chart").parentElement;
+    const width = container.offsetWidth - 40;
+    const isMobile = width < 768;
+    const height = isMobile ? 320 : 380;
+    const margin = isMobile ? { top: 30, right: 20, bottom: 35, left: 45 } : { top: 35, right: 130, bottom: 40, left: 55 };
+    
+    const svg = d3.select("#engineer-focus-chart").attr("width", width).attr("height", height);
+    svg.selectAll("*").remove();
+    
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+    
+    const xScale = d3.scaleLinear().domain([1990, 2035]).range([0, innerWidth]);
+    const yScale = d3.scaleLinear().domain([0, 100]).range([innerHeight, 0]);
+
+    drawEras(g, xScale, innerHeight, eras_config);
+    
+    // Stack the data
+    const stack = d3.stack().keys(focusKeys).order(d3.stackOrderNone).offset(d3.stackOffsetNone);
+    const stackedData = stack(engineerFocusData);
+    
+    // Area generator
+    const area = d3.area()
+        .x(d => xScale(d.data.year))
+        .y0(d => yScale(d[0]))
+        .y1(d => yScale(d[1]))
+        .curve(d3.curveMonotoneX);
+    
+    // Draw stacked areas
+    g.selectAll(".area-layer")
+        .data(stackedData)
+        .enter()
+        .append("path")
+        .attr("class", "area-layer")
+        .attr("d", area)
+        .attr("fill", d => focusColors[d.key])
+        .attr("opacity", 0.85)
+        .style("cursor", "pointer")
+        .on("mouseenter", function(event, d) {
+            d3.select(this).attr("opacity", 1);
+            const year = Math.round(xScale.invert(event.offsetX - margin.left));
+            const dataPoint = engineerFocusData.find(p => p.year === year) || engineerFocusData[engineerFocusData.length - 1];
+            const value = dataPoint[d.key];
+            chartTooltip.html(`<h4 style="color:${focusColors[d.key]}">${focusLabels[d.key]}</h4><p><strong>${dataPoint.year}:</strong> ${value}%</p>`)
+                .style("left", (event.clientX + 15) + "px").style("top", (event.clientY - 10) + "px").classed("active", true);
+        })
+        .on("mouseleave", function() {
+            d3.select(this).attr("opacity", 0.85);
+            chartTooltip.classed("active", false);
+        });
+    
+    // Axes
+    g.append("g").attr("class", "axis").attr("transform", `translate(0,${innerHeight})`).call(d3.axisBottom(xScale).tickFormat(d3.format("d")).ticks(isMobile ? 5 : 8));
+    g.append("g").attr("class", "axis").call(d3.axisLeft(yScale).ticks(5).tickFormat(d => d + "%"));
+    
+    // Legend
+    if (!isMobile) {
+        const legend = g.append("g").attr("transform", `translate(${innerWidth + 15}, 10)`);
+        focusKeys.slice().reverse().forEach((key, i) => {
+            const y = i * 18;
+            legend.append("rect").attr("x", 0).attr("y", y - 6).attr("width", 14).attr("height", 14).attr("fill", focusColors[key]).attr("opacity", 0.85);
+            legend.append("text").attr("x", 20).attr("y", y + 4).attr("fill", "#888").attr("font-size", "9px").text(focusLabels[key]);
+        });
+    }
+    
+    document.getElementById("engineer-focus-legend").innerHTML = focusKeys.map(key => 
+        `<div class="legend-item"><div class="legend-line" style="background:${focusColors[key]}"></div>${focusLabels[key]}</div>`
+    ).join("");
+}
+renderEngineerFocusChart();
+window.addEventListener('resize', renderEngineerFocusChart);
+</script>

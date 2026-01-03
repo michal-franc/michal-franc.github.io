@@ -1,0 +1,206 @@
+<style>
+.chart-container { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 30px 20px; margin-bottom: 30px; max-width: 1400px; }
+.chart-title { font-family: 'Space Mono', monospace; font-size: 0.85rem; color: var(--chart-text-color); margin-bottom: 20px; padding-left: 10px; border-left: 3px solid #7b2cbf; }
+.chart-note { font-size: 0.75rem; color: var(--chart-accent-secondary); margin-top: 10px; padding-left: 10px; font-style: italic; }
+.chart-svg { width: 100%; overflow: visible; }
+.axis text { font-family: 'Outfit', sans-serif; font-size: 11px; fill: var(--chart-text-color); }
+.axis path, .axis line { stroke: var(--chart-text-color); }
+.era-label { font-family: 'Space Mono', monospace; font-size: 10px; fill: var(--chart-text-color); text-transform: uppercase; letter-spacing: 1px; }
+.era-divider { stroke: var(--chart-text-color); stroke-width: 1; stroke-dasharray: 4,4; }
+.chart-tooltip { position: fixed; background: rgba(15, 15, 25, 0.95); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 14px 18px; max-width: 300px; pointer-events: none; opacity: 0; transition: opacity 0.2s ease; backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); z-index: 1000; }
+.chart-tooltip.active { opacity: 1; }
+.chart-tooltip h4 { font-family: 'Space Mono', monospace; font-size: 12px; margin-bottom: 4px; }
+.chart-tooltip p { font-size: 12px; line-height: 1.5; color: #aaa; margin: 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px; padding-left: 10px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--chart-text-color); }
+.legend-line { width: 20px; height: 3px; border-radius: 2px; }
+@media (max-width: 768px) {
+    .chart-container { padding: 15px 10px; }
+    .chart-title { font-size: 0.75rem; }
+    .chart-note { font-size: 0.65rem; }
+    .era-label { font-size: 8px; }
+    .legend { gap: 10px; }
+    .legend-item { font-size: 9px; }
+}
+</style>
+<div class="chart-tooltip" id="chart-tooltip"></div>
+<script>
+const CHART_CONFIG = {
+    xDomain: [1990, 2026],
+    eras: [
+        { start: 1990, end: 2000, label: "Desktop" },
+        { start: 2000, end: 2010, label: "Web" },
+        { start: 2010, end: 2023, label: "Cloud & Mobile" },
+        { start: 2023, end: 2026, label: "AI" }
+    ]
+};
+const chartTooltip = d3.select("#chart-tooltip");
+
+function drawEras(g, xScale, innerHeight, config = CHART_CONFIG) {
+    config.eras.forEach((era, i) => {
+        if (i > 0) g.append("line").attr("class", "era-divider").attr("x1", xScale(era.start)).attr("y1", 0).attr("x2", xScale(era.start)).attr("y2", innerHeight);
+        g.append("text").attr("class", "era-label").attr("x", xScale((era.start + era.end) / 2)).attr("y", -10).attr("text-anchor", "middle").text(era.label);
+    });
+}
+
+function renderLineChart(svgId, legendId, data, colors, maxY = 90, xDomain = null) {
+    const container = document.getElementById(svgId).parentElement;
+    const width = container.offsetWidth - 40;
+    const isMobile = width < 768;
+    const height = isMobile ? 280 : 320;
+    const margin = isMobile ? { top: 30, right: 20, bottom: 35, left: 45 } : { top: 35, right: 30, bottom: 40, left: 55 };
+    
+    const svg = d3.select("#" + svgId).attr("width", width).attr("height", height);
+    svg.selectAll("*").remove();
+    
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+    
+    const domain = xDomain || CHART_CONFIG.xDomain;
+    const xScale = d3.scaleLinear().domain(domain).range([0, innerWidth]);
+    const yScale = d3.scaleLinear().domain([0, maxY]).range([innerHeight, 0]);
+    
+    drawEras(g, xScale, innerHeight);
+    
+    const line = d3.line().x(d => xScale(d.year)).y(d => yScale(d.value)).curve(d3.curveMonotoneX);
+    
+    Object.keys(data).forEach(key => {
+        g.append("path").datum(data[key]).attr("fill", "none").attr("stroke", colors[key]).attr("stroke-width", isMobile ? 2 : 2.5).attr("d", line);
+        g.selectAll(".point-" + key.replace(/[^a-zA-Z]/g, "")).data(data[key]).enter().append("circle")
+            .attr("cx", d => xScale(d.year)).attr("cy", d => yScale(d.value)).attr("r", isMobile ? 3 : 4)
+            .attr("fill", colors[key]).attr("stroke", "#0a0a12").attr("stroke-width", 1.5).style("cursor", "pointer")
+            .on("mouseenter", function(event, d) {
+                d3.select(this).attr("r", isMobile ? 5 : 6);
+                chartTooltip.html(`<h4 style="color:${colors[key]}">${key}</h4><p><strong>${d.year}:</strong> ${d.value}%</p>`)
+                    .style("left", (event.clientX + 15) + "px").style("top", (event.clientY - 10) + "px").classed("active", true);
+            })
+            .on("mouseleave", function() { d3.select(this).attr("r", isMobile ? 3 : 4); chartTooltip.classed("active", false); });
+    });
+    
+    g.append("g").attr("class", "axis").attr("transform", `translate(0,${innerHeight})`).call(d3.axisBottom(xScale).tickFormat(d3.format("d")).ticks(isMobile ? 5 : 8));
+    g.append("g").attr("class", "axis").call(d3.axisLeft(yScale).ticks(5).tickFormat(d => d + "%"));
+    
+    const legendContainer = document.getElementById(legendId);
+    legendContainer.innerHTML = "";
+    Object.keys(data).forEach(key => {
+        const item = document.createElement("div");
+        item.className = "legend-item";
+        item.innerHTML = `<div class="legend-line" style="background:${colors[key]}"></div>${key}`;
+        legendContainer.appendChild(item);
+    });
+}
+</script>
+
+
+<!-- CHART 5: US Tech Employment -->
+<div class="chart-container">
+    <div class="chart-title">US Tech Employment: Computer Systems Design & Related Services (thousands)</div>
+    <svg id="employment-chart" class="chart-svg"></svg>
+    <div class="legend" id="employment-legend"></div>
+    <div class="chart-note">* Source: FRED CES6054150001 (BLS Current Employment Statistics). Demand estimated from JOLTS/industry reports.</div>
+</div>
+<script>
+const employmentSupply = [
+    {year: 1990, value: 500, label: "500K", note: "Early web era"},
+    {year: 1992, value: 560}, {year: 1994, value: 680},
+    {year: 1996, value: 850, note: "Web boom accelerates"},
+    {year: 1998, value: 1080, note: "Dot-com frenzy"},
+    {year: 2000, value: 1290, note: "Peak dot-com"},
+    {year: 2001, value: 1300, note: "Bubble bursts"},
+    {year: 2003, value: 1050, note: "Post-crash trough"},
+    {year: 2005, value: 1120}, {year: 2007, value: 1280},
+    {year: 2008, value: 1340, note: "Pre-recession peak"},
+    {year: 2009, value: 1320, note: "Great Recession - minimal impact"},
+    {year: 2010, value: 1370}, {year: 2012, value: 1530},
+    {year: 2014, value: 1710}, {year: 2016, value: 1870},
+    {year: 2018, value: 2020},
+    {year: 2020, value: 2100, note: "COVID - tech resilient"},
+    {year: 2022, value: 2280, note: "Peak hiring boom"},
+    {year: 2023, value: 2350, note: "Post-layoffs stabilization"},
+    {year: 2024, value: 2400},
+    {year: 2025, value: 2410, note: "Sep 2025 (latest)"}
+];
+const employmentDemand = [
+    {year: 1990, value: 510}, {year: 1992, value: 580}, {year: 1994, value: 720},
+    {year: 1996, value: 920}, {year: 1998, value: 1250}, {year: 2000, value: 1500},
+    {year: 2001, value: 1350}, {year: 2003, value: 1000}, {year: 2005, value: 1180},
+    {year: 2007, value: 1380}, {year: 2008, value: 1400}, {year: 2009, value: 1300},
+    {year: 2010, value: 1450}, {year: 2012, value: 1650}, {year: 2014, value: 1900},
+    {year: 2016, value: 2100}, {year: 2018, value: 2300}, {year: 2020, value: 2350},
+    {year: 2022, value: 2650}, {year: 2023, value: 2550}, {year: 2024, value: 2600},
+    {year: 2025, value: 2650}
+];
+
+function renderEmploymentChart() {
+    const container = document.getElementById("employment-chart").parentElement;
+    const width = container.offsetWidth - 40;
+    const isMobile = width < 768;
+    const height = isMobile ? 280 : 320;
+    const margin = isMobile ? { top: 30, right: 20, bottom: 35, left: 45 } : { top: 35, right: 100, bottom: 40, left: 55 };
+    
+    const svg = d3.select("#employment-chart").attr("width", width).attr("height", height);
+    svg.selectAll("*").remove();
+    
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+    
+    const xScale = d3.scaleLinear().domain([1990, 2026]).range([0, innerWidth]);
+    const yScale = d3.scaleLinear().domain([0, 3000]).range([innerHeight, 0]);
+    
+    // Gradients
+    const defs = svg.append("defs");
+    const areaGrad = defs.append("linearGradient").attr("id", "empAreaGrad").attr("x1", "0%").attr("y1", "0%").attr("x2", "0%").attr("y2", "100%");
+    areaGrad.append("stop").attr("offset", "0%").attr("stop-color", "#00d4ff").attr("stop-opacity", 0.4);
+    areaGrad.append("stop").attr("offset", "100%").attr("stop-color", "#00d4ff").attr("stop-opacity", 0.02);
+    const gapGrad = defs.append("linearGradient").attr("id", "empGapGrad").attr("x1", "0%").attr("y1", "0%").attr("x2", "0%").attr("y2", "100%");
+    gapGrad.append("stop").attr("offset", "0%").attr("stop-color", "#ff6b6b").attr("stop-opacity", 0.3);
+    gapGrad.append("stop").attr("offset", "100%").attr("stop-color", "#ff6b6b").attr("stop-opacity", 0.1);
+    
+    drawEras(g, xScale, innerHeight);
+    
+    // Gap area
+    const gapArea = d3.area().x(d => xScale(d.year))
+        .y0(d => { const s = employmentSupply.find(s => s.year === d.year); return s ? yScale(s.value) : yScale(0); })
+        .y1(d => yScale(d.value)).curve(d3.curveMonotoneX);
+    g.append("path").datum(employmentDemand).attr("fill", "url(#empGapGrad)").attr("d", gapArea);
+    
+    // Supply area
+    const area = d3.area().x(d => xScale(d.year)).y0(innerHeight).y1(d => yScale(d.value)).curve(d3.curveMonotoneX);
+    g.append("path").datum(employmentSupply).attr("fill", "url(#empAreaGrad)").attr("d", area);
+    
+    // Lines
+    const line = d3.line().x(d => xScale(d.year)).y(d => yScale(d.value)).curve(d3.curveMonotoneX);
+    g.append("path").datum(employmentDemand).attr("fill", "none").attr("stroke", "#ffd93d").attr("stroke-width", 2.5).attr("stroke-dasharray", "6,3").attr("d", line);
+    g.append("path").datum(employmentSupply).attr("fill", "none").attr("stroke", "#00d4ff").attr("stroke-width", 2.5).attr("d", line);
+    
+    // Points
+    g.selectAll(".supply-point").data(employmentSupply).enter().append("circle")
+        .attr("cx", d => xScale(d.year)).attr("cy", d => yScale(d.value)).attr("r", isMobile ? 3 : 4)
+        .attr("fill", "#00d4ff").attr("stroke", "#0a0a12").attr("stroke-width", 1.5).style("cursor", "pointer")
+        .on("mouseenter", function(event, d) {
+            d3.select(this).attr("r", isMobile ? 5 : 6);
+            const dem = employmentDemand.find(x => x.year === d.year);
+            const gap = dem ? dem.value - d.value : 0;
+            const gapHtml = gap > 10 ? `<br><span style="color:#ff6b6b">Shortage: ~${Math.round(gap)}K</span>` : '';
+            const noteHtml = d.note ? `<br><em style="color:#666">${d.note}</em>` : '';
+            const label = d.value >= 1000 ? (d.value/1000).toFixed(2) + "M" : d.value + "K";
+            chartTooltip.html(`<h4 style="color:#00d4ff">${d.year}</h4><p><strong>Employment: ${label}</strong>${gapHtml}${noteHtml}</p>`)
+                .style("left", (event.clientX + 15) + "px").style("top", (event.clientY - 10) + "px").classed("active", true);
+        })
+        .on("mouseleave", function() { d3.select(this).attr("r", isMobile ? 3 : 4); chartTooltip.classed("active", false); });
+    
+    // Axes
+    g.append("g").attr("class", "axis").attr("transform", `translate(0,${innerHeight})`).call(d3.axisBottom(xScale).tickFormat(d3.format("d")).ticks(isMobile ? 5 : 8));
+    g.append("g").attr("class", "axis").call(d3.axisLeft(yScale).ticks(5).tickFormat(d => d >= 1000 ? (d/1000).toFixed(1) + "M" : d + "K"));
+    
+    document.getElementById("employment-legend").innerHTML = `
+        <div class="legend-item"><div class="legend-line" style="background:#00d4ff"></div>Supply (Employment)</div>
+        <div class="legend-item"><div class="legend-line" style="background:#ffd93d"></div>Demand (Positions)</div>
+        <div class="legend-item"><div class="legend-line" style="background:#ff6b6b;opacity:0.5"></div>Shortage Gap</div>
+    `;
+}
+renderEmploymentChart();
+window.addEventListener('resize', renderEmploymentChart);
+</script>

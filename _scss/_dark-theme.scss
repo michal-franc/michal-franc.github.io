@@ -22,6 +22,17 @@ $dark-code-bg: #20212B;
 $dark-pink: #ff79c6;
 $dark-comment: #6272a4;
 
+// CSS Variables for D3 charts - Light theme defaults
+:root {
+  --chart-text-color: #333333;
+  --chart-bg-color: #ffffff;
+  --chart-grid-color: #e0e0e0;
+  --chart-accent-primary: #1f77b4;
+  --chart-accent-secondary: #ff7f0e;
+  --chart-accent-tertiary: #2ca02c;
+  --chart-border-color: #cccccc;
+}
+
 // Theme toggle button styles
 .theme-toggle {
   position: relative;
@@ -67,6 +78,15 @@ $dark-comment: #6272a4;
 body.dark-theme {
   background: $dark-bg !important;
   color: $dark-text;
+
+  // CSS Variables for D3 charts - Dark theme overrides
+  --chart-text-color: #{$dark-text};
+  --chart-bg-color: #{$dark-bg};
+  --chart-grid-color: #{$dark-border};
+  --chart-accent-primary: #{$dark-link};
+  --chart-accent-secondary: #{$dark-heading-orange};
+  --chart-accent-tertiary: #{$dark-heading-green};
+  --chart-border-color: #{$dark-border};
 
   // Update theme toggle icon for dark mode
   .theme-toggle {

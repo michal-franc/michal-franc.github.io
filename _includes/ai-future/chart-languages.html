@@ -1,0 +1,22 @@
+
+
+<!-- CHART 1: Programming Languages -->
+<div class="chart-container">
+    <div class="chart-title">Programming Language Popularity - TIOBE Index (%)</div>
+    <svg id="languages-chart" class="chart-svg"></svg>
+    <div class="legend" id="languages-legend"></div>
+    <div class="chart-note">* Source: TIOBE Programming Community Index (www.tiobe.com). Shows relative popularity based on search engine results.</div>
+</div>
+<script>
+const languageData = {
+    "Python": [{year: 2002, value: 1}, {year: 2004, value: 3}, {year: 2006, value: 6}, {year: 2008, value: 5}, {year: 2010, value: 6}, {year: 2012, value: 7}, {year: 2014, value: 8}, {year: 2016, value: 5}, {year: 2018, value: 7}, {year: 2020, value: 12}, {year: 2022, value: 15}, {year: 2024, value: 23}, {year: 2025, value: 26}],
+    "C": [{year: 2002, value: 20}, {year: 2004, value: 18}, {year: 2006, value: 16}, {year: 2008, value: 15}, {year: 2010, value: 17}, {year: 2012, value: 18}, {year: 2014, value: 16}, {year: 2016, value: 12}, {year: 2018, value: 15}, {year: 2020, value: 16}, {year: 2022, value: 12}, {year: 2024, value: 10}, {year: 2025, value: 9}],
+    "C++": [{year: 2002, value: 15}, {year: 2004, value: 10}, {year: 2006, value: 10}, {year: 2008, value: 10}, {year: 2010, value: 9}, {year: 2012, value: 9}, {year: 2014, value: 6}, {year: 2016, value: 5}, {year: 2018, value: 7}, {year: 2020, value: 7}, {year: 2022, value: 10}, {year: 2024, value: 11}, {year: 2025, value: 10}],
+    "Java": [{year: 2002, value: 22}, {year: 2004, value: 27}, {year: 2006, value: 22}, {year: 2008, value: 20}, {year: 2010, value: 18}, {year: 2012, value: 17}, {year: 2014, value: 20}, {year: 2016, value: 20}, {year: 2018, value: 16}, {year: 2020, value: 15}, {year: 2022, value: 12}, {year: 2024, value: 9}, {year: 2025, value: 8}],
+    "C#": [{year: 2002, value: 2}, {year: 2004, value: 4}, {year: 2006, value: 4}, {year: 2008, value: 5}, {year: 2010, value: 6}, {year: 2012, value: 7}, {year: 2014, value: 5}, {year: 2016, value: 4}, {year: 2018, value: 6}, {year: 2020, value: 5}, {year: 2022, value: 5}, {year: 2024, value: 7}, {year: 2025, value: 5}],
+    "JavaScript": [{year: 2002, value: 3}, {year: 2004, value: 7}, {year: 2006, value: 10}, {year: 2008, value: 8}, {year: 2010, value: 8}, {year: 2012, value: 10}, {year: 2014, value: 9}, {year: 2016, value: 8}, {year: 2018, value: 7}, {year: 2020, value: 7}, {year: 2022, value: 7}, {year: 2024, value: 5}, {year: 2025, value: 4}]
+};
+const languageColors = {"Python": "#00d4ff", "C": "#4ade80", "C++": "#22c55e", "Java": "#f97316", "C#": "#7b2cbf", "JavaScript": "#ffd93d"};
+renderLineChart("languages-chart", "languages-legend", languageData, languageColors, 30, [2002, 2026]);
+window.addEventListener('resize', () => renderLineChart("languages-chart", "languages-legend", languageData, languageColors, 30, [2002, 2026]));
+</script>

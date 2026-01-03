@@ -5,6 +5,9 @@
     <main>
       {% include header.html %}
 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+      <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
       <div class="container">
         {{ content }}
       </div>
@@ -20,6 +23,7 @@
     <script src="{{ "/js/toc.js" | prepend: site.baseurl }}"></script>
     <script src="/js/admonitions.js"></script>
     {% endif %}
+
     </main>
   </body>
 </html>
