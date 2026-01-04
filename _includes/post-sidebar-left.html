@@ -19,7 +19,8 @@
   <div class="metadata-item">
     <h3>Reading Time</h3>
     <p>
-      {% assign words = content | number_of_words %}
+      {% assign clean_content = content | strip_html %}
+      {% assign words = clean_content | number_of_words %}
       {% assign reading_time = words | divided_by: 200 %}
       {% if reading_time == 0 %}1{% else %}{{ reading_time }}{% endif %} min read
     </p>
