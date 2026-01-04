@@ -99,6 +99,7 @@ body.dark-theme {
 
     .theme-toggle-icon::before {
       content: "☾";
+      color: $dark-text;
     }
   }
 
@@ -355,6 +356,10 @@ body.dark-theme {
         background-color: $dark-bg-lighter;
         color: $dark-heading-orange;
       }
+    }
+
+    .toc-theme-toggle .theme-toggle-label {
+      color: $dark-text;
     }
   }
 

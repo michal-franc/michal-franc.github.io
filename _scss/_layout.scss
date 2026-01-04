@@ -924,12 +924,18 @@ ol.index {
     }
   }
 
-  // Comments jump link
-  .toc-comments-link {
+  // TOC Actions (Comments link and Theme toggle)
+  .toc-actions {
     margin-top: 1.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid #e8e8e8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
 
+  .toc-comments-link {
     a {
       display: flex;
       align-items: center;
@@ -949,6 +955,17 @@ ol.index {
       i {
         font-size: rem(16);
       }
+    }
+  }
+
+  .toc-theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .theme-toggle-label {
+      font-size: rem(14);
+      color: $base-font-color;
     }
   }
 }
