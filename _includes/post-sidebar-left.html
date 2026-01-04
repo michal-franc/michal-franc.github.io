@@ -18,23 +18,12 @@
 
   <div class="metadata-item">
     <h3>Reading Time</h3>
-    <p>
-      {% assign clean_content = content | strip_html %}
-      {% assign words = clean_content | number_of_words %}
-      {% assign reading_time = words | divided_by: 200 %}
-      {% if reading_time == 0 %}1{% else %}{{ reading_time }}{% endif %} min read
-    </p>
+    <p>{% assign clean_content = content | strip_html %}{% assign words = clean_content | number_of_words %}{% assign reading_time = words | divided_by: 200 %}{% if reading_time == 0 %}1{% else %}{{ reading_time }}{% endif %} min read</p>
   </div>
 
   <div class="metadata-item">
     <h3>Tags</h3>
-    <p>
-      {% if page.tags and page.tags.size > 0 %}
-        {% for tag in page.tags %}
-        <a class="tag-badge" href="/blog/tags/#{{tag}}">{{tag}}</a>{% unless forloop.last %} {% endunless %}
-        {% endfor %}
-      {% endif %}
-    </p>
+    <p>{% if page.tags and page.tags.size > 0 %}{% for tag in page.tags %}<a class="tag-badge" href="/blog/tags/#{{tag}}">{{tag}}</a>{% unless forloop.last %} {% endunless %}{% endfor %}{% endif %}</p>
   </div>
 
   <div class="metadata-item">
