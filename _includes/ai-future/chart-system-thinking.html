@@ -7,19 +7,19 @@
 </div>
 <script>
 const engineerFocusData = [
-    { year: 1990, algorithmsDS: 60, coding: 40, testing: 0, systemDesign: 0, productThinking: 0 },
-    { year: 1992, algorithmsDS: 50, coding: 50, testing: 0, systemDesign: 0, productThinking: 0 },
-    { year: 1993, algorithmsDS: 40, coding: 60, testing: 0, systemDesign: 0, productThinking: 0 },
-    { year: 1994, algorithmsDS: 30, coding: 70, testing: 0, systemDesign: 0, productThinking: 0 },
-    { year: 1995, algorithmsDS: 20, coding: 80, testing: 0, systemDesign: 0, productThinking: 0 },
-    { year: 2000, algorithmsDS: 10, coding: 80, testing: 5, systemDesign: 5, productThinking: 0 },
-    { year: 2005, algorithmsDS: 10, coding: 75, testing: 10, systemDesign: 5, productThinking: 0 },
-    { year: 2010, algorithmsDS: 10, coding: 65, testing: 15, systemDesign: 10, productThinking: 0 },
-    { year: 2015, algorithmsDS: 10, coding: 60, testing: 18, systemDesign: 12, productThinking: 0 },
-    { year: 2020, algorithmsDS: 10, coding: 55, testing: 18, systemDesign: 12, productThinking: 5 },
-    { year: 2025, algorithmsDS: 5, coding: 50, testing: 20, systemDesign: 15, productThinking: 10 },
-    { year: 2030, algorithmsDS: 5, coding: 20, testing: 25, systemDesign: 25, productThinking: 25 },
-    { year: 2035, algorithmsDS: 5, coding: 15, testing: 27, systemDesign: 26, productThinking: 27 },
+    { year: 1990, algorithmsDS: 60, coding: 30, testing: 0, systemDesign: 0, productThinking: 10 },
+    { year: 1992, algorithmsDS: 48, coding: 40, testing: 0, systemDesign: 0, productThinking: 12 },
+    { year: 1993, algorithmsDS: 40, coding: 47, testing: 0, systemDesign: 0, productThinking: 13 },
+    { year: 1994, algorithmsDS: 28, coding: 58, testing: 0, systemDesign: 0, productThinking: 14 },
+    { year: 1995, algorithmsDS: 17, coding: 68, testing: 0, systemDesign: 0, productThinking: 15 },
+    { year: 2000, algorithmsDS: 10, coding: 64, testing: 10, systemDesign: 0, productThinking: 16 },
+    { year: 2005, algorithmsDS: 10, coding: 58, testing: 10, systemDesign: 5, productThinking: 17 },
+    { year: 2010, algorithmsDS: 10, coding: 47, testing: 15, systemDesign: 10, productThinking: 18 },
+    { year: 2015, algorithmsDS: 10, coding: 41, testing: 18, systemDesign: 12, productThinking: 19 },
+    { year: 2020, algorithmsDS: 10, coding: 35, testing: 18, systemDesign: 12, productThinking: 25 },
+    { year: 2025, algorithmsDS: 10, coding: 30, testing: 18, systemDesign: 17, productThinking: 25 },
+    { year: 2030, algorithmsDS: 10, coding: 10, testing: 25, systemDesign: 28, productThinking: 27 },
+    { year: 2035, algorithmsDS: 10, coding: 5, testing: 27, systemDesign: 29, productThinking: 29 },
 ];
 
 const focusKeys = ["algorithmsDS", "coding", "testing", "systemDesign", "productThinking"];
@@ -28,7 +28,7 @@ const focusLabels = {
     "coding": "Coding",
     "testing": "Testing",
     "systemDesign": "System Design",
-    "productThinking": "Product Thinking"
+    "productThinking": "Domain Expertise"
 };
 const focusColors = {
     "algorithmsDS": "#4ade80",
@@ -79,6 +79,12 @@ function renderEngineerFocusChart() {
         .y0(d => yScale(d[0]))
         .y1(d => yScale(d[1]))
         .curve(d3.curveMonotoneX);
+
+    // Line generator (for top edge of each area)
+    const line = d3.line()
+        .x(d => xScale(d.data.year))
+        .y(d => yScale(d[1]))
+        .curve(d3.curveMonotoneX);
     
     // Draw stacked areas
     g.selectAll(".area-layer")
@@ -88,10 +94,10 @@ function renderEngineerFocusChart() {
         .attr("class", "area-layer")
         .attr("d", area)
         .attr("fill", d => focusColors[d.key])
-        .attr("opacity", 0.85)
+        .attr("opacity", 0.45)
         .style("cursor", "pointer")
         .on("mouseenter", function(event, d) {
-            d3.select(this).attr("opacity", 1);
+            d3.select(this).attr("opacity", 0.85);
             const year = Math.round(xScale.invert(event.offsetX - margin.left));
             const dataPoint = engineerFocusData.find(p => p.year === year) || engineerFocusData[engineerFocusData.length - 1];
             const value = dataPoint[d.key];
@@ -99,9 +105,20 @@ function renderEngineerFocusChart() {
                 .style("left", (event.clientX + 15) + "px").style("top", (event.clientY - 10) + "px").classed("active", true);
         })
         .on("mouseleave", function() {
-            d3.select(this).attr("opacity", 0.85);
+            d3.select(this).attr("opacity", 0.45);
             chartTooltip.classed("active", false);
         });
+
+    // Draw lines on top of areas
+    g.selectAll(".line-layer")
+        .data(stackedData)
+        .enter()
+        .append("path")
+        .attr("class", "line-layer")
+        .attr("d", line)
+        .attr("fill", "none")
+        .attr("stroke", d => focusColors[d.key])
+        .attr("stroke-width", isMobile ? 2 : 2.5);
     
     // Axes
     g.append("g").attr("class", "axis").attr("transform", `translate(0,${innerHeight})`).call(d3.axisBottom(xScale).tickFormat(d3.format("d")).ticks(isMobile ? 5 : 8));
