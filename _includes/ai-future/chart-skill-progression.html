@@ -1,0 +1,158 @@
+<!-- CHART 8: Career Skills Progression -->
+<div class="chart-container">
+    <div class="chart-title">Skills Progression Across Career Levels</div>
+    <svg id="career-skills-chart" class="chart-svg"></svg>
+    <div class="legend" id="career-skills-legend"></div>
+    <div class="chart-note">*Source: https://www.alexewerlof.com/ </div>
+</div>
+<script>
+function renderCareerSkillsChart() {
+    const container = document.getElementById("career-skills-chart").parentElement;
+    const width = container.offsetWidth - 40;
+    const isMobile = width < 768;
+    const height = isMobile ? 320 : 400;
+    const margin = isMobile ? { top: 30, right: 20, bottom: 50, left: 60 } : { top: 35, right: 130, bottom: 60, left: 70 };
+    
+    const svg = d3.select("#career-skills-chart").attr("width", width).attr("height", height);
+    svg.selectAll("*").remove();
+    
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+    
+    const xScale = d3.scaleLinear().domain([0, 100]).range([0, innerWidth]);
+    const yScale = d3.scaleLinear().domain([0, 100]).range([innerHeight, 0]);
+    
+    // Career level dividers with labels in the middle of each zone
+    const levels = [
+        { x: 25, label: "Junior", labelX: 12.5 },
+        { x: 50, label: "Senior", labelX: 37.5 },
+        { x: 70, label: "Staff", labelX: 60 },
+        { x: 90, label: "Principal", labelX: 80 }
+    ];
+    
+    levels.forEach(level => {
+        g.append("line")
+            .attr("class", "era-divider")
+            .attr("x1", xScale(level.x))
+            .attr("y1", 0)
+            .attr("x2", xScale(level.x))
+            .attr("y2", innerHeight);
+        
+        // Label in the middle of each zone
+        g.append("text")
+            .attr("x", xScale(level.labelX))
+            .attr("y", innerHeight + 25)
+            .attr("text-anchor", "middle")
+            .attr("fill", "#888")
+            .attr("font-size", isMobile ? "10px" : "12px")
+            .text(level.label);
+    });
+    
+    // Modified S-curve that never flattens - always has slight upward slope
+    function generateSCurve(steepness, midpoint, startY, maxY) {
+        const points = [];
+        for (let x = 0; x <= 100; x += 2) {
+            // Base sigmoid
+            let sigmoid = 1 / (1 + Math.exp(-steepness * (x - midpoint)));
+            // Scale to range but leave room for continued growth
+            let y = startY + (maxY - startY) * sigmoid;
+            // Add slight continuous growth that increases with x
+            y = y + (x / 100) * (100 - maxY) * 0.8;
+            points.push({ x, y: Math.min(y, 99) });
+        }
+        return points;
+    }
+    
+    const skills = [
+        { name: "Hard Skills", color: "#e879f9", steepness: 0.18, midpoint: 15, startY: 8, maxY: 85 },
+        { name: "Soft Skills", color: "#4ade80", steepness: 0.14, midpoint: 38, startY: 5, maxY: 88 },
+        { name: "Business Skills", color: "#00d4ff", steepness: 0.12, midpoint: 58, startY: 3, maxY: 90 }
+    ];
+    
+    const line = d3.line()
+        .x(d => xScale(d.x))
+        .y(d => yScale(d.y))
+        .curve(d3.curveMonotoneX);
+    
+    // Draw curves
+    skills.forEach(skill => {
+        const data = generateSCurve(skill.steepness, skill.midpoint, skill.startY, skill.maxY);
+        
+        // Draw line
+        g.append("path")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", skill.color)
+            .attr("stroke-width", isMobile ? 2.5 : 3)
+            .attr("d", line);
+        
+        // Add label along the curve
+        const labelPoint = data.find(d => d.y > 35 && d.y < 55) || data[Math.floor(data.length / 3)];
+        const labelIndex = data.indexOf(labelPoint);
+        const nextPoint = data[Math.min(labelIndex + 5, data.length - 1)];
+        const angle = Math.atan2(
+            yScale(nextPoint.y) - yScale(labelPoint.y),
+            xScale(nextPoint.x) - xScale(labelPoint.x)
+        ) * 180 / Math.PI;
+        
+        if (!isMobile) {
+            g.append("text")
+                .attr("x", xScale(labelPoint.x))
+                .attr("y", yScale(labelPoint.y) - 10)
+                .attr("text-anchor", "middle")
+                .attr("fill", skill.color)
+                .attr("font-size", "12px")
+                .attr("font-weight", "500")
+                .attr("transform", `rotate(${angle}, ${xScale(labelPoint.x)}, ${yScale(labelPoint.y) - 10})`)
+                .text(skill.name);
+        }
+    });
+    
+    // Y-axis label
+    g.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -innerHeight / 2)
+        .attr("y", -45)
+        .attr("text-anchor", "middle")
+        .attr("fill", "#888")
+        .attr("font-size", isMobile ? "11px" : "13px")
+        .text("Skill Level");
+    
+    // X-axis label
+    g.append("text")
+        .attr("x", innerWidth / 2)
+        .attr("y", innerHeight + (isMobile ? 40 : 50))
+        .attr("text-anchor", "middle")
+        .attr("fill", "#888")
+        .attr("font-size", isMobile ? "11px" : "13px")
+        .text("Career Level");
+    
+    // Axes (minimal)
+    g.append("line")
+        .attr("x1", 0).attr("y1", innerHeight)
+        .attr("x2", innerWidth).attr("y2", innerHeight)
+        .attr("stroke", "#444").attr("stroke-width", 1);
+    
+    g.append("line")
+        .attr("x1", 0).attr("y1", 0)
+        .attr("x2", 0).attr("y2", innerHeight)
+        .attr("stroke", "#444").attr("stroke-width", 1);
+    
+    // Legend
+    if (!isMobile) {
+        const legend = g.append("g").attr("transform", `translate(${innerWidth + 15}, 20)`);
+        skills.forEach((skill, i) => {
+            const y = i * 22;
+            legend.append("line").attr("x1", 0).attr("y1", y).attr("x2", 20).attr("y2", y).attr("stroke", skill.color).attr("stroke-width", 3);
+            legend.append("text").attr("x", 26).attr("y", y + 4).attr("fill", "#888").attr("font-size", "10px").text(skill.name);
+        });
+    }
+    
+    document.getElementById("career-skills-legend").innerHTML = skills.map(skill => 
+        `<div class="legend-item"><div class="legend-line" style="background:${skill.color}"></div>${skill.name}</div>`
+    ).join("");
+}
+renderCareerSkillsChart();
+window.addEventListener('resize', renderCareerSkillsChart);
+</script>
