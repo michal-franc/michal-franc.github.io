@@ -257,6 +257,7 @@ body.home {
   h3 {
     font-size: rem(20);
     margin: .8em 0 1.2em;
+    color: #22c55e;
 
     @include media($tablet-up) {
       font-size: rem(24);

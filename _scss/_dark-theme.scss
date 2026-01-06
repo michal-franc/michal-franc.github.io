@@ -150,8 +150,12 @@ body.dark-theme {
     color: $dark-heading-orange !important;
   }
 
-  // h3, h4 headings should be orange
-  .post-content h3,
+  // h3 headings should be green
+  .post-content h3 {
+    color: $dark-heading-green !important;
+  }
+
+  // h4 headings should be orange
   .post-content h4 {
     color: $dark-heading-orange !important;
   }
@@ -364,10 +368,26 @@ body.dark-theme {
   }
 
   // Code blocks
-  pre, code {
+  pre {
     background-color: $dark-code-bg;
     color: $dark-text;
     border-color: $dark-border;
+
+    code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+    }
+  }
+
+  // Inline code (code not inside pre)
+  code {
+    background-color: $dark-bg-lighter;
+    color: $dark-text;
+    border-color: $dark-border;
+    border-radius: 4px;
+    padding: 0.15em 0.4em;
+    line-height: 1.6;
   }
 
   // Blockquotes
