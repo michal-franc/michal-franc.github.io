@@ -248,3 +248,19 @@
     font-style: italic;
   }
 }
+
+// Claude
+.admonition.ad-claude {
+  border-left-color: #D97706;
+  background-color: rgba(217, 119, 6, 0.1);
+
+  .admonition-title {
+    color: #D97706;
+    background-color: rgba(217, 119, 6, 0.1);
+
+    &::before {
+      content: "🧠";
+      background-color: transparent;
+    }
+  }
+}

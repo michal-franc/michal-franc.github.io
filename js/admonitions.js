@@ -12,6 +12,32 @@
     return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
   }
 
+  // Convert markdown bold to HTML
+  function parseMarkdownBold(text) {
+    // Match **text** pattern
+    return text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  }
+
+  // Check if text is a bullet list
+  function isBulletList(text) {
+    const lines = text.split('\n');
+    return lines.every(function(line) {
+      return line.trim() === '' || /^[-*]\s+/.test(line.trim());
+    });
+  }
+
+  // Convert markdown bullet list to HTML
+  function parseBulletList(text) {
+    const lines = text.split('\n');
+    const items = lines
+      .filter(function(line) { return line.trim() !== ''; })
+      .map(function(line) {
+        const content = line.trim().replace(/^[-*]\s+/, '');
+        return '<li>' + parseMarkdownBold(parseMarkdownLinks(content)) + '</li>';
+      });
+    return '<ul>' + items.join('') + '</ul>';
+  }
+
   // Parse and convert admonitions
   function parseAdmonitions() {
     // Find all code blocks in the post content
@@ -71,7 +97,15 @@
           .split('\n\n')
           .map(function(para) {
             if (para.trim()) {
-              return '<p>' + parseMarkdownLinks(para.trim()) + '</p>';
+              // Convert --- to horizontal rule
+              if (para.trim() === '---') {
+                return '<hr>';
+              }
+              // Convert bullet lists
+              if (isBulletList(para.trim())) {
+                return parseBulletList(para.trim());
+              }
+              return '<p>' + parseMarkdownBold(parseMarkdownLinks(para.trim())) + '</p>';
             }
             return '';
           })
