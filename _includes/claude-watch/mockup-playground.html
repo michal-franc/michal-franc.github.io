@@ -1,0 +1,454 @@
+<style>
+/* ===== Claude Watch Mockup — scoped ===== */
+.cw-mockup { font-family: system-ui, -apple-system, sans-serif; background: #111; color: #ddd; border-radius: 12px; overflow: hidden; margin: 30px 0; }
+
+/* Controls bar */
+.cw-mockup .cw-controls { background: #1a1a1a; border-bottom: 1px solid #333; padding: 14px 16px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.cw-mockup .cw-controls-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #666; margin-right: 6px; }
+.cw-mockup .cw-preset { padding: 5px 11px; font-size: 11px; border: 1px solid #F59E0B; border-radius: 6px; background: transparent; color: #F59E0B; cursor: pointer; }
+.cw-mockup .cw-preset:hover { background: #F59E0B22; }
+.cw-mockup .cw-preset.active { background: #F59E0B; color: #111; }
+.cw-mockup .cw-sep { width: 1px; height: 20px; background: #333; margin: 0 6px; }
+.cw-mockup .cw-action { padding: 5px 11px; font-size: 11px; border: 1px solid #444; border-radius: 6px; background: #222; color: #ccc; cursor: pointer; }
+.cw-mockup .cw-action:hover { border-color: #0099FF; color: #fff; }
+
+/* Preview area */
+.cw-mockup .cw-preview { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 40px; background: #0d0d0d; padding: 30px 20px; min-height: 580px; flex-wrap: wrap; }
+
+/* === Watch === */
+.cw-mockup .cw-device { display: flex; flex-direction: column; align-items: center; }
+.cw-mockup .cw-device-label { font-size: 11px; color: #555; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
+
+.cw-mockup .watch-bezel { width: 300px; height: 300px; border-radius: 50%; background: linear-gradient(135deg, #333, #1a1a1a, #333); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05); }
+.cw-mockup .watch-screen { width: 264px; height: 264px; border-radius: 50%; background: #000; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+
+/* Connection bar */
+.cw-mockup .conn-bar { width: 100%; height: 4px; transition: background 0.3s; flex-shrink: 0; z-index: 10; }
+.cw-mockup .conn-bar.connected { background: #4CAF50; }
+.cw-mockup .conn-bar.connecting { background: #F59E0B; }
+.cw-mockup .conn-bar.disconnected { background: #F44336; }
+
+/* Settings gear */
+.cw-mockup .settings-icon { position: absolute; top: 24px; right: 30px; width: 16px; height: 16px; color: #666; z-index: 5; }
+
+/* State badge */
+.cw-mockup .state-badge { position: absolute; top: 24px; left: 50%; transform: translateX(-50%); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; padding: 2px 8px; border-radius: 8px; z-index: 5; }
+.cw-mockup .state-badge.idle { color: #666; background: #1a1a1a; }
+.cw-mockup .state-badge.listening { color: #F44336; background: #1a1a1a; }
+.cw-mockup .state-badge.thinking { color: #F59E0B; background: #1a1a1a; }
+.cw-mockup .state-badge.speaking { color: #4CAF50; background: #1a1a1a; }
+
+/* Chat area */
+.cw-mockup .chat-area { flex: 1; overflow-y: auto; padding: 28px 20px 48px 20px; display: flex; flex-direction: column; gap: 6px; }
+.cw-mockup .chat-area::-webkit-scrollbar { display: none; }
+
+.cw-mockup .chat-msg { max-width: 80%; padding: 6px 10px; border-radius: 12px; font-size: 11px; line-height: 1.3; word-wrap: break-word; animation: cwMsgIn 0.25s ease-out; }
+@keyframes cwMsgIn { from { opacity: 0; transform: translateY(8px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.cw-mockup .chat-msg.user { align-self: flex-end; background: #1565C0; color: #fff; border-bottom-right-radius: 4px; }
+.cw-mockup .chat-msg.claude { align-self: flex-start; background: #222; color: #ccc; border-bottom-left-radius: 4px; }
+.cw-mockup .chat-msg .msg-label { font-size: 8px; text-transform: uppercase; letter-spacing: 0.8px; color: #888; margin-bottom: 2px; }
+
+/* Thinking dots */
+.cw-mockup .thinking-dots { display: flex; gap: 4px; padding: 4px 0; }
+.cw-mockup .thinking-dots span { width: 6px; height: 6px; background: #666; border-radius: 50%; animation: cwPulse 1.2s infinite; }
+.cw-mockup .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+.cw-mockup .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes cwPulse { 0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1.1); } }
+
+/* Bottom controls */
+.cw-mockup .watch-bottom { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; z-index: 10; }
+.cw-mockup .rec-btn { width: 40px; height: 40px; border-radius: 50%; border: none; font-size: 10px; font-weight: bold; color: #fff; cursor: default; display: flex; align-items: center; justify-content: center; transition: all 0.25s; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.cw-mockup .rec-btn.idle { background: #1565C0; }
+.cw-mockup .rec-btn.recording { background: #C62828; animation: cwRecPulse 1s infinite; }
+@keyframes cwRecPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(198,40,40,0.5); } 50% { box-shadow: 0 0 0 8px rgba(198,40,40,0); } }
+
+.cw-mockup .abort-btn { width: 40px; height: 40px; border-radius: 50%; border: none; background: #E65100; font-size: 10px; font-weight: bold; color: #fff; cursor: default; display: none; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.cw-mockup .abort-btn.visible { display: flex; }
+
+.cw-mockup .audio-controls { display: none; gap: 8px; align-items: center; }
+.cw-mockup .audio-controls.visible { display: flex; }
+.cw-mockup .audio-btn { width: 36px; height: 36px; border-radius: 50%; border: none; font-size: 9px; font-weight: bold; color: #fff; cursor: default; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.cw-mockup .audio-btn.replay { background: #2E7D32; }
+.cw-mockup .audio-btn.pause { background: #1565C0; }
+
+/* Progress spinner */
+.cw-mockup .progress-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; background: rgba(0,0,0,0.45); display: none; align-items: center; justify-content: center; z-index: 8; }
+.cw-mockup .progress-overlay.visible { display: flex; }
+.cw-mockup .progress-overlay svg { animation: cwSpin 1.2s linear infinite; }
+@keyframes cwSpin { to { transform: rotate(360deg); } }
+
+/* Permission overlay (watch) */
+.cw-mockup .perm-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; background: rgba(0,0,0,0.87); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 44px 26px 36px; z-index: 20; animation: cwFadeIn 0.2s; }
+.cw-mockup .perm-overlay.visible { display: flex; }
+@keyframes cwFadeIn { from { opacity: 0; } to { opacity: 1; } }
+.cw-mockup .perm-title { font-size: 12px; font-weight: bold; color: #FFB74D; margin-bottom: 4px; }
+.cw-mockup .perm-context { font-size: 9px; color: #888; text-align: center; margin-bottom: 4px; max-height: 24px; overflow: hidden; }
+.cw-mockup .perm-question { font-size: 11px; color: #fff; text-align: center; margin-bottom: 10px; line-height: 1.3; }
+.cw-mockup .perm-buttons { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+.cw-mockup .perm-btn { width: 100%; padding: 8px 12px; border: none; border-radius: 20px; font-size: 10px; font-weight: bold; color: #fff; cursor: default; text-align: center; }
+.cw-mockup .perm-btn.allow { background: #4CAF50; }
+.cw-mockup .perm-btn.deny { background: #F44336; }
+.cw-mockup .perm-btn.always { background: #2962FF; }
+
+/* Empty state */
+.cw-mockup .empty-state { flex: 1; display: flex; align-items: center; justify-content: center; color: #444; font-size: 12px; text-align: center; padding: 36px; line-height: 1.5; }
+
+/* === Phone === */
+.cw-mockup .phone-frame { width: 230px; height: 460px; border-radius: 24px; background: #1a1a2e; border: 2px solid #333; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.6); position: relative; }
+
+.cw-mockup .phone-statusbar { height: 22px; background: #252542; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cw-mockup .phone-statusbar span { font-size: 10px; color: #888; }
+
+.cw-mockup .phone-header { height: 36px; background: #252542; display: flex; align-items: center; padding: 0 10px; gap: 7px; flex-shrink: 0; }
+.cw-mockup .phone-conn-dot { width: 9px; height: 9px; border-radius: 50%; transition: background 0.3s; }
+.cw-mockup .phone-conn-dot.connected { background: #4CAF50; }
+.cw-mockup .phone-conn-dot.connecting { background: #F59E0B; }
+.cw-mockup .phone-conn-dot.disconnected { background: #F44336; }
+.cw-mockup .phone-conn-label { font-size: 11px; color: #fff; }
+.cw-mockup .phone-settings-icon { margin-left: auto; color: #888; font-size: 14px; }
+
+.cw-mockup .creature-area { height: 150px; background: #1a1a2e; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cw-mockup .creature-svg { width: 140px; height: 140px; }
+.cw-mockup .creature-divider { height: 1px; background: #252542; flex-shrink: 0; }
+
+.cw-mockup .phone-chat { flex: 1; overflow-y: auto; padding: 8px 10px; display: flex; flex-direction: column; gap: 5px; background: #1a1a2e; }
+.cw-mockup .phone-chat::-webkit-scrollbar { display: none; }
+
+.cw-mockup .phone-msg { max-width: 82%; padding: 7px 11px; border-radius: 14px; font-size: 11px; line-height: 1.35; word-wrap: break-word; animation: cwMsgIn 0.25s ease-out; }
+.cw-mockup .phone-msg.user { align-self: flex-end; background: linear-gradient(90deg, #0099FF, #0077CC); color: #fff; border-bottom-right-radius: 4px; }
+.cw-mockup .phone-msg.claude { align-self: flex-start; background: #F59E0B; color: #1a1a2e; border-bottom-left-radius: 4px; }
+.cw-mockup .phone-msg .msg-label { font-size: 8px; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px; }
+.cw-mockup .phone-msg.user .msg-label { color: rgba(255,255,255,0.6); }
+.cw-mockup .phone-msg.claude .msg-label { color: rgba(26,26,46,0.5); }
+
+.cw-mockup .phone-empty { flex: 1; display: flex; align-items: center; justify-content: center; color: #444; font-size: 11px; text-align: center; }
+
+.cw-mockup .phone-thinking { display: flex; gap: 4px; padding: 4px 0; }
+.cw-mockup .phone-thinking span { width: 6px; height: 6px; background: rgba(26,26,46,0.4); border-radius: 50%; animation: cwPulse 1.2s infinite; }
+.cw-mockup .phone-thinking span:nth-child(2) { animation-delay: 0.2s; }
+.cw-mockup .phone-thinking span:nth-child(3) { animation-delay: 0.4s; }
+
+.cw-mockup .phone-inputbar { height: 46px; background: #252542; display: flex; align-items: center; padding: 0 7px; gap: 7px; flex-shrink: 0; }
+.cw-mockup .phone-voice-btn { width: 32px; height: 32px; border-radius: 50%; background: #0099FF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cw-mockup .phone-voice-btn svg { width: 14px; height: 14px; fill: white; }
+.cw-mockup .phone-text-input { flex: 1; height: 28px; border-radius: 14px; background: rgba(255,255,255,0.1); display: flex; align-items: center; padding: 0 12px; font-size: 10px; color: #666; }
+.cw-mockup .phone-send-btn { width: 32px; height: 32px; border-radius: 50%; background: #F59E0B; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cw-mockup .phone-send-btn svg { width: 14px; height: 14px; fill: white; }
+
+/* Phone permission overlay */
+.cw-mockup .phone-perm-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px 20px; z-index: 20; animation: cwFadeIn 0.2s; border-radius: 24px; }
+.cw-mockup .phone-perm-overlay.visible { display: flex; }
+.cw-mockup .phone-perm-card { background: #252542; border-radius: 14px; padding: 16px; width: 100%; max-width: 200px; }
+.cw-mockup .phone-perm-card .perm-title { font-size: 13px; font-weight: bold; color: #FFB74D; margin-bottom: 5px; }
+.cw-mockup .phone-perm-card .perm-context { font-size: 9px; color: #888; margin-bottom: 4px; text-align: left; max-height: none; }
+.cw-mockup .phone-perm-card .perm-question { font-size: 11px; color: #fff; text-align: left; margin-bottom: 12px; font-family: 'SF Mono', 'Fira Code', monospace; background: #1a1a2e; padding: 7px 9px; border-radius: 7px; word-break: break-all; }
+.cw-mockup .phone-perm-card .perm-buttons { display: flex; flex-direction: column; gap: 5px; }
+.cw-mockup .phone-perm-card .perm-btn { padding: 9px; border-radius: 9px; }
+
+/* Responsive */
+@media (max-width: 700px) {
+  .cw-mockup .cw-preview { flex-direction: column; gap: 24px; padding: 20px 10px; min-height: auto; }
+  .cw-mockup .watch-bezel { width: 260px; height: 260px; }
+  .cw-mockup .watch-screen { width: 228px; height: 228px; }
+  .cw-mockup .phone-frame { width: 210px; height: 420px; }
+}
+</style>
+
+<div class="cw-mockup">
+  <!-- Controls bar -->
+  <div class="cw-controls">
+    <span class="cw-controls-label">Presets</span>
+    <button class="cw-preset active" onclick="cwPreset('idle')">Idle</button>
+    <button class="cw-preset" onclick="cwPreset('recording')">Recording</button>
+    <button class="cw-preset" onclick="cwPreset('thinking')">Thinking</button>
+    <button class="cw-preset" onclick="cwPreset('speaking')">Speaking</button>
+    <button class="cw-preset" onclick="cwPreset('permission')">Permission</button>
+    <span class="cw-sep"></span>
+    <button class="cw-action" onclick="cwScenario('multi')">Multi-turn Chat</button>
+    <button class="cw-action" onclick="cwScenario('voice')">Voice Flow</button>
+  </div>
+
+  <!-- Devices -->
+  <div class="cw-preview">
+    <!-- Watch -->
+    <div class="cw-device">
+      <div class="watch-bezel">
+        <div class="watch-screen" id="cwWatchScreen">
+          <div class="conn-bar connected" id="cwConnBar"></div>
+          <div class="state-badge idle" id="cwStateBadge">idle</div>
+          <svg class="settings-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.14,12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.49.49,0,0,0,.12-.61l-1.92-3.32a.49.49,0,0,0-.59-.22l-2.39.96a7.04,7.04,0,0,0-1.62-.94l-.36-2.54a.48.48,0,0,0-.48-.41h-3.84a.48.48,0,0,0-.48.41l-.36,2.54a7.04,7.04,0,0,0-1.62.94l-2.39-.96a.49.49,0,0,0-.59.22L2.74,8.87a.48.48,0,0,0,.12.61l2.03,1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03,1.58a.49.49,0,0,0-.12.61l1.92,3.32a.49.49,0,0,0,.59.22l2.39-.96c.5.38,1.04.7,1.62.94l.36,2.54a.48.48,0,0,0,.48.41h3.84a.48.48,0,0,0,.48-.41l.36-2.54a7.04,7.04,0,0,0,1.62-.94l2.39.96a.49.49,0,0,0,.59-.22l1.92-3.32a.49.49,0,0,0-.12-.61ZM12,15.6A3.6,3.6,0,1,1,15.6,12,3.6,3.6,0,0,1,12,15.6Z"/>
+          </svg>
+          <div class="chat-area" id="cwChatArea">
+            <div class="empty-state" id="cwEmptyState">Tap Record to<br>talk to Claude</div>
+          </div>
+          <div class="progress-overlay" id="cwProgressOverlay">
+            <svg width="44" height="44" viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="none" stroke="#42A5F5" stroke-width="3" stroke-dasharray="80 34" stroke-linecap="round"/></svg>
+          </div>
+          <div class="watch-bottom">
+            <div class="rec-btn idle" id="cwRecBtn">Rec</div>
+            <div class="abort-btn" id="cwAbortBtn">Stop</div>
+            <div class="audio-controls" id="cwAudioCtrl">
+              <div class="audio-btn replay">Re</div>
+              <div class="audio-btn pause">Pause</div>
+            </div>
+          </div>
+          <div class="perm-overlay" id="cwPermOverlay">
+            <div class="perm-title" id="cwPermTitle">Permission</div>
+            <div class="perm-context" id="cwPermContext"></div>
+            <div class="perm-question" id="cwPermQuestion">Allow action?</div>
+            <div class="perm-buttons" id="cwPermButtons"></div>
+          </div>
+        </div>
+      </div>
+      <div class="cw-device-label">Galaxy Watch</div>
+    </div>
+
+    <!-- Phone -->
+    <div class="cw-device">
+      <div class="phone-frame" id="cwPhoneFrame">
+        <div class="phone-statusbar"><span>9:41</span></div>
+        <div class="phone-header">
+          <div class="phone-conn-dot connected" id="cwPhoneConnDot"></div>
+          <span class="phone-conn-label" id="cwPhoneConnLabel">Connected</span>
+          <span class="phone-settings-icon">&#9881;</span>
+        </div>
+        <div class="creature-area" id="cwCreatureArea">
+          <svg class="creature-svg" viewBox="0 0 160 160">
+            <defs>
+              <radialGradient id="cwCGrad" cx="50%" cy="30%" r="70%">
+                <stop offset="30%" stop-color="#FBBF24"/>
+                <stop offset="100%" stop-color="#D97706"/>
+              </radialGradient>
+            </defs>
+            <ellipse cx="80" cy="90" rx="50" ry="55" fill="url(#cwCGrad)"/>
+            <circle cx="42" cy="45" r="14" fill="url(#cwCGrad)"/>
+            <circle cx="118" cy="45" r="14" fill="url(#cwCGrad)"/>
+            <ellipse cx="62" cy="82" rx="12" ry="13" fill="white"/>
+            <ellipse cx="98" cy="82" rx="12" ry="13" fill="white"/>
+            <circle cx="62" cy="84" r="7" fill="black"/>
+            <circle cx="98" cy="84" r="7" fill="black"/>
+            <circle cx="64" cy="80" r="3" fill="white"/>
+            <circle cx="100" cy="80" r="3" fill="white"/>
+            <path class="cw-mouth-happy" d="M 62 112 Q 80 130 98 112" stroke="black" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <ellipse class="cw-mouth-thinking" cx="80" cy="115" rx="6" ry="8" fill="black" style="display:none"/>
+          </svg>
+        </div>
+        <div class="creature-divider"></div>
+        <div class="phone-chat" id="cwPhoneChatArea">
+          <div class="phone-empty" id="cwPhoneEmpty">Send a message or<br>use your voice</div>
+        </div>
+        <div class="phone-inputbar">
+          <div class="phone-voice-btn">
+            <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+          </div>
+          <div class="phone-text-input">Type a message...</div>
+          <div class="phone-send-btn">
+            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          </div>
+        </div>
+        <div class="phone-perm-overlay" id="cwPhonePermOverlay">
+          <div class="phone-perm-card">
+            <div class="perm-title" id="cwPhonePermTitle">Permission</div>
+            <div class="perm-context" id="cwPhonePermContext">Tool: Bash</div>
+            <div class="perm-question" id="cwPhonePermQuestion">rm -rf /tmp/cache/*.tmp</div>
+            <div class="perm-buttons" id="cwPhonePermButtons"></div>
+          </div>
+        </div>
+      </div>
+      <div class="cw-device-label">Companion Phone</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const cw = {
+    claudeState: 'idle',
+    connection: 'connected',
+    permissionVisible: false,
+    permissionType: null,
+    messages: []
+  };
+
+  const userMsgs = ["List files in src/", "Fix the login bug", "What does server.py do?", "Run the tests", "Refactor the auth module", "Show me the logs"];
+  const claudeMsgs = [
+    "I found 12 files in src/. The main entry point is server.py which handles HTTP and WebSocket connections.",
+    "The login bug was caused by a missing null check on line 42. I've fixed it.",
+    "Done! All 8 tests pass.",
+    "I'll read the file and analyze it for you.",
+    "The server module handles incoming requests on port 5566 and WebSocket on 5567.",
+    "I've refactored the auth module into three separate concerns: validation, session management, and token handling."
+  ];
+
+  const permData = {
+    bash: { title: 'Permission', context: 'Tool: Bash', question: 'rm -rf /tmp/cache/*.tmp',
+      buttons: [{text:'Allow',cls:'allow'},{text:'Allow Always',cls:'always'},{text:'Deny',cls:'deny'}] },
+    write: { title: 'Permission', context: 'Tool: Write', question: 'Create file: src/health.py',
+      buttons: [{text:'Allow',cls:'allow'},{text:'Deny',cls:'deny'}] },
+    edit: { title: 'Permission', context: 'Tool: Edit', question: 'Edit server.py lines 42-58',
+      buttons: [{text:'Allow',cls:'allow'},{text:'Allow Always',cls:'always'},{text:'Deny',cls:'deny'}] }
+  };
+
+  function setActivePreset(name) {
+    document.querySelectorAll('.cw-mockup .cw-preset').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.cw-mockup .cw-preset').forEach(b => {
+      if (b.textContent.toLowerCase().replace(/\s+/g,'') === name.replace(/\s+/g,'')) b.classList.add('active');
+    });
+  }
+
+  window.cwPreset = function(name) {
+    cw.permissionVisible = false;
+    cw.permissionType = null;
+    switch(name) {
+      case 'idle':
+        cw.claudeState = 'idle'; cw.connection = 'connected'; cw.messages = [];
+        break;
+      case 'recording':
+        cw.claudeState = 'listening'; cw.connection = 'connected';
+        cw.messages = [{role:'user',text:'Fix the login bug'},{role:'claude',text:"The login bug was caused by a missing null check on line 42. I've fixed it."}];
+        break;
+      case 'thinking':
+        cw.claudeState = 'thinking'; cw.connection = 'connected';
+        cw.messages = [{role:'user',text:'Refactor the auth module'},{role:'claude',text:"I'll analyze the current structure and propose changes."},{role:'user',text:'Go ahead and do it'}];
+        break;
+      case 'speaking':
+        cw.claudeState = 'speaking'; cw.connection = 'connected';
+        cw.messages = [{role:'user',text:'What does server.py do?'},{role:'claude',text:'The server module handles HTTP requests on port 5566 and WebSocket connections on port 5567. It manages audio transcription, chat history, and permission prompts.'}];
+        break;
+      case 'permission':
+        cw.claudeState = 'thinking'; cw.connection = 'connected';
+        cw.permissionVisible = true; cw.permissionType = 'bash';
+        cw.messages = [{role:'user',text:'Run the tests'}];
+        break;
+    }
+    setActivePreset(name);
+    render();
+  };
+
+  window.cwScenario = function(name) {
+    cw.permissionVisible = false; cw.permissionType = null;
+    document.querySelectorAll('.cw-mockup .cw-preset').forEach(b => b.classList.remove('active'));
+    switch(name) {
+      case 'voice':
+        cw.messages = [{role:'user',text:'List files in src/'},{role:'claude',text:'I found 12 files in src/. The main entry point is server.py.'}];
+        cw.claudeState = 'idle'; cw.connection = 'connected';
+        break;
+      case 'multi':
+        cw.messages = [
+          {role:'user',text:'What does server.py do?'},
+          {role:'claude',text:"It's the main HTTP + WebSocket server handling audio, chat, and permissions."},
+          {role:'user',text:'Show me the endpoints'},
+          {role:'claude',text:'POST /transcribe, GET /api/chat, POST /api/message, POST /api/permission/respond, and more.'},
+          {role:'user',text:'Add a health check endpoint'},
+          {role:'claude',text:'Done! Added GET /api/health returning {status: "ok"}.'}
+        ];
+        cw.claudeState = 'idle'; cw.connection = 'connected';
+        break;
+    }
+    render();
+  };
+
+  function renderMessages(container, emptyEl, msgClass) {
+    container.querySelectorAll('.' + msgClass + ', .thinking-indicator, .phone-thinking-wrap').forEach(el => el.remove());
+    if (cw.messages.length === 0) {
+      emptyEl.style.display = 'flex';
+    } else {
+      emptyEl.style.display = 'none';
+      cw.messages.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = msgClass + ' ' + msg.role;
+        const lbl = document.createElement('div');
+        lbl.className = 'msg-label';
+        lbl.textContent = msg.role === 'user' ? 'You' : 'Claude';
+        div.appendChild(lbl);
+        const txt = document.createElement('div');
+        txt.textContent = msg.text;
+        div.appendChild(txt);
+        container.appendChild(div);
+      });
+      container.scrollTop = container.scrollHeight;
+    }
+  }
+
+  function renderPermButtons(container, type) {
+    const p = permData[type] || permData.bash;
+    container.innerHTML = '';
+    p.buttons.forEach(b => {
+      const btn = document.createElement('div');
+      btn.className = 'perm-btn ' + b.cls;
+      btn.textContent = b.text;
+      container.appendChild(btn);
+    });
+    return p;
+  }
+
+  function render() {
+    // Watch
+    const connBar = document.getElementById('cwConnBar');
+    connBar.className = 'conn-bar ' + ((cw.claudeState === 'thinking' || cw.claudeState === 'listening') ? 'disconnected' : cw.connection);
+
+    const badge = document.getElementById('cwStateBadge');
+    badge.className = 'state-badge ' + cw.claudeState;
+    badge.textContent = cw.claudeState === 'listening' ? 'recording' : cw.claudeState;
+
+    renderMessages(document.getElementById('cwChatArea'), document.getElementById('cwEmptyState'), 'chat-msg');
+    if (cw.claudeState === 'thinking' && cw.messages.length > 0) {
+      const dots = document.createElement('div');
+      dots.className = 'chat-msg claude thinking-indicator';
+      dots.innerHTML = '<div class="thinking-dots"><span></span><span></span><span></span></div>';
+      document.getElementById('cwChatArea').appendChild(dots);
+    }
+
+    const recBtn = document.getElementById('cwRecBtn');
+    const abortBtn = document.getElementById('cwAbortBtn');
+    const audioCtrl = document.getElementById('cwAudioCtrl');
+    const progOverlay = document.getElementById('cwProgressOverlay');
+    recBtn.style.display = 'none'; abortBtn.classList.remove('visible');
+    audioCtrl.classList.remove('visible'); progOverlay.classList.remove('visible');
+    switch(cw.claudeState) {
+      case 'idle': recBtn.style.display='flex'; recBtn.className='rec-btn idle'; recBtn.textContent='Rec'; break;
+      case 'listening': recBtn.style.display='flex'; recBtn.className='rec-btn recording'; recBtn.textContent='Stop'; break;
+      case 'thinking': abortBtn.classList.add('visible'); progOverlay.classList.add('visible'); break;
+      case 'speaking': audioCtrl.classList.add('visible'); break;
+    }
+
+    const permOverlay = document.getElementById('cwPermOverlay');
+    if (cw.permissionVisible) {
+      permOverlay.classList.add('visible');
+      const p = renderPermButtons(document.getElementById('cwPermButtons'), cw.permissionType);
+      document.getElementById('cwPermTitle').textContent = p.title;
+      document.getElementById('cwPermContext').textContent = p.context;
+      document.getElementById('cwPermQuestion').textContent = p.question;
+    } else { permOverlay.classList.remove('visible'); }
+
+    // Phone
+    document.getElementById('cwPhoneConnDot').className = 'phone-conn-dot ' + cw.connection;
+    document.getElementById('cwPhoneConnLabel').textContent = {connected:'Connected',connecting:'Connecting...',disconnected:'Disconnected'}[cw.connection];
+
+    const happyM = document.querySelector('.cw-mouth-happy');
+    const thinkM = document.querySelector('.cw-mouth-thinking');
+    happyM.style.display = cw.claudeState === 'thinking' ? 'none' : 'block';
+    thinkM.style.display = cw.claudeState === 'thinking' ? 'block' : 'none';
+
+    renderMessages(document.getElementById('cwPhoneChatArea'), document.getElementById('cwPhoneEmpty'), 'phone-msg');
+    if (cw.claudeState === 'thinking' && cw.messages.length > 0) {
+      const wrap = document.createElement('div');
+      wrap.className = 'phone-msg claude phone-thinking-wrap';
+      wrap.innerHTML = '<div class="phone-thinking"><span></span><span></span><span></span></div>';
+      document.getElementById('cwPhoneChatArea').appendChild(wrap);
+    }
+
+    const phonePermOverlay = document.getElementById('cwPhonePermOverlay');
+    if (cw.permissionVisible) {
+      phonePermOverlay.classList.add('visible');
+      const p = renderPermButtons(document.getElementById('cwPhonePermButtons'), cw.permissionType);
+      document.getElementById('cwPhonePermTitle').textContent = p.title;
+      document.getElementById('cwPhonePermContext').textContent = p.context;
+      document.getElementById('cwPhonePermQuestion').textContent = p.question;
+    } else { phonePermOverlay.classList.remove('visible'); }
+  }
+
+  render();
+})();
+</script>
