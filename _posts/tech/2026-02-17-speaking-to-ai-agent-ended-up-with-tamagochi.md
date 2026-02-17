@@ -1,11 +1,12 @@
 ---
 layout: d3post
 title: "So I wanted to speak to AI agent ... and ended up with a Tamagochi on my phone"
-date: 2026-02-18 00:00
+date: 2026-02-17 00:00
 author: Michal Franc
 comments: true
 categories: [tech]
 tags: [claude-code, deepgram, speech-to-text, galaxy-watch, linux, ai, tailscale, kotlin]
+image: toadie.png
 summary: "What started as a weekend dictation script somehow turned into me building a Kotlin app for my Galaxy Watch, a Tamagotchi-like bot on my phone, and a full personal assistant I talk to from the couch."
 ---
 
