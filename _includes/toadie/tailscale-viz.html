@@ -1,0 +1,541 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+.ts-viz {
+  --ts-bg: #0a0e1a;
+  --ts-bg-card: #111827;
+  --ts-bg-card-border: #1e293b;
+  --ts-text: #e2e8f0;
+  --ts-text-dim: #64748b;
+  --ts-accent-blue: #38bdf8;
+  --ts-accent-green: #34d399;
+  --ts-accent-orange: #fb923c;
+  --ts-accent-red: #f87171;
+  --ts-accent-purple: #a78bfa;
+  --ts-accent-cyan: #22d3ee;
+  color: var(--ts-text);
+  font-family: 'DM Sans', sans-serif;
+  background: var(--ts-bg);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.ts-viz .ts-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.ts-viz .ts-header::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 200px;
+  background: radial-gradient(ellipse, rgba(56,189,248,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.ts-viz .ts-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--ts-accent-blue), var(--ts-accent-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.4rem;
+}
+
+.ts-viz .ts-subtitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--ts-text-dim);
+  letter-spacing: 0.05em;
+}
+
+.ts-viz .ts-viz-container {
+  background: var(--ts-bg-card);
+  border: 1px solid var(--ts-bg-card-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.ts-viz .ts-viz-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(56,189,248,0.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.ts-viz .ts-viz-container svg { width: 100%; display: block; }
+
+.ts-viz .ts-controls {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.ts-viz .ts-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--ts-bg-card-border);
+  border-radius: 8px;
+  background: var(--ts-bg-card);
+  color: var(--ts-text-dim);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ts-viz .ts-btn:hover {
+  color: var(--ts-text);
+  border-color: var(--ts-accent-blue);
+  box-shadow: 0 0 20px rgba(56,189,248,0.1);
+}
+
+.ts-viz .ts-btn.active {
+  color: var(--ts-accent-blue);
+  border-color: var(--ts-accent-blue);
+  background: rgba(56,189,248,0.08);
+  box-shadow: 0 0 20px rgba(56,189,248,0.15);
+}
+
+.ts-viz .ts-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.ts-viz .ts-info-card {
+  background: var(--ts-bg-card);
+  border: 1px solid var(--ts-bg-card-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.ts-viz .ts-info-card:hover {
+  border-color: rgba(56,189,248,0.3);
+}
+
+.ts-viz .ts-info-card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ts-text);
+}
+
+.ts-viz .ts-info-card p {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--ts-text-dim);
+}
+
+.ts-viz .ts-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.ts-viz .ts-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--ts-text-dim);
+  min-height: 24px;
+}
+
+.ts-viz .ts-status-indicator {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--ts-accent-green);
+  animation: ts-pulse-dot 2s infinite;
+}
+
+@keyframes ts-pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.ts-viz .packet-trail {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.ts-viz .glow { filter: url(#ts-glow); }
+
+@media (max-width: 768px) {
+  .ts-viz { padding: 1rem 0.75rem; }
+  .ts-viz .ts-title { font-size: 1.4rem; }
+  .ts-viz .ts-btn { font-size: 0.65rem; padding: 0.4rem 0.8rem; }
+  .ts-viz .ts-info-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="ts-viz">
+  <div class="ts-header">
+    <div class="ts-title">UDP Hole Punching</div>
+    <div class="ts-subtitle">How Tailscale connects devices behind NAT</div>
+  </div>
+
+  <div class="ts-controls">
+    <button class="ts-btn active" data-step="overview">01 — Overview</button>
+    <button class="ts-btn" data-step="nat-problem">02 — The NAT Problem</button>
+    <button class="ts-btn" data-step="hole-punch">03 — Hole Punching</button>
+    <button class="ts-btn" data-step="derp-fallback">04 — DERP Fallback</button>
+  </div>
+
+  <div class="ts-viz-container">
+    <svg id="ts-viz-svg" viewBox="0 0 1000 520"></svg>
+    <div class="ts-status-bar">
+      <div class="ts-status-indicator"></div>
+      <span id="ts-status-text">Tailscale mesh network — each device gets a 100.x.x.x address</span>
+    </div>
+  </div>
+
+  <div class="ts-info-grid">
+    <div class="ts-info-card">
+      <h3><span class="ts-dot" style="background:#38bdf8"></span>NAT Translation</h3>
+      <p>Your router maps internal IPs to its public IP, tracking port assignments. Incoming packets without an existing mapping are dropped — this is why two NATted devices can't connect directly without help.</p>
+    </div>
+    <div class="ts-info-card">
+      <h3><span class="ts-dot" style="background:#34d399"></span>Simultaneous Open</h3>
+      <p>Both devices send UDP packets at the same time to each other's public IP:port. Each router sees an outbound connection and creates a mapping. When the other's packet arrives, the mapping exists — the hole is punched.</p>
+    </div>
+    <div class="ts-info-card">
+      <h3><span class="ts-dot" style="background:#fb923c"></span>DERP Relay</h3>
+      <p>When hole punching fails (symmetric NAT), Tailscale falls back to DERP relay servers. Packets are encrypted end-to-end and forwarded through a public server. Slower, but always works.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+const svg = d3.select("#ts-viz-svg");
+const W = 1000, H = 520;
+
+const defs = svg.append("defs");
+
+const glow = defs.append("filter").attr("id", "ts-glow").attr("x", "-50%").attr("y", "-50%").attr("width", "200%").attr("height", "200%");
+glow.append("feGaussianBlur").attr("stdDeviation", "4").attr("result", "blur");
+glow.append("feMerge").selectAll("feMergeNode").data(["blur", "SourceGraphic"]).enter().append("feMergeNode").attr("in", d => d);
+
+const glowStrong = defs.append("filter").attr("id", "ts-glow-strong").attr("x", "-50%").attr("y", "-50%").attr("width", "200%").attr("height", "200%");
+glowStrong.append("feGaussianBlur").attr("stdDeviation", "8").attr("result", "blur");
+glowStrong.append("feMerge").selectAll("feMergeNode").data(["blur", "SourceGraphic"]).enter().append("feMergeNode").attr("in", d => d);
+
+function makeGrad(id, c1, c2) {
+  const g = defs.append("linearGradient").attr("id", id).attr("x1","0%").attr("y1","0%").attr("x2","100%").attr("y2","0%");
+  g.append("stop").attr("offset","0%").attr("stop-color", c1);
+  g.append("stop").attr("offset","100%").attr("stop-color", c2);
+}
+makeGrad("ts-grad-blue-cyan", "#38bdf8", "#22d3ee");
+makeGrad("ts-grad-green", "#34d399", "#6ee7b7");
+makeGrad("ts-grad-orange", "#fb923c", "#fbbf24");
+makeGrad("ts-grad-red", "#f87171", "#fb923c");
+
+const layout = {
+  deviceA: { x: 120, y: 340, label: "Device A", sublabel: "100.64.0.1", icon: "\u{1F4BB}" },
+  deviceB: { x: 880, y: 340, label: "Device B", sublabel: "100.64.0.2", icon: "\u{1F4BB}" },
+  natA: { x: 280, y: 220, label: "NAT Router A", sublabel: "203.0.113.5", icon: "\u{1F500}" },
+  natB: { x: 720, y: 220, label: "NAT Router B", sublabel: "198.51.100.8", icon: "\u{1F500}" },
+  coordServer: { x: 500, y: 80, label: "Coordination Server", sublabel: "Tailscale Control Plane", icon: "\u2601\uFE0F" },
+  derpServer: { x: 500, y: 160, label: "DERP Relay", sublabel: "derp1.tailscale.com", icon: "\u{1F4E1}" },
+};
+
+const mainGroup = svg.append("g");
+
+const gridGroup = mainGroup.append("g").attr("class", "grid").attr("opacity", 0.06);
+for (let x = 0; x < W; x += 40) {
+  gridGroup.append("line").attr("x1", x).attr("y1", 0).attr("x2", x).attr("y2", H).attr("stroke", "#38bdf8").attr("stroke-width", 0.5);
+}
+for (let y = 0; y < H; y += 40) {
+  gridGroup.append("line").attr("x1", 0).attr("y1", y).attr("x2", W).attr("y2", y).attr("stroke", "#38bdf8").attr("stroke-width", 0.5);
+}
+
+const connectionsGroup = mainGroup.append("g");
+const packetsGroup = mainGroup.append("g");
+const nodesGroup = mainGroup.append("g");
+const labelsGroup = mainGroup.append("g");
+
+function drawNode(key, opts) {
+  opts = opts || {};
+  const n = layout[key];
+  const g = nodesGroup.append("g")
+    .attr("class", "node node-" + key)
+    .attr("transform", "translate(" + n.x + ", " + n.y + ")")
+    .style("opacity", opts.opacity != null ? opts.opacity : 1);
+  g.append("circle").attr("r", opts.r || 32).attr("fill", "none")
+    .attr("stroke", opts.color || "#38bdf8").attr("stroke-width", 1).attr("opacity", 0.15)
+    .attr("filter", "url(#ts-glow-strong)");
+  g.append("circle").attr("r", opts.r || 28).attr("fill", opts.fill || "#111827")
+    .attr("stroke", opts.color || "#38bdf8").attr("stroke-width", 1.5).attr("opacity", 0.9);
+  g.append("text").attr("text-anchor", "middle").attr("dy", "0.35em")
+    .attr("font-size", opts.fontSize || "18px").text(n.icon);
+  g.append("text").attr("text-anchor", "middle").attr("y", (opts.r || 28) + 18)
+    .attr("fill", "#e2e8f0").attr("font-family", "'Space Grotesk', sans-serif")
+    .attr("font-size", "11px").attr("font-weight", 600).text(n.label);
+  g.append("text").attr("text-anchor", "middle").attr("y", (opts.r || 28) + 32)
+    .attr("fill", "#64748b").attr("font-family", "'JetBrains Mono', monospace")
+    .attr("font-size", "9px").text(n.sublabel);
+  return g;
+}
+
+function drawConnection(from, to, opts) {
+  opts = opts || {};
+  const a = layout[from], b = layout[to];
+  return connectionsGroup.append("line")
+    .attr("class", "conn conn-" + from + "-" + to)
+    .attr("x1", a.x).attr("y1", a.y).attr("x2", b.x).attr("y2", b.y)
+    .attr("stroke", opts.color || "#1e293b").attr("stroke-width", opts.width || 1.5)
+    .attr("stroke-dasharray", opts.dash || "none").attr("opacity", opts.opacity != null ? opts.opacity : 0.5);
+}
+
+function animatePacket(from, to, opts) {
+  opts = opts || {};
+  const a = layout[from], b = layout[to];
+  const color = opts.color || "#38bdf8";
+  const dur = opts.duration || 1500;
+  const delay = opts.delay || 0;
+  const packet = packetsGroup.append("circle")
+    .attr("cx", a.x).attr("cy", a.y).attr("r", 5)
+    .attr("fill", color).attr("filter", "url(#ts-glow)").attr("opacity", 0);
+  const trail = packetsGroup.append("line").attr("class", "packet-trail")
+    .attr("x1", a.x).attr("y1", a.y).attr("x2", a.x).attr("y2", a.y)
+    .attr("stroke", color).attr("stroke-width", 2).attr("opacity", 0);
+  packet.transition().delay(delay).duration(0).attr("opacity", 1)
+    .transition().duration(dur).ease(d3.easeCubicInOut).attr("cx", b.x).attr("cy", b.y)
+    .transition().duration(200).attr("opacity", 0).remove();
+  trail.transition().delay(delay).duration(0).attr("opacity", 0.4)
+    .transition().duration(dur).ease(d3.easeCubicInOut).attr("x2", b.x).attr("y2", b.y)
+    .transition().duration(400).attr("opacity", 0).remove();
+  return packet;
+}
+
+function drawNATTable(x, y, entries, label) {
+  const g = labelsGroup.append("g").attr("class", "nat-table")
+    .attr("transform", "translate(" + x + ", " + y + ")");
+  g.append("rect").attr("x", -80).attr("y", -12).attr("width", 160)
+    .attr("height", 14 + entries.length * 16).attr("rx", 6).attr("fill", "#0f172a")
+    .attr("stroke", "#1e293b").attr("stroke-width", 1).attr("opacity", 0.95);
+  g.append("text").attr("text-anchor", "middle").attr("y", 2).attr("fill", "#94a3b8")
+    .attr("font-family", "'JetBrains Mono', monospace").attr("font-size", "8px")
+    .attr("font-weight", 600).text(label);
+  entries.forEach(function(e, i) {
+    g.append("text").attr("text-anchor", "middle").attr("y", 18 + i * 16)
+      .attr("fill", e.color || "#38bdf8").attr("font-family", "'JetBrains Mono', monospace")
+      .attr("font-size", "8px").text(e.text);
+  });
+  return g;
+}
+
+function drawAnnotation(x, y, text, opts) {
+  opts = opts || {};
+  const g = labelsGroup.append("g").attr("transform", "translate(" + x + ", " + y + ")");
+  const t = g.append("text").attr("text-anchor", opts.anchor || "middle")
+    .attr("fill", opts.color || "#94a3b8").attr("font-family", "'JetBrains Mono', monospace")
+    .attr("font-size", opts.size || "9px").attr("font-weight", 400);
+  text.split("\n").forEach(function(line, i) {
+    t.append("tspan").attr("x", 0).attr("dy", i === 0 ? 0 : "1.3em").text(line);
+  });
+  return g;
+}
+
+function drawBlockMarker(from, to, opts) {
+  opts = opts || {};
+  const a = layout[from], b = layout[to];
+  const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+  const g = labelsGroup.append("g").attr("transform", "translate(" + mx + ", " + my + ")");
+  var s = 8;
+  g.append("line").attr("x1", -s).attr("y1", -s).attr("x2", s).attr("y2", s)
+    .attr("stroke", opts.color || "#f87171").attr("stroke-width", 2.5).attr("stroke-linecap", "round");
+  g.append("line").attr("x1", s).attr("y1", -s).attr("x2", -s).attr("y2", s)
+    .attr("stroke", opts.color || "#f87171").attr("stroke-width", 2.5).attr("stroke-linecap", "round");
+  return g;
+}
+
+function clearAll() {
+  nodesGroup.selectAll("*").remove();
+  connectionsGroup.selectAll("*").remove();
+  packetsGroup.selectAll("*").remove();
+  labelsGroup.selectAll("*").remove();
+}
+
+var animInterval = null;
+function stopAnimations() {
+  if (animInterval) { clearInterval(animInterval); animInterval = null; }
+  packetsGroup.selectAll("*").interrupt().remove();
+}
+
+function sceneOverview() {
+  clearAll(); stopAnimations();
+  drawConnection("deviceA", "natA", { color: "#1e3a5f", dash: "4,4" });
+  drawConnection("deviceB", "natB", { color: "#1e3a5f", dash: "4,4" });
+  drawConnection("natA", "coordServer", { color: "#1e3a5f", dash: "4,4" });
+  drawConnection("natB", "coordServer", { color: "#1e3a5f", dash: "4,4" });
+  drawConnection("natA", "natB", { color: "#0d4a3a", dash: "6,3", opacity: 0.3 });
+  drawNode("deviceA", { color: "#38bdf8" });
+  drawNode("deviceB", { color: "#38bdf8" });
+  drawNode("natA", { color: "#a78bfa", r: 24, fontSize: "14px" });
+  drawNode("natB", { color: "#a78bfa", r: 24, fontSize: "14px" });
+  drawNode("coordServer", { color: "#34d399", r: 32, fontSize: "20px" });
+  drawAnnotation(500, 300, "Direct P2P tunnel (WireGuard)", { color: "#34d399", size: "10px" });
+  drawAnnotation(500, 315, "encrypted end-to-end via 100.x.x.x addresses", { size: "8px" });
+  function sendMeshPackets() {
+    animatePacket("deviceA", "natA", { color: "#38bdf8", duration: 800, delay: 0 });
+    animatePacket("natA", "natB", { color: "#34d399", duration: 1000, delay: 800 });
+    animatePacket("natB", "deviceB", { color: "#38bdf8", duration: 800, delay: 1800 });
+  }
+  sendMeshPackets();
+  animInterval = setInterval(sendMeshPackets, 4000);
+  d3.select("#ts-status-text").text("Tailscale mesh network \u2014 each device gets a 100.x.x.x address");
+}
+
+function sceneNATProblem() {
+  clearAll(); stopAnimations();
+  drawConnection("deviceA", "natA", { color: "#1e3a5f" });
+  drawConnection("deviceB", "natB", { color: "#1e3a5f" });
+  drawConnection("natA", "natB", { color: "#7f1d1d", dash: "4,4", opacity: 0.4 });
+  drawNode("deviceA", { color: "#38bdf8" });
+  drawNode("deviceB", { color: "#38bdf8" });
+  drawNode("natA", { color: "#a78bfa", r: 24, fontSize: "14px" });
+  drawNode("natB", { color: "#a78bfa", r: 24, fontSize: "14px" });
+  drawBlockMarker("natA", "natB", { color: "#f87171" });
+  drawNATTable(280, 310, [
+    { text: "192.168.1.5:4820 \u2192 :50123", color: "#38bdf8" },
+    { text: "No inbound mapping!", color: "#f87171" }
+  ], "NAT Table A");
+  drawNATTable(720, 310, [
+    { text: "192.168.1.10:7231 \u2192 :61045", color: "#38bdf8" },
+    { text: "No inbound mapping!", color: "#f87171" }
+  ], "NAT Table B");
+  drawAnnotation(500, 180, "\u274C Connection blocked", { color: "#f87171", size: "11px" });
+  drawAnnotation(500, 198, "Neither router has a mapping for\nincoming packets from the other", { size: "8px" });
+  function sendBlockedPackets() {
+    animatePacket("deviceA", "natA", { color: "#f87171", duration: 600, delay: 0 });
+    var a = layout.natA, b = layout.natB;
+    var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+    var blocked = packetsGroup.append("circle")
+      .attr("cx", a.x).attr("cy", a.y).attr("r", 5)
+      .attr("fill", "#f87171").attr("filter", "url(#ts-glow)").attr("opacity", 0);
+    blocked.transition().delay(600).duration(0).attr("opacity", 1)
+      .transition().duration(600).ease(d3.easeLinear)
+      .attr("cx", mx).attr("cy", my)
+      .transition().duration(200).attr("r", 12).attr("opacity", 0).remove();
+  }
+  sendBlockedPackets();
+  animInterval = setInterval(sendBlockedPackets, 3000);
+  d3.select("#ts-status-text").text("The NAT problem \u2014 routers drop unsolicited incoming packets");
+}
+
+function sceneHolePunch() {
+  clearAll(); stopAnimations();
+  drawConnection("deviceA", "natA", { color: "#1e3a5f" });
+  drawConnection("deviceB", "natB", { color: "#1e3a5f" });
+  drawConnection("natA", "coordServer", { color: "#0d4a3a", dash: "4,4" });
+  drawConnection("natB", "coordServer", { color: "#0d4a3a", dash: "4,4" });
+  drawConnection("natA", "natB", { color: "#0d4a3a", dash: "6,3", opacity: 0.4 });
+  drawNode("deviceA", { color: "#38bdf8" });
+  drawNode("deviceB", { color: "#38bdf8" });
+  drawNode("natA", { color: "#a78bfa", r: 24, fontSize: "14px" });
+  drawNode("natB", { color: "#a78bfa", r: 24, fontSize: "14px" });
+  drawNode("coordServer", { color: "#34d399", r: 32, fontSize: "20px" });
+  drawNATTable(280, 310, [
+    { text: "192.168.1.5:4820 \u2192 :50123", color: "#38bdf8" },
+    { text: "Expect reply from 198.51.100.8", color: "#34d399" }
+  ], "NAT Table A (hole punched)");
+  drawNATTable(720, 310, [
+    { text: "192.168.1.10:7231 \u2192 :61045", color: "#38bdf8" },
+    { text: "Expect reply from 203.0.113.5", color: "#34d399" }
+  ], "NAT Table B (hole punched)");
+  drawAnnotation(500, 440, "\u2460 Both devices register with coordination server\n\u2461 Server shares public IP:port info\n\u2462 Both send UDP packets simultaneously\n\u2463 NAT mappings created \u2192 hole punched!", { size: "9px", color: "#94a3b8" });
+  function holePunchCycle() {
+    animatePacket("deviceA", "natA", { color: "#34d399", duration: 500, delay: 0 });
+    animatePacket("natA", "coordServer", { color: "#34d399", duration: 700, delay: 500 });
+    animatePacket("deviceB", "natB", { color: "#34d399", duration: 500, delay: 200 });
+    animatePacket("natB", "coordServer", { color: "#34d399", duration: 700, delay: 700 });
+    animatePacket("coordServer", "natA", { color: "#34d399", duration: 700, delay: 1800 });
+    animatePacket("coordServer", "natB", { color: "#34d399", duration: 700, delay: 1800 });
+    animatePacket("natA", "natB", { color: "#38bdf8", duration: 800, delay: 3000 });
+    animatePacket("natB", "natA", { color: "#22d3ee", duration: 800, delay: 3000 });
+    animatePacket("deviceA", "natA", { color: "#34d399", duration: 400, delay: 4200 });
+    animatePacket("natA", "natB", { color: "#34d399", duration: 600, delay: 4600 });
+    animatePacket("natB", "deviceB", { color: "#34d399", duration: 400, delay: 5200 });
+  }
+  holePunchCycle();
+  animInterval = setInterval(holePunchCycle, 7000);
+  d3.select("#ts-status-text").text("UDP hole punching \u2014 simultaneous packets create NAT mappings from both sides");
+}
+
+function sceneDERPFallback() {
+  clearAll(); stopAnimations();
+  drawConnection("deviceA", "natA", { color: "#1e3a5f" });
+  drawConnection("deviceB", "natB", { color: "#1e3a5f" });
+  drawConnection("natA", "natB", { color: "#7f1d1d", dash: "4,4", opacity: 0.3 });
+  drawConnection("natA", "derpServer", { color: "#4a3000", dash: "4,4" });
+  drawConnection("natB", "derpServer", { color: "#4a3000", dash: "4,4" });
+  drawNode("deviceA", { color: "#38bdf8" });
+  drawNode("deviceB", { color: "#38bdf8" });
+  drawNode("natA", { color: "#f87171", r: 24, fontSize: "14px" });
+  drawNode("natB", { color: "#f87171", r: 24, fontSize: "14px" });
+  drawNode("derpServer", { color: "#fb923c", r: 30, fontSize: "18px" });
+  drawBlockMarker("natA", "natB", { color: "#f87171" });
+  drawAnnotation(280, 170, "Symmetric NAT\n(strict mapping)", { color: "#f87171", size: "9px" });
+  drawAnnotation(720, 170, "Symmetric NAT\n(strict mapping)", { color: "#f87171", size: "9px" });
+  drawAnnotation(500, 105, "DERP relay forwards\nencrypted WireGuard packets", { color: "#fb923c", size: "9px" });
+  drawAnnotation(500, 430, "Hole punching fails with symmetric NAT \u2014 the port changes per destination.\nDERP relays forward encrypted packets. Slower but always works.\nIn practice, direct connections succeed ~90% of the time.", { size: "9px", color: "#94a3b8" });
+  function derpRelay() {
+    animatePacket("deviceA", "natA", { color: "#fb923c", duration: 400, delay: 0 });
+    animatePacket("natA", "derpServer", { color: "#fb923c", duration: 600, delay: 400 });
+    animatePacket("derpServer", "natB", { color: "#fb923c", duration: 600, delay: 1000 });
+    animatePacket("natB", "deviceB", { color: "#fb923c", duration: 400, delay: 1600 });
+    animatePacket("deviceB", "natB", { color: "#fbbf24", duration: 400, delay: 2400 });
+    animatePacket("natB", "derpServer", { color: "#fbbf24", duration: 600, delay: 2800 });
+    animatePacket("derpServer", "natA", { color: "#fbbf24", duration: 600, delay: 3400 });
+    animatePacket("natA", "deviceA", { color: "#fbbf24", duration: 400, delay: 4000 });
+  }
+  derpRelay();
+  animInterval = setInterval(derpRelay, 5500);
+  d3.select("#ts-status-text").text("DERP fallback \u2014 encrypted relay when direct connection fails");
+}
+
+var scenes = {
+  "overview": sceneOverview,
+  "nat-problem": sceneNATProblem,
+  "hole-punch": sceneHolePunch,
+  "derp-fallback": sceneDERPFallback,
+};
+
+d3.selectAll(".ts-viz .ts-btn").on("click", function() {
+  var step = this.dataset.step;
+  d3.selectAll(".ts-viz .ts-btn").classed("active", false);
+  d3.select(this).classed("active", true);
+  scenes[step]();
+});
+
+sceneOverview();
+})();
+</script>

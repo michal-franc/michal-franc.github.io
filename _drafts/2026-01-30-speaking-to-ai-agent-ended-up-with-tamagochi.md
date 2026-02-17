@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: d3post
 title: "So I wanted to speak to AI agent ... and ended up with a Tamagochi on my phone"
 date: 2026-01-30 00:00
 author: Michal Franc
@@ -105,6 +105,20 @@ It also handles permission prompts. When Claude wants to run a command or edit a
 ## The Final Architecture
 
 TODO: diagram here
+
+## Private Access through Tailscale
+
+All these components - the watch, the phone, the web dashboard, and the server - need to talk to each other. But they're on different networks. My phone is on cellular, my watch is on WiFi, and the server is at home behind a router.
+
+Tailscale solves this. It creates a virtual private network across all your devices using WireGuard tunnels. Every device gets a stable IP (100.x.x.x), and identity, key management, and discovery are handled out of the box. It just works.
+
+What's interesting is how it connects devices behind NAT. Normally, your router won't let random incoming packets through - there's no mapping for them. So two devices behind NAT can't talk directly. Tailscale uses UDP hole punching to get around this.
+
+<div markdown="0">
+{% include toadie/tailscale-viz.html %}
+</div>
+
+When hole punching fails (some NATs are too strict), Tailscale falls back to DERP relay servers. Slower, but always works. In practice, direct connections succeed most of the time.
 
 ## Why not ClawdBot?
 
