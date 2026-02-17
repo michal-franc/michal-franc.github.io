@@ -77,6 +77,32 @@ Claude Code runs inside a tmux session, which gives me two things. First, the se
   <source src="/images/claudewatchwatchdemo.mp4" type="video/mp4">
 </video>
 
+The architecture is not that complicated. There are a few moving parts, but each one does a simple job:
+- **Galaxy Watch** - the client. It records audio, sends it to the server, and either displays text responses or plays back voice ones. It's a Kotlin app running on Wear OS.
+- **Python server** - runs locally on my machine. It receives audio from the watch, sends it over to Deepgram for transcription and text-to-speech, and talks to Claude.
+- **Deepgram** - TTS, STT provider - `audio in > text out` - `text in > audio out`
+- **Claude Code** - CLI process running on my machine. The wrapper script handles input sending, capturing output, and managing the process lifecycle. Before the wrapper I used a tmux get pane solution but it was unreliable as I was scraping data from the terminal. JSON-based approach is much cleaner.
+- **tmux session** - the wrapper logs everything to a tmux session called `claude-watch`. This gives me visibility into the way the Claude Code works.
+
+![Architecture](/images/dictation-architecture-simple.png)
+
+### 3.1 Permission Hooks
+
+One of the interesting things to solve was permission hooks. I wanted the watch to get the various permissions to be approved or not by the user so that I don't have to come over to the PC to approve them.
+
+Claude Code has a hooks system - it enables registration of scripts that run before or after specific tool calls. I use a `PreToolUse` hook, which fires every time Claude tries to run a Bash command, write a file, or edit something. The hook is registered in `.claude/settings.json` and points to a Python script called `permission_hook.py`.
+
+Here's how the whole flow works:
+
+1. **Hook intercepts the tool call** - When Claude wants to use a tool like Bash or Write, the hook script receives the tool call details on stdin - the tool name, unique id etc. Then script checks if this is a safe operation, `ls`, `cat`, `grep` - read-only commands get auto-approved.
+2. **Permission check sent over to server** - Operations like writing files, running scripts, installing packages are sent as POST request to `/api/permission/request`. The request includes tool name, input, and the ID so the server knows which tool call it is.
+3. **Broadcasts to the watch** - The server receives the permission request, assigns it a `request_id`, and pushes it out over WebSocket to the watch app. The app receives the message and a simple UI is displayed with a decision to Allow/Deny the request.
+4. **Hook waits for the response** - The hook script in parallel is polling `GET /api/permission/status/{request_id}` every half second. Waiting for a decision/response from the user.
+5. **User clicks Allow or Deny** - When I tap a button on the watch, the app sends `POST /api/permission/respond` with the `request_id` and the decision. The server stores it for polling hook to receive.
+6. **Polling hook gets the decision** - On the next poll, the hook gets the decision, outputs the appropriate JSON response (allow or deny), and Claude Code either proceeds with the tool call or blocks it.
+
+![Permission hooks flow](/images/dictation-permission-hooks.png)
+
 ## 4. Server dashboard
 I wanted to see what was going on without staring at a terminal, so I threw together a basic web UI. It's just a dashboard that connects over WebSocket and shows the conversation in real time. I can watch my prompts go in and Claude's responses come back, see which files are being touched, what tools are running. It tells me if Claude is thinking or waiting for me to say something.
 
@@ -104,7 +130,9 @@ It also handles permission prompts. When Claude wants to run a command or edit a
 
 ## The Final Architecture
 
-TODO: diagram here
+Adding the phone and dashboard to the diagram basically means adding two new clients. The web dashboard is also a client connected through WebSocket.
+
+![Full architecture](/images/architecture.jpg)
 
 ## Private Access through Tailscale
 
