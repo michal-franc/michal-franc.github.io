@@ -216,20 +216,6 @@
     </div>
   </div>
 
-  <div class="ts-info-grid">
-    <div class="ts-info-card">
-      <h3><span class="ts-dot" style="background:#38bdf8"></span>NAT Translation</h3>
-      <p>Your router maps internal IPs to its public IP, tracking port assignments. Incoming packets without an existing mapping are dropped — this is why two NATted devices can't connect directly without help.</p>
-    </div>
-    <div class="ts-info-card">
-      <h3><span class="ts-dot" style="background:#34d399"></span>Simultaneous Open</h3>
-      <p>Both devices send UDP packets at the same time to each other's public IP:port. Each router sees an outbound connection and creates a mapping. When the other's packet arrives, the mapping exists — the hole is punched.</p>
-    </div>
-    <div class="ts-info-card">
-      <h3><span class="ts-dot" style="background:#fb923c"></span>DERP Relay</h3>
-      <p>When hole punching fails (symmetric NAT), Tailscale falls back to DERP relay servers. Packets are encrypted end-to-end and forwarded through a public server. Slower, but always works.</p>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -263,7 +249,7 @@ const layout = {
   natA: { x: 280, y: 220, label: "NAT Router A", sublabel: "203.0.113.5", icon: "\u{1F500}" },
   natB: { x: 720, y: 220, label: "NAT Router B", sublabel: "198.51.100.8", icon: "\u{1F500}" },
   coordServer: { x: 500, y: 80, label: "Coordination Server", sublabel: "Tailscale Control Plane", icon: "\u2601\uFE0F" },
-  derpServer: { x: 500, y: 160, label: "DERP Relay", sublabel: "derp1.tailscale.com", icon: "\u{1F4E1}" },
+  derpServer: { x: 500, y: 80, label: "DERP Relay", sublabel: "derp1.tailscale.com", icon: "\u{1F4E1}" },
 };
 
 const mainGroup = svg.append("g");
@@ -297,10 +283,10 @@ function drawNode(key, opts) {
     .attr("font-size", opts.fontSize || "18px").text(n.icon);
   g.append("text").attr("text-anchor", "middle").attr("y", (opts.r || 28) + 18)
     .attr("fill", "#e2e8f0").attr("font-family", "'Space Grotesk', sans-serif")
-    .attr("font-size", "11px").attr("font-weight", 600).text(n.label);
-  g.append("text").attr("text-anchor", "middle").attr("y", (opts.r || 28) + 32)
+    .attr("font-size", "14px").attr("font-weight", 600).text(n.label);
+  g.append("text").attr("text-anchor", "middle").attr("y", (opts.r || 28) + 34)
     .attr("fill", "#64748b").attr("font-family", "'JetBrains Mono', monospace")
-    .attr("font-size", "9px").text(n.sublabel);
+    .attr("font-size", "11px").text(n.sublabel);
   return g;
 }
 
@@ -338,16 +324,16 @@ function animatePacket(from, to, opts) {
 function drawNATTable(x, y, entries, label) {
   const g = labelsGroup.append("g").attr("class", "nat-table")
     .attr("transform", "translate(" + x + ", " + y + ")");
-  g.append("rect").attr("x", -80).attr("y", -12).attr("width", 160)
-    .attr("height", 14 + entries.length * 16).attr("rx", 6).attr("fill", "#0f172a")
+  g.append("rect").attr("x", -105).attr("y", -14).attr("width", 210)
+    .attr("height", 18 + entries.length * 20).attr("rx", 6).attr("fill", "#0f172a")
     .attr("stroke", "#1e293b").attr("stroke-width", 1).attr("opacity", 0.95);
   g.append("text").attr("text-anchor", "middle").attr("y", 2).attr("fill", "#94a3b8")
-    .attr("font-family", "'JetBrains Mono', monospace").attr("font-size", "8px")
+    .attr("font-family", "'JetBrains Mono', monospace").attr("font-size", "10px")
     .attr("font-weight", 600).text(label);
   entries.forEach(function(e, i) {
-    g.append("text").attr("text-anchor", "middle").attr("y", 18 + i * 16)
+    g.append("text").attr("text-anchor", "middle").attr("y", 20 + i * 20)
       .attr("fill", e.color || "#38bdf8").attr("font-family", "'JetBrains Mono', monospace")
-      .attr("font-size", "8px").text(e.text);
+      .attr("font-size", "10px").text(e.text);
   });
   return g;
 }
@@ -357,7 +343,7 @@ function drawAnnotation(x, y, text, opts) {
   const g = labelsGroup.append("g").attr("transform", "translate(" + x + ", " + y + ")");
   const t = g.append("text").attr("text-anchor", opts.anchor || "middle")
     .attr("fill", opts.color || "#94a3b8").attr("font-family", "'JetBrains Mono', monospace")
-    .attr("font-size", opts.size || "9px").attr("font-weight", 400);
+    .attr("font-size", opts.size || "12px").attr("font-weight", 400);
   text.split("\n").forEach(function(line, i) {
     t.append("tspan").attr("x", 0).attr("dy", i === 0 ? 0 : "1.3em").text(line);
   });
@@ -367,7 +353,7 @@ function drawAnnotation(x, y, text, opts) {
 function drawBlockMarker(from, to, opts) {
   opts = opts || {};
   const a = layout[from], b = layout[to];
-  const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+  const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2 + (opts.dy || 0);
   const g = labelsGroup.append("g").attr("transform", "translate(" + mx + ", " + my + ")");
   var s = 8;
   g.append("line").attr("x1", -s).attr("y1", -s).attr("x2", s).attr("y2", s)
@@ -402,8 +388,8 @@ function sceneOverview() {
   drawNode("natA", { color: "#a78bfa", r: 24, fontSize: "14px" });
   drawNode("natB", { color: "#a78bfa", r: 24, fontSize: "14px" });
   drawNode("coordServer", { color: "#34d399", r: 32, fontSize: "20px" });
-  drawAnnotation(500, 300, "Direct P2P tunnel (WireGuard)", { color: "#34d399", size: "10px" });
-  drawAnnotation(500, 315, "encrypted end-to-end via 100.x.x.x addresses", { size: "8px" });
+  drawAnnotation(500, 300, "Direct P2P tunnel (WireGuard)", { color: "#34d399", size: "14px" });
+  drawAnnotation(500, 318, "encrypted end-to-end via 100.x.x.x addresses", { size: "11px" });
   function sendMeshPackets() {
     animatePacket("deviceA", "natA", { color: "#38bdf8", duration: 800, delay: 0 });
     animatePacket("natA", "natB", { color: "#34d399", duration: 1000, delay: 800 });
@@ -423,7 +409,7 @@ function sceneNATProblem() {
   drawNode("deviceB", { color: "#38bdf8" });
   drawNode("natA", { color: "#a78bfa", r: 24, fontSize: "14px" });
   drawNode("natB", { color: "#a78bfa", r: 24, fontSize: "14px" });
-  drawBlockMarker("natA", "natB", { color: "#f87171" });
+  drawBlockMarker("natA", "natB", { color: "#f87171", dy: 30 });
   drawNATTable(280, 310, [
     { text: "192.168.1.5:4820 \u2192 :50123", color: "#38bdf8" },
     { text: "No inbound mapping!", color: "#f87171" }
@@ -432,8 +418,8 @@ function sceneNATProblem() {
     { text: "192.168.1.10:7231 \u2192 :61045", color: "#38bdf8" },
     { text: "No inbound mapping!", color: "#f87171" }
   ], "NAT Table B");
-  drawAnnotation(500, 180, "\u274C Connection blocked", { color: "#f87171", size: "11px" });
-  drawAnnotation(500, 198, "Neither router has a mapping for\nincoming packets from the other", { size: "8px" });
+  drawAnnotation(500, 180, "\u274C Connection blocked", { color: "#f87171", size: "14px" });
+  drawAnnotation(500, 200, "Neither router has a mapping for\nincoming packets from the other", { size: "11px" });
   function sendBlockedPackets() {
     animatePacket("deviceA", "natA", { color: "#f87171", duration: 600, delay: 0 });
     var a = layout.natA, b = layout.natB;
@@ -463,15 +449,15 @@ function sceneHolePunch() {
   drawNode("natA", { color: "#a78bfa", r: 24, fontSize: "14px" });
   drawNode("natB", { color: "#a78bfa", r: 24, fontSize: "14px" });
   drawNode("coordServer", { color: "#34d399", r: 32, fontSize: "20px" });
-  drawNATTable(280, 310, [
+  drawNATTable(120, 180, [
     { text: "192.168.1.5:4820 \u2192 :50123", color: "#38bdf8" },
     { text: "Expect reply from 198.51.100.8", color: "#34d399" }
   ], "NAT Table A (hole punched)");
-  drawNATTable(720, 310, [
+  drawNATTable(880, 180, [
     { text: "192.168.1.10:7231 \u2192 :61045", color: "#38bdf8" },
     { text: "Expect reply from 203.0.113.5", color: "#34d399" }
   ], "NAT Table B (hole punched)");
-  drawAnnotation(500, 440, "\u2460 Both devices register with coordination server\n\u2461 Server shares public IP:port info\n\u2462 Both send UDP packets simultaneously\n\u2463 NAT mappings created \u2192 hole punched!", { size: "9px", color: "#94a3b8" });
+  drawAnnotation(500, 340, "\u2460 Both devices register with coordination server\n\u2461 Server shares public IP:port info\n\u2462 Both send UDP packets simultaneously\n\u2463 NAT mappings created \u2192 hole punched!", { size: "12px", color: "#94a3b8" });
   function holePunchCycle() {
     animatePacket("deviceA", "natA", { color: "#34d399", duration: 500, delay: 0 });
     animatePacket("natA", "coordServer", { color: "#34d399", duration: 700, delay: 500 });
@@ -502,11 +488,11 @@ function sceneDERPFallback() {
   drawNode("natA", { color: "#f87171", r: 24, fontSize: "14px" });
   drawNode("natB", { color: "#f87171", r: 24, fontSize: "14px" });
   drawNode("derpServer", { color: "#fb923c", r: 30, fontSize: "18px" });
-  drawBlockMarker("natA", "natB", { color: "#f87171" });
-  drawAnnotation(280, 170, "Symmetric NAT\n(strict mapping)", { color: "#f87171", size: "9px" });
-  drawAnnotation(720, 170, "Symmetric NAT\n(strict mapping)", { color: "#f87171", size: "9px" });
-  drawAnnotation(500, 105, "DERP relay forwards\nencrypted WireGuard packets", { color: "#fb923c", size: "9px" });
-  drawAnnotation(500, 430, "Hole punching fails with symmetric NAT \u2014 the port changes per destination.\nDERP relays forward encrypted packets. Slower but always works.\nIn practice, direct connections succeed ~90% of the time.", { size: "9px", color: "#94a3b8" });
+  drawBlockMarker("natA", "natB", { color: "#f87171", dy: 30 });
+  drawAnnotation(280, 170, "Symmetric NAT\n(strict mapping)", { color: "#f87171", size: "12px" });
+  drawAnnotation(720, 170, "Symmetric NAT\n(strict mapping)", { color: "#f87171", size: "12px" });
+  drawAnnotation(500, 160, "DERP relay forwards\nencrypted WireGuard packets", { color: "#fb923c", size: "12px" });
+  drawAnnotation(500, 340, "Hole punching fails with symmetric NAT \u2014 the port changes per destination.\nDERP relays forward encrypted packets. Slower but always works.\nIn practice, direct connections succeed ~90% of the time.", { size: "12px", color: "#94a3b8" });
   function derpRelay() {
     animatePacket("deviceA", "natA", { color: "#fb923c", duration: 400, delay: 0 });
     animatePacket("natA", "derpServer", { color: "#fb923c", duration: 600, delay: 400 });

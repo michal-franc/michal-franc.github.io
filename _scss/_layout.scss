@@ -320,6 +320,15 @@ strong {
 		font-weight: 500;
 	}
 
+	li {
+		font-weight: $font-weight-light;
+	}
+
+	p + ul,
+	p + ol {
+		margin-top: -0.5em;
+	}
+
   > p:first-of-type:first-letter {
     float:left;
     font-family:helvetica, arial, geneva, sans-serif;

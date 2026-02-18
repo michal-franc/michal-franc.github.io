@@ -5,7 +5,7 @@ date: 2026-02-17 00:00
 author: Michal Franc
 comments: true
 categories: [tech]
-tags: [claude-code, deepgram, speech-to-text, galaxy-watch, linux, ai, tailscale, kotlin]
+tags: [claude-code, ai, speech-to-text, kotlin]
 image: toadie.png
 summary: "What started as a weekend dictation script somehow turned into me building a Kotlin app for my Galaxy Watch, a Tamagotchi-like bot on my phone, and a full personal assistant I talk to from the couch."
 ---
@@ -104,22 +104,22 @@ Claude Code has a hooks system - it enables registration of scripts that run bef
 
 Here's how the whole flow works - graphical flow below:
 
-#### 1. Hook intercepts the tool call
+**1. Hook intercepts the tool call**
 When Claude wants to use a tool like Bash or Write, the hook script receives the tool call details on stdin - the tool name, unique id etc. Then script checks if this is a safe operation, `ls`, `cat`, `grep` -> read-only commands get auto-approved.
 
-#### 2. Permission check sent over to server
+**2. Permission check sent over to server**
 Operations like writing files, running scripts, installing packages are sent as POST request to `/api/permission/request`. The request includes tool name, input, and the ID so the server knows which tool call it is.
 
-#### 3. Broadcasts to the watch
+**3. Broadcasts to the watch**
 The server receives the permission request, assigns it a `request_id`, and pushes it out over WebSocket to the watch app. The app receives the message and a simple UI is displayed with a decision to Allow/Deny the request.
 
-#### 4. Hook waits for the response
+**4. Hook waits for the response**
 The hook script in parallel is polling `GET /api/permission/status/{request_id}` every half second. Waiting for a decision/response from the user.
 
-#### 5. User clicks Allow or Deny
+**5. User clicks Allow or Deny**
 When I tap a button on the watch, the app sends `POST /api/permission/respond` with the `request_id` and the decision. The server stores it for polling hook to receive.
 
-#### 6. Polling hook gets the decision
+**6. Polling hook gets the decision**
 On the next poll, the hook gets the decision, outputs the appropriate JSON response (allow or deny), and Claude Code either proceeds with the tool call or blocks it.
 
 ![Permission hooks flow](/images/dictation-permission-hooks.png)
@@ -143,12 +143,6 @@ You can check visualization of the app - mockup below (created using Remotion an
 <video controls width="200" style="max-width:100%">
   <source src="/images/claudewatchdemo.mp4" type="video/mp4">
 </video>
-
-### Interactive mockup
-
-<div markdown="0">
-{% include claude-watch/mockup-playground.html %}
-</div>
 
 ## The Final Architecture
 
