@@ -622,6 +622,16 @@
     text-transform: uppercase;
   }
 
+  /* ---- D3 Visualizations ---- */
+  #timeline-viz, #galaxy-viz {
+    width: 100%;
+    overflow-x: auto;
+  }
+  #timeline-viz svg, #galaxy-viz svg {
+    width: 100%;
+    display: block;
+  }
+
   /* ---- Mech Browser ---- */
   .mech-cards {
     display: grid;
@@ -821,6 +831,28 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
   </div>
 </div>
+
+<!-- ====== GALAXY MAP ====== -->
+<section>
+  <div class="section-header">
+    <h2>Galaxy Map</h2>
+    <p>The known galaxy — safe space at the core, the Great Gate, and the devastated unknown regions beyond.</p>
+  </div>
+  <div id="galaxy-viz"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ====== LORE TIMELINE ====== -->
+<section>
+  <div class="section-header">
+    <h2>Timeline of the Collapse</h2>
+    <p>A thousand years of expansion, rebellion, and survival — from humanity's golden age to the reopening of the Great Gate.</p>
+  </div>
+  <div id="timeline-viz"></div>
+</section>
+
+<div class="divider"></div>
 
 <!-- ====== SCREENSHOTS ====== -->
 <section>
@@ -1610,6 +1642,508 @@
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') lightbox.classList.remove('active');
   });
+</script>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+// ====== LORE TIMELINE (Horizontal) ======
+(function() {
+  const eras = [
+    {
+      name: "Age of Earth",
+      start: 2000, end: 2100,
+      color: "#00d4ff",
+      events: []
+    },
+    {
+      name: "Expansion",
+      start: 2100, end: 2300,
+      color: "#00ff88",
+      events: []
+    },
+    {
+      name: "AI Rebellion",
+      start: 2300, end: 2500,
+      color: "#ff3355",
+      events: [
+        { year: 2400, text: "THE GREAT COLLAPSE", major: true },
+      ]
+    },
+    {
+      name: "Survival",
+      start: 2500, end: 2800,
+      color: "#ff6b35",
+      events: []
+    },
+    {
+      name: "Reawakening",
+      start: 2800, end: 3000,
+      color: "#bb66ff",
+      events: [
+        { year: 2995, text: "GATE REOPENS", major: true },
+      ]
+    },
+    {
+      name: "New Frontier",
+      start: 3000, end: 3020,
+      color: "#00d4ff",
+      events: [],
+      youAreHere: true
+    }
+  ];
+
+  const w = 900, h = 320;
+  const margin = { left: 40, right: 40, top: 50, bottom: 80 };
+  const spineY = 140;
+  const eraW = (w - margin.left - margin.right) / eras.length;
+
+  const svg = d3.select("#timeline-viz")
+    .append("svg")
+    .attr("viewBox", `0 0 ${w} ${h}`)
+    .attr("preserveAspectRatio", "xMidYMid meet");
+
+  const defs = svg.append("defs");
+  eras.forEach((era, i) => {
+    const grad = defs.append("radialGradient").attr("id", `htl-glow-${i}`);
+    grad.append("stop").attr("offset", "0%").attr("stop-color", era.color).attr("stop-opacity", 0.12);
+    grad.append("stop").attr("offset", "100%").attr("stop-color", era.color).attr("stop-opacity", 0);
+  });
+
+  // Horizontal spine
+  svg.append("line")
+    .attr("x1", margin.left).attr("y1", spineY)
+    .attr("x2", w - margin.right).attr("y2", spineY)
+    .attr("stroke", "#ffffff").attr("stroke-opacity", 0.1).attr("stroke-width", 2);
+
+  // Arrow at end
+  svg.append("polygon")
+    .attr("points", `${w - margin.right},${spineY - 4} ${w - margin.right + 8},${spineY} ${w - margin.right},${spineY + 4}`)
+    .attr("fill", "#ffffff").attr("fill-opacity", 0.2);
+
+  eras.forEach((era, ei) => {
+    const eraX = margin.left + ei * eraW;
+    const eraCX = eraX + eraW / 2;
+
+    // Era glow
+    svg.append("ellipse")
+      .attr("cx", eraCX).attr("cy", spineY)
+      .attr("rx", eraW / 2).attr("ry", 100)
+      .attr("fill", `url(#htl-glow-${ei})`);
+
+    // Era bracket on spine
+    svg.append("line")
+      .attr("x1", eraX + 4).attr("y1", spineY - 8)
+      .attr("x2", eraX + 4).attr("y2", spineY + 8)
+      .attr("stroke", era.color).attr("stroke-opacity", 0.3).attr("stroke-width", 1.5);
+
+    // Era name above
+    svg.append("text")
+      .attr("x", eraCX).attr("y", spineY - 35)
+      .attr("text-anchor", "middle")
+      .attr("fill", era.color).attr("fill-opacity", 0.8)
+      .attr("font-family", "Orbitron, monospace").attr("font-size", "9px")
+      .attr("font-weight", "700").attr("letter-spacing", "0.1em")
+      .text(era.name.toUpperCase());
+
+    // Year range
+    svg.append("text")
+      .attr("x", eraCX).attr("y", spineY - 22)
+      .attr("text-anchor", "middle")
+      .attr("fill", "#7a7a8a").attr("font-family", "Orbitron, monospace").attr("font-size", "8px")
+      .text(`${era.start} – ${era.end}`);
+
+    // Events below spine
+    era.events.forEach((ev, j) => {
+      const evX = eraX + 8 + (j / Math.max(era.events.length - 1, 1)) * (eraW - 16);
+      const evY = spineY + 18 + j * 28;
+
+      // Dot on spine
+      const dotX = era.events.length === 1 ? eraCX : evX;
+      svg.append("circle")
+        .attr("cx", dotX).attr("cy", spineY)
+        .attr("r", ev.major ? 5 : 3)
+        .attr("fill", ev.major ? era.color : "#ffffff")
+        .attr("fill-opacity", ev.major ? 1 : 0.5);
+
+      if (ev.major) {
+        svg.append("circle")
+          .attr("cx", dotX).attr("cy", spineY).attr("r", 10)
+          .attr("fill", "none").attr("stroke", era.color).attr("stroke-opacity", 0.3).attr("stroke-width", 1);
+      }
+
+      // Connector line down
+      svg.append("line")
+        .attr("x1", dotX).attr("y1", spineY + (ev.major ? 10 : 3))
+        .attr("x2", eraCX).attr("y2", evY - 6)
+        .attr("stroke", era.color).attr("stroke-opacity", 0.1).attr("stroke-width", 1);
+
+      // Event text
+      svg.append("text")
+        .attr("x", eraCX).attr("y", evY)
+        .attr("text-anchor", "middle")
+        .attr("fill", ev.major ? era.color : "#e0e0e8")
+        .attr("fill-opacity", ev.major ? 1 : 0.7)
+        .attr("font-family", "Inter, sans-serif")
+        .attr("font-size", ev.major ? "10px" : "9px")
+        .attr("font-weight", ev.major ? "600" : "400")
+        .text(`${ev.year} — ${ev.text}`);
+    });
+
+    // "You Are Here" marker
+    if (era.youAreHere) {
+      svg.append("circle")
+        .attr("cx", eraCX).attr("cy", spineY).attr("r", 6)
+        .attr("fill", "none").attr("stroke", "#ffffff").attr("stroke-width", 1.5).attr("stroke-opacity", 0.9);
+      svg.append("circle")
+        .attr("cx", eraCX).attr("cy", spineY).attr("r", 2.5)
+        .attr("fill", "#ffffff");
+      svg.append("text")
+        .attr("x", eraCX).attr("y", spineY + 22)
+        .attr("text-anchor", "middle")
+        .attr("fill", "#ffffff").attr("fill-opacity", 0.8)
+        .attr("font-family", "Orbitron, monospace").attr("font-size", "8px")
+        .attr("letter-spacing", "0.1em")
+        .text("YOU ARE HERE");
+    }
+  });
+})();
+
+// ====== GALAXY MAP (Linear: Safe left → Danger right) ======
+(function() {
+  const w = 900, h = 500;
+  const cy = h / 2;
+
+  const svg = d3.select("#galaxy-viz")
+    .append("svg")
+    .attr("viewBox", `0 0 ${w} ${h}`)
+    .attr("preserveAspectRatio", "xMidYMid meet");
+
+  const defs = svg.append("defs");
+
+  // Horizontal gradient: safe blue → danger red
+  const bgGrad = defs.append("linearGradient").attr("id", "galaxy-bg")
+    .attr("x1", "0%").attr("y1", "0%").attr("x2", "100%").attr("y2", "0%");
+  bgGrad.append("stop").attr("offset", "0%").attr("stop-color", "#00d4ff").attr("stop-opacity", 0.06);
+  bgGrad.append("stop").attr("offset", "35%").attr("stop-color", "#000000").attr("stop-opacity", 0);
+  bgGrad.append("stop").attr("offset", "65%").attr("stop-color", "#000000").attr("stop-opacity", 0);
+  bgGrad.append("stop").attr("offset", "100%").attr("stop-color", "#ff3355").attr("stop-opacity", 0.06);
+
+  // Background
+  svg.append("rect").attr("width", w).attr("height", h).attr("fill", "url(#galaxy-bg)");
+
+  // Stars — denser on the left (safe), sparser and dimmer on the right
+  for (let i = 0; i < 500; i++) {
+    const sx = Math.random() * w;
+    const sy = Math.random() * h;
+    const safeFactor = 1 - sx / w; // 1 at left, 0 at right
+    const sr = Math.random() * (safeFactor * 0.8 + 0.6) + 0.3;
+    const so = Math.random() * (safeFactor * 0.3 + 0.1) + 0.05;
+    svg.append("circle")
+      .attr("cx", sx).attr("cy", sy).attr("r", sr)
+      .attr("fill", "#ffffff").attr("fill-opacity", so);
+  }
+
+  // ---- Zone boundaries (vertical lines) ----
+  const zones = [
+    { x: 220, label: "SAFE SPACE", labelColor: "#00d4ff", lineColor: "#00d4ff", lineOp: 0.2 },
+    { x: 380, label: "NO MAN'S LAND", labelColor: "#ff6b35", lineColor: "#ff6b35", lineOp: 0.15 },
+    { x: 560, label: "CONTESTED FRONTIER", labelColor: "#bb66ff", lineColor: "#bb66ff", lineOp: 0.12 },
+    { x: 720, label: "DEEP UNKNOWN", labelColor: "#ff3355", lineColor: "#ff3355", lineOp: 0.1 },
+  ];
+
+  zones.forEach(z => {
+    svg.append("line")
+      .attr("x1", z.x).attr("y1", 30).attr("x2", z.x).attr("y2", h - 30)
+      .attr("stroke", z.lineColor).attr("stroke-opacity", z.lineOp)
+      .attr("stroke-width", 1).attr("stroke-dasharray", "4,6");
+
+    svg.append("text")
+      .attr("x", z.x).attr("y", 22)
+      .attr("text-anchor", "middle")
+      .attr("fill", z.labelColor).attr("fill-opacity", 0.45)
+      .attr("font-family", "Orbitron, monospace").attr("font-size", "8px")
+      .attr("letter-spacing", "0.15em")
+      .text(z.label);
+  });
+
+  // ---- Danger arrow at bottom ----
+  svg.append("line")
+    .attr("x1", 60).attr("y1", h - 18).attr("x2", w - 40).attr("y2", h - 18)
+    .attr("stroke", "#ffffff").attr("stroke-opacity", 0.08).attr("stroke-width", 1);
+  svg.append("polygon")
+    .attr("points", `${w - 40},${h - 22} ${w - 30},${h - 18} ${w - 40},${h - 14}`)
+    .attr("fill", "#ff3355").attr("fill-opacity", 0.3);
+  svg.append("text")
+    .attr("x", 60).attr("y", h - 6)
+    .attr("fill", "#00d4ff").attr("fill-opacity", 0.35)
+    .attr("font-family", "Orbitron, monospace").attr("font-size", "8px")
+    .attr("letter-spacing", "0.1em")
+    .text("SAFER");
+  svg.append("text")
+    .attr("x", w - 90).attr("y", h - 6)
+    .attr("fill", "#ff3355").attr("fill-opacity", 0.35)
+    .attr("font-family", "Orbitron, monospace").attr("font-size", "8px")
+    .attr("letter-spacing", "0.1em")
+    .text("MORE DANGEROUS");
+
+  // ---- SAFE SPACE (left side) ----
+  // Factions
+  const factions = [
+    { name: "Kami-Tech Dominion", color: "#00d4ff", x: 70, y: cy - 100 },
+    { name: "Red Lotus Dynasty", color: "#ff4466", x: 160, y: cy - 50 },
+    { name: "Celestial Watch", color: "#bb66ff", x: 60, y: cy + 30 },
+    { name: "Ashen Scepters", color: "#ff6b35", x: 155, y: cy + 80 },
+    { name: "Wardens of the Rift", color: "#00ff88", x: 110, y: cy + 140 },
+  ];
+
+  factions.forEach(f => {
+    // Territory glow
+    svg.append("circle")
+      .attr("cx", f.x).attr("cy", f.y).attr("r", 30)
+      .attr("fill", f.color).attr("fill-opacity", 0.04);
+
+    // Planet cluster
+    for (let i = 0; i < 5; i++) {
+      const angle = (i / 5) * Math.PI * 2 + Math.random() * 0.8;
+      const dist = Math.random() * 16 + 4;
+      svg.append("circle")
+        .attr("cx", f.x + Math.cos(angle) * dist)
+        .attr("cy", f.y + Math.sin(angle) * dist)
+        .attr("r", Math.random() * 2 + 1)
+        .attr("fill", f.color).attr("fill-opacity", 0.5);
+    }
+
+    // Core world
+    svg.append("circle")
+      .attr("cx", f.x).attr("cy", f.y).attr("r", 4)
+      .attr("fill", f.color).attr("fill-opacity", 0.9);
+
+    // Label
+    svg.append("text")
+      .attr("x", f.x).attr("y", f.y + 22)
+      .attr("text-anchor", "middle")
+      .attr("fill", f.color).attr("fill-opacity", 0.65)
+      .attr("font-family", "Inter, sans-serif").attr("font-size", "8px").attr("font-weight", "500")
+      .text(f.name);
+  });
+
+  // Earth (lost) — far right, deep in the unknown
+
+  // ---- THE GREAT GATE ----
+  const gateX = 220, gateY = cy;
+
+  // Gate structure — tall vertical portal
+  svg.append("ellipse")
+    .attr("cx", gateX).attr("cy", gateY).attr("rx", 8).attr("ry", 30)
+    .attr("fill", "#00ff88").attr("fill-opacity", 0.08)
+    .attr("stroke", "#00ff88").attr("stroke-opacity", 0.5).attr("stroke-width", 1.5);
+
+  svg.append("ellipse")
+    .attr("cx", gateX).attr("cy", gateY).attr("rx", 14).attr("ry", 45)
+    .attr("fill", "none")
+    .attr("stroke", "#00ff88").attr("stroke-opacity", 0.12).attr("stroke-width", 1)
+    .attr("stroke-dasharray", "3,4");
+
+  svg.append("text")
+    .attr("x", gateX).attr("y", gateY - 52)
+    .attr("text-anchor", "middle")
+    .attr("fill", "#00ff88").attr("fill-opacity", 0.7)
+    .attr("font-family", "Orbitron, monospace").attr("font-size", "9px")
+    .attr("letter-spacing", "0.1em")
+    .text("THE GREAT GATE");
+
+  // "You are here" — just past the gate
+  const youX = gateX - 50, youY = gateY - 5;
+  svg.append("circle")
+    .attr("cx", youX).attr("cy", youY).attr("r", 5)
+    .attr("fill", "none").attr("stroke", "#ffffff").attr("stroke-width", 1.5).attr("stroke-opacity", 0.8);
+  svg.append("circle")
+    .attr("cx", youX).attr("cy", youY).attr("r", 2)
+    .attr("fill", "#ffffff");
+  svg.append("text")
+    .attr("x", youX).attr("y", youY + 16)
+    .attr("text-anchor", "middle")
+    .attr("fill", "#ffffff").attr("fill-opacity", 0.7)
+    .attr("font-family", "Orbitron, monospace").attr("font-size", "8px")
+    .attr("letter-spacing", "0.1em")
+    .text("YOU ARE HERE");
+
+  // Expedition lines from "You are here" to various sectors
+  const expeditions = [
+    { tx: 430, ty: cy - 110, label: "EXPLORE", color: "#00ff88" },
+    { tx: 640, ty: cy + 80, label: "SCAVENGE", color: "#ff6b35" },
+    { tx: 490, ty: cy + 20, label: "FIGHT", color: "#ff3355" },
+    { tx: 680, ty: cy - 40, label: "DISCOVER", color: "#bb66ff" },
+  ];
+
+  expeditions.forEach(e => {
+    const midX = (youX + e.tx) / 2;
+    const midY = (youY + e.ty) / 2 + (Math.random() - 0.5) * 30;
+
+    svg.append("path")
+      .attr("d", `M${youX},${youY} Q${midX},${midY} ${e.tx},${e.ty}`)
+      .attr("fill", "none")
+      .attr("stroke", e.color).attr("stroke-opacity", 0.6).attr("stroke-width", 1.5)
+      .attr("stroke-dasharray", "5,5");
+
+    // Label at midpoint of curve
+    const lx = youX * 0.25 + midX * 0.5 + e.tx * 0.25;
+    const ly = youY * 0.25 + midY * 0.5 + e.ty * 0.25;
+    svg.append("text")
+      .attr("x", lx).attr("y", ly - 6)
+      .attr("text-anchor", "middle")
+      .attr("fill", e.color).attr("fill-opacity", 0.85)
+      .attr("font-family", "Orbitron, monospace").attr("font-size", "8px")
+      .attr("letter-spacing", "0.15em")
+      .text(e.label);
+  });
+
+  // ---- NO MAN'S LAND (middle zone) ----
+  // Scattered outposts and debris
+  const nomansland = [
+    { x: 260, y: cy - 120, r: 15, label: "Outpost" },
+    { x: 340, y: cy + 100, r: 12, label: "Scrap Field" },
+    { x: 310, y: cy - 80, r: 10, label: "Relay" },
+  ];
+
+  nomansland.forEach(n => {
+    for (let i = 0; i < 4; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.random() * n.r;
+      svg.append("circle")
+        .attr("cx", n.x + Math.cos(angle) * dist)
+        .attr("cy", n.y + Math.sin(angle) * dist)
+        .attr("r", Math.random() * 1.5 + 0.5)
+        .attr("fill", "#ff6b35").attr("fill-opacity", Math.random() * 0.3 + 0.1);
+    }
+    svg.append("text")
+      .attr("x", n.x).attr("y", n.y + n.r + 10)
+      .attr("text-anchor", "middle")
+      .attr("fill", "#ff6b35").attr("fill-opacity", 0.3)
+      .attr("font-family", "Inter, sans-serif").attr("font-size", "7px")
+      .text(n.label);
+  });
+
+  // ---- CONTESTED FRONTIER ----
+  const frontier = [
+    { x: 430, y: cy - 110, r: 22, label: "Reclaimed Colony", color: "#bb66ff" },
+    { x: 490, y: cy + 20, r: 18, label: "Warzone", color: "#ff6b35" },
+    { x: 520, y: cy + 110, r: 20, label: "Proxy Conflict", color: "#bb66ff" },
+    { x: 450, y: cy - 30, r: 14, label: "Mining Claim", color: "#00ff88" },
+  ];
+
+  frontier.forEach(f => {
+    svg.append("circle")
+      .attr("cx", f.x).attr("cy", f.y).attr("r", f.r)
+      .attr("fill", f.color).attr("fill-opacity", 0.03)
+      .attr("stroke", f.color).attr("stroke-opacity", 0.12).attr("stroke-width", 1)
+      .attr("stroke-dasharray", "2,3");
+
+    for (let i = 0; i < 5; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.random() * f.r * 0.7;
+      svg.append("circle")
+        .attr("cx", f.x + Math.cos(angle) * dist)
+        .attr("cy", f.y + Math.sin(angle) * dist)
+        .attr("r", Math.random() * 1.5 + 0.5)
+        .attr("fill", f.color).attr("fill-opacity", Math.random() * 0.3 + 0.1);
+    }
+
+    svg.append("text")
+      .attr("x", f.x).attr("y", f.y + f.r + 11)
+      .attr("text-anchor", "middle")
+      .attr("fill", f.color).attr("fill-opacity", 0.4)
+      .attr("font-family", "Inter, sans-serif").attr("font-size", "7px")
+      .text(f.label);
+  });
+
+  // ---- DEEP UNKNOWN (right side) ----
+  // Rogue AI clusters, destroyed worlds, ruins
+  const unknown = [
+    { x: 620, y: cy - 130, r: 28, label: "Destroyed Sector", color: "#ff3355" },
+    { x: 680, y: cy - 40, r: 22, label: "Rogue AI Territory", color: "#aa2244" },
+    { x: 640, y: cy + 80, r: 25, label: "Wasteland", color: "#7a7a8a" },
+    { x: 710, y: cy + 130, r: 18, label: "Ruins", color: "#ff3355" },
+  ];
+
+  unknown.forEach(u => {
+    svg.append("circle")
+      .attr("cx", u.x).attr("cy", u.y).attr("r", u.r)
+      .attr("fill", u.color).attr("fill-opacity", 0.04)
+      .attr("stroke", u.color).attr("stroke-opacity", 0.1).attr("stroke-width", 1)
+      .attr("stroke-dasharray", "2,4");
+
+    for (let i = 0; i < 7; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.random() * u.r * 0.8;
+      svg.append("circle")
+        .attr("cx", u.x + Math.cos(angle) * dist)
+        .attr("cy", u.y + Math.sin(angle) * dist)
+        .attr("r", Math.random() * 1.2 + 0.3)
+        .attr("fill", u.color).attr("fill-opacity", Math.random() * 0.25 + 0.05);
+    }
+
+    svg.append("text")
+      .attr("x", u.x).attr("y", u.y + u.r + 11)
+      .attr("text-anchor", "middle")
+      .attr("fill", u.color).attr("fill-opacity", 0.35)
+      .attr("font-family", "Inter, sans-serif").attr("font-size", "7px")
+      .text(u.label);
+  });
+
+  // Far right — "closer to Earth's origin" danger
+  const deep = [
+    { x: 790, y: cy - 80, r: 30, label: "AI Core Systems", color: "#ff3355" },
+    { x: 830, y: cy + 50, r: 25, label: "Dead Worlds", color: "#aa2244" },
+    { x: 860, y: cy - 10, r: 18, label: "Earth (lost)", color: "#ffffff", earth: true },
+  ];
+
+  deep.forEach(d => {
+    if (d.earth) {
+      // Special Earth marker
+      svg.append("circle")
+        .attr("cx", d.x).attr("cy", d.y).attr("r", d.r)
+        .attr("fill", "#00d4ff").attr("fill-opacity", 0.02)
+        .attr("stroke", "#ffffff").attr("stroke-opacity", 0.12).attr("stroke-width", 1)
+        .attr("stroke-dasharray", "2,3");
+      svg.append("circle")
+        .attr("cx", d.x).attr("cy", d.y).attr("r", 4)
+        .attr("fill", "#ffffff").attr("fill-opacity", 0.2);
+      svg.append("circle")
+        .attr("cx", d.x).attr("cy", d.y).attr("r", 2)
+        .attr("fill", "#ffffff").attr("fill-opacity", 0.4);
+      svg.append("text")
+        .attr("x", d.x).attr("y", d.y + d.r + 11)
+        .attr("text-anchor", "middle")
+        .attr("fill", "#ffffff").attr("fill-opacity", 0.4)
+        .attr("font-family", "Orbitron, monospace").attr("font-size", "8px")
+        .attr("font-style", "italic").attr("letter-spacing", "0.1em")
+        .text("EARTH (LOST)");
+    } else {
+      svg.append("circle")
+        .attr("cx", d.x).attr("cy", d.y).attr("r", d.r)
+        .attr("fill", d.color).attr("fill-opacity", 0.03)
+        .attr("stroke", d.color).attr("stroke-opacity", 0.07).attr("stroke-width", 1);
+
+      for (let i = 0; i < 4; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const dist = Math.random() * d.r * 0.6;
+        svg.append("circle")
+          .attr("cx", d.x + Math.cos(angle) * dist)
+          .attr("cy", d.y + Math.sin(angle) * dist)
+          .attr("r", Math.random() * 1 + 0.3)
+          .attr("fill", d.color).attr("fill-opacity", Math.random() * 0.15 + 0.05);
+      }
+
+      svg.append("text")
+        .attr("x", d.x).attr("y", d.y + d.r + 11)
+        .attr("text-anchor", "middle")
+        .attr("fill", d.color).attr("fill-opacity", 0.3)
+        .attr("font-family", "Inter, sans-serif").attr("font-size", "7px")
+        .text(d.label);
+    }
+  });
+})();
 </script>
 
 </body>
