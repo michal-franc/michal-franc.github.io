@@ -1,0 +1,2198 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Toadie - Personal Assistant</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <style>
+        :root {
+            --blue: #0099FF;
+            --orange: #F59E0B;
+            --green: #34d399;
+            --red: #f87171;
+            --purple: #a78bfa;
+            --cyan: #22d3ee;
+            --dim: #64748b;
+            --bg-card: #111827;
+        }
+        .reveal {
+            font-family: 'DM Sans', sans-serif;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            text-transform: none;
+            letter-spacing: -0.02em;
+        }
+        .reveal h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .reveal h2 {
+            font-size: 1.8em;
+            color: var(--blue);
+            margin-bottom: 0.8em;
+        }
+        .reveal code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(56,189,248,0.1);
+            padding: 0.1em 0.4em;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        .reveal .mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7em;
+            color: var(--dim);
+        }
+        .reveal ul, .reveal ol {
+            text-align: left;
+            font-size: 0.85em;
+        }
+        .reveal li {
+            margin-bottom: 0.4em;
+        }
+        .reveal .highlight {
+            color: var(--green);
+            font-weight: 600;
+        }
+        .reveal .dim {
+            color: var(--dim);
+            font-size: 0.8em;
+        }
+        .reveal .two-col {
+            display: flex;
+            gap: 2em;
+            align-items: flex-start;
+        }
+        .reveal .two-col > div {
+            flex: 1;
+        }
+        .reveal .card {
+            background: var(--bg-card);
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 1em;
+            margin: 0.5em 0;
+            text-align: left;
+        }
+        .reveal .card h3 {
+            font-size: 0.9em;
+            color: var(--blue);
+            margin: 0 0 0.3em 0;
+        }
+        .reveal .card p {
+            font-size: 0.7em;
+            color: var(--dim);
+            margin: 0;
+        }
+        .reveal .step-number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            background: var(--blue);
+            color: #000;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.75em;
+            margin-right: 0.4em;
+        }
+        .reveal .tag {
+            display: inline-block;
+            background: rgba(56,189,248,0.15);
+            color: var(--blue);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55em;
+            padding: 0.2em 0.6em;
+            border-radius: 4px;
+            margin: 0.1em;
+        }
+
+        /* Tailscale viz overrides for reveal */
+        .ts-slide-viz {
+            background: var(--bg-card);
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 1em;
+            position: relative;
+        }
+        .ts-slide-viz svg { width: 100%; display: block; }
+        .ts-controls-row {
+            display: flex;
+            gap: 0.5em;
+            justify-content: center;
+            margin-bottom: 0.8em;
+        }
+        .ts-btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5em;
+            padding: 0.4em 0.8em;
+            border: 1px solid #1e293b;
+            border-radius: 6px;
+            background: var(--bg-card);
+            color: var(--dim);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .ts-btn:hover { color: #e2e8f0; border-color: var(--blue); }
+        .ts-btn.active { color: var(--blue); border-color: var(--blue); background: rgba(56,189,248,0.08); }
+        .ts-status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5em;
+            margin-top: 0.5em;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.45em;
+            color: var(--dim);
+        }
+        .ts-status-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .packet-trail { fill: none; stroke-linecap: round; }
+    </style>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+
+        <!-- TITLE -->
+        <section>
+            <h1>Toadie</h1>
+            <p style="font-size: 0.85em; color: var(--green);">Z Claude Code</p>
+            <p style="font-size: 0.7em; color: #ffffff;">Czyli jak stworzyłem swojego personalnego <br/> multi-device bota, bez czytania i pisania kodu</p>
+            <br>
+            <p class="mono">Michal Franc</p>
+        </section>
+
+        <!-- ABOUT ME -->
+        <section>
+            <h2>O mnie</h2>
+            <div class="two-col" style="font-size: 0.75em;">
+                <div>
+                    <ul>
+                        <li><span class="highlight">Staff/Principal Engineer</span></li>
+                        <li>15+ lat w branży, 12+ lat dla rynku UK/US, firmy produktowe</li>
+                        <li>Obecnie Affirm (BNPL fintech), tech lead tech leadów, 30+ inżynierów</li>
+                        <li>Impact oriented, wysoki lvl individual contributor</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li>AWS, Kubernetes, Terraform, Go, Python, C#, Kotlin</li>
+                        <li>Reliability, observability, cost optimization</li>
+                        <li>M.Sc. Politechnika Wrocławska</li>
+                        <li>Kiedyś współzałożyciel dotnetconf.pl i grupa .NET Wrocław na PWr</li>
+                        <li><a href="https://mfranc.com" class="mono">mfranc.com</a> · <a href="https://twitter.com/francmichal" class="mono">@francmichal</a></li>
+                    </ul>
+                </div>
+            </div>
+            <br>
+            <p class="dim">Polyglot programmer, ale Toadie to mój pierwszy projekt gdzie nie napisałem ani linijki kodu</p>
+            <p class="dim" style="font-size: 0.55em; font-style: italic;">Psycho fan vima i i3wm · hobbystycznie pisze <a href="https://mfranc.com/game/">grę</a> · maluje figurki Warhammera</p>
+        </section>
+
+        <!-- HOOK -->
+        <section>
+            <h2>Co zbudowałem</h2>
+            <ul>
+                <li>Aplikacja na <span class="highlight">Galaxy Watch</span>, Kotlin, Wear OS</li>
+                <li>Aplikacja na <span class="highlight">telefon Android</span>, z botem Tamagotchi</li>
+                <li><span class="highlight">Serwer Python</span>, HTTP, WebSocket, STT, TTS</li>
+                <li><span class="highlight">Dashboard webowy</span>, Vue.js, timeline w real-time</li>
+                <li><span class="highlight">System uprawnień</span>, hooks, polling, zatwierdzanie z zegarka</li>
+                <li><span class="highlight">Integracja z Tailscale</span>, weryfikacja peerów, telefon jako relay</li>
+            </ul>
+            <br>
+            <p class="dim">Pokażę jak to wszystko działa...</p>
+            <p class="dim">...i dlaczego Kotlin w ogóle pojawił się na grupie .NET</p>
+            <p class="dim" style="font-size: 0.6em; font-style: italic;">SPOILER: bo to możliwe że już nie ma znaczenia</p>
+            <p class="dim" style="font-size: 0.6em; font-style: italic;">SPOILER2: pogadamy też o przyszłości naszej branży trochę</p>
+        </section>
+
+        <!-- DEMO: NOTES VIA TOADIE -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="color: #F59E0B;">Demo, edycja notatek przez Toadie</h2>
+            <br>
+            <div class="card" style="max-width: 550px; margin: 0 auto; border-color: #F59E0B;">
+                <h3 style="color: #F59E0B;">Demo na żywo</h3>
+                <p>
+                    "Hey Toadie, dodaj notatkę że prezentacja idzie naprawdę dobrze"
+                </p>
+            </div>
+            <br>
+            <p class="mono" style="color: #F59E0B;">[ screen share: phone + obsidian ]</p>
+        </section>
+
+        <!-- THE PROBLEM -->
+        <section>
+            <h2>Problem</h2>
+            <p>Chciałem <a href="https://superwhisper.com">Superwhisper</a> ale na Linuxie</p>
+            <br>
+            <ul>
+                <li>Wciśnij klawisz → zacznij dyktować</li>
+                <li>Tekst pojawia się w aktywnym oknie (streaming)</li>
+                <li>Działa wszędzie, terminal, przeglądarka, Obsidian</li>
+                <li>Bonus: przekieruj tekst do Claude jako komendy</li>
+            </ul>
+        </section>
+
+        <!-- DICTATION SCRIPT -->
+        <section>
+            <h2>Skrypt dyktowania</h2>
+            <div id="dictation-flow"></div>
+            <script>
+            (function() {
+                const container = document.getElementById('dictation-flow');
+                const svg = d3.select(container).append('svg')
+                    .attr('viewBox', '0 0 960 60');
+
+                const steps = [
+                    { x: 60, label: 'Mic' },
+                    { x: 210, label: 'Stream Audio' },
+                    { x: 390, label: 'Deepgram API' },
+                    { x: 560, label: 'Transcript' },
+                    { x: 710, label: 'xdotool type' },
+                    { x: 860, label: 'Active Window' },
+                ];
+
+                const defs = svg.append('defs');
+                defs.append('marker').attr('id','df-arr').attr('viewBox','0 0 10 10')
+                    .attr('refX',10).attr('refY',5).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto')
+                    .append('path').attr('d','M0,0 L10,5 L0,10 Z').attr('fill','#64748b');
+
+                steps.forEach((s, i) => {
+                    const w = i === 2 ? 120 : (i === 4 ? 100 : 90);
+                    svg.append('rect').attr('x', s.x - w/2).attr('y', 10).attr('width', w).attr('height', 36)
+                        .attr('rx', 6).attr('fill', i === 2 ? 'rgba(245,158,11,0.1)' : 'rgba(56,189,248,0.08)').attr('stroke', i === 2 ? '#F59E0B' : '#38bdf8').attr('stroke-width', 1.5);
+                    svg.append('text').attr('x', s.x).attr('y', 33)
+                        .attr('text-anchor', 'middle').attr('fill', '#e2e8f0')
+                        .attr('font-family', 'JetBrains Mono').attr('font-size', '11px').text(s.label);
+                    if (i < steps.length - 1) {
+                        const curW = w, nextW = (i+1 === 2 ? 120 : (i+1 === 4 ? 100 : 90));
+                        svg.append('line').attr('x1', s.x + curW/2 + 4).attr('y1', 28)
+                            .attr('x2', steps[i+1].x - nextW/2 - 4).attr('y2', 28)
+                            .attr('stroke', '#64748b').attr('stroke-width', 1.5)
+                            .attr('marker-end', 'url(#df-arr)');
+                    }
+                });
+            })();
+            </script>
+            <p style="font-size: 0.75em;">Emulacja doświadczenia dyktowania jak na Macu. Python orkiestrujący przechwytywanie audio, wywołanie API i <code>xdotool</code>.</p>
+            <br>
+            <div class="two-col" style="font-size: 0.75em;">
+                <div>
+                    <ul>
+                        <li>Przechwycenie audio z mikrofonu</li>
+                        <li>Wysyłka do <span class="highlight">Deepgram</span> (STT streaming)</li>
+                        <li>Tekst trafia do aktywnego okna przez <code>xdotool</code></li>
+                    </ul>
+                    <br>
+                    <p class="dim">Testowałem też: Whisper (lokalny), Google Cloud STT</p>
+                    <p class="dim">Dlaczego Deepgram?</p>
+                </div>
+                <div>
+                    <p style="color: var(--orange); font-weight: 600; margin-bottom: 0.5em;">Zabezpieczenia przed kosztami</p>
+                    <ul>
+                        <li><span class="highlight">Auto-stop po ciszy</span>, skrypt kończy po 10s bez mowy</li>
+                        <li><span class="highlight">Crontab</span>, co 5 minut zabija procesy dyktowania</li>
+                        <li><span class="highlight">Polybar</span>, pokazuje czy dyktowanie jest włączone</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- DICTATE TO CLAUDE INSTANCE -->
+        <section>
+            <h2>Dyktowanie do instancji Claude Code</h2>
+            <div id="dictation-claude-instance"></div>
+            <script>
+            (function() {
+                const container = document.getElementById('dictation-claude-instance');
+                const svg = d3.select(container).append('svg')
+                    .attr('viewBox', '0 0 960 60');
+
+                const steps = [
+                    { x: 60, label: 'Open Mic' },
+                    { x: 185, label: 'Stream Audio' },
+                    { x: 330, label: 'Deepgram API' },
+                    { x: 470, label: 'Transcript' },
+                    { x: 600, label: 'Buffer Text' },
+                    { x: 740, label: 'Alacritty' },
+                    { x: 880, label: 'Claude CLI' },
+                ];
+                const widths = [75, 100, 110, 85, 85, 80, 90];
+                const colors = ['#38bdf8','#38bdf8','#F59E0B','#38bdf8','#38bdf8','#a78bfa','#34d399'];
+                const fills = colors.map(c => c === '#F59E0B' ? 'rgba(245,158,11,0.1)' : c === '#34d399' ? 'rgba(52,211,153,0.1)' : c === '#a78bfa' ? 'rgba(167,139,250,0.1)' : 'rgba(56,189,248,0.08)');
+
+                const defs = svg.append('defs');
+                defs.append('marker').attr('id','dci-arr').attr('viewBox','0 0 10 10')
+                    .attr('refX',10).attr('refY',5).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto')
+                    .append('path').attr('d','M0,0 L10,5 L0,10 Z').attr('fill','#64748b');
+
+                steps.forEach((s, i) => {
+                    const w = widths[i];
+                    svg.append('rect').attr('x', s.x - w/2).attr('y', 10).attr('width', w).attr('height', 36)
+                        .attr('rx', 6).attr('fill', fills[i]).attr('stroke', colors[i]).attr('stroke-width', 1.5);
+                    svg.append('text').attr('x', s.x).attr('y', 33)
+                        .attr('text-anchor', 'middle').attr('fill', '#e2e8f0')
+                        .attr('font-family', 'JetBrains Mono').attr('font-size', '11px').text(s.label);
+                    if (i < steps.length - 1) {
+                        svg.append('line').attr('x1', s.x + w/2 + 4).attr('y1', 28)
+                            .attr('x2', steps[i+1].x - widths[i+1]/2 - 4).attr('y2', 28)
+                            .attr('stroke', '#64748b').attr('stroke-width', 1.5)
+                            .attr('marker-end', 'url(#dci-arr)');
+                    }
+                });
+            })();
+            </script>
+            <p style="font-size: 0.75em;">Dyktowanie do aktywnego okna jest fajne, ale czasem chcę po prostu pogadać z Claude. Wciśnij przycisk, powiedz coś, tekst ląduje w Claude Code.</p>
+            <br>
+            <div class="two-col" style="font-size: 0.75em;">
+                <div>
+                    <ul>
+                        <li>Nowy skrypt, spawnuje instancję Claude Code w <code>i3wm</code></li>
+                        <li>Transkrypcja pipe'owana bezpośrednio do procesu</li>
+                        <li>Działa z mikrofonu słuchawek, z dala od biurka</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li>Szybka myśl lub komenda głosem</li>
+                        <li>Nie trzeba siadać do komputera</li>
+                        <li>Wciśnij przycisk → mów → Claude dostaje</li>
+                    </ul>
+                </div>
+            </div>
+            <br>
+            <p class="dim">Problem: za każdym razem nowy proces, nowy kontekst...</p>
+        </section>
+
+        <!-- DICTATE TO CLAUDE -->
+        <section>
+            <h2>Dyktowanie do persistent sesji Claude</h2>
+            <div id="dictation-claude-flow"></div>
+            <script>
+            (function() {
+                const container = document.getElementById('dictation-claude-flow');
+                const svg = d3.select(container).append('svg')
+                    .attr('viewBox', '0 0 960 60');
+
+                const steps = [
+                    { x: 60, label: 'Open Mic' },
+                    { x: 185, label: 'Stream Audio' },
+                    { x: 330, label: 'Deepgram API' },
+                    { x: 470, label: 'Transcript' },
+                    { x: 595, label: 'Buffer Text' },
+                    { x: 730, label: 'tmux send-keys' },
+                    { x: 895, label: 'Claude in TMUX' },
+                ];
+
+                const defs = svg.append('defs');
+                defs.append('marker').attr('id','dc-arr').attr('viewBox','0 0 10 10')
+                    .attr('refX',10).attr('refY',5).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto')
+                    .append('path').attr('d','M0,0 L10,5 L0,10 Z').attr('fill','#64748b');
+
+                const widths = [75, 100, 110, 85, 85, 115, 120];
+                const colors = ['#38bdf8','#38bdf8','#F59E0B','#38bdf8','#38bdf8','#a78bfa','#34d399'];
+                const fills = colors.map(c => c === '#F59E0B' ? 'rgba(245,158,11,0.1)' : c === '#34d399' ? 'rgba(52,211,153,0.1)' : c === '#a78bfa' ? 'rgba(167,139,250,0.1)' : 'rgba(56,189,248,0.08)');
+                steps.forEach((s, i) => {
+                    const w = widths[i];
+                    svg.append('rect').attr('x', s.x - w/2).attr('y', 10).attr('width', w).attr('height', 36)
+                        .attr('rx', 6).attr('fill', fills[i]).attr('stroke', colors[i]).attr('stroke-width', 1.5);
+                    svg.append('text').attr('x', s.x).attr('y', 33)
+                        .attr('text-anchor', 'middle').attr('fill', '#e2e8f0')
+                        .attr('font-family', 'JetBrains Mono').attr('font-size', '11px').text(s.label);
+                    if (i < steps.length - 1) {
+                        svg.append('line').attr('x1', s.x + w/2 + 4).attr('y1', 28)
+                            .attr('x2', steps[i+1].x - widths[i+1]/2 - 4).attr('y2', 28)
+                            .attr('stroke', '#64748b').attr('stroke-width', 1.5)
+                            .attr('marker-end', 'url(#dc-arr)');
+                    }
+                });
+            })();
+            </script>
+            <p style="font-size: 0.75em;">Poprzedni skrypt za każdym razem startował nowy proces Claude, nowy kontekst. A ja chcę mówić do <em>istniejącej</em> sesji.</p>
+            <br>
+            <div class="two-col" style="font-size: 0.75em;">
+                <div>
+                    <ul>
+                        <li>Claude CLI działa w <code>tmux</code> z nazwaną sesją</li>
+                        <li>Transkrypcja buforowana i wysyłana przez <code>tmux send-keys -t session:pane</code></li>
+                        <li>Kontekst zostaje między komendami</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li>Długie sesje z pełnym kontekstem projektu</li>
+                        <li>Mów z mikrofonu słuchawek, z dala od biurka</li>
+                        <li>Głos trafia do tego samego procesu co klawiatura</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALAXY WATCH -->
+        <section>
+            <h2>Galaxy Watch</h2>
+            <p style="font-size: 0.75em; font-style: italic;">Pewnej nocy mózg zdecydował: zegarek ma mikrofon... czemu nie gadać z Claude z nadgarstka?</p>
+            <br>
+            <div class="two-col" style="font-size: 0.75em;">
+                <div>
+                    <ul>
+                        <li><span class="highlight">Galaxy Watch</span>, klient Kotlin Wear OS, nagrywa audio, wyświetla odpowiedzi, odtwarza głos</li>
+                        <li><span class="highlight">Serwer Python</span>, lokalnie na maszynie, odbiera audio, wysyła do Deepgram, rozmawia z Claude</li>
+                        <li><span class="highlight">Deepgram</span>, STT + TTS, audio in → tekst out, tekst in → audio out</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li><span class="highlight">Claude Code CLI</span>, wrapper obsługuje input/output i lifecycle procesu, JSON streaming zamiast scrapowania tmux pane</li>
+                        <li><span class="highlight">Sesja tmux</span>, wrapper loguje wszystko do sesji <code>claude-watch</code>, daje widoczność w to jak Claude pracuje</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- DEMO: GALAXY WATCH VIDEO -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="color: #F59E0B;">Demo, Galaxy Watch</h2>
+            <br>
+            <div style="max-width: 500px; margin: 0 auto;">
+                <video controls style="width: 100%; border-radius: 10px; border: 1px solid #F59E0B;">
+                    <source src="https://mfranc.com/images/claudewatchwatchdemo.mp4" type="video/mp4">
+                </video>
+            </div>
+            <br>
+            <p class="mono" style="color: #F59E0B;">Głos z zegarka → odpowiedź z Claude</p>
+        </section>
+
+        <!-- ARCHITECTURE -->
+        <section>
+            <h2 style="font-size: 1.2em; margin-bottom: 0.3em;">Architecture</h2>
+            <div style="margin: 0 auto;">
+                <img src="https://mfranc.com/images/dictation-architecture-simple.png" style="border-radius: 10px; border: 1px solid #1e293b; width: 100%;">
+            </div>
+        </section>
+
+        <!-- PERMISSION HOOKS (animated) -->
+        <section>
+            <h2 style="font-size: 1.2em; margin-bottom: 0.2em;">Permission Hooks</h2>
+            <div id="hooks-anim"></div>
+            <script>
+            (function() {
+                const container = document.getElementById('hooks-anim');
+                const svg = d3.select(container).append('svg')
+                    .attr('viewBox', '0 0 900 400');
+
+                const defs = svg.append('defs');
+                const glow = defs.append('filter').attr('id','hk-glow').attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');
+                glow.append('feGaussianBlur').attr('stdDeviation','4').attr('result','blur');
+                glow.append('feMerge').selectAll('feMergeNode').data(['blur','SourceGraphic']).enter().append('feMergeNode').attr('in', d => d);
+
+                ['#34d399','#f87171','#64748b','#fb923c','#38bdf8','#a78bfa'].forEach((c, i) => {
+                    defs.append('marker').attr('id','hk-arr-'+i).attr('viewBox','0 0 10 10')
+                        .attr('refX',10).attr('refY',5).attr('markerWidth',6).attr('markerHeight',6)
+                        .attr('orient','auto')
+                        .append('path').attr('d','M0,0 L10,5 L0,10 Z').attr('fill',c);
+                });
+
+                const gridG = svg.append('g').attr('opacity', 0.04);
+                for (let x = 0; x < 900; x += 40) gridG.append('line').attr('x1',x).attr('y1',0).attr('x2',x).attr('y2',400).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+                for (let y = 0; y < 400; y += 40) gridG.append('line').attr('x1',0).attr('y1',y).attr('x2',900).attr('y2',y).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+
+                const edgesG = svg.append('g');
+                const nodesG = svg.append('g');
+                const packetsG = svg.append('g');
+                const labelsG = svg.append('g');
+
+                // Layout matching the real diagram - spread to fill space
+                // Left column (top to bottom)
+                const claudeCall = { x: 140, y: 40 };
+                const hookPy     = { x: 140, y: 130 };
+                const safe       = { x: 140, y: 230 }; // diamond
+                const autoAppr   = { x: 400, y: 230 };
+                const postReq    = { x: 140, y: 360 };
+                // Middle
+                const wsBcast    = { x: 450, y: 360 };
+                // Right column (bottom to top)
+                const watchUI    = { x: 760, y: 360 };
+                const userTap    = { x: 760, y: 280 };
+                const postResp   = { x: 760, y: 195 };
+                const hookPoll   = { x: 760, y: 110 };
+                const claudeEnd  = { x: 760, y: 30 };
+
+                function box(pos, w, h, label, sub, color) {
+                    const g = nodesG.append('g');
+                    g.append('rect').attr('x',pos.x-w/2).attr('y',pos.y-h/2).attr('width',w).attr('height',h)
+                        .attr('rx',8).attr('fill','#111827').attr('stroke',color).attr('stroke-width',1.5);
+                    g.append('text').attr('x',pos.x).attr('y',sub?pos.y-2:pos.y+4).attr('text-anchor','middle')
+                        .attr('fill','#e2e8f0').attr('font-family','Space Grotesk')
+                        .attr('font-size','11px').attr('font-weight',600).text(label);
+                    if(sub) g.append('text').attr('x',pos.x).attr('y',pos.y+13).attr('text-anchor','middle')
+                        .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','8px').text(sub);
+                }
+
+                function diamond(pos, label, color) {
+                    const g = nodesG.append('g');
+                    g.append('polygon').attr('points', `${pos.x},${pos.y-22} ${pos.x+30},${pos.y} ${pos.x},${pos.y+22} ${pos.x-30},${pos.y}`)
+                        .attr('fill','#111827').attr('stroke',color).attr('stroke-width',1.5);
+                    g.append('text').attr('x',pos.x).attr('y',pos.y+4).attr('text-anchor','middle')
+                        .attr('fill',color).attr('font-family','Space Grotesk')
+                        .attr('font-size','11px').attr('font-weight',600).text(label);
+                }
+
+                function edge(a, b, color, markerIdx) {
+                    edgesG.append('line').attr('x1',a.x).attr('y1',a.y).attr('x2',b.x).attr('y2',b.y)
+                        .attr('stroke',color).attr('stroke-width',1.5).attr('stroke-dasharray','5,4')
+                        .attr('opacity',0.6).attr('marker-end','url(#hk-arr-'+markerIdx+')');
+                }
+
+                function animP(a, b, opts={}) {
+                    const c=opts.color||'#34d399', dur=opts.duration||600, delay=opts.delay||0;
+                    const p = packetsG.append('circle').attr('cx',a.x).attr('cy',a.y).attr('r',4)
+                        .attr('fill',c).attr('filter','url(#hk-glow)').attr('opacity',0);
+                    const t = packetsG.append('line')
+                        .attr('x1',a.x).attr('y1',a.y).attr('x2',a.x).attr('y2',a.y)
+                        .attr('stroke',c).attr('stroke-width',2).attr('opacity',0);
+                    p.transition().delay(delay).duration(0).attr('opacity',1)
+                        .transition().duration(dur).ease(d3.easeCubicInOut).attr('cx',b.x).attr('cy',b.y)
+                        .transition().duration(200).attr('opacity',0).remove();
+                    t.transition().delay(delay).duration(0).attr('opacity',0.4)
+                        .transition().duration(dur).ease(d3.easeCubicInOut).attr('x2',b.x).attr('y2',b.y)
+                        .transition().duration(400).attr('opacity',0).remove();
+                }
+
+                function flash(pos, w, h, color, delay) {
+                    setTimeout(() => {
+                        nodesG.append('rect').attr('x',pos.x-w/2).attr('y',pos.y-h/2).attr('width',w).attr('height',h)
+                            .attr('rx',8).attr('fill',color).attr('opacity',0.35)
+                            .transition().duration(700).attr('opacity',0).remove();
+                    }, delay);
+                }
+
+                // Draw boxes
+                box(claudeCall, 150, 40, 'Claude Tool Call', null, '#38bdf8');
+                box(hookPy, 170, 45, 'permission_hook.py', 'PreToolUse', '#fb923c');
+                diamond(safe, 'Safe?', '#f87171');
+                box(autoAppr, 120, 35, 'Auto-approve', null, '#34d399');
+                box(postReq, 190, 45, 'POST /api/permission', 'Server :5566', '#fb923c');
+                box(wsBcast, 180, 45, 'WebSocket Broadcast', 'Server :5567', '#a78bfa');
+                box(watchUI, 160, 50, 'Watch App', 'Permission UI', '#38bdf8');
+                box(userTap, 120, 35, 'User taps', 'Allow / Deny', '#34d399');
+                box(postResp, 190, 45, 'POST respond', 'Server stores decision', '#fb923c');
+                box(hookPoll, 180, 45, 'Hook polls', 'GET /api/permission/status', '#a78bfa');
+                box(claudeEnd, 160, 35, 'Claude proceeds', 'or stops', '#38bdf8');
+
+                // Edges - left column down
+                edge({x:claudeCall.x, y:claudeCall.y+20}, {x:hookPy.x, y:hookPy.y-23}, '#38bdf8', 4);
+                edge({x:hookPy.x, y:hookPy.y+23}, {x:safe.x, y:safe.y-22}, '#fb923c', 3);
+                // Safe? → Yes → Auto-approve
+                edge({x:safe.x+30, y:safe.y}, {x:autoAppr.x-60, y:autoAppr.y}, '#34d399', 0);
+                labelsG.append('text').attr('x',240).attr('y',225).attr('fill','#34d399')
+                    .attr('font-family','JetBrains Mono').attr('font-size','10px').attr('font-weight',600).text('Yes');
+                // Safe? → No → POST
+                edge({x:safe.x, y:safe.y+22}, {x:postReq.x, y:postReq.y-23}, '#f87171', 1);
+                labelsG.append('text').attr('x',155).attr('y',295).attr('fill','#f87171')
+                    .attr('font-family','JetBrains Mono').attr('font-size','10px').attr('font-weight',600).text('No');
+                // POST → WS Broadcast → Watch
+                edge({x:postReq.x+95, y:postReq.y}, {x:wsBcast.x-90, y:wsBcast.y}, '#fb923c', 3);
+                edge({x:wsBcast.x+90, y:wsBcast.y}, {x:watchUI.x-80, y:watchUI.y}, '#a78bfa', 5);
+                // Right column up
+                edge({x:watchUI.x, y:watchUI.y-25}, {x:userTap.x, y:userTap.y+18}, '#34d399', 0);
+                edge({x:userTap.x, y:userTap.y-18}, {x:postResp.x, y:postResp.y+23}, '#34d399', 0);
+                edge({x:postResp.x, y:postResp.y-23}, {x:hookPoll.x, y:hookPoll.y+23}, '#fb923c', 3);
+                edge({x:hookPoll.x, y:hookPoll.y-23}, {x:claudeEnd.x, y:claudeEnd.y+18}, '#38bdf8', 4);
+
+                // Poll label
+                labelsG.append('text').attr('x',665).attr('y',107).attr('text-anchor','end').attr('fill','#64748b')
+                    .attr('font-family','JetBrains Mono').attr('font-size','8px').text('polls every 0.5s');
+                labelsG.append('text').attr('x',665).attr('y',117).attr('text-anchor','end').attr('fill','#64748b')
+                    .attr('font-family','JetBrains Mono').attr('font-size','8px').text('(up to 120s)');
+
+                // Animate
+                let hkInterval = null;
+                function riskyAllow() {
+                    animP(claudeCall, hookPy, { color:'#38bdf8', duration:400 });
+                    animP(hookPy, safe, { color:'#fb923c', duration:300, delay:500 });
+                    animP(safe, postReq, { color:'#f87171', duration:300, delay:900 });
+                    animP(postReq, wsBcast, { color:'#fb923c', duration:400, delay:1300 });
+                    animP(wsBcast, watchUI, { color:'#a78bfa', duration:400, delay:1800 });
+                    animP(watchUI, userTap, { color:'#34d399', duration:300, delay:2300 });
+                    animP(userTap, postResp, { color:'#34d399', duration:300, delay:2700 });
+                    animP(postResp, hookPoll, { color:'#fb923c', duration:300, delay:3100 });
+                    animP(hookPoll, claudeEnd, { color:'#38bdf8', duration:300, delay:3500 });
+                    flash(claudeEnd, 160, 35, '#34d399', 3800);
+                }
+                function riskyDeny() {
+                    animP(claudeCall, hookPy, { color:'#38bdf8', duration:400 });
+                    animP(hookPy, safe, { color:'#fb923c', duration:300, delay:500 });
+                    animP(safe, postReq, { color:'#f87171', duration:300, delay:900 });
+                    animP(postReq, wsBcast, { color:'#fb923c', duration:400, delay:1300 });
+                    animP(wsBcast, watchUI, { color:'#a78bfa', duration:400, delay:1800 });
+                    animP(watchUI, userTap, { color:'#f87171', duration:300, delay:2300 });
+                    animP(userTap, postResp, { color:'#f87171', duration:300, delay:2700 });
+                    animP(postResp, hookPoll, { color:'#f87171', duration:300, delay:3100 });
+                    animP(hookPoll, claudeEnd, { color:'#f87171', duration:300, delay:3500 });
+                    flash(claudeEnd, 160, 35, '#f87171', 3800);
+                }
+                function safeFlow() {
+                    animP(claudeCall, hookPy, { color:'#38bdf8', duration:400 });
+                    animP(hookPy, safe, { color:'#fb923c', duration:300, delay:500 });
+                    animP(safe, autoAppr, { color:'#34d399', duration:400, delay:900 });
+                    flash(autoAppr, 120, 35, '#34d399', 1400);
+                }
+
+                let flowIdx = 0;
+                const flows = [riskyAllow, safeFlow, riskyDeny, safeFlow];
+                function cycle() { flows[flowIdx % flows.length](); flowIdx++; }
+
+                function startHk() { cycle(); hkInterval = setInterval(cycle, 5000); }
+                function stopHk() { if(hkInterval){clearInterval(hkInterval);hkInterval=null;} packetsG.selectAll('*').interrupt().remove(); }
+
+                if (typeof Reveal !== 'undefined') {
+                    Reveal.on('slidechanged', event => {
+                        if (event.currentSlide.querySelector('#hooks-anim')) startHk();
+                        else stopHk();
+                    });
+                }
+                startHk();
+            })();
+            </script>
+        </section>
+
+        <!-- SERVER DASHBOARD -->
+        <section>
+            <h2>Server Dashboard</h2>
+            <p style="font-size: 0.75em;">Z zegarkiem, serwerem, WebSocketami i permission hooks setup robi się skomplikowany. Potrzebowałem widoczności.</p>
+            <br>
+            <div class="two-col" style="font-size: 0.75em;">
+                <div>
+                    <ul>
+                        <li><span class="highlight">Timeline</span> z wszystkimi akcjami serwera i timestampami</li>
+                        <li><span class="highlight">Settings</span>, zmiana języka, modelu</li>
+                        <li><span class="highlight">Chat</span>, wizualizacja konwersacji w real-time</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li>Vue.js, single-page, WebSocket live updates</li>
+                        <li>Pomaga debugować problemy i rozumieć flow</li>
+                        <li>Dostępny przez Cloudflare Tunnel</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- DEMO: DASHBOARD -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="color: #F59E0B;">Demo, Server Dashboard</h2>
+            <br>
+            <div class="card" style="max-width: 550px; margin: 0 auto; border-color: #F59E0B;">
+                <h3 style="color: #F59E0B;">Demo na żywo</h3>
+                <p>
+                    1. Timeline, settings, chat w akcji<br>
+                    2. Wysyłamy komendę i obserwujemy flow
+                </p>
+            </div>
+            <br>
+            <p class="mono" style="color: #F59E0B;">[ screen share: browser ]</p>
+        </section>
+
+        <!-- TOADIE - PHONE APP -->
+        <section>
+            <h2>Aplikacja na telefon</h2>
+            <p style="font-size: 0.75em;">Mam zegarek... czemu nie telefon? Więcej ekranu, a może nawet trochę <span class="highlight">osobowości</span>?</p>
+            <p style="font-size: 0.75em;">Tak narodził się <span class="highlight">Toadie</span>.</p>
+            <br>
+            <div class="two-col" style="font-size: 0.75em;">
+                <div>
+                    <ul>
+                        <li><span class="highlight">Tamagotchi</span>, zielony troll z animowanymi stanami (idle, słuchanie, myślenie, mówienie, spanie)</li>
+                        <li>Kolejna apka <span class="highlight">Kotlin</span>, chat, wiadomości głosowe i tekstowe</li>
+                        <li>Z punktu widzenia serwera, klient jest abstrakcją</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li><span class="highlight">Telefon jako relay</span> dla zegarka, Watch → Phone (DataLayer) → Server</li>
+                        <li>Wizualizacja mockup stworzona w Remotion + Claude</li>
+                        <li>Ten sam protokół WebSocket co zegarek</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- DEMO: PHONE APP VIDEO -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="font-size: 1.2em; color: #F59E0B; margin-bottom: 0.2em;">Demo, Aplikacja na telefon</h2>
+            <div style="max-width: 300px; margin: 0 auto;">
+                <video controls style="width: 100%; border-radius: 10px; border: 1px solid #F59E0B;">
+                    <source src="https://mfranc.com/images/claudewatchdemo.mp4" type="video/mp4">
+                </video>
+            </div>
+            <p class="mono" style="color: #F59E0B; font-size: 0.5em; margin-top: 0.3em;">Wiadomość tekstowa + głosowa → odpowiedź TTS</p>
+        </section>
+
+        <!-- FULL ARCHITECTURE -->
+        <section>
+            <h2 style="font-size: 1.2em; margin-bottom: 0.2em;">Architecture, pełny obraz</h2>
+            <p style="font-size: 0.65em;">Telefon i dashboard to po prostu kolejni klienci. Dashboard też łączy się przez WebSocket.</p>
+            <div style="margin: 0 auto;">
+                <img src="https://mfranc.com/images/architecture.jpg" style="border-radius: 10px; border: 1px solid #1e293b; width: 100%;">
+            </div>
+        </section>
+
+        <!-- TAILSCALE INTRO -->
+        <section>
+            <h2>Tailscale</h2>
+            <p style="font-size: 0.75em;">Wszystkie urządzenia udają że są w jednej prywatnej sieci, nawet jeśli są w różnych miejscach.</p>
+            <br>
+            <div class="two-col" style="font-size: 0.75em;">
+                <div>
+                    <ul>
+                        <li><span class="highlight">WireGuard</span>, szyfrowany tunel</li>
+                        <li>Tailscale orkiestruje: tożsamość, zarządzanie kluczami, discovery</li>
+                        <li>Każde urządzenie dostaje IP <code>100.x.x.x</code></li>
+                        <li>It JUST works</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li><span class="highlight">UDP hole punching</span>, urządzenia za NAT (normalnie niedostępne publicznie) rozmawiają ze sobą</li>
+                        <li>Jeśli hole punching nie działa, <span class="highlight">DERP relay</span> server przejmuje</li>
+                        <li>Świetny UX, zero konfiguracji</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAILSCALE D3 ANIMATION -->
+        <section data-transition="fade">
+            <h2>Prywatny dostęp, Tailscale</h2>
+            <div class="ts-controls-row">
+                <button class="ts-btn active" data-ts-step="overview">01, Overview</button>
+                <button class="ts-btn" data-ts-step="nat-problem">02, NAT Problem</button>
+                <button class="ts-btn" data-ts-step="hole-punch">03, Hole Punching</button>
+                <button class="ts-btn" data-ts-step="derp-fallback">04, DERP Fallback</button>
+            </div>
+            <div class="ts-slide-viz">
+                <svg id="ts-viz-svg" viewBox="0 0 1000 420"></svg>
+                <div class="ts-status-bar">
+                    <div class="ts-status-dot"></div>
+                    <span id="ts-status-text">Tailscale mesh, each device gets a 100.x.x.x address</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHONE RELAY -->
+        <section>
+            <h2>Problem: zegarek nie ma Tailscale</h2>
+            <p style="font-size: 0.75em;">Galaxy Watch nie wspiera Tailscale. Rozwiązanie: telefon jako relay.</p>
+            <br>
+            <div class="two-col" style="font-size: 0.75em;">
+                <div>
+                    <ul>
+                        <li>Watch → Phone → Server (przez Tailscale)</li>
+                        <li>Telefon działa jako <span class="highlight">transparentny proxy</span></li>
+                        <li>Android <span class="highlight">Wearable DataLayer</span> do komunikacji watch↔phone</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li>Protokół sygnałowy zapewnia stabilne połączenie</li>
+                        <li>Zegarek nie musi być w publicznej sieci</li>
+                        <li>Dużo bardziej niezawodne połączenie niż bezpośrednie</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHONE RELAY ARCHITECTURE -->
+        <section>
+            <div style="margin: 0 auto; height: 100%; display: flex; align-items: center; justify-content: center;">
+                <img src="https://mfranc.com/images/dictation-watch-relay.png" style="border-radius: 10px; border: 1px solid #1e293b; max-height: 650px; width: auto;">
+            </div>
+        </section>
+
+        <!-- WAKE WORD -->
+        <section>
+            <h2>Wake Word</h2>
+            <p style="font-size: 0.85em;">"Hey Toadie"</p>
+            <br>
+            <div class="two-col" style="font-size: 0.75em;">
+                <div>
+                    <ul>
+                        <li><span class="highlight">PicoVoice Porcupine</span>, działa lokalnie na telefonie</li>
+                        <li>Bez połączenia z serwerem (poza aktywacją klucza)</li>
+                        <li>1 custom wake word za darmo</li>
+                        <li>Automatycznie uruchamia nagrywanie</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li>W 2-3 tygodnie zbudowałem naprawdę funkcjonalny software z dobrym UX</li>
+                        <li>Używam tego codziennie</li>
+                        <li>Ciekawe i trochę przerażające co jedna osoba może teraz zbudować</li>
+                    </ul>
+                </div>
+            </div>
+            <br>
+            <p class="dim" style="font-style: italic;">Moment "WOW"</p>
+        </section>
+
+        <!-- DEMO: WAKE WORD -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="color: #F59E0B;">Demo, Wake Word</h2>
+            <br>
+            <div class="card" style="max-width: 500px; margin: 0 auto; border-color: #F59E0B;">
+                <h3 style="color: #F59E0B;">Demo na żywo</h3>
+                <p>
+                    Powiedz <strong>"Hey Toadie"</strong>, wake word uruchamia nagrywanie
+                </p>
+            </div>
+            <br>
+            <p class="mono" style="color: #F59E0B;">[ screen share: phone ]</p>
+        </section>
+
+
+
+        <!-- DEMO: RICH CONTENT -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="color: #F59E0B;">Demo, Rich Content</h2>
+            <br>
+            <div class="card" style="max-width: 550px; margin: 0 auto; border-color: #F59E0B;">
+                <h3 style="color: #F59E0B;">Demo na żywo</h3>
+                <p>
+                    1. Wyślij <strong>screenshot</strong> na telefon przez <code>toadie-show</code><br>
+                    2. Wyślij <strong>animację D3.js</strong>, interaktywna treść na telefonie
+                </p>
+            </div>
+            <br>
+            <p class="mono" style="color: #F59E0B;">[ screen share: phone + terminal ]</p>
+            <br>
+            <p class="dim" style="font-size: 0.55em; font-style: italic;">(jak Michał zrobi rich content w webie bo na komórce jest)</p>
+        </section>
+
+        <!-- WHAT CAN IT DO -->
+        <section>
+            <h2>Co potrafi Toadie?</h2>
+            <div class="two-col" style="font-size: 0.75em;">
+                <div>
+                    <ul>
+                        <li>Czyta cele, listę zadań, kalendarz, maile</li>
+                        <li>Dostęp do wszystkich notatek <span class="highlight">2nd brain</span> (Obsidian)</li>
+                        <li>Steruje monitorami (wejścia, jasność)</li>
+                        <li>Włącza TV i uruchamia apki na telewizorze (mam też apkę TV z botem)</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li>Dyskutuje pomysły, pisze posty na bloga, tworzy plany</li>
+                        <li>Stał się mega użytecznym narzędziem do pracy z notatkami</li>
+                        <li>95% gotowe żeby Toadie zarządzał innymi botami</li>
+                    </ul>
+                </div>
+            </div>
+            <br>
+            <p class="dim">Następny krok: <span class="highlight">Toadie jako manager</span>, "hey, popracuj z zespołem na tym repo, sprawdź GitHub issues i po prostu pracuj nad nimi"</p>
+        </section>
+
+        <!-- SECURITY -->
+        <section>
+            <h2>Bezpieczeństwo, Defense in Depth</h2>
+            <div id="security-layers"></div>
+            <script>
+            (function() {
+                const container = document.getElementById('security-layers');
+                const svg = d3.select(container).append('svg')
+                    .attr('viewBox', '0 0 700 300');
+
+                const layers = [
+                    { y: 50, w: 600, label: 'Tailscale + WireGuard', sub: 'Server not publicly exposed', color: '#34d399' },
+                    { y: 130, w: 450, label: 'Peer Verification', sub: 'whois check against allowed peer list', color: '#38bdf8' },
+                    { y: 210, w: 300, label: 'Permission Hooks', sub: 'User approves every write/exec from watch', color: '#fb923c' },
+                ];
+
+                layers.forEach(l => {
+                    const x = 350 - l.w / 2;
+                    svg.append('rect').attr('x', x).attr('y', l.y).attr('width', l.w).attr('height', 55)
+                        .attr('rx', 10).attr('fill', 'none').attr('stroke', l.color).attr('stroke-width', 2)
+                        .attr('opacity', 0.8);
+                    svg.append('text').attr('x', 350).attr('y', l.y + 22)
+                        .attr('text-anchor', 'middle').attr('fill', '#e2e8f0')
+                        .attr('font-family', 'Space Grotesk').attr('font-size', '16px')
+                        .attr('font-weight', 600).text(l.label);
+                    svg.append('text').attr('x', 350).attr('y', l.y + 42)
+                        .attr('text-anchor', 'middle').attr('fill', '#64748b')
+                        .attr('font-family', 'JetBrains Mono').attr('font-size', '11px')
+                        .text(l.sub);
+                });
+            })();
+            </script>
+        </section>
+
+        <!-- TAILSCALE + WIREGUARD ANIMATION -->
+        <section>
+            <h2 style="font-size: 1.2em; margin-bottom: 0.2em;">Tailscale + WireGuard</h2>
+            <div id="wg-viz"></div>
+            <script>
+            (function() {
+                const container = document.getElementById('wg-viz');
+                const svg = d3.select(container).append('svg')
+                    .attr('viewBox', '0 0 940 340');
+
+                const defs = svg.append('defs');
+                const glow = defs.append('filter').attr('id','wg-glow').attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');
+                glow.append('feGaussianBlur').attr('stdDeviation','4').attr('result','blur');
+                glow.append('feMerge').selectAll('feMergeNode').data(['blur','SourceGraphic']).enter().append('feMergeNode').attr('in', d => d);
+
+                defs.append('marker').attr('id','wg-arr').attr('viewBox','0 0 10 10')
+                    .attr('refX',10).attr('refY',5).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto')
+                    .append('path').attr('d','M0,0 L10,5 L0,10 Z').attr('fill','#34d399');
+
+                const gridG = svg.append('g').attr('opacity', 0.04);
+                for (let x = 0; x < 940; x += 40) gridG.append('line').attr('x1',x).attr('y1',0).attr('x2',x).attr('y2',340).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+                for (let y = 0; y < 340; y += 40) gridG.append('line').attr('x1',0).attr('y1',y).attr('x2',940).attr('y2',y).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+
+                const edgesG = svg.append('g');
+                const nodesG = svg.append('g');
+                const packetsG = svg.append('g');
+                const labelsG = svg.append('g');
+
+                // Positions - compact horizontal with server inline
+                const phone  = { x: 70, y: 180 };
+                const tsApp   = { x: 210, y: 180 };
+                const wgTun  = { x: 380, y: 180 };
+                const internet = { x: 470, y: 60 };
+                const wgTunS = { x: 560, y: 180 };
+                const tsAppS = { x: 730, y: 180 };
+                const server = { x: 870, y: 180 };
+
+                function box(pos, w, h, label, sub, color, icon) {
+                    const g = nodesG.append('g');
+                    g.append('rect').attr('x',pos.x-w/2).attr('y',pos.y-h/2).attr('width',w).attr('height',h)
+                        .attr('rx',10).attr('fill','#111827').attr('stroke',color).attr('stroke-width',1.5);
+                    g.append('rect').attr('x',pos.x-w/2).attr('y',pos.y-h/2).attr('width',w).attr('height',h)
+                        .attr('rx',10).attr('fill','none').attr('stroke',color).attr('stroke-width',1)
+                        .attr('opacity',0.15).attr('filter','url(#wg-glow)');
+                    if (icon) {
+                        g.append('text').attr('x',pos.x).attr('y',pos.y-6).attr('text-anchor','middle').attr('font-size','16px').text(icon);
+                        g.append('text').attr('x',pos.x).attr('y',pos.y+12).attr('text-anchor','middle')
+                            .attr('fill','#e2e8f0').attr('font-family','Space Grotesk').attr('font-size','11px').attr('font-weight',600).text(label);
+                        if(sub) g.append('text').attr('x',pos.x).attr('y',pos.y+25).attr('text-anchor','middle')
+                            .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','8px').text(sub);
+                    } else {
+                        g.append('text').attr('x',pos.x).attr('y',sub?pos.y-2:pos.y+4).attr('text-anchor','middle')
+                            .attr('fill','#e2e8f0').attr('font-family','Space Grotesk').attr('font-size','12px').attr('font-weight',600).text(label);
+                        if(sub) g.append('text').attr('x',pos.x).attr('y',pos.y+14).attr('text-anchor','middle')
+                            .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','8px').text(sub);
+                    }
+                }
+
+                function animP(a, b, opts={}) {
+                    const c=opts.color||'#34d399', dur=opts.duration||600, delay=opts.delay||0;
+                    const p = packetsG.append('circle').attr('cx',a.x).attr('cy',a.y).attr('r',4)
+                        .attr('fill',c).attr('filter','url(#wg-glow)').attr('opacity',0);
+                    const t = packetsG.append('line').attr('class','packet-trail')
+                        .attr('x1',a.x).attr('y1',a.y).attr('x2',a.x).attr('y2',a.y)
+                        .attr('stroke',c).attr('stroke-width',2).attr('opacity',0);
+                    p.transition().delay(delay).duration(0).attr('opacity',1)
+                        .transition().duration(dur).ease(d3.easeCubicInOut).attr('cx',b.x).attr('cy',b.y)
+                        .transition().duration(200).attr('opacity',0).remove();
+                    t.transition().delay(delay).duration(0).attr('opacity',0.4)
+                        .transition().duration(dur).ease(d3.easeCubicInOut).attr('x2',b.x).attr('y2',b.y)
+                        .transition().duration(400).attr('opacity',0).remove();
+                }
+
+                // Nodes
+                box(phone, 120, 60, 'Phone', '100.64.0.2', '#38bdf8', '📱');
+                box(tsApp, 130, 50, 'Tailscale', 'client daemon', '#34d399', null);
+                box(wgTun, 140, 50, 'WireGuard', 'encrypt + encapsulate', '#a78bfa', null);
+                box(internet, 130, 45, 'Public Internet', 'UDP packets', '#64748b', null);
+                box(wgTunS, 140, 50, 'WireGuard', 'decrypt + unwrap', '#a78bfa', null);
+                box(tsAppS, 130, 50, 'Tailscale', 'server daemon', '#34d399', null);
+                box(server, 120, 60, 'Server', '100.64.0.1', '#fb923c', '🖥️');
+
+                // WireGuard tunnel highlight
+                nodesG.append('rect').attr('x', wgTun.x-75).attr('y', 135).attr('width', wgTunS.x-wgTun.x+150).attr('height', 90)
+                    .attr('rx', 14).attr('fill','none').attr('stroke','#a78bfa').attr('stroke-width',1)
+                    .attr('stroke-dasharray','8,4').attr('opacity',0.25);
+                labelsG.append('text').attr('x',(wgTun.x+wgTunS.x)/2).attr('y',240)
+                    .attr('text-anchor','middle').attr('fill','#a78bfa')
+                    .attr('font-family','JetBrains Mono').attr('font-size','10px')
+                    .text('WireGuard encrypted tunnel');
+
+                // Edges
+                [[phone,tsApp,'#38bdf8'],[tsApp,wgTun,'#34d399'],[wgTun,internet,'#a78bfa'],
+                 [internet,wgTunS,'#a78bfa'],[wgTunS,tsAppS,'#34d399'],[tsAppS,server,'#fb923c']].forEach(([a,b,c]) => {
+                    const vertical = a.x === b.x;
+                    edgesG.append('line')
+                        .attr('x1', vertical?a.x:a.x+(a.x<b.x?50:-50)).attr('y1', vertical?a.y+25:a.y)
+                        .attr('x2', vertical?b.x:b.x+(a.x<b.x?-50:50)).attr('y2', vertical?b.y-25:b.y)
+                        .attr('stroke',c).attr('stroke-width',1.5).attr('stroke-dasharray','5,4').attr('opacity',0.5)
+                        .attr('marker-end','url(#wg-arr)');
+                });
+
+                // Step annotations
+                labelsG.append('text').attr('x',140).attr('y',145).attr('text-anchor','middle').attr('fill','#38bdf8')
+                    .attr('font-family','JetBrains Mono').attr('font-size','8px').attr('font-weight',600).text('① plaintext');
+                labelsG.append('text').attr('x',295).attr('y',145).attr('text-anchor','middle').attr('fill','#34d399')
+                    .attr('font-family','JetBrains Mono').attr('font-size','8px').attr('font-weight',600).text('② encrypt');
+                labelsG.append('text').attr('x',470).attr('y',100).attr('text-anchor','middle').attr('fill','#a78bfa')
+                    .attr('font-family','JetBrains Mono').attr('font-size','8px').attr('font-weight',600).text('③ UDP transit');
+                labelsG.append('text').attr('x',645).attr('y',145).attr('text-anchor','middle').attr('fill','#34d399')
+                    .attr('font-family','JetBrains Mono').attr('font-size','8px').attr('font-weight',600).text('④ decrypt');
+                labelsG.append('text').attr('x',800).attr('y',145).attr('text-anchor','middle').attr('fill','#fb923c')
+                    .attr('font-family','JetBrains Mono').attr('font-size','8px').attr('font-weight',600).text('⑤ deliver');
+
+                labelsG.append('text').attr('x', 470).attr('y', 290)
+                    .attr('text-anchor','middle').attr('fill','#64748b')
+                    .attr('font-family','JetBrains Mono').attr('font-size','9px')
+                    .text('Noise protocol handshake  •  ChaCha20-Poly1305 encryption  •  No server publicly exposed');
+
+                labelsG.append('text').attr('x', 470).attr('y', 320)
+                    .attr('text-anchor','middle').attr('fill','#64748b')
+                    .attr('font-family','JetBrains Mono').attr('font-size','9px')
+                    .text('UDP hole punching for NAT traversal  •  DERP relay as fallback');
+
+                // Animate packet flow
+                let wgInterval = null;
+                function sendPacket() {
+                    // Outbound: phone → server (encrypt color transition)
+                    animP(phone, tsApp, { color:'#38bdf8', duration:400 });
+                    animP(tsApp, wgTun, { color:'#34d399', duration:400, delay:450 });
+                    animP(wgTun, internet, { color:'#a78bfa', duration:400, delay:900 });
+                    animP(internet, wgTunS, { color:'#a78bfa', duration:400, delay:1350 });
+                    animP(wgTunS, tsAppS, { color:'#34d399', duration:400, delay:1800 });
+                    animP(tsAppS, server, { color:'#fb923c', duration:400, delay:2250 });
+                    // Return: server → phone
+                    animP(server, tsAppS, { color:'#fb923c', duration:400, delay:3200 });
+                    animP(tsAppS, wgTunS, { color:'#34d399', duration:400, delay:3650 });
+                    animP(wgTunS, internet, { color:'#a78bfa', duration:400, delay:4100 });
+                    animP(internet, wgTun, { color:'#a78bfa', duration:400, delay:4550 });
+                    animP(wgTun, tsApp, { color:'#34d399', duration:400, delay:5000 });
+                    animP(tsApp, phone, { color:'#38bdf8', duration:400, delay:5450 });
+                }
+
+                function startWg() { sendPacket(); wgInterval = setInterval(sendPacket, 7000); }
+                function stopWg() { if(wgInterval){clearInterval(wgInterval);wgInterval=null;} packetsG.selectAll('*').interrupt().remove(); }
+
+                if (typeof Reveal !== 'undefined') {
+                    Reveal.on('slidechanged', event => {
+                        if (event.currentSlide.querySelector('#wg-viz')) startWg();
+                        else stopWg();
+                    });
+                }
+                startWg();
+            })();
+            </script>
+        </section>
+
+        <!-- PEER VERIFICATION -->
+        <section>
+            <h2 style="font-size: 1.2em; margin-bottom: 0.2em;">Peer Verification</h2>
+            <div id="peer-viz"></div>
+            <script>
+            (function() {
+                const container = document.getElementById('peer-viz');
+                const svg = d3.select(container).append('svg')
+                    .attr('viewBox', '0 0 940 340');
+
+                const defs = svg.append('defs');
+                const glow = defs.append('filter').attr('id','pv-glow').attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');
+                glow.append('feGaussianBlur').attr('stdDeviation','4').attr('result','blur');
+                glow.append('feMerge').selectAll('feMergeNode').data(['blur','SourceGraphic']).enter().append('feMergeNode').attr('in', d => d);
+
+                const phone = { x: 80, y: 160 };
+                const server = { x: 300, y: 160 };
+                const cache = { x: 500, y: 260 };
+                const tailscaled = { x: 500, y: 70 };
+                const allowlist = { x: 720, y: 70 };
+                const allow = { x: 720, y: 180 };
+                const deny = { x: 720, y: 270 };
+
+                const gridG = svg.append('g').attr('opacity', 0.04);
+                for (let x = 0; x < 940; x += 40) gridG.append('line').attr('x1',x).attr('y1',0).attr('x2',x).attr('y2',340).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+                for (let y = 0; y < 340; y += 40) gridG.append('line').attr('x1',0).attr('y1',y).attr('x2',940).attr('y2',y).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+
+                ['#34d399','#f87171','#64748b','#fb923c','#38bdf8','#a78bfa'].forEach((c, i) => {
+                    defs.append('marker').attr('id','pv-arr-'+i).attr('viewBox','0 0 10 10')
+                        .attr('refX',10).attr('refY',5).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto')
+                        .append('path').attr('d','M0,0 L10,5 L0,10 Z').attr('fill',c);
+                });
+
+                const edgesG = svg.append('g');
+                const nodesG = svg.append('g');
+                const packetsG = svg.append('g');
+                const labelsG = svg.append('g');
+
+                function box(pos, w, h, label, sub, color, icon) {
+                    const g = nodesG.append('g');
+                    g.append('rect').attr('x',pos.x-w/2).attr('y',pos.y-h/2).attr('width',w).attr('height',h)
+                        .attr('rx',10).attr('fill','#111827').attr('stroke',color).attr('stroke-width',1.5);
+                    g.append('rect').attr('x',pos.x-w/2).attr('y',pos.y-h/2).attr('width',w).attr('height',h)
+                        .attr('rx',10).attr('fill','none').attr('stroke',color).attr('stroke-width',1)
+                        .attr('opacity',0.15).attr('filter','url(#pv-glow)');
+                    if (icon) {
+                        g.append('text').attr('x',pos.x).attr('y',pos.y-6).attr('text-anchor','middle').attr('font-size','18px').text(icon);
+                        g.append('text').attr('x',pos.x).attr('y',pos.y+14).attr('text-anchor','middle')
+                            .attr('fill','#e2e8f0').attr('font-family','Space Grotesk').attr('font-size','11px').attr('font-weight',600).text(label);
+                        if(sub) g.append('text').attr('x',pos.x).attr('y',pos.y+28).attr('text-anchor','middle')
+                            .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','8px').text(sub);
+                    } else {
+                        g.append('text').attr('x',pos.x).attr('y',sub?pos.y-2:pos.y+4).attr('text-anchor','middle')
+                            .attr('fill','#e2e8f0').attr('font-family','Space Grotesk').attr('font-size','12px').attr('font-weight',600).text(label);
+                        if(sub) g.append('text').attr('x',pos.x).attr('y',pos.y+14).attr('text-anchor','middle')
+                            .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','8px').text(sub);
+                    }
+                }
+
+                function edge(x1, y1, x2, y2, color, markerIdx) {
+                    edgesG.append('line').attr('x1',x1).attr('y1',y1).attr('x2',x2).attr('y2',y2)
+                        .attr('stroke',color).attr('stroke-width',1.5).attr('stroke-dasharray','5,4')
+                        .attr('opacity',0.5).attr('marker-end','url(#pv-arr-'+markerIdx+')');
+                }
+
+                function animP(a, b, opts={}) {
+                    const c=opts.color||'#34d399', dur=opts.duration||600, delay=opts.delay||0;
+                    const p = packetsG.append('circle').attr('cx',a.x).attr('cy',a.y).attr('r',4)
+                        .attr('fill',c).attr('filter','url(#pv-glow)').attr('opacity',0);
+                    const t = packetsG.append('line').attr('class','packet-trail')
+                        .attr('x1',a.x).attr('y1',a.y).attr('x2',a.x).attr('y2',a.y)
+                        .attr('stroke',c).attr('stroke-width',2).attr('opacity',0);
+                    p.transition().delay(delay).duration(0).attr('opacity',1)
+                        .transition().duration(dur).ease(d3.easeCubicInOut).attr('cx',b.x).attr('cy',b.y)
+                        .transition().duration(200).attr('opacity',0).remove();
+                    t.transition().delay(delay).duration(0).attr('opacity',0.4)
+                        .transition().duration(dur).ease(d3.easeCubicInOut).attr('x2',b.x).attr('y2',b.y)
+                        .transition().duration(400).attr('opacity',0).remove();
+                }
+
+                box(phone, 120, 70, 'Phone', '100.64.0.2', '#38bdf8', '📱');
+                box(server, 140, 70, 'Server', 'verify_peer(ip)', '#34d399', '🖥️');
+                box(cache, 140, 55, 'Peer Cache', 'TTL: 5 min', '#a78bfa', null);
+                box(tailscaled, 160, 55, 'tailscaled', '/localapi/v0/whois?addr=ip', '#fb923c', null);
+                box(allowlist, 140, 55, 'Allowlist', 'TAILSCALE_ALLOWED_NODES', '#22d3ee', null);
+                box(allow, 100, 40, '✓ ALLOW', null, '#34d399', null);
+                box(deny, 100, 40, '✗ DENY', null, '#f87171', null);
+
+                edge(phone.x+60, phone.y, server.x-70, server.y, '#38bdf8', 4);
+                edge(server.x+50, server.y+35, cache.x-70, cache.y, '#a78bfa', 2);
+                edge(server.x+50, server.y-35, tailscaled.x-80, tailscaled.y, '#fb923c', 3);
+                edge(tailscaled.x+80, tailscaled.y, allowlist.x-70, allowlist.y, '#22d3ee', 4);
+                edge(allowlist.x, allowlist.y+28, allow.x, allow.y-20, '#34d399', 0);
+                edge(allow.x, allow.y+20, deny.x, deny.y-20, '#f87171', 1);
+
+                labelsG.append('text').attr('x',190).attr('y',123).attr('text-anchor','middle').attr('fill','#38bdf8')
+                    .attr('font-family','JetBrains Mono').attr('font-size','9px').attr('font-weight',600).text('① HTTP/WS request');
+                labelsG.append('text').attr('x',380).attr('y',230).attr('text-anchor','middle').attr('fill','#a78bfa')
+                    .attr('font-family','JetBrains Mono').attr('font-size','9px').attr('font-weight',600).text('② Check cache');
+                labelsG.append('text').attr('x',360).attr('y',100).attr('text-anchor','middle').attr('fill','#fb923c')
+                    .attr('font-family','JetBrains Mono').attr('font-size','9px').attr('font-weight',600).text('③ Cache miss → whois');
+                labelsG.append('text').attr('x',610).attr('y',38).attr('text-anchor','middle').attr('fill','#22d3ee')
+                    .attr('font-family','JetBrains Mono').attr('font-size','9px').attr('font-weight',600).text('④ Resolve hostname');
+                labelsG.append('text').attr('x',780).attr('y',130).attr('text-anchor','middle').attr('fill','#64748b')
+                    .attr('font-family','JetBrains Mono').attr('font-size','9px').text('⑤ In list?');
+                labelsG.append('text').attr('x',tailscaled.x).attr('y',tailscaled.y+42).attr('text-anchor','middle').attr('fill','#64748b')
+                    .attr('font-family','JetBrains Mono').attr('font-size','8px').text('Unix socket → tailscaled.sock');
+                labelsG.append('text').attr('x',470).attr('y',325).attr('text-anchor','middle').attr('fill','#64748b')
+                    .attr('font-family','JetBrains Mono').attr('font-size','9px')
+                    .text('Fail-closed: if tailscaled unreachable → DENY  •  Localhost always bypasses');
+
+                let pvInterval = null;
+                function runAllowed() {
+                    animP({x:phone.x+60,y:phone.y}, {x:server.x-70,y:server.y}, { color:'#38bdf8', duration:600 });
+                    animP({x:server.x+50,y:server.y+35}, {x:cache.x-70,y:cache.y}, { color:'#a78bfa', duration:500, delay:700 });
+                    animP({x:server.x+50,y:server.y-35}, {x:tailscaled.x-80,y:tailscaled.y}, { color:'#fb923c', duration:600, delay:1400 });
+                    animP({x:tailscaled.x+80,y:tailscaled.y}, {x:allowlist.x-70,y:allowlist.y}, { color:'#22d3ee', duration:500, delay:2100 });
+                    animP({x:allowlist.x,y:allowlist.y+28}, {x:allow.x,y:allow.y-20}, { color:'#34d399', duration:400, delay:2700 });
+                    setTimeout(() => {
+                        nodesG.append('rect').attr('x',allow.x-50).attr('y',allow.y-20).attr('width',100).attr('height',40)
+                            .attr('rx',10).attr('fill','#34d399').attr('opacity',0.3)
+                            .transition().duration(600).attr('opacity',0).remove();
+                    }, 3100);
+                }
+                function runDenied() {
+                    animP({x:phone.x+60,y:phone.y}, {x:server.x-70,y:server.y}, { color:'#38bdf8', duration:600 });
+                    animP({x:server.x+50,y:server.y+35}, {x:cache.x-70,y:cache.y}, { color:'#a78bfa', duration:500, delay:700 });
+                    animP({x:server.x+50,y:server.y-35}, {x:tailscaled.x-80,y:tailscaled.y}, { color:'#fb923c', duration:600, delay:1400 });
+                    animP({x:tailscaled.x+80,y:tailscaled.y}, {x:allowlist.x-70,y:allowlist.y}, { color:'#22d3ee', duration:500, delay:2100 });
+                    animP({x:allowlist.x,y:allowlist.y+28}, {x:deny.x,y:deny.y-20}, { color:'#f87171', duration:400, delay:2700 });
+                    setTimeout(() => {
+                        nodesG.append('rect').attr('x',deny.x-50).attr('y',deny.y-20).attr('width',100).attr('height',40)
+                            .attr('rx',10).attr('fill','#f87171').attr('opacity',0.3)
+                            .transition().duration(600).attr('opacity',0).remove();
+                    }, 3100);
+                }
+
+                let showAllow = true;
+                function cycle() { if(showAllow) runAllowed(); else runDenied(); showAllow=!showAllow; }
+
+                function startPv() { cycle(); pvInterval = setInterval(cycle, 5000); }
+                function stopPv() { if(pvInterval){clearInterval(pvInterval);pvInterval=null;} packetsG.selectAll('*').interrupt().remove(); }
+
+                if (typeof Reveal !== 'undefined') {
+                    Reveal.on('slidechanged', event => {
+                        if (event.currentSlide.querySelector('#peer-viz')) startPv();
+                        else stopPv();
+                    });
+                }
+                startPv();
+            })();
+            </script>
+        </section>
+
+        <!-- TECH STACK -->
+        <section>
+            <h2>Tech Stack</h2>
+            <div class="two-col">
+                <div>
+                    <span class="tag">Python</span>
+                    <span class="tag">aiohttp</span>
+                    <span class="tag">WebSocket</span>
+                    <span class="tag">Deepgram</span>
+                    <span class="tag">tmux</span>
+                    <span class="tag">Claude Code CLI</span>
+                </div>
+                <div>
+                    <span class="tag">Kotlin</span>
+                    <span class="tag">Wear OS</span>
+                    <span class="tag">Android</span>
+                    <span class="tag">PicoVoice</span>
+                    <span class="tag">Tailscale</span>
+                    <span class="tag">Vue.js</span>
+                </div>
+            </div>
+            <br>
+            <p class="mono">github.com/michal-franc/toadie-personal-assistant</p>
+        </section>
+
+        <!-- THE BIG REVEAL -->
+        <section data-background-color="#0a0e1a" data-transition="zoom">
+            <h2 style="font-size: 1.4em; color: var(--dim);">Ile czasu zajęło napisanie tego całego kodu?</h2>
+        </section>
+
+        <section data-background-color="#0a0e1a" data-transition="zoom">
+            <h1 style="font-size: 4em; background: linear-gradient(135deg, #F59E0B, #f87171); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Wcale.</h1>
+        </section>
+
+        <section data-background-color="#0a0e1a" data-transition="fade">
+            <h2 style="font-size: 1.6em; color: #F59E0B;">Nie napisałem ani linijki kodu</h2>
+            <br>
+            <h2 style="font-size: 1.6em; color: #f87171;">Nie przeczytałem ani linijki kodu</h2>
+            <br>
+            <p class="dim" style="font-size: 1em;">100% wygenerowane przez Claude Code</p>
+        </section>
+
+        <section data-transition="fade">
+            <h2>Co tak naprawdę robiłem</h2>
+            <ul>
+                <li><span class="highlight">Opisywałem</span> czego chcę, naturalnym językiem</li>
+                <li><span class="highlight">Testowałem</span> wynik, działa czy nie?</li>
+                <li><span class="highlight">Iterowałem</span>, "to nie działa", "zmień to"</li>
+                <li><span class="highlight">Decydowałem</span> o architekturze, nie o implementacji</li>
+            </ul>
+            <br>
+            <p class="dim">Python, Kotlin, Vue.js, WebSockets, języki których ledwo dotykam</p>
+        </section>
+
+        <!-- SPEC-DRIVEN DEVELOPMENT -->
+        <section data-transition="fade">
+            <h2 style="font-size: 1.2em; margin-bottom: 0.2em;">Rozwój oparty na specyfikacji</h2>
+            <div id="spec-flow"></div>
+            <script>
+            (function() {
+                const container = document.getElementById('spec-flow');
+                const svg = d3.select(container).append('svg')
+                    .attr('viewBox', '0 0 940 300');
+
+                const defs = svg.append('defs');
+                const glow = defs.append('filter').attr('id','sp-glow').attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');
+                glow.append('feGaussianBlur').attr('stdDeviation','4').attr('result','blur');
+                glow.append('feMerge').selectAll('feMergeNode').data(['blur','SourceGraphic']).enter().append('feMergeNode').attr('in', d => d);
+
+                defs.append('marker').attr('id','sp-arr').attr('viewBox','0 0 10 10')
+                    .attr('refX',10).attr('refY',5).attr('markerWidth',7).attr('markerHeight',7).attr('orient','auto')
+                    .append('path').attr('d','M0,0 L10,5 L0,10 Z').attr('fill','#64748b');
+
+                const gridG = svg.append('g').attr('opacity', 0.04);
+                for (let x = 0; x < 940; x += 40) gridG.append('line').attr('x1',x).attr('y1',0).attr('x2',x).attr('y2',340).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+                for (let y = 0; y < 340; y += 40) gridG.append('line').attr('x1',0).attr('y1',y).attr('x2',940).attr('y2',y).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+
+                const nodesG = svg.append('g');
+                const edgesG = svg.append('g');
+                const packetsG = svg.append('g');
+
+                const steps = [
+                    { x: 120, y: 80, label: '1. Idea', sub: 'Discuss with Claude', detail: 'What do I want?\nTrade-offs, approaches', color: '#38bdf8', icon: '💡' },
+                    { x: 340, y: 80, label: '2. Design', sub: 'Spec & plan', detail: 'Architecture, file changes\nStep-by-step plan', color: '#a78bfa', icon: '📐' },
+                    { x: 560, y: 80, label: '3. Implement', sub: 'Claude codes + test', detail: 'Code, run tests\nIterate on bugs', color: '#34d399', icon: '⚡' },
+                    { x: 780, y: 80, label: '4. Document', sub: 'For future context', detail: 'Update CLAUDE.md\nFeature docs, specs', color: '#fb923c', icon: '📝' },
+                ];
+
+                steps.forEach((s, i) => {
+                    // Box
+                    nodesG.append('rect').attr('x',s.x-85).attr('y',s.y-35).attr('width',170).attr('height',70)
+                        .attr('rx',12).attr('fill','#111827').attr('stroke',s.color).attr('stroke-width',1.5);
+                    nodesG.append('rect').attr('x',s.x-85).attr('y',s.y-35).attr('width',170).attr('height',70)
+                        .attr('rx',12).attr('fill','none').attr('stroke',s.color).attr('stroke-width',1)
+                        .attr('opacity',0.15).attr('filter','url(#sp-glow)');
+                    // Icon + label
+                    nodesG.append('text').attr('x',s.x-60).attr('y',s.y-3).attr('font-size','18px').text(s.icon);
+                    nodesG.append('text').attr('x',s.x+10).attr('y',s.y-8).attr('text-anchor','middle')
+                        .attr('fill','#e2e8f0').attr('font-family','Space Grotesk').attr('font-size','14px').attr('font-weight',700).text(s.label);
+                    nodesG.append('text').attr('x',s.x+10).attr('y',s.y+12).attr('text-anchor','middle')
+                        .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','9px').text(s.sub);
+                    // Detail below
+                    s.detail.split('\n').forEach((line, j) => {
+                        nodesG.append('text').attr('x',s.x).attr('y',s.y+60+j*16).attr('text-anchor','middle')
+                            .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','9px').text(line);
+                    });
+                    // Arrow
+                    if (i < steps.length - 1) {
+                        edgesG.append('line')
+                            .attr('x1',s.x+90).attr('y1',s.y).attr('x2',steps[i+1].x-90).attr('y2',steps[i+1].y)
+                            .attr('stroke','#64748b').attr('stroke-width',1.5).attr('stroke-dasharray','5,4')
+                            .attr('marker-end','url(#sp-arr)');
+                    }
+                });
+
+                // Feedback loop arrow (4 back to 1 via bottom)
+                const loopY = 210;
+                edgesG.append('path')
+                    .attr('d', `M${steps[3].x},${steps[3].y+35} L${steps[3].x},${loopY} L${steps[0].x},${loopY} L${steps[0].x},${steps[0].y+35}`)
+                    .attr('fill','none').attr('stroke','#fb923c').attr('stroke-width',1.5)
+                    .attr('stroke-dasharray','5,4').attr('opacity',0.4)
+                    .attr('marker-end','url(#sp-arr)');
+                nodesG.append('text').attr('x',450).attr('y',loopY+18).attr('text-anchor','middle')
+                    .attr('fill','#fb923c').attr('font-family','JetBrains Mono').attr('font-size','9px')
+                    .text('next feature → back to step 1');
+
+                // Bottom note
+                nodesG.append('text').attr('x',470).attr('y',280).attr('text-anchor','middle')
+                    .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','10px')
+                    .text('Project = collection of specs  •  Each feature follows this loop');
+
+                // Animate packet through the cycle
+                let spInterval = null;
+                function cycle() {
+                    steps.forEach((s, i) => {
+                        if (i < steps.length - 1) {
+                            const a = s, b = steps[i+1];
+                            const p = packetsG.append('circle').attr('cx',a.x+90).attr('cy',a.y).attr('r',4)
+                                .attr('fill',a.color).attr('filter','url(#sp-glow)').attr('opacity',0);
+                            p.transition().delay(i*800).duration(0).attr('opacity',1)
+                                .transition().duration(600).ease(d3.easeCubicInOut).attr('cx',b.x-90).attr('cy',b.y)
+                                .transition().duration(200).attr('opacity',0).remove();
+                        }
+                    });
+                }
+
+                function startSp() { cycle(); spInterval = setInterval(cycle, 4000); }
+                function stopSp() { if(spInterval){clearInterval(spInterval);spInterval=null;} packetsG.selectAll('*').interrupt().remove(); }
+
+                if (typeof Reveal !== 'undefined') {
+                    Reveal.on('slidechanged', event => {
+                        if (event.currentSlide.querySelector('#spec-flow')) startSp();
+                        else stopSp();
+                    });
+                }
+                startSp();
+            })();
+            </script>
+        </section>
+
+        <!-- PROJECT MANAGEMENT VIA GITHUB -->
+        <section data-transition="fade">
+            <h2>Zarządzanie projektem przez GitHub</h2>
+            <p style="font-size: 0.75em;">Wszystkie zmiany, plany i prace trzymamy w GitHub. Pomysły, dyskusje i plan pracy.</p>
+            <br>
+            <div class="two-col" style="font-size: 0.75em;">
+                <div>
+                    <ul>
+                        <li><span class="highlight">Issues</span> jako backlog pomysłów i bugów</li>
+                        <li><span class="highlight">Pull Requesty</span> z pełnym opisem zmian i planem testów</li>
+                        <li><span class="highlight">Dyskusje</span> w komentarzach, iteracje na review</li>
+                        <li>Bot tworzy PRy, ja reviewuję i mergeuję</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li>Pełna historia decyzji i zmian</li>
+                        <li>CI/CD sprawdza linty i testy automatycznie</li>
+                        <li>Każda funkcjonalność = branch + PR</li>
+                        <li>Transparentność, widać co bot zrobił i dlaczego</li>
+                    </ul>
+                </div>
+            </div>
+            <br>
+            <p class="dim">Przykłady: <a href="https://github.com/michal-franc/toadie-personal-assistant/pull/74" style="color: var(--blue);">PR #74, beta plan testów</a> · <a href="https://github.com/michal-franc/toadie-personal-assistant/pull/49" style="color: var(--blue);">PR #49, duża zmiana</a></p>
+        </section>
+
+        <!-- PARALLEL BOTS + GIT WORKTREES -->
+        <section data-transition="fade">
+            <h2>Wiele botów, wiele issues naraz</h2>
+            <p style="font-size: 0.75em;">Każdy bot pracuje nad swoim issue w izolacji. Klucz: <span class="highlight">git worktrees</span>.</p>
+            <br>
+            <div class="two-col" style="font-size: 0.75em;">
+                <div>
+                    <ul>
+                        <li>Każdy bot dostaje <span class="highlight">własny worktree</span>, osobna kopia repo</li>
+                        <li>Brak konfliktów, boty nie nadpisują sobie zmian</li>
+                        <li>Każdy bot tworzy branch → PR → review</li>
+                        <li>Mogę odpalić 3-4 boty równolegle na różnych taskach</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li>Claude Code ma już <span class="highlight">wbudowane wsparcie</span> dla worktrees</li>
+                        <li>Ale polecam samemu zarządzać worktrees z botem</li>
+                        <li>Większa kontrola nad tym co bot robi i gdzie</li>
+                        <li><code>git worktree add ./worktrees/feature -b feature</code></li>
+                    </ul>
+                </div>
+            </div>
+            <br>
+            <p class="dim" style="font-style: italic;">Worktree = tani klon repo bez kopiowania historii. Każdy bot ma swój sandbox.</p>
+        </section>
+
+        <!-- PARALLEL BOTS VISUALIZATION -->
+        <section data-transition="fade">
+            <h2 style="font-size: 1.2em; margin-bottom: 0.2em;">Workflow: boty → beta → test</h2>
+            <div id="bots-flow"></div>
+            <script>
+            (function() {
+                const container = document.getElementById('bots-flow');
+                const svg = d3.select(container).append('svg')
+                    .attr('viewBox', '0 0 940 420');
+
+                const defs = svg.append('defs');
+                const glow = defs.append('filter').attr('id','bf-glow').attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');
+                glow.append('feGaussianBlur').attr('stdDeviation','4').attr('result','blur');
+                glow.append('feMerge').selectAll('feMergeNode').data(['blur','SourceGraphic']).enter().append('feMergeNode').attr('in', d => d);
+
+                ['#38bdf8','#a78bfa','#34d399','#fb923c','#f87171','#22d3ee','#64748b'].forEach((c,i) => {
+                    defs.append('marker').attr('id','bf-arr-'+i).attr('viewBox','0 0 10 10')
+                        .attr('refX',10).attr('refY',5).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto')
+                        .append('path').attr('d','M0,0 L10,5 L0,10 Z').attr('fill',c);
+                });
+
+                const gridG = svg.append('g').attr('opacity',0.04);
+                for(let x=0;x<940;x+=40) gridG.append('line').attr('x1',x).attr('y1',0).attr('x2',x).attr('y2',420).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+                for(let y=0;y<420;y+=40) gridG.append('line').attr('x1',0).attr('y1',y).attr('x2',940).attr('y2',y).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+
+                const nodesG = svg.append('g');
+                const edgesG = svg.append('g');
+                const packetsG = svg.append('g');
+
+                function box(x,y,w,h,label,sub,color) {
+                    nodesG.append('rect').attr('x',x-w/2).attr('y',y-h/2).attr('width',w).attr('height',h)
+                        .attr('rx',8).attr('fill','#111827').attr('stroke',color).attr('stroke-width',1.5);
+                    nodesG.append('text').attr('x',x).attr('y',sub?y-2:y+4).attr('text-anchor','middle')
+                        .attr('fill','#e2e8f0').attr('font-family','Space Grotesk').attr('font-size','11px').attr('font-weight',600).text(label);
+                    if(sub) nodesG.append('text').attr('x',x).attr('y',y+13).attr('text-anchor','middle')
+                        .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','8px').text(sub);
+                }
+
+                function edge(x1,y1,x2,y2,color,mi) {
+                    edgesG.append('line').attr('x1',x1).attr('y1',y1).attr('x2',x2).attr('y2',y2)
+                        .attr('stroke',color).attr('stroke-width',1.5).attr('stroke-dasharray','5,4').attr('opacity',0.5)
+                        .attr('marker-end','url(#bf-arr-'+mi+')');
+                }
+
+                // GitHub Issues (left)
+                const ghX = 60, issueYs = [70, 160, 250, 340];
+                const issueColors = ['#38bdf8','#a78bfa','#34d399','#fb923c'];
+                const issueLabels = ['Issue #12','Issue #15','Issue #18','Issue #22'];
+                box(ghX, 205, 100, 300, 'GitHub', 'Issues', '#64748b');
+                issueYs.forEach((y,i) => box(ghX, y, 80, 35, issueLabels[i], null, issueColors[i]));
+
+                // Bots (column 2)
+                const botX = 230;
+                const botLabels = ['Bot 1','Bot 2','Bot 3','Bot 4'];
+                issueYs.forEach((y,i) => {
+                    box(botX, y, 80, 40, botLabels[i], 'worktree', issueColors[i]);
+                    edge(ghX+40, y, botX-40, y, issueColors[i], i);
+                });
+
+                // PRs (column 3)
+                const prX = 410;
+                const prLabels = ['PR #13','PR #16','PR #19','PR #23'];
+                issueYs.forEach((y,i) => {
+                    box(prX, y, 80, 35, prLabels[i], null, issueColors[i]);
+                    edge(botX+40, y, prX-40, y, issueColors[i], i);
+                });
+
+                // Beta branch (column 4)
+                const betaX = 590, betaY = 205;
+                nodesG.append('rect').attr('x',betaX-70).attr('y',betaY-60).attr('width',140).attr('height',120)
+                    .attr('rx',10).attr('fill','#111827').attr('stroke','#22d3ee').attr('stroke-width',2);
+                nodesG.append('text').attr('x',betaX).attr('y',betaY-15).attr('text-anchor','middle')
+                    .attr('fill','#22d3ee').attr('font-family','Space Grotesk').attr('font-size','16px').attr('font-weight',700).text('beta');
+                nodesG.append('text').attr('x',betaX).attr('y',betaY+8).attr('text-anchor','middle')
+                    .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','9px').text('merge PRs');
+                nodesG.append('text').attr('x',betaX).attr('y',betaY+25).attr('text-anchor','middle')
+                    .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','9px').text('integration');
+
+                issueYs.forEach((y,i) => edge(prX+40, y, betaX-70, betaY, issueColors[i], i));
+
+                // Test (column 5)
+                const testX = 790, testY = 205;
+                nodesG.append('rect').attr('x',testX-80).attr('y',testY-55).attr('width',160).attr('height',110)
+                    .attr('rx',10).attr('fill','#111827').attr('stroke','#34d399').attr('stroke-width',2);
+                nodesG.append('text').attr('x',testX).attr('y',testY-20).attr('text-anchor','middle')
+                    .attr('fill','#34d399').attr('font-family','Space Grotesk').attr('font-size','14px').attr('font-weight',700).text('Test na beta');
+                nodesG.append('text').attr('x',testX).attr('y',testY+2).attr('text-anchor','middle')
+                    .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','9px').text('ręczne + boty');
+                nodesG.append('text').attr('x',testX).attr('y',testY+18).attr('text-anchor','middle')
+                    .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','9px').text('fix → nowy PR → merge');
+
+                edge(betaX+70, betaY, testX-80, testY, '#22d3ee', 5);
+
+                // Animate packets
+                function animP(ax,ay,bx,by,color,dur,delay) {
+                    const p = packetsG.append('circle').attr('cx',ax).attr('cy',ay).attr('r',4)
+                        .attr('fill',color).attr('filter','url(#bf-glow)').attr('opacity',0);
+                    p.transition().delay(delay).duration(0).attr('opacity',1)
+                        .transition().duration(dur).ease(d3.easeCubicInOut).attr('cx',bx).attr('cy',by)
+                        .transition().duration(200).attr('opacity',0).remove();
+                }
+
+                let bfInterval = null;
+                function cycle() {
+                    issueYs.forEach((y,i) => {
+                        animP(ghX+40,y, botX-40,y, issueColors[i], 500, i*200);
+                        animP(botX+40,y, prX-40,y, issueColors[i], 500, 800+i*200);
+                        animP(prX+40,y, betaX-70,betaY, issueColors[i], 600, 1600+i*150);
+                    });
+                    animP(betaX+70,betaY, testX-80,testY, '#22d3ee', 600, 2800);
+                }
+
+                function startBf(){cycle();bfInterval=setInterval(cycle,5000);}
+                function stopBf(){if(bfInterval){clearInterval(bfInterval);bfInterval=null;}packetsG.selectAll('*').interrupt().remove();}
+
+                if(typeof Reveal!=='undefined'){
+                    Reveal.on('slidechanged',e=>{
+                        if(e.currentSlide.querySelector('#bots-flow'))startBf();else stopBf();
+                    });
+                }
+                startBf();
+            })();
+            </script>
+        </section>
+
+        <!-- MANAGER BOT VISUALIZATION -->
+        <section data-transition="fade">
+            <h2 style="font-size: 1.2em; margin-bottom: 0.2em;">Bot Manager (testowane)</h2>
+            <div id="manager-flow"></div>
+            <script>
+            (function() {
+                const container = document.getElementById('manager-flow');
+                const svg = d3.select(container).append('svg')
+                    .attr('viewBox', '0 0 940 420');
+
+                const defs = svg.append('defs');
+                const glow = defs.append('filter').attr('id','mf-glow').attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');
+                glow.append('feGaussianBlur').attr('stdDeviation','4').attr('result','blur');
+                glow.append('feMerge').selectAll('feMergeNode').data(['blur','SourceGraphic']).enter().append('feMergeNode').attr('in', d => d);
+
+                ['#38bdf8','#a78bfa','#34d399','#fb923c','#f87171','#22d3ee','#F59E0B','#64748b'].forEach((c,i) => {
+                    defs.append('marker').attr('id','mf-arr-'+i).attr('viewBox','0 0 10 10')
+                        .attr('refX',10).attr('refY',5).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto')
+                        .append('path').attr('d','M0,0 L10,5 L0,10 Z').attr('fill',c);
+                });
+
+                const gridG = svg.append('g').attr('opacity',0.04);
+                for(let x=0;x<940;x+=40) gridG.append('line').attr('x1',x).attr('y1',0).attr('x2',x).attr('y2',420).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+                for(let y=0;y<420;y+=40) gridG.append('line').attr('x1',0).attr('y1',y).attr('x2',940).attr('y2',y).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+
+                const nodesG = svg.append('g');
+                const edgesG = svg.append('g');
+                const packetsG = svg.append('g');
+
+                function box(x,y,w,h,label,sub,color) {
+                    nodesG.append('rect').attr('x',x-w/2).attr('y',y-h/2).attr('width',w).attr('height',h)
+                        .attr('rx',8).attr('fill','#111827').attr('stroke',color).attr('stroke-width',1.5);
+                    nodesG.append('text').attr('x',x).attr('y',sub?y-2:y+4).attr('text-anchor','middle')
+                        .attr('fill','#e2e8f0').attr('font-family','Space Grotesk').attr('font-size','11px').attr('font-weight',600).text(label);
+                    if(sub) nodesG.append('text').attr('x',x).attr('y',y+13).attr('text-anchor','middle')
+                        .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','8px').text(sub);
+                }
+
+                function edge(x1,y1,x2,y2,color,mi) {
+                    edgesG.append('line').attr('x1',x1).attr('y1',y1).attr('x2',x2).attr('y2',y2)
+                        .attr('stroke',color).attr('stroke-width',1.5).attr('stroke-dasharray','5,4').attr('opacity',0.5)
+                        .attr('marker-end','url(#mf-arr-'+mi+')');
+                }
+
+                // Human (creates issues) - above issues
+                const humanX = 60, humanY = 15;
+                nodesG.append('rect').attr('x',humanX-40).attr('y',humanY-12).attr('width',80).attr('height',30)
+                    .attr('rx',8).attr('fill','#111827').attr('stroke','#f87171').attr('stroke-width',1.5);
+                nodesG.append('text').attr('x',humanX-18).attr('y',humanY+8).attr('text-anchor','middle')
+                    .attr('font-size','12px').text('👤');
+                nodesG.append('text').attr('x',humanX+15).attr('y',humanY+7).attr('text-anchor','middle')
+                    .attr('fill','#f87171').attr('font-family','Space Grotesk').attr('font-size','9px').attr('font-weight',600).text('Człowiek');
+
+                // GitHub Issues (left)
+                const ghX = 60, issueYs = [70, 160, 250, 340];
+                const issueColors = ['#38bdf8','#a78bfa','#34d399','#fb923c'];
+                box(ghX, 205, 100, 300, 'GitHub', 'Issues', '#64748b');
+                ['Issue #12','Issue #15','Issue #18','Issue #22'].forEach((l,i) => box(ghX, issueYs[i], 80, 35, l, null, issueColors[i]));
+
+                // Human → Issues (down)
+                edge(humanX, humanY+12, ghX, issueYs[0]-18, '#f87171', 4);
+                nodesG.append('text').attr('x',humanX+55).attr('y',45).attr('text-anchor','start')
+                    .attr('fill','#f87171').attr('font-family','JetBrains Mono').attr('font-size','8px').text('tworzy issues');
+
+                // Manager Bot (column 2)
+                const mgrX = 240, mgrY = 205;
+                nodesG.append('rect').attr('x',mgrX-70).attr('y',mgrY-70).attr('width',140).attr('height',140)
+                    .attr('rx',12).attr('fill','#111827').attr('stroke','#F59E0B').attr('stroke-width',2.5);
+                nodesG.append('rect').attr('x',mgrX-70).attr('y',mgrY-70).attr('width',140).attr('height',140)
+                    .attr('rx',12).attr('fill','none').attr('stroke','#F59E0B').attr('stroke-width',1)
+                    .attr('opacity',0.2).attr('filter','url(#mf-glow)');
+                nodesG.append('text').attr('x',mgrX).attr('y',mgrY-25).attr('text-anchor','middle')
+                    .attr('fill','#F59E0B').attr('font-family','Space Grotesk').attr('font-size','16px').attr('font-weight',700).text('Toadie');
+                nodesG.append('text').attr('x',mgrX).attr('y',mgrY).attr('text-anchor','middle')
+                    .attr('fill','#F59E0B').attr('font-family','Space Grotesk').attr('font-size','12px').attr('font-weight',600).text('Manager');
+                nodesG.append('text').attr('x',mgrX).attr('y',mgrY+20).attr('text-anchor','middle')
+                    .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','8px').text('czyta issues');
+                nodesG.append('text').attr('x',mgrX).attr('y',mgrY+33).attr('text-anchor','middle')
+                    .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','8px').text('przydziela boty');
+                nodesG.append('text').attr('x',mgrX).attr('y',mgrY+46).attr('text-anchor','middle')
+                    .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','8px').text('reviewuje PRy');
+
+                // Issues → Manager
+                issueYs.forEach((y,i) => edge(ghX+40, y, mgrX-70, mgrY, issueColors[i], i));
+
+                // Worker Bots (column 3)
+                const botX = 440;
+                ['Bot 1','Bot 2','Bot 3','Bot 4'].forEach((l,i) => {
+                    box(botX, issueYs[i], 80, 40, l, 'worktree', issueColors[i]);
+                    edge(mgrX+70, mgrY, botX-40, issueYs[i], issueColors[i], i);
+                });
+
+                // PRs (column 4)
+                const prX = 620;
+                ['PR #13','PR #16','PR #19','PR #23'].forEach((l,i) => {
+                    box(prX, issueYs[i], 80, 35, l, null, issueColors[i]);
+                    edge(botX+40, issueYs[i], prX-40, issueYs[i], issueColors[i], i);
+                });
+
+                // Beta + Test (column 5)
+                const betaX = 820, betaY = 140;
+                nodesG.append('rect').attr('x',betaX-65).attr('y',betaY-40).attr('width',130).attr('height',80)
+                    .attr('rx',10).attr('fill','#111827').attr('stroke','#22d3ee').attr('stroke-width',2);
+                nodesG.append('text').attr('x',betaX).attr('y',betaY-8).attr('text-anchor','middle')
+                    .attr('fill','#22d3ee').attr('font-family','Space Grotesk').attr('font-size','14px').attr('font-weight',700).text('beta');
+                nodesG.append('text').attr('x',betaX).attr('y',betaY+12).attr('text-anchor','middle')
+                    .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','8px').text('merge + test');
+
+                issueYs.forEach((y,i) => edge(prX+40, y, betaX-65, betaY, issueColors[i], i));
+
+                // Review loop: Manager reviews PRs
+                edgesG.append('path')
+                    .attr('d', `M${prX},${issueYs[3]+18} L${prX},${390} L${mgrX},${390} L${mgrX},${mgrY+70}`)
+                    .attr('fill','none').attr('stroke','#F59E0B').attr('stroke-width',1.5)
+                    .attr('stroke-dasharray','5,4').attr('opacity',0.4)
+                    .attr('marker-end','url(#mf-arr-6)');
+                nodesG.append('text').attr('x',370).attr('y',405).attr('text-anchor','middle')
+                    .attr('fill','#F59E0B').attr('font-family','JetBrains Mono').attr('font-size','9px').text('review PRs → approve/request changes');
+
+                // Animate
+                function animP(ax,ay,bx,by,color,dur,delay) {
+                    const p = packetsG.append('circle').attr('cx',ax).attr('cy',ay).attr('r',4)
+                        .attr('fill',color).attr('filter','url(#mf-glow)').attr('opacity',0);
+                    p.transition().delay(delay).duration(0).attr('opacity',1)
+                        .transition().duration(dur).ease(d3.easeCubicInOut).attr('cx',bx).attr('cy',by)
+                        .transition().duration(200).attr('opacity',0).remove();
+                }
+
+                let mfInterval = null;
+                function cycle() {
+                    // Issues → Manager
+                    issueYs.forEach((y,i) => animP(ghX+40,y, mgrX-70,mgrY, issueColors[i], 500, i*150));
+                    // Manager → Bots
+                    issueYs.forEach((y,i) => animP(mgrX+70,mgrY, botX-40,y, issueColors[i], 500, 800+i*150));
+                    // Bots → PRs
+                    issueYs.forEach((y,i) => animP(botX+40,y, prX-40,y, issueColors[i], 500, 1600+i*150));
+                    // PRs → Beta
+                    issueYs.forEach((y,i) => animP(prX+40,y, betaX-65,betaY, issueColors[i], 500, 2400+i*100));
+                    // Review loop
+                    animP(prX,issueYs[3]+18, mgrX,mgrY+70, '#F59E0B', 800, 3200);
+                }
+
+                function startMf(){cycle();mfInterval=setInterval(cycle,5500);}
+                function stopMf(){if(mfInterval){clearInterval(mfInterval);mfInterval=null;}packetsG.selectAll('*').interrupt().remove();}
+
+                if(typeof Reveal!=='undefined'){
+                    Reveal.on('slidechanged',e=>{
+                        if(e.currentSlide.querySelector('#manager-flow'))startMf();else stopMf();
+                    });
+                }
+                startMf();
+            })();
+            </script>
+        </section>
+
+        <!-- CONTEXT MANAGEMENT -->
+        <section data-transition="fade">
+            <h2>Zarządzanie kontekstem to klucz</h2>
+            <p style="font-size: 0.75em;"><code>CLAUDE.md</code>, instrukcje które agent czyta przy każdej sesji</p>
+            <br>
+            <div class="two-col" style="font-size: 0.75em;">
+                <div>
+                    <ul>
+                        <li><span class="highlight">Decyzje architektoniczne</span>, ścieżki plików, komendy</li>
+                        <li>Konwencje testów, czego <span style="color: var(--red);">NIE robić</span></li>
+                        <li>Info o urządzeniach, portach, zależnościach</li>
+                        <li><span class="highlight">Auto-pamięć</span>, agent uczy się między sesjami</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li>CLAUDE.md rośnie organicznie, staje się nieaktualny</li>
+                        <li><span class="highlight" style="color: var(--green);">context-doctor</span>, linter dla CLAUDE.md</li>
+                        <li>Sprawdza złamane referencje, martwe komendy, sprzeczności</li>
+                        <li class="mono" style="font-size: 0.9em;"><a href="https://github.com/michal-franc/context-doctor" style="color: var(--green);">github.com/michal-franc/context-doctor</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- CLAUDE.MD VISUALIZATION -->
+        <section data-transition="fade">
+            <h2 style="font-size: 1.2em; margin-bottom: 0.2em;">Co jest w CLAUDE.md</h2>
+            <div id="claudemd-viz"></div>
+            <script>
+            (function() {
+                const container = document.getElementById('claudemd-viz');
+                const svg = d3.select(container).append('svg')
+                    .attr('viewBox', '0 0 940 380');
+
+                const gridG = svg.append('g').attr('opacity',0.04);
+                for(let x=0;x<940;x+=40) gridG.append('line').attr('x1',x).attr('y1',0).attr('x2',x).attr('y2',380).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+                for(let y=0;y<380;y+=40) gridG.append('line').attr('x1',0).attr('y1',y).attr('x2',940).attr('y2',y).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+
+                const nodesG = svg.append('g');
+
+                // Central CLAUDE.md
+                const cx = 470, cy = 190;
+                nodesG.append('rect').attr('x',cx-80).attr('y',cy-30).attr('width',160).attr('height',60)
+                    .attr('rx',10).attr('fill','#111827').attr('stroke','#F59E0B').attr('stroke-width',2.5);
+                nodesG.append('text').attr('x',cx).attr('y',cy-5).attr('text-anchor','middle')
+                    .attr('fill','#F59E0B').attr('font-family','JetBrains Mono').attr('font-size','14px').attr('font-weight',700).text('CLAUDE.md');
+                nodesG.append('text').attr('x',cx).attr('y',cy+15).attr('text-anchor','middle')
+                    .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','8px').text('~120 linii instrukcji');
+
+                // Sections around it
+                const sections = [
+                    { x: 120, y: 60, label: 'Key Files', sub: 'server.py, dashboard.html...', color: '#38bdf8' },
+                    { x: 370, y: 60, label: 'Commands', sub: 'make check, gradlew...', color: '#34d399' },
+                    { x: 600, y: 60, label: 'Git Workflow', sub: 'branches, PRs, worktrees', color: '#a78bfa' },
+                    { x: 820, y: 60, label: 'Testing', sub: 'pytest, Robolectric, JaCoCo', color: '#22d3ee' },
+                    { x: 100, y: 190, label: 'Architecture', sub: 'Claude wrapper, tmux, WS', color: '#fb923c' },
+                    { x: 840, y: 190, label: "Don'ts", sub: 'no push master, no TLS...', color: '#f87171' },
+                    { x: 120, y: 320, label: 'Subagents', sub: 'worktree per agent, PRs', color: '#a78bfa' },
+                    { x: 370, y: 320, label: 'Feature Docs', sub: 'wake word, security, tunnel', color: '#34d399' },
+                    { x: 600, y: 320, label: 'Devices', sub: 'watch IP, phone serial', color: '#38bdf8' },
+                    { x: 820, y: 320, label: 'Auto-Memory', sub: 'uczy się między sesjami', color: '#F59E0B' },
+                ];
+
+                sections.forEach(s => {
+                    nodesG.append('rect').attr('x',s.x-70).attr('y',s.y-22).attr('width',140).attr('height',44)
+                        .attr('rx',8).attr('fill','rgba(17,24,39,0.8)').attr('stroke',s.color).attr('stroke-width',1.5);
+                    nodesG.append('text').attr('x',s.x).attr('y',s.y-4).attr('text-anchor','middle')
+                        .attr('fill','#e2e8f0').attr('font-family','Space Grotesk').attr('font-size','11px').attr('font-weight',600).text(s.label);
+                    nodesG.append('text').attr('x',s.x).attr('y',s.y+12).attr('text-anchor','middle')
+                        .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','7px').text(s.sub);
+                    // Line to center
+                    nodesG.append('line').attr('x1',s.x).attr('y1', s.y < cy ? s.y+22 : s.y-22)
+                        .attr('x2',cx).attr('y2', s.y < cy ? cy-30 : (s.y > cy ? cy+30 : cy))
+                        .attr('stroke',s.color).attr('stroke-width',1).attr('stroke-dasharray','4,3').attr('opacity',0.3);
+                });
+            })();
+            </script>
+        </section>
+
+        <!-- CONTEXT-DOCTOR EXAMPLE -->
+        <section data-transition="fade">
+            <h2 style="color: var(--green);">context-doctor</h2>
+            <p class="mono" style="font-size: 0.6em;"><a href="https://github.com/michal-franc/context-doctor" style="color: var(--green);">github.com/michal-franc/context-doctor</a></p>
+            <p class="dim">Linter dla CLAUDE.md, uruchom, dostań ocenę</p>
+            <br>
+            <div style="text-align: left; max-width: 720px; margin: 0 auto; background: #0a0e1a; border: 1px solid #1e293b; border-radius: 12px; padding: 1.2em 1.5em; font-family: 'JetBrains Mono', monospace; font-size: 0.45em; line-height: 1.7;">
+<span style="color: #64748b;">$</span> <span style="color: #e2e8f0;">context-doctor CLAUDE.md</span>
+<br><br>
+<span style="color: #64748b;">METRICS</span>
+<br><span style="color: #e2e8f0;">  Lines:        119</span> <span style="color: #F59E0B;">(MODERATE)</span>
+<br><span style="color: #e2e8f0;">  Instructions: ~43 (+50 Claude = ~93)</span> <span style="color: #34d399;">(OK)</span>
+<br><span style="color: #e2e8f0;">  Progressive Disclosure:</span> <span style="color: #34d399;">YES</span>
+<br><span style="color: #e2e8f0;">  Scope Activity:  11 commits since last update (10 days ago)</span>
+<br><br>
+<span style="color: #64748b;">LENGTH ISSUES</span>
+<br><span style="color: #F59E0B;">  ⚠ [CD002]</span> <span style="color: #e2e8f0;">File has more than 100 lines</span>
+<br><span style="color: #64748b;">     → Consider being more concise. Ideal ~60 lines</span>
+<br><br>
+<span style="color: #64748b;">REFERENCED DOCS</span>
+<br><span style="color: #34d399;">  ✓</span> <span style="color: #e2e8f0;">KLAUDIUSH.md</span> <span style="color: #64748b;">(9 days ago)</span>
+<br><span style="color: #34d399;">  ✓</span> <span style="color: #e2e8f0;">docs/server-api.md</span> <span style="color: #64748b;">(9 days ago)</span>
+<br><span style="color: #34d399;">  ✓</span> <span style="color: #e2e8f0;">docs/features/security.md</span> <span style="color: #64748b;">(23 days ago)</span>
+<br><br>
+<span style="color: #64748b;">DIMENSION SCORES</span>
+<br><span style="color: #e2e8f0;">  Correctness</span>   <span style="color: #34d399;">███████████████████░</span> <span style="color: #e2e8f0;">95/100</span>
+<br><span style="color: #e2e8f0;">  Style</span>         <span style="color: #34d399;">████████████████████</span> <span style="color: #e2e8f0;">100/100</span>
+<br><span style="color: #e2e8f0;">  Freshness</span>     <span style="color: #F59E0B;">██████████████████░░</span> <span style="color: #e2e8f0;">90/100</span>
+<br><br>
+<span style="color: #64748b;">OVERALL SCORE</span>
+<br><span style="color: #34d399;">  ███████████████████░</span> <span style="color: #e2e8f0; font-size: 1.3em; font-weight: 700;">96/100</span>
+            </div>
+            <br>
+            <p class="mono" style="color: var(--green);"><a href="https://github.com/michal-franc/context-doctor" style="color: var(--green);">github.com/michal-franc/context-doctor</a></p>
+        </section>
+
+
+        <!-- REAL PROMPTS: FEATURES -->
+        <section data-transition="fade">
+            <h2>Prawdziwe prompty, budowanie funkcjonalności</h2>
+            <div style="text-align: left; max-width: 800px; margin: 0 auto; font-size: 0.75em; line-height: 1.8;">
+                <p><code style="color: #38bdf8;">></code> <em>"ok now on hey toadie after the wake word is detected it should open the app even if its in lock mode doable?"</em></p>
+                <p><code style="color: #38bdf8;">></code> <em>"could we make this to be kind of like a voice sin function?"</em></p>
+                <p><code style="color: #38bdf8;">></code> <em>"i also have critical bug now - watch is never refreshing chat even after sending new voice command"</em></p>
+                <p><code style="color: #38bdf8;">></code> <em>"ok but we should retry more often instead of dropping to idle timeout it should be exponential retry"</em></p>
+            </div>
+        </section>
+
+        <!-- REAL PROMPTS: DEBUGGING -->
+        <section data-transition="fade">
+            <h2>Prawdziwe prompty, debugowanie</h2>
+            <div style="text-align: left; max-width: 800px; margin: 0 auto; font-size: 0.75em; line-height: 1.8;">
+                <p><code style="color: #38bdf8;">></code> <em>"can you check the logs i can still see flickering"</em></p>
+                <p><code style="color: #38bdf8;">></code> <em>"the screen is turning on - but then when i swipe i am not being taken to the app"</em></p>
+                <p><code style="color: #38bdf8;">></code> <em>"i now have the app in listening state its blocked on the overlay"</em></p>
+                <p><code style="color: #38bdf8;">></code> <em>"can you check request nr 8 from server and tell me why we need 3.3s to capture response?"</em></p>
+            </div>
+        </section>
+
+        <!-- REAL PROMPTS: OPS + VIBES -->
+        <section data-transition="fade">
+            <h2>Prawdziwe prompty, reszta</h2>
+            <div style="text-align: left; max-width: 800px; margin: 0 auto; font-size: 0.75em; line-height: 1.8;">
+                <p><code style="color: #34d399;">></code> <em>"ok install on the watch"</em></p>
+                <p><code style="color: #34d399;">></code> <em>"try again"</em></p>
+                <p><code style="color: #34d399;">></code> <em>"git push"</em></p>
+                <p><code style="color: #F59E0B;">></code> <em>"we change the app name you silly fool :D"</em></p>
+                <p><code style="color: #F59E0B;">></code> <em>"dude you keep confused we streamlined the name for both watch and phone"</em></p>
+                <p><code style="color: #38bdf8;">></code> <em>"ej wez sprawdz logi z zegarka bo cos websockety szwankuja i mi nie laczy"</em></p>
+                <p><code style="color: #34d399;">></code> <em>"yeah it works!"</em></p>
+            </div>
+        </section>
+
+        <section data-transition="fade">
+            <h2>Era personal software?</h2>
+            <ul>
+                <li>Apki budowane <span class="highlight">wyłącznie dla siebie</span></li>
+                <li>Nie dopieszczone, nie produkcyjne, ale działają <em>dla Ciebie</em></li>
+                <li>Musi działać tylko na <em>Twojej</em> maszynie, dla <em>Twojego</em> workflow</li>
+                <li>Jedna osoba może zbudować to co wcześniej wymagało zespołu</li>
+            </ul>
+            <br>
+            <p class="dim">Programowanie jako aktywność społeczna? Narzędzia szyte na miarę dla społeczności?</p>
+        </section>
+
+        <!-- CLI ENVIRONMENT -->
+        <section data-transition="fade">
+            <h2 style="font-size: 1.2em; margin-bottom: 0.2em;">Era CLI</h2>
+            <p style="font-size: 0.6em;">Bez IDE. Bez edytora. Tylko <code>i3wm</code> + <code>tmux</code> + <code>alacritty</code> + <code>polybar</code></p>
+            <div style="margin: 0 auto;">
+                <img src=".images/note-1772489729.png" style="border-radius: 10px; border: 1px solid #1e293b; width: 100%;">
+            </div>
+            <p style="font-size: 0.55em;">Czasem nawet edytuję notatki przez... <span class="highlight">Claude</span>. Albo po prostu mówię <span class="highlight">Toadie</span> żeby to zrobił, z kanapy.</p>
+        </section>
+
+        <!-- DIAGRAMS BY MCP -->
+        <section data-transition="fade">
+            <h2>Diagramy, draw.io MCP</h2>
+            <p class="dim">Wygenerowane przez Claude przez <code>mcp-drawio</code>, bez ręcznego rysowania</p>
+            <br>
+            <div style="display: flex; gap: 1.5em; align-items: flex-start; justify-content: center;">
+                <div style="flex: 1; max-width: 520px;">
+                    <img src="architecture.jpg" style="border-radius: 10px; border: 1px solid #1e293b;">
+                    <p class="mono" style="font-size: 0.55em; margin-top: 0.4em;">Diagram architektury</p>
+                </div>
+                <div style="flex: 1; max-width: 420px;">
+                    <img src="phone-relay-architecture.jpg" style="border-radius: 10px; border: 1px solid #1e293b;">
+                    <p class="mono" style="font-size: 0.55em; margin-top: 0.4em;">Architektura phone relay</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRESENTATION META -->
+        <section data-transition="fade">
+            <h2 style="font-size: 1.2em; margin-bottom: 0.3em;">Ta prezentacja</h2>
+            <p style="font-size: 0.65em;">Reveal.js + D3.js. Zbudowana w tej sesji z Claude Code.</p>
+            <div style="text-align: left; max-width: 800px; margin: 0 auto; font-size: 0.55em; line-height: 1.8;">
+                <p><code style="color: #38bdf8;">></code> <em>"2 slajd o mnie przeczytaj mfranc.com i wrzuc o mnie jakies tam info tez mozesz moje cv sprawdzic"</em></p>
+                <p><code style="color: #38bdf8;">></code> <em>"no i tez jest troche bledny popatrz tutaj to jest realny obrazek [screenshot] popraw d3"</em></p>
+                <p><code style="color: #38bdf8;">></code> <em>"i ten obrazek zaambedujemy i omowimy https://mfranc.com/images/dictation-architecture-simple.png"</em></p>
+                <p><code style="color: #38bdf8;">></code> <em>"albo lepiej zamien ten obrazek ze zrodla w d3.js nowa symulacje pod tytuilem ehh?"</em></p>
+                <p><code style="color: #38bdf8;">></code> <em>"przesun resolve hostname o 10px do gory | cache miss 20px na prawo"</em></p>
+                <p><code style="color: #F59E0B;">></code> <em>"ok 10 more and we are good :d"</em></p>
+            </div>
+        </section>
+
+        <section data-background-color="#0a0e1a" data-transition="zoom">
+            <h1 style="font-size: 3.5em; background: linear-gradient(135deg, var(--blue), var(--cyan), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Witamy w nowej erze?</h1>
+            <br>
+            <br>
+            <p class="mono">mfranc.com</p>
+            <br>
+            <p style="font-size: 1.2em; color: var(--dim);">Q/A</p>
+        </section>
+
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+Reveal.initialize({ hash: true, width: 1200, height: 700 });
+
+// ===== Tailscale D3 Visualization =====
+(function() {
+const svg = d3.select("#ts-viz-svg");
+const W = 1000, H = 420;
+
+const defs = svg.append("defs");
+const glow = defs.append("filter").attr("id","ts-glow").attr("x","-50%").attr("y","-50%").attr("width","200%").attr("height","200%");
+glow.append("feGaussianBlur").attr("stdDeviation","4").attr("result","blur");
+glow.append("feMerge").selectAll("feMergeNode").data(["blur","SourceGraphic"]).enter().append("feMergeNode").attr("in", d => d);
+
+const glowStrong = defs.append("filter").attr("id","ts-glow-strong").attr("x","-50%").attr("y","-50%").attr("width","200%").attr("height","200%");
+glowStrong.append("feGaussianBlur").attr("stdDeviation","8").attr("result","blur");
+glowStrong.append("feMerge").selectAll("feMergeNode").data(["blur","SourceGraphic"]).enter().append("feMergeNode").attr("in", d => d);
+
+function makeGrad(id, c1, c2) {
+  const g = defs.append("linearGradient").attr("id",id).attr("x1","0%").attr("y1","0%").attr("x2","100%").attr("y2","0%");
+  g.append("stop").attr("offset","0%").attr("stop-color",c1);
+  g.append("stop").attr("offset","100%").attr("stop-color",c2);
+}
+makeGrad("ts-grad-blue-cyan","#38bdf8","#22d3ee");
+
+const layout = {
+  deviceA: { x:120, y:280, label:"Device A", sublabel:"100.64.0.1", icon:"\u{1F4BB}" },
+  deviceB: { x:880, y:280, label:"Device B", sublabel:"100.64.0.2", icon:"\u{1F4BB}" },
+  natA: { x:280, y:170, label:"NAT Router A", sublabel:"203.0.113.5", icon:"\u{1F500}" },
+  natB: { x:720, y:170, label:"NAT Router B", sublabel:"198.51.100.8", icon:"\u{1F500}" },
+  coordServer: { x:500, y:60, label:"Coordination Server", sublabel:"Tailscale Control Plane", icon:"\u2601\uFE0F" },
+  derpServer: { x:500, y:60, label:"DERP Relay", sublabel:"derp1.tailscale.com", icon:"\u{1F4E1}" },
+};
+
+const mainGroup = svg.append("g");
+const gridGroup = mainGroup.append("g").attr("opacity",0.06);
+for(let x=0;x<W;x+=40) gridGroup.append("line").attr("x1",x).attr("y1",0).attr("x2",x).attr("y2",H).attr("stroke","#38bdf8").attr("stroke-width",0.5);
+for(let y=0;y<H;y+=40) gridGroup.append("line").attr("x1",0).attr("y1",y).attr("x2",W).attr("y2",y).attr("stroke","#38bdf8").attr("stroke-width",0.5);
+
+const connectionsGroup = mainGroup.append("g");
+const packetsGroup = mainGroup.append("g");
+const nodesGroup = mainGroup.append("g");
+const labelsGroup = mainGroup.append("g");
+
+function drawNode(key, opts={}) {
+  const n = layout[key];
+  const g = nodesGroup.append("g").attr("transform",`translate(${n.x},${n.y})`).style("opacity", opts.opacity??1);
+  g.append("circle").attr("r",opts.r||28).attr("fill","none").attr("stroke",opts.color||"#38bdf8").attr("stroke-width",1).attr("opacity",0.15).attr("filter","url(#ts-glow-strong)");
+  g.append("circle").attr("r",opts.r||24).attr("fill","#111827").attr("stroke",opts.color||"#38bdf8").attr("stroke-width",1.5).attr("opacity",0.9);
+  g.append("text").attr("text-anchor","middle").attr("dy","0.35em").attr("font-size",opts.fontSize||"16px").text(n.icon);
+  g.append("text").attr("text-anchor","middle").attr("y",(opts.r||24)+16).attr("fill","#e2e8f0").attr("font-family","Space Grotesk").attr("font-size","12px").attr("font-weight",600).text(n.label);
+  g.append("text").attr("text-anchor","middle").attr("y",(opts.r||24)+30).attr("fill","#64748b").attr("font-family","JetBrains Mono").attr("font-size","9px").text(n.sublabel);
+  return g;
+}
+function drawConnection(from, to, opts={}) {
+  const a=layout[from], b=layout[to];
+  return connectionsGroup.append("line").attr("x1",a.x).attr("y1",a.y).attr("x2",b.x).attr("y2",b.y)
+    .attr("stroke",opts.color||"#1e293b").attr("stroke-width",opts.width||1.5).attr("stroke-dasharray",opts.dash||"none").attr("opacity",opts.opacity??0.5);
+}
+function animatePacket(from, to, opts={}) {
+  const a=layout[from], b=layout[to], color=opts.color||"#38bdf8", dur=opts.duration||1500, delay=opts.delay||0;
+  const p = packetsGroup.append("circle").attr("cx",a.x).attr("cy",a.y).attr("r",4).attr("fill",color).attr("filter","url(#ts-glow)").attr("opacity",0);
+  const t = packetsGroup.append("line").attr("class","packet-trail").attr("x1",a.x).attr("y1",a.y).attr("x2",a.x).attr("y2",a.y).attr("stroke",color).attr("stroke-width",2).attr("opacity",0);
+  p.transition().delay(delay).duration(0).attr("opacity",1).transition().duration(dur).ease(d3.easeCubicInOut).attr("cx",b.x).attr("cy",b.y).transition().duration(200).attr("opacity",0).remove();
+  t.transition().delay(delay).duration(0).attr("opacity",0.4).transition().duration(dur).ease(d3.easeCubicInOut).attr("x2",b.x).attr("y2",b.y).transition().duration(400).attr("opacity",0).remove();
+}
+function drawNATTable(x, y, entries, label) {
+  const g = labelsGroup.append("g").attr("transform",`translate(${x},${y})`);
+  g.append("rect").attr("x",-100).attr("y",-12).attr("width",200).attr("height",16+entries.length*18).attr("rx",5).attr("fill","#0f172a").attr("stroke","#1e293b").attr("opacity",0.95);
+  g.append("text").attr("text-anchor","middle").attr("y",2).attr("fill","#94a3b8").attr("font-family","JetBrains Mono").attr("font-size","9px").attr("font-weight",600).text(label);
+  entries.forEach((e,i) => g.append("text").attr("text-anchor","middle").attr("y",18+i*18).attr("fill",e.color||"#38bdf8").attr("font-family","JetBrains Mono").attr("font-size","9px").text(e.text));
+  return g;
+}
+function drawAnnotation(x, y, text, opts={}) {
+  const g = labelsGroup.append("g").attr("transform",`translate(${x},${y})`);
+  const t = g.append("text").attr("text-anchor",opts.anchor||"middle").attr("fill",opts.color||"#94a3b8").attr("font-family","JetBrains Mono").attr("font-size",opts.size||"11px");
+  text.split("\n").forEach((line,i) => t.append("tspan").attr("x",0).attr("dy",i===0?0:"1.3em").text(line));
+  return g;
+}
+function drawBlockMarker(from, to, opts={}) {
+  const a=layout[from], b=layout[to], mx=(a.x+b.x)/2, my=(a.y+b.y)/2+(opts.dy||0);
+  const g = labelsGroup.append("g").attr("transform",`translate(${mx},${my})`);
+  const s=7;
+  g.append("line").attr("x1",-s).attr("y1",-s).attr("x2",s).attr("y2",s).attr("stroke",opts.color||"#f87171").attr("stroke-width",2.5).attr("stroke-linecap","round");
+  g.append("line").attr("x1",s).attr("y1",-s).attr("x2",-s).attr("y2",s).attr("stroke",opts.color||"#f87171").attr("stroke-width",2.5).attr("stroke-linecap","round");
+}
+function clearAll() { nodesGroup.selectAll("*").remove(); connectionsGroup.selectAll("*").remove(); packetsGroup.selectAll("*").remove(); labelsGroup.selectAll("*").remove(); }
+let animInterval = null;
+function stopAnimations() { if(animInterval){clearInterval(animInterval);animInterval=null;} packetsGroup.selectAll("*").interrupt().remove(); }
+
+function sceneOverview() {
+  clearAll(); stopAnimations();
+  drawConnection("deviceA","natA",{color:"#1e3a5f",dash:"4,4"});
+  drawConnection("deviceB","natB",{color:"#1e3a5f",dash:"4,4"});
+  drawConnection("natA","coordServer",{color:"#1e3a5f",dash:"4,4"});
+  drawConnection("natB","coordServer",{color:"#1e3a5f",dash:"4,4"});
+  drawConnection("natA","natB",{color:"#0d4a3a",dash:"6,3",opacity:0.3});
+  drawNode("deviceA",{color:"#38bdf8"});
+  drawNode("deviceB",{color:"#38bdf8"});
+  drawNode("natA",{color:"#a78bfa",r:20,fontSize:"12px"});
+  drawNode("natB",{color:"#a78bfa",r:20,fontSize:"12px"});
+  drawNode("coordServer",{color:"#34d399",r:28,fontSize:"18px"});
+  drawAnnotation(500,250,"Direct P2P tunnel (WireGuard)",{color:"#34d399",size:"13px"});
+  drawAnnotation(500,266,"encrypted end-to-end via 100.x.x.x addresses",{size:"10px"});
+  function send() {
+    animatePacket("deviceA","natA",{color:"#38bdf8",duration:800});
+    animatePacket("natA","natB",{color:"#34d399",duration:1000,delay:800});
+    animatePacket("natB","deviceB",{color:"#38bdf8",duration:800,delay:1800});
+  }
+  send(); animInterval=setInterval(send,4000);
+  d3.select("#ts-status-text").text("Tailscale mesh, each device gets a 100.x.x.x address");
+}
+
+function sceneNATProblem() {
+  clearAll(); stopAnimations();
+  drawConnection("deviceA","natA",{color:"#1e3a5f"});
+  drawConnection("deviceB","natB",{color:"#1e3a5f"});
+  drawConnection("natA","natB",{color:"#7f1d1d",dash:"4,4",opacity:0.4});
+  drawNode("deviceA",{color:"#38bdf8"});
+  drawNode("deviceB",{color:"#38bdf8"});
+  drawNode("natA",{color:"#a78bfa",r:20,fontSize:"12px"});
+  drawNode("natB",{color:"#a78bfa",r:20,fontSize:"12px"});
+  drawBlockMarker("natA","natB",{dy:25});
+  drawNATTable(280,260,[{text:"192.168.1.5:4820 → :50123",color:"#38bdf8"},{text:"No inbound mapping!",color:"#f87171"}],"NAT Table A");
+  drawNATTable(720,260,[{text:"192.168.1.10:7231 → :61045",color:"#38bdf8"},{text:"No inbound mapping!",color:"#f87171"}],"NAT Table B");
+  drawAnnotation(500,140,"❌ Connection blocked",{color:"#f87171",size:"13px"});
+  drawAnnotation(500,158,"Neither router has a mapping for incoming packets",{size:"10px"});
+  function send() {
+    animatePacket("deviceA","natA",{color:"#f87171",duration:600});
+    const a=layout.natA,b=layout.natB,mx=(a.x+b.x)/2,my=(a.y+b.y)/2;
+    const bl=packetsGroup.append("circle").attr("cx",a.x).attr("cy",a.y).attr("r",4).attr("fill","#f87171").attr("filter","url(#ts-glow)").attr("opacity",0);
+    bl.transition().delay(600).duration(0).attr("opacity",1).transition().duration(600).attr("cx",mx).attr("cy",my).transition().duration(200).attr("r",10).attr("opacity",0).remove();
+  }
+  send(); animInterval=setInterval(send,3000);
+  d3.select("#ts-status-text").text("The NAT problem, routers drop unsolicited incoming packets");
+}
+
+function sceneHolePunch() {
+  clearAll(); stopAnimations();
+  drawConnection("deviceA","natA",{color:"#1e3a5f"});
+  drawConnection("deviceB","natB",{color:"#1e3a5f"});
+  drawConnection("natA","coordServer",{color:"#0d4a3a",dash:"4,4"});
+  drawConnection("natB","coordServer",{color:"#0d4a3a",dash:"4,4"});
+  drawConnection("natA","natB",{color:"#0d4a3a",dash:"6,3",opacity:0.4});
+  drawNode("deviceA",{color:"#38bdf8"});
+  drawNode("deviceB",{color:"#38bdf8"});
+  drawNode("natA",{color:"#a78bfa",r:20,fontSize:"12px"});
+  drawNode("natB",{color:"#a78bfa",r:20,fontSize:"12px"});
+  drawNode("coordServer",{color:"#34d399",r:28,fontSize:"18px"});
+  drawNATTable(120,120,[{text:"192.168.1.5:4820 → :50123",color:"#38bdf8"},{text:"Expect from 198.51.100.8",color:"#34d399"}],"NAT Table A (punched)");
+  drawNATTable(880,120,[{text:"192.168.1.10:7231 → :61045",color:"#38bdf8"},{text:"Expect from 203.0.113.5",color:"#34d399"}],"NAT Table B (punched)");
+  drawAnnotation(500,300,"① Register with coordination server  ② Share public IP:port\n③ Both send UDP simultaneously  ④ NAT mappings created → hole punched!",{size:"11px"});
+  function cycle() {
+    animatePacket("deviceA","natA",{color:"#34d399",duration:500});
+    animatePacket("natA","coordServer",{color:"#34d399",duration:700,delay:500});
+    animatePacket("deviceB","natB",{color:"#34d399",duration:500,delay:200});
+    animatePacket("natB","coordServer",{color:"#34d399",duration:700,delay:700});
+    animatePacket("coordServer","natA",{color:"#34d399",duration:700,delay:1800});
+    animatePacket("coordServer","natB",{color:"#34d399",duration:700,delay:1800});
+    animatePacket("natA","natB",{color:"#38bdf8",duration:800,delay:3000});
+    animatePacket("natB","natA",{color:"#22d3ee",duration:800,delay:3000});
+    animatePacket("deviceA","natA",{color:"#34d399",duration:400,delay:4200});
+    animatePacket("natA","natB",{color:"#34d399",duration:600,delay:4600});
+    animatePacket("natB","deviceB",{color:"#34d399",duration:400,delay:5200});
+  }
+  cycle(); animInterval=setInterval(cycle,7000);
+  d3.select("#ts-status-text").text("UDP hole punching, simultaneous packets create NAT mappings");
+}
+
+function sceneDERPFallback() {
+  clearAll(); stopAnimations();
+  drawConnection("deviceA","natA",{color:"#1e3a5f"});
+  drawConnection("deviceB","natB",{color:"#1e3a5f"});
+  drawConnection("natA","natB",{color:"#7f1d1d",dash:"4,4",opacity:0.3});
+  drawConnection("natA","derpServer",{color:"#4a3000",dash:"4,4"});
+  drawConnection("natB","derpServer",{color:"#4a3000",dash:"4,4"});
+  drawNode("deviceA",{color:"#38bdf8"});
+  drawNode("deviceB",{color:"#38bdf8"});
+  drawNode("natA",{color:"#f87171",r:20,fontSize:"12px"});
+  drawNode("natB",{color:"#f87171",r:20,fontSize:"12px"});
+  drawNode("derpServer",{color:"#fb923c",r:26,fontSize:"16px"});
+  drawBlockMarker("natA","natB",{dy:25});
+  drawAnnotation(280,120,"Symmetric NAT",{color:"#f87171",size:"11px"});
+  drawAnnotation(720,120,"Symmetric NAT",{color:"#f87171",size:"11px"});
+  drawAnnotation(500,130,"DERP relay forwards\nencrypted WireGuard packets",{color:"#fb923c",size:"11px"});
+  drawAnnotation(500,300,"Hole punching fails with symmetric NAT, port changes per destination.\nDERP relays forward encrypted packets. Slower but always works.",{size:"10px"});
+  function relay() {
+    animatePacket("deviceA","natA",{color:"#fb923c",duration:400});
+    animatePacket("natA","derpServer",{color:"#fb923c",duration:600,delay:400});
+    animatePacket("derpServer","natB",{color:"#fb923c",duration:600,delay:1000});
+    animatePacket("natB","deviceB",{color:"#fb923c",duration:400,delay:1600});
+    animatePacket("deviceB","natB",{color:"#fbbf24",duration:400,delay:2400});
+    animatePacket("natB","derpServer",{color:"#fbbf24",duration:600,delay:2800});
+    animatePacket("derpServer","natA",{color:"#fbbf24",duration:600,delay:3400});
+    animatePacket("natA","deviceA",{color:"#fbbf24",duration:400,delay:4000});
+  }
+  relay(); animInterval=setInterval(relay,5500);
+  d3.select("#ts-status-text").text("DERP fallback, encrypted relay when direct connection fails");
+}
+
+const scenes = { overview: sceneOverview, "nat-problem": sceneNATProblem, "hole-punch": sceneHolePunch, "derp-fallback": sceneDERPFallback };
+
+d3.selectAll(".ts-btn").on("click", function() {
+  const step = this.dataset.tsStep;
+  d3.selectAll(".ts-btn").classed("active", false);
+  d3.select(this).classed("active", true);
+  scenes[step]();
+});
+
+// Only start animations when the slide is visible
+Reveal.on('slidechanged', event => {
+  const hasTsViz = event.currentSlide.querySelector('#ts-viz-svg');
+  if (hasTsViz) {
+    const activeBtn = event.currentSlide.querySelector('.ts-btn.active');
+    const step = activeBtn ? activeBtn.dataset.tsStep : 'overview';
+    scenes[step]();
+  } else {
+    stopAnimations();
+  }
+});
+
+sceneOverview();
+})();
+</script>
+
+    </div>
+</div>
+</body>
+</html>
