@@ -815,7 +815,7 @@
       <svg viewBox="0 0 32 32"><rect x="2" y="14.5" width="22" height="3" rx="1" fill="#ffffff" opacity="0.9"/><circle cx="26" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="26" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="26" cy="16" r="1.5" fill="#ffffff"/></svg>
       <!-- SRM -->
       <svg viewBox="0 0 32 32"><rect x="2" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="8" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="14" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><rect x="4" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="10" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="16" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><rect x="1" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="7" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="13" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><circle cx="22" cy="7" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="22" cy="7" r="2" fill="#ffffff" opacity="0.6"/><circle cx="22" cy="7" r="0.8" fill="#ffffff"/><circle cx="24" cy="16" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="24" cy="16" r="2" fill="#ffffff" opacity="0.6"/><circle cx="24" cy="16" r="0.8" fill="#ffffff"/><circle cx="21" cy="25" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="21" cy="25" r="2" fill="#ffffff" opacity="0.6"/><circle cx="21" cy="25" r="0.8" fill="#ffffff"/></svg>
-      <!-- Gauss -->
+      <!-- Magnetic -->
       <svg viewBox="0 0 32 32"><circle cx="8" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="8" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="8" cy="16" r="1.5" fill="#ffffff"/><rect x="15" y="13" width="16" height="6" rx="1.5" fill="#ffffff" opacity="0.9"/></svg>
       <!-- Engine -->
       <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.2"/><circle cx="16" cy="16" r="9" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.4"/><circle cx="16" cy="16" r="5" fill="#ffffff" opacity="0.3"/><circle cx="16" cy="16" r="3" fill="#ffffff" opacity="0.6"/><circle cx="16" cy="16" r="1.5" fill="#ffffff"/><path d="M19 13 Q21 11 19.5 9 Q18 7 20 5" stroke="#ffffff" stroke-width="1.3" fill="none" opacity="0.5"/><path d="M13 13 Q11 11 12.5 9 Q14 7 12 5" stroke="#ffffff" stroke-width="1.3" fill="none" opacity="0.5"/><path d="M19 19 Q21 21 19.5 23 Q18 25 20 27" stroke="#ffffff" stroke-width="1.3" fill="none" opacity="0.5"/><path d="M13 19 Q11 21 12.5 23 Q14 25 12 27" stroke="#ffffff" stroke-width="1.3" fill="none" opacity="0.5"/></svg>
@@ -863,8 +863,8 @@
 
   <div class="screenshots">
     <div class="screenshot-slot">
-      <img src="images/note-1773079158.png" alt="Mech Lab">
-      <div class="screenshot-caption">Mech Lab — Loadout, armor, and component management</div>
+      <img src="images/note-1774091532.png" alt="Machine Lab">
+      <div class="screenshot-caption">Machine Lab — Modular loadout and component management</div>
     </div>
     <div class="screenshot-slot">
       <img src="images/note-1773080008.png" alt="Squad Management & Pilots">
@@ -937,9 +937,9 @@
       <h3>Weapons Arsenal</h3>
       <p>Ballistics, energy weapons, and missiles across multiple tiers. Each weapon class has distinct fire patterns, heat profiles, and range envelopes.</p>
       <ul>
-        <li>Autocannons, Gauss, Machine Guns</li>
+        <li>Cannons, Magnetic, Machine Guns</li>
         <li>Lasers, Pulse, Flamers, Coils</li>
-        <li>SRMs, LRMs, MRMs, Swarm, Homing</li>
+        <li>Strike, Siege, Drumfire, Adaptive, Lance</li>
         <li>Tiered quality: Crude to Precision</li>
       </ul>
     </div>
@@ -1000,179 +1000,76 @@
 
 <div class="divider"></div>
 
-<!-- ====== WEAPONS BROWSER ====== -->
+
+<!-- ====== WEAPONS ARSENAL (compact) ====== -->
 <section>
   <div class="section-header">
     <h2>Weapons Arsenal</h2>
-    <p>Every weapon tells a story through its icon. Category colors, stat bars, and range envelopes — all from real game data.</p>
+    <p>15 weapon families across three categories. <a href="weapons.html" style="color:var(--accent)">Full weapons guide →</a></p>
   </div>
-
-  <div class="wpn-browser">
-    <div class="wpn-browser-header">Contracted Equipment Registry</div>
-    <table class="wpn-table">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Weapon</th>
-          <th>Type</th>
-          <th>Dmg</th>
-          <th>Heat</th>
-          <th>Tons</th>
-          <th>Shots</th>
-          <th>Range</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Ballistic -->
-        <tr class="wpn-row">
-          <td class="wpn-icon-cell"><div class="wpn-tile" style="background:linear-gradient(155deg,#0f1520,#06070c);border:1px solid #2a3a5a">
-            <svg viewBox="0 0 32 32"><circle cx="8" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="8" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="8" cy="16" r="1.5" fill="#ffffff"/><rect x="15" y="13" width="7" height="6" rx="1.5" fill="#ffffff" opacity="0.9"/><rect x="24" y="13" width="7" height="6" rx="1.5" fill="#ffffff" opacity="0.7"/></svg>
-          </div></td>
-          <td class="wpn-name">AC (M)</td>
-          <td><span class="wpn-cat-tag ballistic">Ballistic</span></td>
-          <td>15 <span class="wpn-stat-bar" style="width:30px;background:#4a7aaa"></span></td>
-          <td>6 <span class="wpn-stat-bar" style="width:12px;background:#aa4a2a"></span></td>
-          <td>10t</td>
-          <td>2</td>
-          <td><div class="wpn-range-bar"><div class="wpn-range-fill" style="width:47%;background:linear-gradient(90deg,#2a3a5a,#4a7aaa)"></div></div></td>
-        </tr>
-        <tr class="wpn-row">
-          <td class="wpn-icon-cell"><div class="wpn-tile" style="background:linear-gradient(155deg,#0f1520,#06070c);border:1px solid #2a3a5a">
-            <svg viewBox="0 0 32 32"><circle cx="8" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="8" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="8" cy="16" r="1.5" fill="#ffffff"/><rect x="15" y="13" width="16" height="6" rx="1.5" fill="#ffffff" opacity="0.9"/></svg>
-          </div></td>
-          <td class="wpn-name">Gauss (M)</td>
-          <td><span class="wpn-cat-tag ballistic">Ballistic</span></td>
-          <td>40 <span class="wpn-stat-bar" style="width:80px;background:#4a7aaa"></span></td>
-          <td>2 <span class="wpn-stat-bar" style="width:4px;background:#aa4a2a"></span></td>
-          <td>12t</td>
-          <td>1</td>
-          <td><div class="wpn-range-bar"><div class="wpn-range-fill" style="width:73%;background:linear-gradient(90deg,#2a3a5a,#4a7aaa)"></div></div></td>
-        </tr>
-        <tr class="wpn-row">
-          <td class="wpn-icon-cell"><div class="wpn-tile" style="background:linear-gradient(155deg,#0f1520,#06070c);border:1px solid #2a3a5a">
-            <svg viewBox="0 0 32 32"><circle cx="8" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="8" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="8" cy="16" r="1.5" fill="#ffffff"/><rect x="15" y="14.5" width="5" height="3" rx="1" fill="#ffffff" opacity="0.9"/><rect x="22" y="14.5" width="5" height="3" rx="1" fill="#ffffff" opacity="0.8"/><rect x="29" y="14.5" width="3" height="3" rx="1" fill="#ffffff" opacity="0.6"/></svg>
-          </div></td>
-          <td class="wpn-name">Machine Gun</td>
-          <td><span class="wpn-cat-tag ballistic">Ballistic</span></td>
-          <td>5 <span class="wpn-stat-bar" style="width:10px;background:#4a7aaa"></span></td>
-          <td>1 <span class="wpn-stat-bar" style="width:2px;background:#aa4a2a"></span></td>
-          <td>1t</td>
-          <td>6</td>
-          <td><div class="wpn-range-bar"><div class="wpn-range-fill" style="width:18%;background:linear-gradient(90deg,#2a3a5a,#4a7aaa)"></div></div></td>
-        </tr>
-        <!-- Energy -->
-        <tr class="wpn-row">
-          <td class="wpn-icon-cell"><div class="wpn-tile" style="background:linear-gradient(155deg,#0f1e10,#06070c);border:1px solid #2a5a2a">
-            <svg viewBox="0 0 32 32"><rect x="2" y="14.5" width="22" height="3" rx="1" fill="#ffffff" opacity="0.9"/><circle cx="26" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="26" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="26" cy="16" r="1.5" fill="#ffffff"/></svg>
-          </div></td>
-          <td class="wpn-name">Laser (M)</td>
-          <td><span class="wpn-cat-tag energy">Energy</span></td>
-          <td>25 <span class="wpn-stat-bar" style="width:50px;background:#3aaa3a"></span></td>
-          <td>12 <span class="wpn-stat-bar" style="width:24px;background:#aa4a2a"></span></td>
-          <td>3t</td>
-          <td>1</td>
-          <td><div class="wpn-range-bar"><div class="wpn-range-fill" style="width:42%;background:linear-gradient(90deg,#1a3a1a,#3aaa3a)"></div></div></td>
-        </tr>
-        <tr class="wpn-row">
-          <td class="wpn-icon-cell"><div class="wpn-tile" style="background:linear-gradient(155deg,#0f1e10,#06070c);border:1px solid #2a5a2a">
-            <svg viewBox="0 0 32 32"><rect x="1" y="14.5" width="5" height="3" rx="1" fill="#ffffff" opacity="0.7"/><rect x="8" y="14.5" width="5" height="3" rx="1" fill="#ffffff" opacity="0.8"/><rect x="15" y="14.5" width="5" height="3" rx="1" fill="#ffffff" opacity="0.9"/><circle cx="24" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="24" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="24" cy="16" r="1.5" fill="#ffffff"/></svg>
-          </div></td>
-          <td class="wpn-name">Pulse Laser</td>
-          <td><span class="wpn-cat-tag energy">Energy</span></td>
-          <td>15x4 <span class="wpn-stat-bar" style="width:60px;background:#3aaa3a"></span></td>
-          <td>20 <span class="wpn-stat-bar" style="width:40px;background:#aa4a2a"></span></td>
-          <td>3t</td>
-          <td>4</td>
-          <td><div class="wpn-range-bar"><div class="wpn-range-fill" style="width:39%;background:linear-gradient(90deg,#1a3a1a,#3aaa3a)"></div></div></td>
-        </tr>
-        <tr class="wpn-row">
-          <td class="wpn-icon-cell"><div class="wpn-tile" style="background:linear-gradient(155deg,#0f1e10,#06070c);border:1px solid #2a5a2a">
-            <svg viewBox="0 0 32 32"><path d="M1 16 Q3 9 5 16 Q7 23 9 16" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.5"/><path d="M7 16 Q9 9 11 16 Q13 23 15 16" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.7"/><path d="M13 16 Q15 9 17 16 Q19 23 21 16" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.9"/><circle cx="26" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="26" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="26" cy="16" r="1.5" fill="#ffffff"/></svg>
-          </div></td>
-          <td class="wpn-name">Coil (M)</td>
-          <td><span class="wpn-cat-tag energy">Energy</span></td>
-          <td>50 <span class="wpn-stat-bar" style="width:100px;background:#3aaa3a"></span></td>
-          <td>20 <span class="wpn-stat-bar" style="width:40px;background:#aa4a2a"></span></td>
-          <td>6t</td>
-          <td>1</td>
-          <td><div class="wpn-range-bar"><div class="wpn-range-fill" style="width:50%;background:linear-gradient(90deg,#1a3a1a,#3aaa3a)"></div></div></td>
-        </tr>
-        <tr class="wpn-row">
-          <td class="wpn-icon-cell"><div class="wpn-tile" style="background:linear-gradient(155deg,#0f1e10,#06070c);border:1px solid #2a5a2a">
-            <svg viewBox="0 0 32 32"><path d="M2 11 Q5 9 8 11 Q11 13 14 11 Q17 9 20 11" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.5"/><path d="M2 16 Q5 14 8 16 Q11 18 14 16 Q17 14 20 16" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.7"/><path d="M2 21 Q5 19 8 21 Q11 23 14 21 Q17 19 20 21" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.5"/><circle cx="26" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="26" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="26" cy="16" r="1.5" fill="#ffffff"/></svg>
-          </div></td>
-          <td class="wpn-name">Flamer (M)</td>
-          <td><span class="wpn-cat-tag energy">Energy</span></td>
-          <td>10x3 <span class="wpn-stat-bar" style="width:30px;background:#3aaa3a"></span></td>
-          <td>8 <span class="wpn-stat-bar" style="width:16px;background:#aa4a2a"></span></td>
-          <td>2t</td>
-          <td>3</td>
-          <td><div class="wpn-range-bar"><div class="wpn-range-fill" style="width:15%;background:linear-gradient(90deg,#1a3a1a,#3aaa3a)"></div></div></td>
-        </tr>
-        <!-- Missile -->
-        <tr class="wpn-row">
-          <td class="wpn-icon-cell"><div class="wpn-tile" style="background:linear-gradient(155deg,#1e100a,#06070c);border:1px solid #5a2a1a">
-            <svg viewBox="0 0 32 32"><rect x="2" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="8" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="14" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><rect x="4" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="10" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="16" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><rect x="1" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="7" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="13" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><circle cx="22" cy="7" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="22" cy="7" r="2" fill="#ffffff" opacity="0.6"/><circle cx="22" cy="7" r="0.8" fill="#ffffff"/><circle cx="24" cy="16" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="24" cy="16" r="2" fill="#ffffff" opacity="0.6"/><circle cx="24" cy="16" r="0.8" fill="#ffffff"/><circle cx="21" cy="25" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="21" cy="25" r="2" fill="#ffffff" opacity="0.6"/><circle cx="21" cy="25" r="0.8" fill="#ffffff"/></svg>
-          </div></td>
-          <td class="wpn-name">SRM 4</td>
-          <td><span class="wpn-cat-tag missile">Missile</span></td>
-          <td>8x4 <span class="wpn-stat-bar" style="width:32px;background:#aa4a2a"></span></td>
-          <td>8 <span class="wpn-stat-bar" style="width:16px;background:#aa4a2a"></span></td>
-          <td>3t</td>
-          <td>2x2</td>
-          <td><div class="wpn-range-bar"><div class="wpn-range-fill" style="width:27%;background:linear-gradient(90deg,#3a1a0a,#aa4a2a)"></div></div></td>
-        </tr>
-        <tr class="wpn-row">
-          <td class="wpn-icon-cell"><div class="wpn-tile" style="background:linear-gradient(155deg,#1e100a,#06070c);border:1px solid #5a2a1a">
-            <svg viewBox="0 0 32 32"><rect x="1" y="7" width="5" height="3" rx="1" fill="#ffffff" opacity="0.5"/><rect x="8" y="7" width="5" height="3" rx="1" fill="#ffffff" opacity="0.7"/><rect x="15" y="7" width="5" height="3" rx="1" fill="#ffffff" opacity="0.85"/><rect x="3" y="22" width="5" height="3" rx="1" fill="#ffffff" opacity="0.5"/><rect x="10" y="22" width="5" height="3" rx="1" fill="#ffffff" opacity="0.7"/><rect x="17" y="22" width="5" height="3" rx="1" fill="#ffffff" opacity="0.85"/><circle cx="25" cy="9" r="5" fill="#ffffff" opacity="0.3"/><circle cx="25" cy="9" r="3" fill="#ffffff" opacity="0.6"/><circle cx="25" cy="9" r="1.2" fill="#ffffff"/><circle cx="26" cy="23" r="5" fill="#ffffff" opacity="0.3"/><circle cx="26" cy="23" r="3" fill="#ffffff" opacity="0.6"/><circle cx="26" cy="23" r="1.2" fill="#ffffff"/></svg>
-          </div></td>
-          <td class="wpn-name">LRM 20</td>
-          <td><span class="wpn-cat-tag missile">Missile</span></td>
-          <td>6x20 <span class="wpn-stat-bar" style="width:120px;background:#aa4a2a"></span></td>
-          <td>20 <span class="wpn-stat-bar" style="width:40px;background:#aa4a2a"></span></td>
-          <td>4t</td>
-          <td>5x4</td>
-          <td><div class="wpn-range-bar"><div class="wpn-range-fill" style="width:100%;background:linear-gradient(90deg,#3a1a0a,#aa4a2a)"></div></div></td>
-        </tr>
-      </tbody>
-    </table>
+  <div style="display:flex;flex-wrap:wrap;gap:0.6rem;justify-content:center;margin-bottom:1.5rem">
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-top:2px solid #3aaa3a;border-radius:6px;padding:0.6rem;text-align:center;min-width:80px">
+      <img src="icons/beam.svg" width="28" height="28" style="filter:brightness(0.85);display:block;margin:0 auto 4px">
+      <div style="font-size:0.7rem;font-weight:600;color:var(--text)">Beam</div>
+      <div style="font-size:0.6rem;color:#3aaa3a">15-50 dmg</div>
+    </div><div style="background:var(--bg-card);border:1px solid var(--border);border-top:2px solid #3aaa3a;border-radius:6px;padding:0.6rem;text-align:center;min-width:80px">
+      <img src="icons/pulse.svg" width="28" height="28" style="filter:brightness(0.85);display:block;margin:0 auto 4px">
+      <div style="font-size:0.7rem;font-weight:600;color:var(--text)">Pulse</div>
+      <div style="font-size:0.6rem;color:#3aaa3a">15x4 shots</div>
+    </div><div style="background:var(--bg-card);border:1px solid var(--border);border-top:2px solid #3aaa3a;border-radius:6px;padding:0.6rem;text-align:center;min-width:80px">
+      <img src="icons/coil.svg" width="28" height="28" style="filter:brightness(0.85);display:block;margin:0 auto 4px">
+      <div style="font-size:0.7rem;font-weight:600;color:var(--text)">Coil</div>
+      <div style="font-size:0.6rem;color:#3aaa3a">30-75 dmg</div>
+    </div><div style="background:var(--bg-card);border:1px solid var(--border);border-top:2px solid #3aaa3a;border-radius:6px;padding:0.6rem;text-align:center;min-width:80px">
+      <img src="icons/plasma.svg" width="28" height="28" style="filter:brightness(0.85);display:block;margin:0 auto 4px">
+      <div style="font-size:0.7rem;font-weight:600;color:var(--text)">Plasma</div>
+      <div style="font-size:0.6rem;color:#3aaa3a">40-60 heat</div>
+    </div><div style="background:var(--bg-card);border:1px solid var(--border);border-top:2px solid #4a7aaa;border-radius:6px;padding:0.6rem;text-align:center;min-width:80px">
+      <img src="icons/cannon.svg" width="28" height="28" style="filter:brightness(0.85);display:block;margin:0 auto 4px">
+      <div style="font-size:0.7rem;font-weight:600;color:var(--text)">Cannon</div>
+      <div style="font-size:0.6rem;color:#4a7aaa">5-25x2</div>
+    </div><div style="background:var(--bg-card);border:1px solid var(--border);border-top:2px solid #4a7aaa;border-radius:6px;padding:0.6rem;text-align:center;min-width:80px">
+      <img src="icons/machinegun.svg" width="28" height="28" style="filter:brightness(0.85);display:block;margin:0 auto 4px">
+      <div style="font-size:0.7rem;font-weight:600;color:var(--text)">Machine Gun</div>
+      <div style="font-size:0.6rem;color:#4a7aaa">1-4x14</div>
+    </div><div style="background:var(--bg-card);border:1px solid var(--border);border-top:2px solid #4a7aaa;border-radius:6px;padding:0.6rem;text-align:center;min-width:80px">
+      <img src="icons/magnetic.svg" width="28" height="28" style="filter:brightness(0.85);display:block;margin:0 auto 4px">
+      <div style="font-size:0.7rem;font-weight:600;color:var(--text)">Magnetic</div>
+      <div style="font-size:0.6rem;color:#4a7aaa">25-60 dmg</div>
+    </div><div style="background:var(--bg-card);border:1px solid var(--border);border-top:2px solid #4a7aaa;border-radius:6px;padding:0.6rem;text-align:center;min-width:80px">
+      <img src="icons/indirect.svg" width="28" height="28" style="filter:brightness(0.85);display:block;margin:0 auto 4px">
+      <div style="font-size:0.7rem;font-weight:600;color:var(--text)">Indirect</div>
+      <div style="font-size:0.6rem;color:#4a7aaa">360-1000</div>
+    </div><div style="background:var(--bg-card);border:1px solid var(--border);border-top:2px solid #4a7aaa;border-radius:6px;padding:0.6rem;text-align:center;min-width:80px">
+      <img src="icons/scattergun.svg" width="28" height="28" style="filter:brightness(0.85);display:block;margin:0 auto 4px">
+      <div style="font-size:0.7rem;font-weight:600;color:var(--text)">Scatter</div>
+      <div style="font-size:0.6rem;color:#4a7aaa">6x6 spread</div>
+    </div><div style="background:var(--bg-card);border:1px solid var(--border);border-top:2px solid #aa4a2a;border-radius:6px;padding:0.6rem;text-align:center;min-width:80px">
+      <img src="icons/strike.svg" width="28" height="28" style="filter:brightness(0.85);display:block;margin:0 auto 4px">
+      <div style="font-size:0.7rem;font-weight:600;color:var(--text)">Strike</div>
+      <div style="font-size:0.6rem;color:#aa4a2a">close burst</div>
+    </div><div style="background:var(--bg-card);border:1px solid var(--border);border-top:2px solid #aa4a2a;border-radius:6px;padding:0.6rem;text-align:center;min-width:80px">
+      <img src="icons/siege.svg" width="28" height="28" style="filter:brightness(0.85);display:block;margin:0 auto 4px">
+      <div style="font-size:0.7rem;font-weight:600;color:var(--text)">Siege</div>
+      <div style="font-size:0.6rem;color:#aa4a2a">long rain</div>
+    </div><div style="background:var(--bg-card);border:1px solid var(--border);border-top:2px solid #aa4a2a;border-radius:6px;padding:0.6rem;text-align:center;min-width:80px">
+      <img src="icons/drumfire.svg" width="28" height="28" style="filter:brightness(0.85);display:block;margin:0 auto 4px">
+      <div style="font-size:0.7rem;font-weight:600;color:var(--text)">Drumfire</div>
+      <div style="font-size:0.6rem;color:#aa4a2a">mid flex</div>
+    </div><div style="background:var(--bg-card);border:1px solid var(--border);border-top:2px solid #aa4a2a;border-radius:6px;padding:0.6rem;text-align:center;min-width:80px">
+      <img src="icons/lance.svg" width="28" height="28" style="filter:brightness(0.85);display:block;margin:0 auto 4px">
+      <div style="font-size:0.7rem;font-weight:600;color:var(--text)">Lance</div>
+      <div style="font-size:0.6rem;color:#aa4a2a">guided</div>
+    </div><div style="background:var(--bg-card);border:1px solid var(--border);border-top:2px solid #aa4a2a;border-radius:6px;padding:0.6rem;text-align:center;min-width:80px">
+      <img src="icons/adaptive.svg" width="28" height="28" style="filter:brightness(0.85);display:block;margin:0 auto 4px">
+      <div style="font-size:0.7rem;font-weight:600;color:var(--text)">Adaptive</div>
+      <div style="font-size:0.6rem;color:#aa4a2a">smart ammo</div>
+    </div>
   </div>
-
-  <div class="wpn-video-grid">
-    <div class="wpn-video-showcase">
-      <video autoplay loop muted playsinline>
-        <source src="Coil_Pulse_hit_210427.mp4" type="video/mp4">
-      </video>
-      <div class="video-caption">Coil Pulse — Impact Effect</div>
-    </div>
-
-    <div class="wpn-video-showcase">
-      <video autoplay loop muted playsinline>
-        <source src="Coil_Pulse_miss_210932.mp4" type="video/mp4">
-      </video>
-      <div class="video-caption">Coil Pulse — Ground Miss</div>
-    </div>
-
-    <div class="wpn-video-showcase">
-      <video autoplay loop muted playsinline>
-        <source src="Rotary_Machine_Gun_hit_211035.mp4" type="video/mp4">
-      </video>
-      <div class="video-caption">Rotary Machine Gun — Impact Effect</div>
-    </div>
-
-    <div class="wpn-video-showcase">
-      <video autoplay loop muted playsinline>
-        <source src="Laser_H_miss_211122.mp4" type="video/mp4">
-      </video>
-      <div class="video-caption">Heavy Laser — Ground Miss</div>
-    </div>
-
-    <div class="wpn-video-showcase">
-      <video autoplay loop muted playsinline>
-        <source src="Photon_Lance_hit_211238.mp4" type="video/mp4">
-      </video>
-      <div class="video-caption">Photon Lance — Impact Effect</div>
-    </div>
+  <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;font-size:0.8rem">
+    <span style="color:#3aaa3a">■ Energy — no ammo, high heat</span>
+    <span style="color:#4a7aaa">■ Ballistic — heavy, cool-running</span>
+    <span style="color:#aa4a2a">■ Missile — distributed, ammo-fed</span>
   </div>
 </section>
 
@@ -1214,8 +1111,14 @@
 <!-- ====== MECH BROWSER ====== -->
 <section>
   <div class="section-header">
-    <h2>Mech Roster</h2>
-    <p>From light ambush strikers to 100-ton command mechs. Each chassis has unique hardpoints and personality.</p>
+    <h2>Machine Roster</h2>
+    <p>From light wheeled scouts to 100-ton tracked assault platforms. Every machine is built from modular components — hulls, locomotion, reactors, arms, and turrets.</p>
+  </div>
+  <div style="text-align:center;margin-bottom:2.5rem">
+    <a href="designer.html" style="display:inline-block;text-decoration:none;background:linear-gradient(135deg,#bc8cff22,#f0883e22);border:2px solid var(--accent);border-radius:8px;padding:1.2rem 3rem;transition:all 0.3s">
+      <div style="font-family:Orbitron,monospace;font-size:1.4rem;font-weight:900;letter-spacing:0.1em;color:var(--accent)">TRY THE MACHINE DESIGNER</div>
+      <div style="font-size:0.85rem;color:var(--text-dim);margin-top:0.3rem">Build your own modular machine — pick hull, locomotion, reactor, and weapons</div>
+    </a>
   </div>
 
   <div class="mech-cards">
@@ -1225,7 +1128,7 @@
         <span class="mech-card-name">Monarch</span>
         <span class="mech-card-class">Assault &bull; 100t</span>
       </div>
-      <div class="mech-card-desc">Command mech armed with a Gauss Rifle, LRM-20, and dual pulse lasers. Nearly heat-neutral with fusion heatsinks, allowing sustained alpha strikes.</div>
+      <div class="mech-card-desc">Command machine armed with a Magnetic Rifle, Siege 20, and dual pulse lasers. Nearly heat-neutral with fusion heatsinks, allowing sustained alpha strikes.</div>
       <div class="mech-stats-row">
         <div class="mech-stat"><span class="mech-stat-label">Engine</span><span class="mech-stat-value">200</span></div>
         <div class="mech-stat"><span class="mech-stat-label">Heat Sinks</span><span class="mech-stat-value">10</span></div>
@@ -1235,11 +1138,11 @@
       <div class="mech-loadout">
         <div class="mech-loadout-item">
           <svg viewBox="0 0 32 32"><circle cx="8" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="8" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="8" cy="16" r="1.5" fill="#ffffff"/><rect x="15" y="13" width="16" height="6" rx="1.5" fill="#ffffff" opacity="0.9"/></svg>
-          Gauss (M) &bull; RA
+          Magnetic (M) &bull; RA
         </div>
         <div class="mech-loadout-item">
           <svg viewBox="0 0 32 32"><rect x="1" y="7" width="5" height="3" rx="1" fill="#ffffff" opacity="0.5"/><rect x="8" y="7" width="5" height="3" rx="1" fill="#ffffff" opacity="0.7"/><rect x="15" y="7" width="5" height="3" rx="1" fill="#ffffff" opacity="0.85"/><rect x="3" y="22" width="5" height="3" rx="1" fill="#ffffff" opacity="0.5"/><rect x="10" y="22" width="5" height="3" rx="1" fill="#ffffff" opacity="0.7"/><rect x="17" y="22" width="5" height="3" rx="1" fill="#ffffff" opacity="0.85"/><circle cx="25" cy="9" r="5" fill="#ffffff" opacity="0.3"/><circle cx="25" cy="9" r="3" fill="#ffffff" opacity="0.6"/><circle cx="25" cy="9" r="1.2" fill="#ffffff"/><circle cx="26" cy="23" r="5" fill="#ffffff" opacity="0.3"/><circle cx="26" cy="23" r="3" fill="#ffffff" opacity="0.6"/><circle cx="26" cy="23" r="1.2" fill="#ffffff"/></svg>
-          LRM 20 &bull; LA
+          Siege 20 &bull; LA
         </div>
         <div class="mech-loadout-item">
           <svg viewBox="0 0 32 32"><rect x="1" y="14.5" width="5" height="3" rx="1" fill="#ffffff" opacity="0.7"/><rect x="8" y="14.5" width="5" height="3" rx="1" fill="#ffffff" opacity="0.8"/><rect x="15" y="14.5" width="5" height="3" rx="1" fill="#ffffff" opacity="0.9"/><circle cx="24" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="24" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="24" cy="16" r="1.5" fill="#ffffff"/></svg>
@@ -1264,7 +1167,7 @@
         <span class="mech-card-name">Basilisk</span>
         <span class="mech-card-class">Assault &bull; 85t</span>
       </div>
-      <div class="mech-card-desc">Siege engine armed with an AC/20, dual heavy lasers, and SRM-4. Devastating alpha strikes that can cripple any target.</div>
+      <div class="mech-card-desc">Siege platform armed with an Cannon (H), dual heavy lasers, and Strike 4. Devastating alpha strikes that can cripple any target.</div>
       <div class="mech-stats-row">
         <div class="mech-stat"><span class="mech-stat-label">Engine</span><span class="mech-stat-value">255</span></div>
         <div class="mech-stat"><span class="mech-stat-label">Heat Sinks</span><span class="mech-stat-value">10</span></div>
@@ -1274,7 +1177,7 @@
       <div class="mech-loadout">
         <div class="mech-loadout-item">
           <svg viewBox="0 0 32 32"><circle cx="8" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="8" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="8" cy="16" r="1.5" fill="#ffffff"/><rect x="15" y="13" width="7" height="6" rx="1.5" fill="#ffffff" opacity="0.9"/><rect x="24" y="13" width="7" height="6" rx="1.5" fill="#ffffff" opacity="0.7"/></svg>
-          AC/20 &bull; CT
+          Cannon (H) &bull; CT
         </div>
         <div class="mech-loadout-item">
           <svg viewBox="0 0 32 32"><rect x="2" y="14.5" width="22" height="3" rx="1" fill="#ffffff" opacity="0.9"/><circle cx="26" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="26" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="26" cy="16" r="1.5" fill="#ffffff"/></svg>
@@ -1282,7 +1185,7 @@
         </div>
         <div class="mech-loadout-item">
           <svg viewBox="0 0 32 32"><rect x="2" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="8" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="14" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><rect x="4" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="10" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="16" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><rect x="1" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="7" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="13" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><circle cx="22" cy="7" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="22" cy="7" r="2" fill="#ffffff" opacity="0.6"/><circle cx="22" cy="7" r="0.8" fill="#ffffff"/><circle cx="24" cy="16" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="24" cy="16" r="2" fill="#ffffff" opacity="0.6"/><circle cx="24" cy="16" r="0.8" fill="#ffffff"/><circle cx="21" cy="25" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="21" cy="25" r="2" fill="#ffffff" opacity="0.6"/><circle cx="21" cy="25" r="0.8" fill="#ffffff"/></svg>
-          SRM 4 &bull; LT
+          Strike 4 &bull; LT
         </div>
       </div>
       <div class="mech-armor-grid">
@@ -1321,7 +1224,7 @@
         </div>
         <div class="mech-loadout-item">
           <svg viewBox="0 0 32 32"><rect x="2" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="8" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="14" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><rect x="4" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="10" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="16" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><rect x="1" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="7" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="13" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><circle cx="22" cy="7" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="22" cy="7" r="2" fill="#ffffff" opacity="0.6"/><circle cx="22" cy="7" r="0.8" fill="#ffffff"/><circle cx="24" cy="16" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="24" cy="16" r="2" fill="#ffffff" opacity="0.6"/><circle cx="24" cy="16" r="0.8" fill="#ffffff"/><circle cx="21" cy="25" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="21" cy="25" r="2" fill="#ffffff" opacity="0.6"/><circle cx="21" cy="25" r="0.8" fill="#ffffff"/></svg>
-          SRM 2 &bull; CT
+          Strike 2 &bull; CT
         </div>
       </div>
       <div class="mech-armor-grid">
@@ -1342,7 +1245,7 @@
         <span class="mech-card-name">Fang</span>
         <span class="mech-card-class">Light &bull; 30t</span>
       </div>
-      <div class="mech-card-desc">Ambush striker armed with machine guns, a medium laser, and SRM-4. Fast and heat-efficient, designed to shred light targets.</div>
+      <div class="mech-card-desc">Ambush striker armed with machine guns, a medium laser, and Strike 4. Fast and heat-efficient, designed to shred light targets.</div>
       <div class="mech-stats-row">
         <div class="mech-stat"><span class="mech-stat-label">Engine</span><span class="mech-stat-value">200</span></div>
         <div class="mech-stat"><span class="mech-stat-label">Heat Sinks</span><span class="mech-stat-value">10</span></div>
@@ -1360,7 +1263,7 @@
         </div>
         <div class="mech-loadout-item">
           <svg viewBox="0 0 32 32"><rect x="2" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="8" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="14" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><rect x="4" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="10" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="16" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><rect x="1" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="7" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="13" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><circle cx="22" cy="7" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="22" cy="7" r="2" fill="#ffffff" opacity="0.6"/><circle cx="22" cy="7" r="0.8" fill="#ffffff"/><circle cx="24" cy="16" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="24" cy="16" r="2" fill="#ffffff" opacity="0.6"/><circle cx="24" cy="16" r="0.8" fill="#ffffff"/><circle cx="21" cy="25" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="21" cy="25" r="2" fill="#ffffff" opacity="0.6"/><circle cx="21" cy="25" r="0.8" fill="#ffffff"/></svg>
-          SRM 4 &bull; CT
+          Strike 4 &bull; CT
         </div>
       </div>
       <div class="mech-armor-grid">
@@ -1379,223 +1282,19 @@
 
 <div class="divider"></div>
 
-<!-- ====== ICON SYSTEM ====== -->
+<!-- ====== ICON SYSTEM (compact) ====== -->
 <section>
   <div class="section-header">
     <h2>Icon System</h2>
-    <p>A consistent visual language where every icon tells you what the weapon <em>does</em>, not what it looks like. Trails show fire pattern, size shows caliber, impacts show the result.</p>
+    <p>A consistent visual language where every icon tells you what the weapon <em>does</em>, not what it looks like.</p>
   </div>
 
-  <div class="icon-showcase">
-
-    <!-- Ballistic -->
-    <div class="icon-category ballistic">
-      <h3>Ballistic</h3>
-      <div class="icon-grid">
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><circle cx="8" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="8" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="8" cy="16" r="1.5" fill="#ffffff"/><rect x="15" y="13" width="7" height="6" rx="1.5" fill="#ffffff" opacity="0.9"/><rect x="24" y="13" width="7" height="6" rx="1.5" fill="#ffffff" opacity="0.7"/></svg>
-          <span class="icon-label">Autocannon</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><circle cx="8" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="8" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="8" cy="16" r="1.5" fill="#ffffff"/><rect x="15" y="14.5" width="5" height="3" rx="1" fill="#ffffff" opacity="0.9"/><rect x="22" y="14.5" width="5" height="3" rx="1" fill="#ffffff" opacity="0.8"/><rect x="29" y="14.5" width="3" height="3" rx="1" fill="#ffffff" opacity="0.6"/></svg>
-          <span class="icon-label">Machine Gun</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><circle cx="8" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="8" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="8" cy="16" r="1.5" fill="#ffffff"/><rect x="15" y="13" width="16" height="6" rx="1.5" fill="#ffffff" opacity="0.9"/></svg>
-          <span class="icon-label">Gauss</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="3" y="20" width="3" height="2" rx="0.8" fill="#ffffff" opacity="0.4" transform="rotate(-50, 4.5, 21)"/><rect x="7" y="14" width="3" height="2" rx="0.8" fill="#ffffff" opacity="0.5" transform="rotate(-35, 8.5, 15)"/><rect x="12" y="10" width="3" height="2" rx="0.8" fill="#ffffff" opacity="0.6" transform="rotate(-15, 13.5, 11)"/><rect x="17" y="9" width="3" height="2" rx="0.8" fill="#ffffff" opacity="0.7" transform="rotate(5, 18.5, 10)"/><rect x="21" y="11" width="3" height="2" rx="0.8" fill="#ffffff" opacity="0.8" transform="rotate(25, 22.5, 12)"/><circle cx="27" cy="20" r="5" fill="#ffffff" opacity="0.3"/><circle cx="27" cy="20" r="3" fill="#ffffff" opacity="0.6"/><circle cx="27" cy="20" r="1.2" fill="#ffffff"/></svg>
-          <span class="icon-label">Indirect</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><circle cx="5" cy="16" r="4" fill="#ffffff" opacity="0.3"/><circle cx="5" cy="16" r="2.5" fill="#ffffff" opacity="0.6"/><circle cx="5" cy="16" r="1" fill="#ffffff"/><rect x="10" y="6" width="4" height="2.5" rx="0.5" fill="#ffffff" opacity="0.4"/><rect x="14" y="10" width="5" height="2.5" rx="0.5" fill="#ffffff" opacity="0.5"/><rect x="12" y="15" width="5" height="2.5" rx="0.5" fill="#ffffff" opacity="0.7"/><rect x="15" y="20" width="4" height="2.5" rx="0.5" fill="#ffffff" opacity="0.5"/><rect x="11" y="25" width="4" height="2.5" rx="0.5" fill="#ffffff" opacity="0.4"/><rect x="21" y="4" width="3" height="2" rx="0.5" fill="#ffffff" opacity="0.3"/><rect x="23" y="11" width="3" height="2" rx="0.5" fill="#ffffff" opacity="0.4"/><rect x="24" y="19" width="3" height="2" rx="0.5" fill="#ffffff" opacity="0.4"/><rect x="22" y="26" width="3" height="2" rx="0.5" fill="#ffffff" opacity="0.3"/></svg>
-          <span class="icon-label">Scattergun</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Energy -->
-    <div class="icon-category energy">
-      <h3>Energy</h3>
-      <div class="icon-grid">
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="2" y="14.5" width="22" height="3" rx="1" fill="#ffffff" opacity="0.9"/><circle cx="26" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="26" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="26" cy="16" r="1.5" fill="#ffffff"/></svg>
-          <span class="icon-label">Laser</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="1" y="14.5" width="5" height="3" rx="1" fill="#ffffff" opacity="0.7"/><rect x="8" y="14.5" width="5" height="3" rx="1" fill="#ffffff" opacity="0.8"/><rect x="15" y="14.5" width="5" height="3" rx="1" fill="#ffffff" opacity="0.9"/><circle cx="24" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="24" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="24" cy="16" r="1.5" fill="#ffffff"/></svg>
-          <span class="icon-label">Pulse Laser</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="2" y="14.5" width="14" height="3" rx="1" fill="#ffffff" opacity="0.8"/><circle cx="24" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="24" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="24" cy="16" r="1.5" fill="#ffffff"/></svg>
-          <span class="icon-label">Plasma Bolt</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><path d="M2 11 Q5 9 8 11 Q11 13 14 11 Q17 9 20 11" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.5"/><path d="M2 16 Q5 14 8 16 Q11 18 14 16 Q17 14 20 16" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.7"/><path d="M2 21 Q5 19 8 21 Q11 23 14 21 Q17 19 20 21" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.5"/><circle cx="26" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="26" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="26" cy="16" r="1.5" fill="#ffffff"/></svg>
-          <span class="icon-label">Flamer</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><path d="M1 16 Q3 9 5 16 Q7 23 9 16" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.5"/><path d="M7 16 Q9 9 11 16 Q13 23 15 16" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.7"/><path d="M13 16 Q15 9 17 16 Q19 23 21 16" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.9"/><circle cx="26" cy="16" r="6" fill="#ffffff" opacity="0.3"/><circle cx="26" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="26" cy="16" r="1.5" fill="#ffffff"/></svg>
-          <span class="icon-label">Coil</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Missile -->
-    <div class="icon-category missile">
-      <h3>Missile</h3>
-      <div class="icon-grid">
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="2" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="8" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="14" y="6" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><rect x="4" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="10" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="16" y="15" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><rect x="1" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="7" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.7"/><rect x="13" y="24" width="4" height="2.5" rx="0.8" fill="#ffffff" opacity="0.8"/><circle cx="22" cy="7" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="22" cy="7" r="2" fill="#ffffff" opacity="0.6"/><circle cx="22" cy="7" r="0.8" fill="#ffffff"/><circle cx="24" cy="16" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="24" cy="16" r="2" fill="#ffffff" opacity="0.6"/><circle cx="24" cy="16" r="0.8" fill="#ffffff"/><circle cx="21" cy="25" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="21" cy="25" r="2" fill="#ffffff" opacity="0.6"/><circle cx="21" cy="25" r="0.8" fill="#ffffff"/></svg>
-          <span class="icon-label">SRM</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="1" y="7" width="5" height="3" rx="1" fill="#ffffff" opacity="0.5"/><rect x="8" y="7" width="5" height="3" rx="1" fill="#ffffff" opacity="0.7"/><rect x="15" y="7" width="5" height="3" rx="1" fill="#ffffff" opacity="0.85"/><rect x="3" y="22" width="5" height="3" rx="1" fill="#ffffff" opacity="0.5"/><rect x="10" y="22" width="5" height="3" rx="1" fill="#ffffff" opacity="0.7"/><rect x="17" y="22" width="5" height="3" rx="1" fill="#ffffff" opacity="0.85"/><circle cx="25" cy="9" r="5" fill="#ffffff" opacity="0.3"/><circle cx="25" cy="9" r="3" fill="#ffffff" opacity="0.6"/><circle cx="25" cy="9" r="1.2" fill="#ffffff"/><circle cx="26" cy="23" r="5" fill="#ffffff" opacity="0.3"/><circle cx="26" cy="23" r="3" fill="#ffffff" opacity="0.6"/><circle cx="26" cy="23" r="1.2" fill="#ffffff"/></svg>
-          <span class="icon-label">LRM</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="2" y="7" width="10" height="2.5" rx="0.5" fill="#ffffff" opacity="0.5"/><rect x="2" y="12.5" width="10" height="2.5" rx="0.5" fill="#ffffff" opacity="0.6"/><rect x="2" y="18" width="10" height="2.5" rx="0.5" fill="#ffffff" opacity="0.6"/><rect x="2" y="23.5" width="10" height="2.5" rx="0.5" fill="#ffffff" opacity="0.5"/><circle cx="19" cy="8" r="3.5" fill="#ffffff" opacity="0.2"/><circle cx="19" cy="8" r="2" fill="#ffffff" opacity="0.5"/><circle cx="19" cy="8" r="0.8" fill="#ffffff"/><circle cx="25" cy="14" r="3.5" fill="#ffffff" opacity="0.2"/><circle cx="25" cy="14" r="2" fill="#ffffff" opacity="0.5"/><circle cx="25" cy="14" r="0.8" fill="#ffffff"/><circle cx="19" cy="19.5" r="3.5" fill="#ffffff" opacity="0.2"/><circle cx="19" cy="19.5" r="2" fill="#ffffff" opacity="0.5"/><circle cx="19" cy="19.5" r="0.8" fill="#ffffff"/><circle cx="25" cy="25" r="3.5" fill="#ffffff" opacity="0.2"/><circle cx="25" cy="25" r="2" fill="#ffffff" opacity="0.5"/><circle cx="25" cy="25" r="0.8" fill="#ffffff"/></svg>
-          <span class="icon-label">MRM</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="1" y="14" width="4" height="1.8" rx="0.5" fill="#ffffff" opacity="0.4"/><rect x="4" y="8" width="4" height="1.8" rx="0.5" fill="#ffffff" opacity="0.3"/><rect x="3" y="22" width="4" height="1.8" rx="0.5" fill="#ffffff" opacity="0.3"/><rect x="6" y="17" width="4" height="1.8" rx="0.5" fill="#ffffff" opacity="0.5"/><rect x="8" y="4" width="4" height="1.8" rx="0.5" fill="#ffffff" opacity="0.3"/><rect x="7" y="11" width="4" height="1.8" rx="0.5" fill="#ffffff" opacity="0.5"/><rect x="9" y="26" width="4" height="1.8" rx="0.5" fill="#ffffff" opacity="0.3"/><rect x="10" y="20" width="4" height="1.8" rx="0.5" fill="#ffffff" opacity="0.5"/><circle cx="20" cy="6" r="2.5" fill="#ffffff" opacity="0.2"/><circle cx="20" cy="6" r="1.2" fill="#ffffff" opacity="0.5"/><circle cx="26" cy="12" r="2.5" fill="#ffffff" opacity="0.2"/><circle cx="26" cy="12" r="1.2" fill="#ffffff" opacity="0.5"/><circle cx="19" cy="16" r="2.5" fill="#ffffff" opacity="0.2"/><circle cx="19" cy="16" r="1.2" fill="#ffffff" opacity="0.5"/><circle cx="27" cy="21" r="2.5" fill="#ffffff" opacity="0.2"/><circle cx="27" cy="21" r="1.2" fill="#ffffff" opacity="0.5"/><circle cx="21" cy="26" r="2.5" fill="#ffffff" opacity="0.2"/><circle cx="21" cy="26" r="1.2" fill="#ffffff" opacity="0.5"/></svg>
-          <span class="icon-label">Swarm</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><circle cx="3" cy="10" r="1.2" fill="#ffffff" opacity="0.3"/><circle cx="6" cy="7" r="1.2" fill="#ffffff" opacity="0.35"/><circle cx="9" cy="8" r="1.2" fill="#ffffff" opacity="0.4"/><circle cx="12" cy="12" r="1.2" fill="#ffffff" opacity="0.45"/><circle cx="14" cy="17" r="1.2" fill="#ffffff" opacity="0.5"/><circle cx="16" cy="20" r="1.2" fill="#ffffff" opacity="0.55"/><circle cx="18" cy="18" r="1.2" fill="#ffffff" opacity="0.6"/><circle cx="20" cy="14" r="1.2" fill="#ffffff" opacity="0.7"/><circle cx="25" cy="14" r="6" fill="#ffffff" opacity="0.3"/><circle cx="25" cy="14" r="3.5" fill="#ffffff" opacity="0.6"/><circle cx="25" cy="14" r="1.5" fill="#ffffff"/></svg>
-          <span class="icon-label">Homing</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><circle cx="8" cy="28" r="3" fill="#ffffff" opacity="0.4"/><circle cx="8" cy="28" r="1.5" fill="#ffffff" opacity="0.8"/><rect x="9" y="22" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(-20 10.5 22.75)"/><rect x="10" y="18" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(-55 11.5 18.75)"/><rect x="7" y="20" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.35" transform="rotate(-70 8.5 20.75)"/><rect x="12" y="21" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.35" transform="rotate(-10 13.5 21.75)"/><rect x="11" y="15" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.5" transform="rotate(-45 12.5 15.75)"/><rect x="14" y="17" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.45" transform="rotate(-30 15.5 17.75)"/><rect x="8" y="16" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(-65 9.5 16.75)"/><rect x="13" y="13" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.5" transform="rotate(-40 14.5 13.75)"/><rect x="26" y="4" width="4" height="2" rx="0.5" fill="#ffffff" opacity="0.25"/><rect x="22" y="6" width="4" height="2" rx="0.5" fill="#ffffff" opacity="0.35"/><circle cx="19" cy="9" r="5" fill="#ffffff" opacity="0.25"/><circle cx="19" cy="9" r="3" fill="#ffffff" opacity="0.5"/><circle cx="19" cy="9" r="1.2" fill="#ffffff"/></svg>
-          <span class="icon-label">CIWS</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Armor -->
-    <div class="icon-category armor">
-      <h3>Armor</h3>
-      <div class="icon-grid">
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="2" y="15" width="6" height="2" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="12" y="6" width="5" height="20" rx="1" fill="#ffffff" opacity="0.7"/><rect x="19" y="9" width="4" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(-30, 21, 10)"/><rect x="19" y="16" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.3" transform="rotate(10, 20, 17)"/><rect x="18" y="22" width="4" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(35, 20, 23)"/></svg>
-          <span class="icon-label">Composite</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="2" y="15" width="6" height="2" rx="0.8" fill="#ffffff" opacity="0.5"/><line x1="12" y1="6" x2="17" y2="26" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/><line x1="14" y1="6" x2="19" y2="26" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/><line x1="17" y1="6" x2="12" y2="26" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/><line x1="19" y1="6" x2="14" y2="26" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/><rect x="20" y="10" width="4" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(-25, 22, 11)"/><rect x="21" y="21" width="4" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(30, 23, 22)"/></svg>
-          <span class="icon-label">Woven</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="2" y="15" width="6" height="2" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="10" y="6" width="4" height="20" rx="1" fill="#ffffff" opacity="0.5"/><rect x="15" y="6" width="4" height="20" rx="1" fill="#ffffff" opacity="0.7"/><rect x="20" y="6" width="4" height="20" rx="1" fill="#ffffff" opacity="0.9"/></svg>
-          <span class="icon-label">Layered</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="2" y="15" width="6" height="2" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="12" y="6" width="5" height="20" rx="1" fill="#ffffff" opacity="0.6"/><circle cx="18" cy="12" r="2.5" fill="#ffffff" opacity="0.3"/><circle cx="18" cy="12" r="1.2" fill="#ffffff" opacity="0.6"/><circle cx="19" cy="20" r="2.5" fill="#ffffff" opacity="0.3"/><circle cx="19" cy="20" r="1.2" fill="#ffffff" opacity="0.6"/><rect x="22" y="10" width="3" height="1.2" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(-20, 23, 11)"/><rect x="23" y="19" width="3" height="1.2" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(25, 24, 20)"/></svg>
-          <span class="icon-label">Ablative</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="2" y="15" width="10" height="2" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="13" y="6" width="4" height="20" rx="1" fill="#ffffff" opacity="0.8"/><rect x="18" y="7" width="6" height="1.5" rx="0.5" fill="#ffffff" opacity="0.5" transform="rotate(-40, 21, 8)"/><rect x="18" y="13" width="7" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(-15, 21, 14)"/><rect x="18" y="19" width="7" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(15, 21, 20)"/><rect x="18" y="25" width="6" height="1.5" rx="0.5" fill="#ffffff" opacity="0.5" transform="rotate(40, 21, 26)"/></svg>
-          <span class="icon-label">Prismatic</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="2" y="15" width="6" height="2" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="11" y="5" width="5" height="7" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="12" y="13" width="4" height="5" rx="0.8" fill="#ffffff" opacity="0.6"/><rect x="10" y="19" width="6" height="4" rx="0.8" fill="#ffffff" opacity="0.4"/><rect x="13" y="24" width="3" height="5" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="19" y="15" width="4" height="1.5" rx="0.5" fill="#ffffff" opacity="0.25"/></svg>
-          <span class="icon-label">Scrap</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Equipment -->
-    <div class="icon-category equipment">
-      <h3>Equipment</h3>
-      <div class="icon-grid">
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.2"/><circle cx="16" cy="16" r="9" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.4"/><circle cx="16" cy="16" r="5" fill="#ffffff" opacity="0.3"/><circle cx="16" cy="16" r="3" fill="#ffffff" opacity="0.6"/><circle cx="16" cy="16" r="1.5" fill="#ffffff"/><path d="M19 13 Q21 11 19.5 9 Q18 7 20 5" stroke="#ffffff" stroke-width="1.3" fill="none" opacity="0.5"/><path d="M13 13 Q11 11 12.5 9 Q14 7 12 5" stroke="#ffffff" stroke-width="1.3" fill="none" opacity="0.5"/><path d="M19 19 Q21 21 19.5 23 Q18 25 20 27" stroke="#ffffff" stroke-width="1.3" fill="none" opacity="0.5"/><path d="M13 19 Q11 21 12.5 23 Q14 25 12 27" stroke="#ffffff" stroke-width="1.3" fill="none" opacity="0.5"/></svg>
-          <span class="icon-label">Engine</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="4" y="24" width="24" height="4" rx="1" fill="#ffffff" opacity="0.8"/><rect x="6" y="22" width="20" height="2" rx="0.5" fill="#ffffff" opacity="0.4"/><path d="M8 20 Q10 18 8 16 Q6 14 8 12" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.6"/><path d="M16 20 Q18 18 16 16 Q14 14 16 12" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.6"/><path d="M24 20 Q26 18 24 16 Q22 14 24 12" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.6"/><path d="M8 10 Q10 8 8 6" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.3"/><path d="M16 10 Q18 8 16 6" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.3"/><path d="M24 10 Q26 8 24 6" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.3"/></svg>
-          <span class="icon-label">Heatsink</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="4" y="24" width="24" height="4" rx="1" fill="#ffffff" opacity="0.8"/><rect x="4" y="19" width="24" height="4" rx="1" fill="#ffffff" opacity="0.6"/><path d="M8 17 Q10 15 8 13 Q6 11 8 9" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.6"/><path d="M16 17 Q18 15 16 13 Q14 11 16 9" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.6"/><path d="M24 17 Q26 15 24 13 Q22 11 24 9" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.6"/><path d="M8 7 Q10 5 8 3" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.3"/><path d="M16 7 Q18 5 16 3" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.3"/><path d="M24 7 Q26 5 24 3" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.3"/></svg>
-          <span class="icon-label">Double Heatsink</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.2"/><circle cx="16" cy="16" r="9" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.3"/><line x1="16" y1="2" x2="16" y2="30" stroke="#ffffff" stroke-width="1" opacity="0.2"/><line x1="2" y1="16" x2="30" y2="16" stroke="#ffffff" stroke-width="1" opacity="0.2"/><line x1="16" y1="16" x2="26" y2="6" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/><circle cx="16" cy="16" r="2" fill="#ffffff" opacity="0.8"/><circle cx="22" cy="10" r="1.5" fill="#ffffff" opacity="0.9"/><circle cx="10" cy="12" r="1.2" fill="#ffffff" opacity="0.5"/><circle cx="20" cy="22" r="1" fill="#ffffff" opacity="0.4"/></svg>
-          <span class="icon-label">Sensor</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.3"/><circle cx="16" cy="16" r="6" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/><line x1="16" y1="2" x2="16" y2="10" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/><line x1="16" y1="22" x2="16" y2="30" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/><line x1="2" y1="16" x2="10" y2="16" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/><line x1="22" y1="16" x2="30" y2="16" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/><circle cx="16" cy="16" r="2" fill="#ffffff"/></svg>
-          <span class="icon-label">Targeting</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.3"/><ellipse cx="16" cy="16" rx="9" ry="13" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/><ellipse cx="16" cy="16" rx="13" ry="6" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/><line x1="3" y1="16" x2="29" y2="16" stroke="#ffffff" stroke-width="1" opacity="0.9"/><line x1="16" y1="3" x2="16" y2="29" stroke="#ffffff" stroke-width="1" opacity="0.9"/><circle cx="16" cy="16" r="4" fill="#ffffff" opacity="0.6"/><circle cx="16" cy="16" r="2" fill="#ffffff"/><circle cx="3" cy="16" r="1.5" fill="#ffffff"/><circle cx="29" cy="16" r="1.5" fill="#ffffff"/><circle cx="16" cy="3" r="1.5" fill="#ffffff"/><circle cx="16" cy="29" r="1.5" fill="#ffffff"/></svg>
-          <span class="icon-label">Gyro</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><path d="M6 16 Q6 2 16 2 Q26 2 26 16 L26 22 Q26 26 22 27 L10 27 Q6 26 6 22 Z" fill="#ffffff" opacity="0.3"/><path d="M9 14 Q9 10 16 10 Q23 10 23 14 L23 19 Q23 22 16 22 Q9 22 9 19 Z" fill="#ffffff" opacity="0.7"/><path d="M11 12 Q14 11 19 12 L18 15 Q14 14 12 15 Z" fill="#ffffff" opacity="0.3"/><rect x="10" y="23" width="12" height="4" rx="2" fill="#ffffff" opacity="0.4"/><rect x="4" y="28" width="24" height="3" rx="1.5" fill="#ffffff" opacity="0.3"/></svg>
-          <span class="icon-label">Cockpit</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="10" y="2" width="12" height="14" rx="2" fill="#ffffff" opacity="0.5"/><rect x="12" y="2" width="8" height="2.5" rx="1" fill="#ffffff" opacity="0.8"/><path d="M10 16 L7 22 L25 22 L22 16 Z" fill="#ffffff" opacity="0.7"/><path d="M11 22 Q13 26 16 30 Q19 26 21 22" fill="#ffffff" opacity="0.6"/><path d="M13 22 Q14.5 25 16 28 Q17.5 25 19 22" fill="#ffffff" opacity="0.9"/><path d="M9 22 Q11 27 16 32 Q21 27 23 22" fill="#ffffff" opacity="0.2"/></svg>
-          <span class="icon-label">Jump Jet</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><path d="M2 16 L8 16 L10 16 L12 8 L15 24 L18 6 L21 16 L23 16 L30 16" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.8" stroke-linejoin="round" stroke-linecap="round"/><line x1="2" y1="16" x2="30" y2="16" stroke="#ffffff" stroke-width="0.5" opacity="0.15"/></svg>
-          <span class="icon-label">Life Support</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="4" y="7" width="24" height="2.5" rx="1" fill="#ffffff" opacity="0.6"/><rect x="4" y="22" width="24" height="2.5" rx="1" fill="#ffffff" opacity="0.6"/><line x1="6" y1="9.5" x2="16" y2="22" stroke="#ffffff" stroke-width="1.5" opacity="0.3"/><line x1="16" y1="9.5" x2="6" y2="22" stroke="#ffffff" stroke-width="1.5" opacity="0.3"/><line x1="16" y1="9.5" x2="26" y2="22" stroke="#ffffff" stroke-width="1.5" opacity="0.3"/><line x1="26" y1="9.5" x2="16" y2="22" stroke="#ffffff" stroke-width="1.5" opacity="0.3"/><circle cx="6" cy="8" r="2" fill="#ffffff"/><circle cx="16" cy="8" r="2" fill="#ffffff"/><circle cx="26" cy="8" r="2" fill="#ffffff"/><circle cx="6" cy="23" r="2" fill="#ffffff"/><circle cx="16" cy="23" r="2" fill="#ffffff"/><circle cx="26" cy="23" r="2" fill="#ffffff"/></svg>
-          <span class="icon-label">Structure</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="12" y="2" width="8" height="11" rx="2" fill="#ffffff" opacity="0.5"/><circle cx="16" cy="16" r="4" fill="#ffffff" opacity="0.3"/><circle cx="16" cy="16" r="2.5" fill="#ffffff" opacity="0.6"/><circle cx="16" cy="16" r="1.2" fill="#ffffff"/><rect x="12" y="19" width="8" height="11" rx="2" fill="#ffffff" opacity="0.5"/></svg>
-          <span class="icon-label">Arm</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="12" y="2" width="8" height="10" rx="2" fill="#ffffff" opacity="0.5"/><circle cx="16" cy="14.5" r="3.5" fill="#ffffff" opacity="0.3"/><circle cx="16" cy="14.5" r="2" fill="#ffffff" opacity="0.6"/><circle cx="16" cy="14.5" r="1" fill="#ffffff"/><rect x="12" y="18" width="8" height="8" rx="2" fill="#ffffff" opacity="0.5"/><rect x="8" y="27" width="16" height="3" rx="1" fill="#ffffff" opacity="0.7"/></svg>
-          <span class="icon-label">Leg</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- UI / Menu -->
-    <div class="icon-category ui">
-      <h3>UI &amp; Navigation</h3>
-      <div class="icon-grid">
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><path d="M4 30 L4 12 Q4 2 16 2 Q28 2 28 12 L28 30" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.25"/><line x1="3" y1="30" x2="29" y2="30" stroke="#ffffff" stroke-width="1.5" opacity="0.3"/><rect x="12" y="12" width="8" height="9" rx="1" fill="#ffffff" opacity="0.7"/><rect x="13.5" y="8" width="5" height="4" rx="1" fill="#ffffff" opacity="0.9"/><rect x="14.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4"/><rect x="8" y="13" width="3.5" height="7" rx="1" fill="#ffffff" opacity="0.5"/><rect x="20.5" y="13" width="3.5" height="7" rx="1" fill="#ffffff" opacity="0.5"/><rect x="12" y="22" width="3.5" height="8" rx="1" fill="#ffffff" opacity="0.6"/><rect x="16.5" y="22" width="3.5" height="8" rx="1" fill="#ffffff" opacity="0.6"/></svg>
-          <span class="icon-label">Hangar</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><path d="M14 20 Q14 9 21 9 Q28 9 28 20 L28 23 Q28 25 25 25.5 L17 25.5 Q14 25 14 23 Z" fill="#ffffff" opacity="0.4"/><path d="M16.5 17 Q16.5 14 21 14 Q25.5 14 25.5 17 L25.5 20 Q25.5 22 21 22 Q16.5 22 16.5 20 Z" fill="#ffffff" opacity="0.8"/><path d="M18 15.5 Q20 15 23 15.5 L22.5 17 Q20 16.5 18.5 17 Z" fill="#ffffff" opacity="0.35"/><rect x="13" y="26" width="16" height="3.5" rx="1.5" fill="#ffffff" opacity="0.35"/><path d="M4 18 Q4 7 11 7 Q18 7 18 18 L18 21 Q18 23 15 23.5 L7 23.5 Q4 23 4 21 Z" fill="#ffffff" opacity="0.25"/><path d="M6.5 15 Q6.5 12 11 12 Q15.5 12 15.5 15 L15.5 18 Q15.5 20 11 20 Q6.5 20 6.5 18 Z" fill="#ffffff" opacity="0.35"/><rect x="3" y="24" width="16" height="3" rx="1.5" fill="#ffffff" opacity="0.15"/></svg>
-          <span class="icon-label">Pilots</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="3" y="20" width="12" height="10" rx="1" fill="#ffffff" opacity="0.5"/><rect x="17" y="20" width="12" height="10" rx="1" fill="#ffffff" opacity="0.6"/><rect x="3" y="10" width="12" height="9" rx="1" fill="#ffffff" opacity="0.4"/><rect x="17" y="10" width="12" height="9" rx="1" fill="#ffffff" opacity="0.45"/><rect x="8" y="2" width="16" height="7" rx="1" fill="#ffffff" opacity="0.3"/></svg>
-          <span class="icon-label">Warehouse</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><rect x="11" y="4" width="10" height="24" rx="2" fill="#ffffff" opacity="0.2"/><rect x="4" y="11" width="24" height="10" rx="2" fill="#ffffff" opacity="0.2"/><rect x="12" y="5" width="8" height="22" rx="1.5" fill="#ffffff" opacity="0.85"/><rect x="5" y="12" width="22" height="8" rx="1.5" fill="#ffffff" opacity="0.85"/></svg>
-          <span class="icon-label">Health</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><path d="M5 27 Q3 29 5 31 Q7 31 8 29 L18 19 L22 15 L24 13 L26 11 Q28 9 28 6 L28 4 L25 4 L25 7 Q25 9 23 10 L21 12 L19 14 L15 18 Z" fill="#ffffff" opacity="0.6"/><path d="M4 6 L4 4 L7 4 Q9 4 10 6 L12 8 L14 10 L18 14 L24 20 Q25 21 27 23 Q29 25 27 27 Q25 29 23 27 L13 17 L11 15 L9 13 Q7 11 6 9 L4 7 Z" fill="#ffffff" opacity="0.45"/><circle cx="16" cy="16" r="1.2" fill="#ffffff" opacity="0.9"/></svg>
-          <span class="icon-label">Repair</span>
-        </div>
-        <div class="icon-card">
-          <svg viewBox="0 0 32 32"><path d="M1 19 Q1 8 7 8 Q13 8 13 19 L13 21.5 Q13 23 10.5 23.5 L3.5 23.5 Q1 23 1 21.5 Z" fill="#ffffff" opacity="0.35"/><path d="M3 16.5 Q3 13.5 7 13.5 Q11 13.5 11 16.5 L11 18.5 Q11 20 7 20 Q3 20 3 18.5 Z" fill="#ffffff" opacity="0.7"/><rect x="0.5" y="24" width="13" height="2.5" rx="1" fill="#ffffff" opacity="0.25"/><line x1="14" y1="18" x2="17.5" y2="18" stroke="#ffffff" stroke-width="1" opacity="0.4"/><path d="M17 16.5 L19 18 L17 19.5" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.4"/><rect x="22.5" y="7" width="4" height="3.5" rx="0.8" fill="#ffffff" opacity="0.8"/><rect x="23.3" y="8.2" width="2.4" height="1.2" rx="0.4" fill="#ffffff" opacity="0.35"/><rect x="21" y="11" width="7" height="7.5" rx="0.8" fill="#ffffff" opacity="0.6"/><rect x="18" y="11.5" width="2.5" height="6" rx="0.8" fill="#ffffff" opacity="0.4"/><rect x="28.5" y="11.5" width="2.5" height="6" rx="0.8" fill="#ffffff" opacity="0.4"/><rect x="21" y="19" width="3" height="7" rx="0.8" fill="#ffffff" opacity="0.5"/><rect x="25" y="19" width="3" height="7" rx="0.8" fill="#ffffff" opacity="0.5"/></svg>
-          <span class="icon-label">Squads</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
+<div style="display:flex;flex-wrap:wrap;gap:0.8rem;justify-content:center;padding:1rem 0"><div style="text-align:center;width:52px"><img src="icons/cannon.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#4a7aaa;letter-spacing:0.05em">Cannon</span></div><div style="text-align:center;width:52px"><img src="icons/machinegun.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#4a7aaa;letter-spacing:0.05em">MG</span></div><div style="text-align:center;width:52px"><img src="icons/magnetic.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#4a7aaa;letter-spacing:0.05em">Magnetic</span></div><div style="text-align:center;width:52px"><img src="icons/indirect.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#4a7aaa;letter-spacing:0.05em">Indirect</span></div><div style="text-align:center;width:52px"><img src="icons/scattergun.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#4a7aaa;letter-spacing:0.05em">Scatter</span></div><div style="text-align:center;width:52px"><img src="icons/beam.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#3aaa3a;letter-spacing:0.05em">Beam</span></div><div style="text-align:center;width:52px"><img src="icons/pulse.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#3aaa3a;letter-spacing:0.05em">Pulse</span></div><div style="text-align:center;width:52px"><img src="icons/coil.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#3aaa3a;letter-spacing:0.05em">Coil</span></div><div style="text-align:center;width:52px"><img src="icons/plasma.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#3aaa3a;letter-spacing:0.05em">Plasma</span></div><div style="text-align:center;width:52px"><img src="icons/flamer.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#3aaa3a;letter-spacing:0.05em">Flamer</span></div><div style="text-align:center;width:52px"><img src="icons/strike.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#aa4a2a;letter-spacing:0.05em">Strike</span></div><div style="text-align:center;width:52px"><img src="icons/siege.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#aa4a2a;letter-spacing:0.05em">Siege</span></div><div style="text-align:center;width:52px"><img src="icons/drumfire.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#aa4a2a;letter-spacing:0.05em">Drumfire</span></div><div style="text-align:center;width:52px"><img src="icons/lance.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#aa4a2a;letter-spacing:0.05em">Lance</span></div><div style="text-align:center;width:52px"><img src="icons/adaptive.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#aa4a2a;letter-spacing:0.05em">Adaptive</span></div><div style="text-align:center;width:52px"><img src="icons/armor_standard.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#7a6aaa;letter-spacing:0.05em">Armor</span></div><div style="text-align:center;width:52px"><img src="icons/armor_woven.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#7a6aaa;letter-spacing:0.05em">Woven</span></div><div style="text-align:center;width:52px"><img src="icons/armor_layered.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#7a6aaa;letter-spacing:0.05em">Layered</span></div><div style="text-align:center;width:52px"><img src="icons/armor_ablative.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#7a6aaa;letter-spacing:0.05em">Ablative</span></div><div style="text-align:center;width:52px"><img src="icons/armor_prismatic.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#7a6aaa;letter-spacing:0.05em">Prismatic</span></div><div style="text-align:center;width:52px"><img src="icons/cockpit.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#4a7aaa;letter-spacing:0.05em">Capsule</span></div><div style="text-align:center;width:52px"><img src="icons/sensor.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#3aaa3a;letter-spacing:0.05em">Sensor</span></div><div style="text-align:center;width:52px"><img src="icons/targeting.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#3aaa3a;letter-spacing:0.05em">Targeting</span></div><div style="text-align:center;width:52px"><img src="icons/heatsink.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#aa6a2a;letter-spacing:0.05em">Radiator</span></div><div style="text-align:center;width:52px"><img src="icons/structure.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#7a6aaa;letter-spacing:0.05em">Frame</span></div><div style="text-align:center;width:52px"><img src="icons/engine.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#aa6a2a;letter-spacing:0.05em">Core</span></div><div style="text-align:center;width:52px"><img src="icons/gyro.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#aa6a2a;letter-spacing:0.05em">Stabilizer</span></div><div style="text-align:center;width:52px"><img src="icons/arm.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#aa8a22;letter-spacing:0.05em">Arm</span></div><div style="text-align:center;width:52px"><img src="icons/leg.svg" width="32" height="32" style="filter:brightness(0.85);display:block;margin:0 auto 4px"><span style="font-size:0.6rem;color:#3aaa3a;letter-spacing:0.05em">Leg</span></div></div>
 </section>
 
 <div class="divider"></div>
 
-<!-- ====== TECH ====== -->
+<!-- ====== TECH<!-- ====== TECH ====== -->
 <section>
   <div class="section-header">
     <h2>Built With</h2>
