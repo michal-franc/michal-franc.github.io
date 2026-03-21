@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Incoming hit -->
+  <rect x="2" y="15" width="6" height="2" rx="0.8" fill="#ffffff" opacity="0.5"/>
+  <!-- Woven fiber strands (criss-cross pattern) -->
+  <line x1="12" y1="6" x2="17" y2="26" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+  <line x1="14" y1="6" x2="19" y2="26" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+  <line x1="17" y1="6" x2="12" y2="26" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
+  <line x1="19" y1="6" x2="14" y2="26" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
+  <!-- Deflection sparks -->
+  <rect x="20" y="10" width="4" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(-25, 22, 11)"/>
+  <rect x="21" y="21" width="4" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(30, 23, 22)"/>
+</svg>

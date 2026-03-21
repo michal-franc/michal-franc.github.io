@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Outer hull armor -->
+  <path d="M6 6 L26 6 L28 10 L28 26 L4 26 L4 10 Z" fill="#ffffff" opacity="0.2"/>
+  <!-- Inner hull layer -->
+  <path d="M8 8 L24 8 L26 11 L26 24 L6 24 L6 11 Z" fill="#ffffff" opacity="0.35"/>
+  <!-- Pilot compartment — buried inside -->
+  <rect x="11" y="12" width="10" height="8" rx="1.5" fill="#ffffff" opacity="0.55"/>
+  <!-- Pilot visor slit — narrow, protected -->
+  <rect x="12.5" y="13.5" width="7" height="3" rx="1" fill="#ffffff" opacity="0.85"/>
+  <!-- Visor glint -->
+  <path d="M13.5 14 L17 14 L16 15.5 L14 15.5 Z" fill="#ffffff" opacity="0.35"/>
+  <!-- Armor bolts — sealed in -->
+  <circle cx="8" cy="10" r="1" fill="#ffffff" opacity="0.4"/>
+  <circle cx="24" cy="10" r="1" fill="#ffffff" opacity="0.4"/>
+  <circle cx="8" cy="22" r="1" fill="#ffffff" opacity="0.4"/>
+  <circle cx="24" cy="22" r="1" fill="#ffffff" opacity="0.4"/>
+  <!-- View ports — small slits on sides -->
+  <rect x="4.5" y="14" width="1.5" height="4" rx="0.5" fill="#ffffff" opacity="0.3"/>
+  <rect x="26" y="14" width="1.5" height="4" rx="0.5" fill="#ffffff" opacity="0.3"/>
+</svg>

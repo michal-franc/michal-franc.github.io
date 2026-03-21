@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Hull body — sleek -->
+  <path d="M5 8 L27 8 L29 12 L29 18 L3 18 L3 12 Z" fill="#ffffff" opacity="0.4"/>
+  <!-- Upper deck -->
+  <rect x="9" y="5" width="14" height="4" rx="1.5" fill="#ffffff" opacity="0.5"/>
+  <!-- Viewport -->
+  <rect x="11" y="6" width="10" height="2" rx="0.8" fill="#ffffff" opacity="0.7"/>
+
+  <!-- Axle bar -->
+  <line x1="6" y1="20" x2="26" y2="20" stroke="#ffffff" stroke-width="1.2" opacity="0.25"/>
+
+  <!-- Front-left wheel -->
+  <circle cx="7" cy="23" r="5" fill="#ffffff" opacity="0.2"/>
+  <circle cx="7" cy="23" r="3.5" fill="#ffffff" opacity="0.4"/>
+  <circle cx="7" cy="23" r="1.5" fill="#ffffff" opacity="0.7"/>
+  <!-- Spokes -->
+  <line x1="7" y1="18.5" x2="7" y2="20.5" stroke="#ffffff" stroke-width="0.6" opacity="0.3"/>
+  <line x1="7" y1="25.5" x2="7" y2="27.5" stroke="#ffffff" stroke-width="0.6" opacity="0.3"/>
+  <line x1="3" y1="23" x2="5" y2="23" stroke="#ffffff" stroke-width="0.6" opacity="0.3"/>
+  <line x1="9" y1="23" x2="11" y2="23" stroke="#ffffff" stroke-width="0.6" opacity="0.3"/>
+
+  <!-- Front-right wheel -->
+  <circle cx="25" cy="23" r="5" fill="#ffffff" opacity="0.2"/>
+  <circle cx="25" cy="23" r="3.5" fill="#ffffff" opacity="0.4"/>
+  <circle cx="25" cy="23" r="1.5" fill="#ffffff" opacity="0.7"/>
+  <!-- Spokes -->
+  <line x1="25" y1="18.5" x2="25" y2="20.5" stroke="#ffffff" stroke-width="0.6" opacity="0.3"/>
+  <line x1="25" y1="25.5" x2="25" y2="27.5" stroke="#ffffff" stroke-width="0.6" opacity="0.3"/>
+  <line x1="21" y1="23" x2="23" y2="23" stroke="#ffffff" stroke-width="0.6" opacity="0.3"/>
+  <line x1="27" y1="23" x2="29" y2="23" stroke="#ffffff" stroke-width="0.6" opacity="0.3"/>
+
+  <!-- Mid wheel — smaller -->
+  <circle cx="16" cy="22" r="3.5" fill="#ffffff" opacity="0.15"/>
+  <circle cx="16" cy="22" r="2.2" fill="#ffffff" opacity="0.3"/>
+  <circle cx="16" cy="22" r="1" fill="#ffffff" opacity="0.55"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- EKG heartbeat pulse line -->
+  <path d="M2 16 L8 16 L10 16 L12 8 L15 24 L18 6 L21 16 L23 16 L30 16"
+    stroke="#ffffff" stroke-width="2" fill="none" opacity="0.8"
+    stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- Faint baseline -->
+  <line x1="2" y1="16" x2="30" y2="16" stroke="#ffffff" stroke-width="0.5" opacity="0.15"/>
+</svg>

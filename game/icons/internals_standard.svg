@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Central processor chip -->
+  <rect x="12" y="12" width="8" height="8" rx="1" fill="#ffffff" opacity="0.7"/>
+  <rect x="13.5" y="13.5" width="5" height="5" rx="0.5" fill="#ffffff" opacity="0.3"/>
+  <!-- Horizontal traces -->
+  <line x1="4" y1="14" x2="12" y2="14" stroke="#ffffff" stroke-width="1.2" opacity="0.4"/>
+  <line x1="4" y1="18" x2="12" y2="18" stroke="#ffffff" stroke-width="1.2" opacity="0.4"/>
+  <line x1="20" y1="14" x2="28" y2="14" stroke="#ffffff" stroke-width="1.2" opacity="0.4"/>
+  <line x1="20" y1="18" x2="28" y2="18" stroke="#ffffff" stroke-width="1.2" opacity="0.4"/>
+  <!-- Vertical traces -->
+  <line x1="14" y1="4" x2="14" y2="12" stroke="#ffffff" stroke-width="1.2" opacity="0.4"/>
+  <line x1="18" y1="4" x2="18" y2="12" stroke="#ffffff" stroke-width="1.2" opacity="0.4"/>
+  <line x1="14" y1="20" x2="14" y2="28" stroke="#ffffff" stroke-width="1.2" opacity="0.4"/>
+  <line x1="18" y1="20" x2="18" y2="28" stroke="#ffffff" stroke-width="1.2" opacity="0.4"/>
+  <!-- Connection nodes — corners -->
+  <circle cx="4" cy="14" r="1.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="4" cy="18" r="1.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="28" cy="14" r="1.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="28" cy="18" r="1.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="14" cy="4" r="1.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="18" cy="4" r="1.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="14" cy="28" r="1.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="18" cy="28" r="1.5" fill="#ffffff" opacity="0.6"/>
+</svg>

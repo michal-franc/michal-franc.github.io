@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Gun base bottom-center -->
+  <circle cx="8" cy="28" r="3" fill="#ffffff" opacity="0.4"/>
+  <circle cx="8" cy="28" r="1.5" fill="#ffffff" opacity="0.8"/>
+  <!-- Scattered fire in many directions from gun -->
+  <rect x="9" y="22" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(-20 10.5 22.75)"/>
+  <rect x="10" y="18" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(-55 11.5 18.75)"/>
+  <rect x="7" y="20" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.35" transform="rotate(-70 8.5 20.75)"/>
+  <rect x="12" y="21" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.35" transform="rotate(-10 13.5 21.75)"/>
+  <rect x="11" y="15" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.5" transform="rotate(-45 12.5 15.75)"/>
+  <rect x="14" y="17" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.45" transform="rotate(-30 15.5 17.75)"/>
+  <rect x="8" y="16" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(-65 9.5 16.75)"/>
+  <rect x="13" y="13" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.5" transform="rotate(-40 14.5 13.75)"/>
+  <!-- Incoming missile trail from top-right -->
+  <rect x="26" y="4" width="4" height="2" rx="0.5" fill="#ffffff" opacity="0.25"/>
+  <rect x="22" y="6" width="4" height="2" rx="0.5" fill="#ffffff" opacity="0.35"/>
+  <!-- Intercept burst -->
+  <circle cx="19" cy="9" r="5" fill="#ffffff" opacity="0.25"/>
+  <circle cx="19" cy="9" r="3" fill="#ffffff" opacity="0.5"/>
+  <circle cx="19" cy="9" r="1.2" fill="#ffffff"/>
+</svg>

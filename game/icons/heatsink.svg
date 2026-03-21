@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Heatsink plate base -->
+  <rect x="4" y="24" width="24" height="4" rx="1" fill="#ffffff" opacity="0.8"/>
+  <rect x="6" y="22" width="20" height="2" rx="0.5" fill="#ffffff" opacity="0.4"/>
+  <!-- Wavy heat lines rising, fading out -->
+  <path d="M8 20 Q10 18 8 16 Q6 14 8 12" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.6"/>
+  <path d="M16 20 Q18 18 16 16 Q14 14 16 12" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.6"/>
+  <path d="M24 20 Q26 18 24 16 Q22 14 24 12" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.6"/>
+  <!-- Upper fading waves -->
+  <path d="M8 10 Q10 8 8 6" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.3"/>
+  <path d="M16 10 Q18 8 16 6" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.3"/>
+  <path d="M24 10 Q26 8 24 6" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.3"/>
+</svg>

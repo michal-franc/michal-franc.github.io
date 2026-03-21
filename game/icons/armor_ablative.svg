@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Incoming hit -->
+  <rect x="2" y="15" width="6" height="2" rx="0.8" fill="#ffffff" opacity="0.5"/>
+  <!-- Reactive plate -->
+  <rect x="12" y="6" width="5" height="20" rx="1" fill="#ffffff" opacity="0.6"/>
+  <!-- Reactive explosion outward (mesh detonates on impact) -->
+  <circle cx="18" cy="12" r="2.5" fill="#ffffff" opacity="0.3"/>
+  <circle cx="18" cy="12" r="1.2" fill="#ffffff" opacity="0.6"/>
+  <circle cx="19" cy="20" r="2.5" fill="#ffffff" opacity="0.3"/>
+  <circle cx="19" cy="20" r="1.2" fill="#ffffff" opacity="0.6"/>
+  <!-- Debris flying out -->
+  <rect x="22" y="10" width="3" height="1.2" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(-20, 23, 11)"/>
+  <rect x="23" y="19" width="3" height="1.2" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(25, 24, 20)"/>
+</svg>

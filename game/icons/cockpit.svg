@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Helmet outline -->
+  <path d="M6 16 Q6 2 16 2 Q26 2 26 16 L26 22 Q26 26 22 27 L10 27 Q6 26 6 22 Z" fill="#ffffff" opacity="0.3"/>
+  <!-- Visor -->
+  <path d="M9 14 Q9 10 16 10 Q23 10 23 14 L23 19 Q23 22 16 22 Q9 22 9 19 Z" fill="#ffffff" opacity="0.7"/>
+  <!-- Visor glint -->
+  <path d="M11 12 Q14 11 19 12 L18 15 Q14 14 12 15 Z" fill="#ffffff" opacity="0.3"/>
+  <!-- Chin / jaw plate -->
+  <rect x="10" y="23" width="12" height="4" rx="2" fill="#ffffff" opacity="0.4"/>
+  <!-- Shoulder plate -->
+  <rect x="4" y="28" width="24" height="3" rx="1.5" fill="#ffffff" opacity="0.3"/>
+</svg>

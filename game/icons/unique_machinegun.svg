@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Eldritch tendrils -->
+  <path d="M4 3 Q7 7 5 11 Q3 15 6 18" stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.25"/>
+  <path d="M27 28 Q24 24 26 21" stroke="#ffffff" stroke-width="0.7" fill="none" opacity="0.2"/>
+  <!-- Muzzle flash -->
+  <circle cx="8" cy="16" r="6" fill="#ffffff" opacity="0.3"/>
+  <circle cx="8" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="8" cy="16" r="1.5" fill="#ffffff"/>
+  <!-- Bullet dashes -->
+  <rect x="15" y="14.5" width="5" height="3" rx="1" fill="#ffffff" opacity="0.9"/>
+  <rect x="22" y="14.5" width="5" height="3" rx="1" fill="#ffffff" opacity="0.8"/>
+  <rect x="29" y="14.5" width="3" height="3" rx="1" fill="#ffffff" opacity="0.6"/>
+  <!-- Slit eye -->
+  <ellipse cx="27" cy="5" rx="2.5" ry="3.5" fill="#ffffff" opacity="0.2"/>
+  <ellipse cx="27" cy="5" rx="0.6" ry="2.5" fill="#ffffff" opacity="0.5"/>
+</svg>

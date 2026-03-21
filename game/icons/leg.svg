@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Upper leg segment -->
+  <rect x="12" y="2" width="8" height="10" rx="2" fill="#ffffff" opacity="0.5"/>
+  <!-- Knee joint -->
+  <circle cx="16" cy="14.5" r="3.5" fill="#ffffff" opacity="0.3"/>
+  <circle cx="16" cy="14.5" r="2" fill="#ffffff" opacity="0.6"/>
+  <circle cx="16" cy="14.5" r="1" fill="#ffffff"/>
+  <!-- Lower leg segment -->
+  <rect x="12" y="18" width="8" height="8" rx="2" fill="#ffffff" opacity="0.5"/>
+  <!-- Foot plate -->
+  <rect x="8" y="27" width="16" height="3" rx="1" fill="#ffffff" opacity="0.7"/>
+</svg>

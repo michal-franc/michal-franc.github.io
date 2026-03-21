@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Outer ring — dashed, fragile -->
+  <circle cx="16" cy="16" r="13" fill="none" stroke="#ffffff" stroke-width="1" stroke-dasharray="3 4" opacity="0.2"/>
+  <!-- Mid ring — thin -->
+  <circle cx="16" cy="16" r="9" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+  <!-- Inner core — smaller, lighter -->
+  <circle cx="16" cy="16" r="4" fill="#ffffff" opacity="0.25"/>
+  <circle cx="16" cy="16" r="2.5" fill="#ffffff" opacity="0.5"/>
+  <circle cx="16" cy="16" r="1.2" fill="#ffffff" opacity="0.9"/>
+  <!-- Sparse heat lines — only 2, thin and fading -->
+  <path d="M19 13 Q20.5 11 19.5 9" stroke="#ffffff" stroke-width="1" fill="none" opacity="0.35"/>
+  <path d="M13 19 Q11.5 21 12.5 23" stroke="#ffffff" stroke-width="1" fill="none" opacity="0.35"/>
+</svg>

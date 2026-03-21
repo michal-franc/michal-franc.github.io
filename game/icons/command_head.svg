@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Torso/shoulder base -->
+  <rect x="6" y="26" width="20" height="4" rx="1.5" fill="#ffffff" opacity="0.25"/>
+  <!-- Neck column -->
+  <rect x="14" y="18" width="4" height="8" fill="#ffffff" opacity="0.3"/>
+  <!-- Head pod — elevated, exposed -->
+  <path d="M9 14 Q9 4 16 4 Q23 4 23 14 L23 17 Q23 19 20 19 L12 19 Q9 19 9 17 Z" fill="#ffffff" opacity="0.4"/>
+  <!-- Visor — wide view -->
+  <path d="M11 11 Q11 8 16 8 Q21 8 21 11 L21 15 Q21 17 16 17 Q11 17 11 15 Z" fill="#ffffff" opacity="0.75"/>
+  <!-- Visor glint -->
+  <path d="M13 10 Q15 9 18 10 L17 12 Q15 11.5 14 12 Z" fill="#ffffff" opacity="0.3"/>
+  <!-- Antenna — exposed sensor -->
+  <line x1="22" y1="6" x2="26" y2="2" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
+  <circle cx="26" cy="2" r="1" fill="#ffffff" opacity="0.5"/>
+</svg>

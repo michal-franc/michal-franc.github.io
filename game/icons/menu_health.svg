@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Medical cross background glow -->
+  <rect x="11" y="4" width="10" height="24" rx="2" fill="#ffffff" opacity="0.2"/>
+  <rect x="4" y="11" width="24" height="10" rx="2" fill="#ffffff" opacity="0.2"/>
+  <!-- Medical cross solid -->
+  <rect x="12" y="5" width="8" height="22" rx="1.5" fill="#ffffff" opacity="0.85"/>
+  <rect x="5" y="12" width="22" height="8" rx="1.5" fill="#ffffff" opacity="0.85"/>
+  <!-- Pulse line overlay across the cross -->
+  <path d="M2 18 L10 18 L12 12 L14.5 22 L17 10 L19.5 20 L21 16 L30 16" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.15"/>
+</svg>

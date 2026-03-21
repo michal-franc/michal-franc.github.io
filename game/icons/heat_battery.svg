@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Thin battery cell body -->
+  <rect x="10" y="6" width="12" height="22" rx="2" fill="#ffffff" opacity="0.25"/>
+  <!-- Battery terminal cap -->
+  <rect x="12" y="3" width="8" height="4" rx="1" fill="#ffffff" opacity="0.5"/>
+  <!-- Stored heat fill — glowing from bottom up -->
+  <rect x="12" y="16" width="8" height="10" rx="1" fill="#ffffff" opacity="0.4"/>
+  <rect x="12" y="20" width="8" height="6" rx="1" fill="#ffffff" opacity="0.6"/>
+  <!-- Big heat waves absorbed inward from left -->
+  <path d="M1 10 Q4 12 7 10 Q8.5 9 9.5 10" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.45"/>
+  <path d="M0 16 Q3 18 6 16 Q8 14.5 9.5 16" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.55"/>
+  <path d="M1 22 Q4 24 7 22 Q8.5 21 9.5 22" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.45"/>
+  <!-- Big heat waves absorbed inward from right -->
+  <path d="M31 10 Q28 12 25 10 Q23.5 9 22.5 10" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.45"/>
+  <path d="M32 16 Q29 18 26 16 Q24 14.5 22.5 16" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.55"/>
+  <path d="M31 22 Q28 24 25 22 Q23.5 21 22.5 22" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.45"/>
+</svg>

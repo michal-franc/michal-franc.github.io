@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Back pilot (slightly behind, left) -->
+  <!-- Helmet -->
+  <path d="M4 18 Q4 7 11 7 Q18 7 18 18 L18 21 Q18 23 15 23.5 L7 23.5 Q4 23 4 21 Z" fill="#ffffff" opacity="0.25"/>
+  <!-- Visor -->
+  <path d="M6.5 15 Q6.5 12 11 12 Q15.5 12 15.5 15 L15.5 18 Q15.5 20 11 20 Q6.5 20 6.5 18 Z" fill="#ffffff" opacity="0.35"/>
+  <!-- Front pilot (foreground, right) -->
+  <!-- Helmet -->
+  <path d="M14 20 Q14 9 21 9 Q28 9 28 20 L28 23 Q28 25 25 25.5 L17 25.5 Q14 25 14 23 Z" fill="#ffffff" opacity="0.4"/>
+  <!-- Visor -->
+  <path d="M16.5 17 Q16.5 14 21 14 Q25.5 14 25.5 17 L25.5 20 Q25.5 22 21 22 Q16.5 22 16.5 20 Z" fill="#ffffff" opacity="0.8"/>
+  <!-- Visor glint -->
+  <path d="M18 15.5 Q20 15 23 15.5 L22.5 17 Q20 16.5 18.5 17 Z" fill="#ffffff" opacity="0.35"/>
+  <!-- Front shoulder plate -->
+  <rect x="13" y="26" width="16" height="3.5" rx="1.5" fill="#ffffff" opacity="0.35"/>
+  <!-- Back shoulder plate -->
+  <rect x="3" y="24" width="16" height="3" rx="1.5" fill="#ffffff" opacity="0.15"/>
+</svg>

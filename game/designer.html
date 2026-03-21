@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RogueTech.X — Equipment Catalog</title>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #e6edf3; --text-dim: #8b949e;
+    --red: #f85149; --green: #3fb950; --blue: #58a6ff;
+    --yellow: #d29922; --purple: #bc8cff; --orange: #f0883e;
+    --cyan: #39d2c0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Consolas', 'Monaco', monospace; background: var(--bg); color: var(--text); padding: 20px 24px; }
+  header { margin-bottom: 16px; }
+  h1 { font-size: 18px; font-weight: 700; }
+  h1 span { color: var(--text-dim); font-size: 12px; font-weight: 400; margin-left: 8px; }
+  h2 { font-size: 13px; font-weight: 700; letter-spacing: 0.05em; margin: 20px 0 8px; text-transform: uppercase; }
+
+  /* Family rows */
+  .family-rows { margin-bottom: 16px; }
+  .family-row { display: flex; gap: 0; margin-bottom: 4px; }
+  .family-label {
+    padding: 6px 10px; font-size: 10px; font-weight: 700; color: #fff;
+    border: 1px solid; display: flex; align-items: center; border-radius: 4px 0 0 4px;
+    min-width: 70px; justify-content: center;
+  }
+  .family-row button {
+    background: var(--bg); border: 1px solid var(--border); color: var(--text-dim);
+    padding: 6px 14px; cursor: pointer; font-family: inherit; font-size: 11px; font-weight: 600;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .family-row button:last-child { border-radius: 0 4px 4px 0; }
+  .family-row button.active { background: var(--surface); color: var(--text); border-color: var(--blue); }
+  .family-row button .count { font-size: 9px; color: var(--text-dim); }
+
+  /* Equipment table */
+  .eq-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .eq-table th {
+    background: var(--surface); color: var(--text-dim); text-align: left;
+    padding: 6px 8px; border-bottom: 2px solid var(--border); font-weight: 600;
+    letter-spacing: 0.03em; text-transform: uppercase; font-size: 10px;
+    position: sticky; top: 0; z-index: 1; cursor: pointer; user-select: none;
+  }
+  .eq-table th:hover { color: var(--text); }
+  .eq-table td { padding: 5px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .eq-table tr:hover td { background: rgba(88,166,255,0.04); }
+  .eq-table .name-cell { font-weight: 600; color: var(--text); white-space: nowrap; }
+  .eq-table .dim { color: var(--text-dim); }
+  .eq-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .eq-table .positive { color: var(--green); }
+  .eq-table .negative { color: var(--red); }
+  .eq-table .neutral { color: var(--text-dim); }
+  .eq-table .role-cell { color: var(--text-dim); font-size: 10px; max-width: 250px; }
+  .eq-table .wip { color: var(--orange); font-size: 9px; }
+
+  /* Bonus pills */
+  .bonus-pill {
+    display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px;
+    margin: 1px 2px; white-space: nowrap;
+  }
+  .bonus-pill.pos { background: rgba(63,185,80,0.12); color: var(--green); border: 1px solid rgba(63,185,80,0.2); }
+  .bonus-pill.neg { background: rgba(248,81,73,0.12); color: var(--red); border: 1px solid rgba(248,81,73,0.2); }
+  .bonus-pill.neu { background: rgba(139,148,158,0.12); color: var(--text-dim); border: 1px solid rgba(139,148,158,0.2); }
+
+  /* Category header */
+  .cat-header {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+    padding: 12px 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;
+  }
+  .cat-header .cat-icon { width: 32px; height: 32px; }
+  .cat-header .cat-label { font-size: 16px; font-weight: 700; }
+  .cat-header .cat-role { font-size: 11px; color: var(--text-dim); }
+  .cat-header .save-btn {
+    margin-left: auto; background: var(--green); color: #000; border: none;
+    padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: inherit;
+    font-size: 11px; font-weight: 600;
+  }
+  .cat-header .save-status { font-size: 10px; color: var(--green); margin-left: 8px; }
+
+  .loading { color: var(--text-dim); font-size: 12px; padding: 40px; text-align: center; }
+  .icon-img { width: 20px; height: 20px; vertical-align: middle; margin-right: 6px; }
+
+  /* Mode tabs */
+  .mode-tabs { display: flex; gap: 0; margin-bottom: 16px; }
+  .mode-tabs button {
+    background: var(--bg); border: 1px solid var(--border); color: var(--text-dim);
+    padding: 8px 20px; cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 700;
+  }
+  .mode-tabs button:first-child { border-radius: 4px 0 0 4px; }
+  .mode-tabs button:last-child { border-radius: 0 4px 4px 0; }
+  .mode-tabs button.active { background: var(--surface); color: var(--text); border-color: var(--blue); }
+
+  /* Modular designer */
+  .designer-split { display: grid; grid-template-columns: 1fr 1fr; gap: 0; height: calc(100vh - 120px); }
+  .designer-left-scroll { overflow-y: auto; padding: 0 12px 12px 0; border-right: 1px solid var(--border); }
+  .designer-right-scroll { overflow-y: auto; padding: 0 0 12px 12px; }
+  .designer { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .designer-panel {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 12px;
+    margin-bottom: 8px;
+  }
+  .designer-panel h3 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0; color: var(--text-dim); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+  .designer-panel h3:hover { color: var(--text); }
+  .designer-panel h3 .toggle { font-size: 10px; color: var(--text-dim); }
+  .designer-panel .panel-body { margin-top: 8px; }
+  .designer-panel .panel-body.collapsed { display: none; }
+  .designer-select {
+    width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    padding: 6px 8px; border-radius: 4px; font-family: inherit; font-size: 11px; margin-bottom: 8px;
+  }
+  .designer-stat { display: flex; justify-content: space-between; font-size: 11px; padding: 3px 0; border-bottom: 1px solid var(--border); }
+  .designer-stat .lbl { color: var(--text-dim); }
+  .tonnage-bar { height: 20px; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; margin: 8px 0; overflow: hidden; position: relative; }
+  .tonnage-bar .fill { height: 100%; transition: width 0.2s; }
+  .tonnage-bar .label { position: absolute; top: 0; left: 0; right: 0; text-align: center; font-size: 10px; line-height: 20px; color: var(--text); font-weight: 600; }
+  .summary-card {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 12px; margin-top: 12px;
+  }
+  .summary-card h3 { font-size: 14px; margin-bottom: 8px; }
+  .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .summary-stat { text-align: center; padding: 6px; background: var(--surface); border-radius: 4px; }
+  .summary-stat .val { font-size: 16px; font-weight: 700; }
+  .summary-stat .lbl { font-size: 9px; color: var(--text-dim); text-transform: uppercase; }
+  .bottleneck { color: var(--red); font-weight: 700; }
+
+  /* Card picker */
+  .card-picker { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .pick-card {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 4px;
+    padding: 8px 10px; cursor: pointer; min-width: 100px; max-width: 160px;
+    font-family: inherit; font-size: 10px; color: var(--text-dim);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .pick-card:hover { border-color: var(--blue); background: rgba(88,166,255,0.04); }
+  .pick-card.selected { border-color: var(--blue); background: rgba(88,166,255,0.08); color: var(--text); }
+  .pick-card .pc-name { font-weight: 700; font-size: 11px; color: var(--text); margin-bottom: 2px; display: flex; align-items: center; gap: 4px; }
+  .pick-card .pc-role { font-size: 9px; color: var(--text-dim); line-height: 1.3; }
+  .pick-card .pc-stat { font-size: 9px; color: var(--cyan); margin-top: 3px; }
+
+  /* Machine visualizer */
+  .machine-layout { margin-bottom: 16px; }
+  .machine-grid {
+    display: grid;
+    gap: 4px;
+    justify-items: stretch;
+    align-items: start;
+  }
+  .machine-row { display: flex; gap: 4px; justify-content: center; }
+  .loc-panel {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
+    min-width: 140px; max-width: 180px; font-size: 10px;
+  }
+  .loc-header {
+    padding: 4px 8px; font-weight: 700; font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.05em; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .loc-header .loc-hp { font-size: 9px; font-weight: 400; }
+  .loc-bars { padding: 4px 8px; }
+  .hp-bar { height: 8px; border-radius: 2px; margin-bottom: 3px; position: relative; overflow: hidden; }
+  .hp-bar .hp-fill { height: 100%; border-radius: 2px; }
+  .hp-bar .hp-label { position: absolute; top: 0; left: 4px; font-size: 7px; line-height: 8px; color: #fff; font-weight: 600; }
+  .loc-slots { padding: 4px 8px; border-top: 1px solid var(--border); }
+  .loc-slot {
+    padding: 2px 6px; margin-bottom: 2px; border-radius: 2px; font-size: 9px;
+    border: 1px solid var(--border); color: var(--text-dim); background: var(--bg);
+  }
+  .loc-slot.filled { color: var(--text); border-color: var(--blue); }
+  .loc-slot.system { border-color: var(--cyan); color: var(--cyan); }
+  .loc-slot.empty { border-style: dashed; }
+  .loc-equipment { padding: 4px 8px; font-size: 9px; color: var(--text-dim); border-top: 1px solid var(--border); }
+  .loc-equipment .eq-item { padding: 2px 0; display: flex; justify-content: space-between; }
+
+  /* Designer two-panel */
+  .designer-main { display: grid; grid-template-columns: 1fr 320px; gap: 16px; }
+  .designer-left { }
+  .designer-right { }
+</style>
+</head>
+<body>
+
+<header>
+  <div style="margin-bottom:8px"><a href="index.html" style="color:var(--text-dim);text-decoration:none;font-size:11px">← Back to X</a></div>
+  <h1>Machine Designer <span>build modular machines</span></h1>
+  <div style="font-size:10px;color:var(--text-dim);margin-top:8px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:4px;line-height:1.6">
+    <strong style="color:var(--text)">Design Baselines:</strong>
+    <span style="color:var(--cyan)">No hardpoint types</span> — any weapon fits any slot. Build variety comes from <strong>tonnage</strong> (weight budget), <strong>slots</strong> (space per location), and <strong>soft bonuses/penalties</strong> from attachments.
+    Arms/turrets/mounts give accuracy, recoil, arc, and melee bonuses — not hard weapon locks.
+    Constraints: <strong>MaxTonnage</strong> = min(Locomotion carry, Core power, Stabilizer load). <strong>Weapons</strong> cost tonnage + slots. <strong>Armor</strong> costs tonnage, distributed front/rear per location.
+  </div>
+</header>
+
+<div id="catalogView" style="display:none"></div>
+
+<div id="designerView" style="display:none"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+
+let STRUCT_DATA = {};
+let EQUIP_DATA = {};
+let DATA = {};  // points to whichever is active
+let currentMode = 'structure';
+let currentGroup = '';
+let currentCat = '';
+let sortCol = null;
+let sortAsc = true;
+
+// ═══════════════════════════════════════════
+// DATA LOADING
+// ═══════════════════════════════════════════
+
+async function loadData() {
+  // Hardcoded data - no server needed
+  STRUCT_DATA = {"command": {"label": "Command", "color": "#58a6ff", "families": {"head": {"color": "#58a6ff", "label": "Head", "role": "Elevated command module \u2014 own location, eject capable, good sensors", "family": "command", "icon": "cockpit", "baseStats": {"Tonnage": 1, "CommandSlots": 2, "InternalsHP": 15, "FrontArmorHP": 20, "RearArmorHP": 10}, "designNotes": "Head creates a separate targetable location with its own slots for command systems (capsule, targeting, survival module). Elevated position gives sensor bonus and line-of-sight advantage. Pilot can eject. Downside: headshots can kill the pilot directly.", "items": {"standard": {"label": "Standard Head", "role": "Balanced \u2014 2 command slots, eject capable", "Tonnage": 1, "CommandSlots": 2, "bonuses": {"SensorRange": 5, "EjectCapable": 1, "LineOfSight": 1}, "InternalsHP": 15, "FrontArmorHP": 20, "RearArmorHP": 10}, "armored": {"label": "Armored Head", "role": "Heavy \u2014 harder to headshot, 2 command slots", "Tonnage": 2, "CommandSlots": 2, "bonuses": {"PilotProtection": 20, "EjectCapable": 1, "LineOfSight": 1}, "implementation": "Not yet in game data", "InternalsHP": 30, "FrontArmorHP": 40, "RearArmorHP": 20}, "sensor_head": {"label": "Sensor Head", "role": "Best sensors, fragile, 3 command slots", "Tonnage": 1, "CommandSlots": 3, "bonuses": {"Accuracy": 5, "SensorRange": 15, "EjectCapable": 1, "LineOfSight": 1}, "implementation": "Not yet in game data", "InternalsHP": 8, "FrontArmorHP": 10, "RearArmorHP": 6}, "reinforced": {"label": "Reinforced Head", "role": "Heaviest \u2014 crit-proof, protects capsule", "Tonnage": 2.5, "CommandSlots": 2, "bonuses": {"PilotProtection": 30, "CritResistance": 20, "EjectCapable": 1, "LineOfSight": 1}, "implementation": "Not yet in game data", "InternalsHP": 40, "FrontArmorHP": 53, "RearArmorHP": 27}}}, "inhull": {"color": "#3fb950", "label": "In-Hull", "role": "Pilot inside the hull \u2014 best protection, no own slots, can't eject", "family": "command", "icon": "cockpit", "baseStats": {"Tonnage": 0, "CommandSlots": 0}, "designNotes": "In-hull command has no separate location \u2014 pilot sits inside the main hull. No headshot vulnerability, lightest option. But command systems (capsule, targeting, survival module) must go into hull slots, competing with weapons and equipment. Pilot cannot eject.", "items": {"basic_cabin": {"label": "Basic Cabin", "role": "Minimal \u2014 no weight, no extras, systems use hull slots", "Tonnage": 0, "CommandSlots": 0, "bonuses": {}}, "armored_cabin": {"label": "Armored Cabin", "role": "Reinforced pilot position inside hull", "Tonnage": 1, "CommandSlots": 0, "bonuses": {"PilotProtection": 25}, "implementation": "Not yet in game data"}, "command_station": {"label": "Command Station", "role": "Full command center \u2014 lance buffs, but heavy", "Tonnage": 2, "CommandSlots": 0, "bonuses": {"SensorRange": 10, "LanceAccuracy": 5}, "implementation": "Not yet in game data"}, "drone_bay": {"label": "Drone Controller Bay", "role": "No pilot \u2014 remote controlled, no risk", "Tonnage": 0.5, "CommandSlots": 0, "bonuses": {"PilotRisk": 0, "Accuracy": -10}, "implementation": "Not yet in game data"}}}, "turret": {"color": "#f0883e", "label": "Turret Command", "role": "Pilot in a rotating turret \u2014 360\u00b0 awareness, weapon slots, exposed", "family": "command", "icon": "cockpit", "baseStats": {"Tonnage": 1.5, "WeaponSlots": 1, "CommandSlots": 1, "InternalsHP": 20, "FrontArmorHP": 26, "RearArmorHP": 14}, "designNotes": "Turret command modules put the pilot in a rotating cupola on top of the hull. Full 360\u00b0 sensor coverage and can mount weapons with full rotation. Heaviest command option but adds firepower. The turret is exposed and targetable \u2014 destroying it kills sensors AND weapons mounted in it.", "items": {"cupola": {"label": "Command Cupola", "role": "Light turret \u2014 360\u00b0 awareness, 1 weapon slot", "Tonnage": 1.5, "WeaponSlots": 1, "bonuses": {"SensorRange": 10, "FiringArc": 360}, "implementation": "Not yet in game data", "CommandSlots": 1, "InternalsHP": 20, "FrontArmorHP": 26, "RearArmorHP": 14}, "armored_cupola": {"label": "Armored Cupola", "role": "Heavy turret \u2014 protected, 1 weapon slot", "Tonnage": 3, "WeaponSlots": 1, "bonuses": {"SensorRange": 10, "FiringArc": 360, "PilotProtection": 15}, "implementation": "Not yet in game data", "CommandSlots": 1, "InternalsHP": 35, "FrontArmorHP": 46, "RearArmorHP": 24}, "gun_turret": {"label": "Gun Turret", "role": "Full weapon turret \u2014 2 weapon slots, 360\u00b0 fire", "Tonnage": 4, "WeaponSlots": 2, "bonuses": {"SensorRange": 5, "FiringArc": 360}, "implementation": "Not yet in game data", "CommandSlots": 1, "InternalsHP": 25, "FrontArmorHP": 33, "RearArmorHP": 17}, "heavy_gun_turret": {"label": "Heavy Gun Turret", "role": "Assault turret \u2014 3 weapon slots, heavy, slow rotation", "Tonnage": 6, "WeaponSlots": 3, "bonuses": {"FiringArc": 360, "TurretRotationSpeed": -20}, "implementation": "Not yet in game data", "CommandSlots": 1, "InternalsHP": 40, "FrontArmorHP": 53, "RearArmorHP": 27}, "open_turret": {"label": "Open Turret", "role": "Unarmored \u2014 best sensors, 1 weapon slot, very fragile", "Tonnage": 1, "WeaponSlots": 1, "bonuses": {"SensorRange": 20, "FiringArc": 360, "Accuracy": 5}, "implementation": "Not yet in game data", "CommandSlots": 1, "InternalsHP": 10, "FrontArmorHP": 13, "RearArmorHP": 7}}}}}, "locomotion": {"label": "Locomotion", "color": "#3fb950", "families": {"bipedal": {"color": "#3fb950", "label": "Bipedal", "role": "Bipedal locomotion system", "family": "locomotion", "icon": "leg", "baseStats": {"Tonnage": 0, "InventorySlots": 0}, "items": {"biped": {"label": "Bipedal Walker", "role": "Standard mech legs \u2014 versatile, can melee", "bonuses": {"MeleeCapable": 1, "TerrainHandling": 1}, "MaxCarry": 65, "subgroup": "bipedal", "LegArmorHP": 40, "LegInternalsHP": 20, "LegSlots": 2, "HasLegs": true, "LocoType": "bipedal"}, "biped_light": {"label": "Light Bipedal Walker", "role": "Stripped legs \u2014 faster, less stable", "bonuses": {"MeleeCapable": 1, "MovementSpeed": 10, "StabilityThreshold": -5}, "implementation": "Not yet in game data", "MaxCarry": 45, "subgroup": "bipedal", "LegArmorHP": 25, "LegInternalsHP": 12, "LegSlots": 1, "HasLegs": true, "LocoType": "bipedal"}, "biped_reinforced": {"label": "Reinforced Bipedal Walker", "role": "Hardened legs \u2014 slower, harder to cripple", "bonuses": {"MeleeCapable": 1, "LegStructureHP": 15, "MovementSpeed": -5}, "implementation": "Not yet in game data", "MaxCarry": 75, "subgroup": "bipedal", "LegArmorHP": 60, "LegInternalsHP": 30, "LegSlots": 2, "HasLegs": true, "LocoType": "bipedal"}, "biped_thruster": {"label": "Thruster Walker", "role": "Bipedal with built-in jump capability", "Tonnage": 1, "bonuses": {"MeleeCapable": 1, "JumpCapable": 1, "JumpDistance": 15}, "implementation": "Not yet in game data", "MaxCarry": 60, "subgroup": "bipedal", "LegArmorHP": 35, "LegInternalsHP": 18, "LegSlots": 3, "HasLegs": true, "LocoType": "bipedal"}}}, "flying": {"color": "#bc8cff", "label": "Flying", "role": "Flying locomotion system", "family": "locomotion", "icon": "leg", "baseStats": {"Tonnage": 0, "InventorySlots": 0}, "items": {"vtol": {"label": "VTOL Rotor", "role": "Vertical takeoff \u2014 flies over terrain, very fragile", "subgroup": "flying", "bonuses": {"TerrainPenaltyIgnore": 1, "MovementSpeed": 20, "StabilityThreshold": -15, "MeleeCapable": 0}, "MaxCarry": 30, "implementation": "Not yet in game data", "HasLegs": false, "LocoType": "flying", "RotorArmorHP": 10, "RotorInternalsHP": 8, "RotorSlots": 0}}}, "hover": {"color": "#39d2c0", "label": "Hover", "role": "Hover locomotion system", "family": "locomotion", "icon": "leg", "baseStats": {"Tonnage": 0, "InventorySlots": 0}, "items": {"hover": {"label": "Hover Drive", "role": "Ignores terrain \u2014 fast and agile, fragile", "bonuses": {"MovementSpeed": 15, "TerrainPenaltyIgnore": 1, "Evasion": 1, "StabilityThreshold": -10, "MeleeCapable": 0, "JumpCapable": 0}, "implementation": "Not yet in game data", "MaxCarry": 35, "subgroup": "hover", "HasLegs": false, "LocoType": "hover", "HoverArmorHP": 20, "HoverInternalsHP": 15, "HoverSlots": 1}}}, "quad": {"color": "#d29922", "label": "Quad", "role": "Quad locomotion system", "family": "locomotion", "icon": "leg", "baseStats": {"Tonnage": 0, "InventorySlots": 0}, "items": {"quad": {"label": "Quad Walker", "role": "Four-legged \u2014 very stable, no arm weapons", "bonuses": {"MeleeCapable": 1, "StabilityThreshold": 15, "ArmHardpoints": 0, "MovementSpeed": 5}, "implementation": "Not yet in game data", "MaxCarry": 70, "subgroup": "quad", "HasLegs": false, "LocoType": "quad", "LegArmorHP": 30, "LegInternalsHP": 15, "LegSlots": 1, "LegCount": 4}}}, "tracked": {"color": "#f0883e", "label": "Tracked", "role": "Tracked locomotion system", "family": "locomotion", "icon": "leg", "baseStats": {"Tonnage": 0, "InventorySlots": 0}, "items": {"tracked": {"label": "Tracked Drive", "role": "Tank treads \u2014 high stability, no melee, can't jump", "bonuses": {"StabilityThreshold": 20, "Recoil": -1, "MovementSpeed": -10, "MeleeCapable": 0, "JumpCapable": 0}, "implementation": "Not yet in game data", "MaxCarry": 80, "subgroup": "tracked", "HasLegs": false, "LocoType": "tracked", "TrackArmorHP": 35, "TrackInternalsHP": 18, "TrackSlots": 1, "TrackCount": 2}, "tracked_heavy": {"label": "Heavy Tracked Drive", "role": "Assault platform \u2014 very stable, very slow", "Tonnage": 1, "bonuses": {"StabilityThreshold": 40, "Recoil": -2, "MovementSpeed": -20, "MeleeCapable": 0, "JumpCapable": 0}, "implementation": "Not yet in game data", "MaxCarry": 100, "subgroup": "tracked", "HasLegs": false, "LocoType": "tracked", "TrackArmorHP": 50, "TrackInternalsHP": 25, "TrackSlots": 2, "TrackCount": 2}}}, "wheeled": {"color": "#58a6ff", "label": "Wheeled", "role": "Wheeled locomotion system", "family": "locomotion", "icon": "leg", "baseStats": {"Tonnage": 0, "InventorySlots": 0}, "items": {"wheeled": {"label": "Wheeled Drive", "role": "Fast on roads, poor off-road, no melee", "bonuses": {"MovementSpeed": 25, "RoadSpeedBonus": 20, "OffRoadPenalty": 30, "MeleeCapable": 0, "JumpCapable": 0}, "implementation": "Not yet in game data", "MaxCarry": 40, "subgroup": "wheeled", "HasLegs": false, "LocoType": "wheeled", "WheelArmorHP": 15, "WheelInternalsHP": 8, "WheelSlots": 0, "WheelCount": 6}}}}}, "sections": {"label": "Sections", "color": "#6e7681", "families": {"arms": {"color": "#d29922", "label": "Arms", "role": "Upper limb function \u2014 weapon handling, melee, and utility", "family": "sections", "icon": "arm", "baseStats": {"Tonnage": 0, "InventorySlots": 0}, "items": {"standard": {"label": "Standard Arm", "role": "Baseline \u2014 balanced handling and melee", "bonuses": {}, "Slots": 2, "ArmorHP": 20, "InternalsHP": 10}, "weapon_platform": {"label": "Weapon Platform Arm", "role": "Extra weapon slot but no melee capability", "bonuses": {"ArmSlots": 1, "MeleeDisabled": 1}, "implementation": "Not yet in game data", "Slots": 3, "ArmorHP": 15, "InternalsHP": 8}, "brawler": {"label": "Brawler Arm", "role": "Built for close combat \u2014 punch harder and more often", "bonuses": {"MeleeDamage": 20, "MeleeAccuracy": 10}, "implementation": "Not yet in game data", "Slots": 1, "ArmorHP": 25, "InternalsHP": 12}, "reinforced": {"label": "Reinforced Arm", "role": "Hardened \u2014 protects mounted weapons from crits", "Tonnage": 0.5, "bonuses": {"WeaponCritProtection": 25}, "implementation": "Not yet in game data", "Slots": 2, "ArmorHP": 30, "InternalsHP": 15}, "salvage": {"label": "Salvage Arm", "role": "Utility arm \u2014 better loot from kills, worse aim", "bonuses": {"SalvageChance": 10, "ArmAccuracy": -5}, "implementation": "Not yet in game data", "Slots": 2, "ArmorHP": 15, "InternalsHP": 8}, "light": {"label": "Light Arm", "role": "Stripped down \u2014 faster twist, less durable", "bonuses": {"TorsoTwistSpeed": 10, "ArmStructureHP": -15}, "implementation": "Not yet in game data", "Slots": 1, "ArmorHP": 10, "InternalsHP": 5}}}, "compartment": {"color": "#8b949e", "label": "Compartment", "role": "Compartment \u2014 structural section", "family": "sections", "icon": "structure", "baseStats": {}, "items": {"standard_section": {"label": "Standard Section", "role": "General purpose side compartment", "Tonnage": 0, "Slots": 4, "bonuses": {}, "implementation": "Not yet in game data", "subgroup": "compartment", "InternalsHP": 30, "FrontArmorHP": 40, "RearArmorHP": 20}, "armored_section": {"label": "Armored Section", "role": "Heavy side compartment \u2014 more HP, fewer slots", "Tonnage": 2, "Slots": 3, "bonuses": {"CritResistance": 15}, "implementation": "Not yet in game data", "subgroup": "compartment", "InternalsHP": 50, "FrontArmorHP": 67, "RearArmorHP": 33}, "weapon_bay": {"label": "Weapon Bay", "role": "Extra weapon slots \u2014 built to hold firepower", "Tonnage": 1.5, "Slots": 6, "bonuses": {}, "implementation": "Not yet in game data", "subgroup": "compartment", "InternalsHP": 25, "FrontArmorHP": 33, "RearArmorHP": 17}, "reactor_bay": {"label": "Reactor Bay", "role": "Houses reactor overflow \u2014 for exposed cores and extra radiators", "Tonnage": 1, "Slots": 3, "bonuses": {"ReactorSlots": 3}, "implementation": "Not yet in game data", "subgroup": "compartment", "InternalsHP": 20, "FrontArmorHP": 26, "RearArmorHP": 14}, "cargo_section": {"label": "Cargo Section", "role": "Salvage and supply storage \u2014 expedition utility", "Tonnage": 1, "Slots": 2, "bonuses": {"SalvageCapacity": 2, "SupplyCapacity": 1}, "implementation": "Not yet in game data", "subgroup": "compartment", "InternalsHP": 20, "FrontArmorHP": 26, "RearArmorHP": 14}, "ammo_bunker": {"label": "Ammo Bunker", "role": "Reinforced ammo storage \u2014 explosion-contained", "Tonnage": 1.5, "Slots": 4, "bonuses": {"ExplosionContainment": 1}, "implementation": "Not yet in game data", "subgroup": "compartment", "InternalsHP": 25, "FrontArmorHP": 33, "RearArmorHP": 17}, "light_section": {"label": "Light Section", "role": "Minimal side compartment \u2014 cheap and fragile", "Tonnage": 0.5, "Slots": 2, "bonuses": {}, "implementation": "Not yet in game data", "subgroup": "compartment", "InternalsHP": 15, "FrontArmorHP": 20, "RearArmorHP": 10}}}, "hull": {"color": "#6e7681", "label": "Hull", "role": "Frame shape \u2014 defines center compartment and side location slots", "family": "sections", "icon": "structure", "baseStats": {}, "designNotes": "The hull defines the physical frame. It always has a center compartment (built-in) with its own slots, armor, and internals. Side locations are empty slots where you install compartments. A 1-location hull has only center. A 3-location hull has center + left + right. A 5-location hull has center + 2 left + 2 right.", "items": {"light_hull": {"label": "Light Hull", "role": "Single section \u2014 fast, cheap, fragile. 20-35t.", "subgroup": "hull", "Locations": 1, "CenterSlots": 4, "CenterInternalsHP": 40, "SideSlots": 0, "bonuses": {"MovementSpeed": 10}, "implementation": "Not yet in game data", "CenterFrontArmorHP": 53, "CenterRearArmorHP": 27, "SideSections": 0}, "medium_hull": {"label": "Medium Hull", "role": "Standard 3-section. 35-55t.", "subgroup": "hull", "Locations": 3, "CenterSlots": 6, "CenterInternalsHP": 60, "SideSlots": 4, "SideInternalsHP": 40, "bonuses": {}, "implementation": "Not yet in game data", "CenterFrontArmorHP": 80, "CenterRearArmorHP": 40, "SideFrontArmorHP": 53, "SideRearArmorHP": 27, "SideSections": 1}, "heavy_hull": {"label": "Heavy Hull", "role": "Reinforced 3-section. 55-80t.", "subgroup": "hull", "Locations": 3, "CenterSlots": 8, "CenterInternalsHP": 90, "SideSlots": 6, "SideInternalsHP": 60, "bonuses": {}, "implementation": "Not yet in game data", "CenterFrontArmorHP": 120, "CenterRearArmorHP": 60, "SideFrontArmorHP": 80, "SideRearArmorHP": 40, "SideSections": 1}, "assault_hull": {"label": "Assault Hull", "role": "Massive 3-section. 80-100t.", "subgroup": "hull", "Locations": 3, "CenterSlots": 10, "CenterInternalsHP": 120, "SideSlots": 8, "SideInternalsHP": 80, "bonuses": {"MovementSpeed": -10}, "implementation": "Not yet in game data", "CenterFrontArmorHP": 160, "CenterRearArmorHP": 80, "SideFrontArmorHP": 107, "SideRearArmorHP": 53, "SideSections": 2}, "compact_hull": {"label": "Compact Hull", "role": "Single dense section \u2014 small but lots of slots. 20-40t.", "subgroup": "hull", "Locations": 1, "CenterSlots": 6, "CenterInternalsHP": 50, "SideSlots": 0, "bonuses": {"CritVulnerability": 15}, "implementation": "Not yet in game data", "CenterFrontArmorHP": 67, "CenterRearArmorHP": 33, "SideSections": 0}, "wide_hull": {"label": "Wide Hull", "role": "5-section \u2014 more locations for spreading damage. 50-75t.", "subgroup": "hull", "Locations": 5, "CenterSlots": 6, "CenterInternalsHP": 55, "SideSlots": 4, "SideInternalsHP": 35, "bonuses": {"DamageSpread": 1}, "implementation": "Not yet in game data", "CenterFrontArmorHP": 73, "CenterRearArmorHP": 37, "SideFrontArmorHP": 46, "SideRearArmorHP": 24, "SideSections": 2}}}, "mount": {"color": "#58a6ff", "label": "Weapon Mount", "role": "Weapon Mount \u2014 structural section", "family": "sections", "icon": "targeting", "baseStats": {}, "items": {"fixed": {"label": "Fixed Mount", "role": "Forward-facing only \u2014 lightest, no rotation", "Tonnage": 0, "InventorySlots": 0, "FiringArc": 45, "bonuses": {"Accuracy": 5}, "implementation": "Not yet in game data", "subgroup": "mount", "Slots": 1, "ArmorHP": 10, "InternalsHP": 5}, "arm_mount": {"label": "Arm Mount", "role": "Standard bipedal arm weapon \u2014 follows torso twist", "Tonnage": 0, "InventorySlots": 0, "FiringArc": 90, "bonuses": {}, "subgroup": "mount", "Slots": 1, "ArmorHP": 20, "InternalsHP": 10}, "turret_light": {"label": "Light Turret", "role": "180\u00b0 rotation \u2014 versatile but costs weight", "Tonnage": 1, "InventorySlots": 1, "FiringArc": 180, "Hardpoints": 1, "bonuses": {}, "implementation": "Not yet in game data", "subgroup": "mount", "Slots": 2, "ArmorHP": 20, "InternalsHP": 10}, "turret_heavy": {"label": "Heavy Turret", "role": "360\u00b0 rotation, 2 hardpoints \u2014 full coverage", "Tonnage": 2, "InventorySlots": 2, "FiringArc": 360, "Hardpoints": 2, "bonuses": {"Recoil": 1}, "implementation": "Not yet in game data", "subgroup": "mount", "Slots": 3, "ArmorHP": 30, "InternalsHP": 15}, "dorsal_mount": {"label": "Dorsal Mount", "role": "Top-mounted \u2014 270\u00b0 arc, good for indirect fire", "Tonnage": 1, "InventorySlots": 1, "FiringArc": 270, "Hardpoints": 1, "bonuses": {"IndirectFireBonus": 10}, "implementation": "Not yet in game data", "subgroup": "mount", "Slots": 2, "ArmorHP": 15, "InternalsHP": 8}, "sponson": {"label": "Sponson Mount", "role": "Side-mounted pair \u2014 one per side, limited arc", "Tonnage": 0.5, "InventorySlots": 1, "FiringArc": 120, "Hardpoints": 1, "bonuses": {}, "implementation": "Not yet in game data", "subgroup": "mount", "Slots": 2, "ArmorHP": 15, "InternalsHP": 8}, "missile_rack": {"label": "Missile Rack", "role": "Top-mounted missile launcher \u2014 indirect fire, 270\u00b0 arc", "Tonnage": 1.5, "InventorySlots": 1, "FiringArc": 270, "Hardpoints": 2, "Slots": 3, "bonuses": {"IndirectFireBonus": 15}, "subgroup": "mount", "implementation": "Not yet in game data", "ArmorHP": 15, "InternalsHP": 8}}}}}};
+  EQUIP_DATA = {"chassis": {"label": "Chassis", "color": "#bc8cff", "families": {"armor": {"color": "#bc8cff", "label": "Armor", "role": "Damage absorption and resistance specialization", "family": "chassis", "icon": "armor_standard", "baseStats": {"WeightFactor": 1, "ArmorMultiplier": 1, "Tonnage": 0, "InventorySlots": 0}, "items": {"composite_plating": {"label": "Composite Plating", "role": "Baseline \u2014 no tradeoffs", "WeightFactor": 1, "bonuses": {}, "icon": "armor_standard"}, "woven_carbide": {"label": "Woven Carbide", "role": "Lighter armor with minor damage reduction", "WeightFactor": 0.85, "bonuses": {"DamageReduction": 0.05}, "icon": "armor_woven"}, "layered_composite": {"label": "Layered Composite", "role": "Heavy tank \u2014 more armor HP but slower", "WeightFactor": 1.5, "ArmorMultiplier": 1.5, "bonuses": {"Speed": -0.15}, "icon": "armor_layered"}, "ablative_mesh": {"label": "Ablative Mesh", "role": "Anti-missile specialist", "WeightFactor": 1, "bonuses": {"MissileDamageReduction": 0.4}, "icon": "armor_ablative"}, "prismatic_coating": {"label": "Prismatic Coating", "role": "Anti-energy but ballistic-vulnerable", "WeightFactor": 1, "bonuses": {"EnergyDamageReduction": 0.4, "BallisticDamageReduction": -0.3}, "icon": "armor_prismatic"}, "scrap_patchwork": {"label": "Scrap Patchwork", "role": "Cheap and light but fragile", "WeightFactor": 0.7, "bonuses": {"DamageReduction": -0.1}, "icon": "armor_scrap"}, "reactive_plating": {"label": "Reactive Plating", "role": "Anti-missile and AoE, weak to AP", "WeightFactor": 1.1, "bonuses": {"MissileDamageReduction": 0.5, "AoEDamageReduction": 0.5}, "implementation": "Not yet in game data", "icon": "armor_standard"}, "reflective_coating": {"label": "Reflective Coating", "role": "Anti-energy but melee-vulnerable", "WeightFactor": 1.1, "bonuses": {"EnergyDamageReduction": 0.5, "MeleeDamageTaken": 0.5}, "implementation": "Not yet in game data", "icon": "armor_prismatic"}, "hardened": {"label": "Hardened Plating", "role": "AP-immune heavy armor, reduces speed", "WeightFactor": 2, "ArmorMultiplier": 2, "bonuses": {"Speed": -0.2, "APImmunity": 1}, "implementation": "Not yet in game data", "icon": "armor_layered"}, "stealth": {"label": "Stealth Coating", "role": "Reduces visibility and sensor signature", "WeightFactor": 1, "InventorySlots": 2, "bonuses": {"SensorSignature": -0.15, "Visibility": -0.15}, "implementation": "Not yet in game data", "icon": "armor_standard"}}}, "armormod": {"color": "#8b949e", "label": "Armor Mods", "role": "Bolt-on protection \u2014 location-specific upgrades", "family": "chassis", "icon": "armor_standard", "baseStats": {"Tonnage": 0.5, "InventorySlots": 1}, "items": {"plating_light": {"label": "Bolt-On Plating (Light)", "role": "Extra armor to one location", "Tonnage": 0.25, "InventorySlots": 1, "bonuses": {"LocationArmor": 18}, "implementation": "Not yet in game data"}, "plating_heavy": {"label": "Bolt-On Plating (Heavy)", "role": "More armor, more weight", "Tonnage": 0.5, "InventorySlots": 1, "bonuses": {"LocationArmor": 36}, "implementation": "Not yet in game data"}, "spall_liner": {"label": "Spall Liner", "role": "Reduces crit chance and splash damage to location", "Tonnage": 0.5, "InventorySlots": 1, "bonuses": {"CritResistance": 10, "AoEDamageReduction": 5}, "implementation": "Not yet in game data"}, "blast_shield": {"label": "Blast Shield", "role": "Contains internal explosions \u2014 ammo detonation stays in location", "Tonnage": 0.5, "InventorySlots": 1, "bonuses": {"ExplosionContainment": 1}, "implementation": "Not yet in game data"}, "impact_padding": {"label": "Impact Padding", "role": "Reduces melee and DFA damage to location", "Tonnage": 0.5, "InventorySlots": 1, "bonuses": {"MeleeDamageReduction": 30, "DFADamageReduction": 20}, "implementation": "Not yet in game data"}, "heat_shielding": {"label": "Heat Shielding", "role": "Reduces energy weapon damage to location", "Tonnage": 0.5, "InventorySlots": 1, "bonuses": {"EnergyDamageReduction": 25}, "implementation": "Not yet in game data"}, "bulkhead": {"label": "Bulkhead", "role": "Blocks explosion propagation from this location to adjacent", "Tonnage": 1, "InventorySlots": 1, "bonuses": {"ExplosionPropagationBlock": 1}, "implementation": "Not yet in game data"}, "blast_dampener": {"label": "Blast Dampener", "role": "Reduces internal explosion damage by 50% in this location", "Tonnage": 0.5, "InventorySlots": 1, "bonuses": {"InternalExplosionReduction": 50}, "implementation": "Not yet in game data"}}}, "structure": {"color": "#58a6ff", "label": "Internals", "role": "Internal electronics layout \u2014 compactness vs durability", "family": "chassis", "icon": "structure", "baseStats": {"InternalsWeight": 1.0, "Tonnage": 0, "InventorySlots": 0}, "items": {"standard": {"label": "Standard Internals", "role": "Baseline \u2014 reliable internal layout", "InternalsWeight": 1.0, "bonuses": {}}, "compact": {"label": "Compact Internals", "role": "Miniaturized internals \u2014 lighter but fragile wiring", "InternalsWeight": 0.5, "bonuses": {"CritVulnerability": 25}}, "lightweight": {"label": "Lightweight Internals", "role": "Moderate weight savings, slightly more vulnerable", "InternalsWeight": 0.75, "bonuses": {"CritVulnerability": 10}}, "reinforced": {"label": "Reinforced Internals", "role": "Hardened internals \u2014 heavier but crit-resistant", "InternalsWeight": 1.25, "bonuses": {"CritResistance": 25}}, "salvaged": {"label": "Salvaged Internals", "role": "Junk internals \u2014 heavy but cheap to fix", "InternalsWeight": 1.5, "bonuses": {"RepairCost": -40}}, "modular": {"label": "Modular Internals", "role": "Easy to swap components \u2014 faster field repairs, standard weight", "InternalsWeight": 1.0, "bonuses": {"FieldRepairChance": 15, "ComponentSwapSpeed": 50}, "implementation": "Not yet in game data"}}}}}, "reactor": {"label": "Reactor", "color": "#f0883e", "families": {"cooling": {"color": "#39d2c0", "label": "Cooling", "role": "Heat dissipation system \u2014 efficiency vs weight vs reliability", "family": "reactor", "icon": "heatsink", "baseStats": {"Tonnage": 1, "InventorySlots": 0, "DissipationPerSink": 5, "FailureChance": 0, "FailurePenalty": 0, "FailureDurationTicks": 0}, "items": {"basic": {"label": "Standard Radiator", "role": "Cheap and reliable \u2014 starter system", "icon": "heatsink", "Tonnage": 1, "DissipationPerSink": 5, "FailureChance": 0}, "enhanced": {"label": "Pressurized Radiator", "role": "Double dissipation but heavier", "icon": "heatsink_enhanced", "Tonnage": 2, "DissipationPerSink": 10, "FailureChance": 0}, "double": {"label": "Dual-Loop Radiator", "role": "Best efficiency \u2014 same weight, double cooling. Rare.", "icon": "heatsink_double", "Tonnage": 1, "DissipationPerSink": 10, "FailureChance": 0}, "experimental": {"label": "Prototype Radiator", "role": "Same as double but can fail mid-combat", "icon": "heatsink_experimental", "Tonnage": 1, "DissipationPerSink": 10, "FailureChance": 10, "FailurePenalty": 50, "FailureDurationTicks": 3}, "heat_battery": {"label": "Heat Battery", "role": "Pure heat storage \u2014 no cooling, +20 heat threshold for alpha strikes", "icon": "heat_battery", "Tonnage": 2, "InventorySlots": 1, "DissipationPerSink": 0, "FailureChance": 0, "bonuses": {"HeatThreshold": 20}, "implementation": "Not yet in game data"}}}, "core": {"color": "#f0883e", "label": "Flux Core", "role": "Fusion reactor core \u2014 weight vs crit vulnerability", "family": "reactor", "icon": "engine", "baseStats": {"Tonnage": 0, "WeightFactor": 1.0, "Slots_CT": 1, "Slots_LT": 0, "Slots_RT": 0, "CritChance": 5, "ExplosionDamage": 10, "HeatReduction": 0.0}, "items": {"standard": {"label": "Standard Flux Core", "role": "Reliable baseline \u2014 low crit risk, moderate weight", "WeightFactor": 1.0, "Slots_CT": 1, "Slots_LT": 0, "Slots_RT": 0, "CritChance": 5, "ExplosionDamage": 10, "HeatReduction": 0.0, "icon": "core_standard", "MaxPower": 65}, "light": {"label": "Light Flux Core", "role": "25% lighter but more crit-prone, bigger explosions", "WeightFactor": 0.75, "Slots_CT": 1, "Slots_LT": 0, "Slots_RT": 0, "CritChance": 10, "ExplosionDamage": 15, "HeatReduction": 0.0, "icon": "core_light", "MaxPower": 50}, "reinforced": {"label": "Reinforced Flux Core", "role": "Crit-immune but 50% heavier \u2014 assault anchor", "WeightFactor": 1.5, "Slots_CT": 1, "Slots_LT": 0, "Slots_RT": 0, "CritChance": 0, "ExplosionDamage": 0, "HeatReduction": 0.0, "icon": "core_reinforced", "MaxPower": 80}, "exposed": {"label": "Exposed Flux Core", "role": "Lightest \u2014 components spread into side torsos, very crit-vulnerable", "WeightFactor": 0.5, "Slots_CT": 1, "Slots_LT": 2, "Slots_RT": 2, "CritChance": 15, "ExplosionDamage": 25, "HeatReduction": 0.0, "icon": "core_exposed", "MaxPower": 45}, "salvaged": {"label": "Salvaged Flux Core", "role": "Cheap junk \u2014 unreliable but available early", "WeightFactor": 1.0, "Slots_CT": 1, "Slots_LT": 0, "Slots_RT": 0, "CritChance": 12, "ExplosionDamage": 15, "HeatReduction": 0.0, "bonuses": {"RepairCost": -0.2}, "icon": "core_salvaged", "MaxPower": 55}, "volatile": {"label": "Volatile Flux Core", "role": "Runs hot, hits harder \u2014 heat-aggressive builds", "WeightFactor": 0.8, "Slots_CT": 1, "Slots_LT": 0, "Slots_RT": 0, "CritChance": 8, "ExplosionDamage": 20, "HeatReduction": 0.0, "bonuses": {"PassiveHeat": 10, "MovementSpeed": 0.15}, "icon": "core_volatile", "MaxPower": 60}, "shielded": {"label": "Shielded Flux Core", "role": "Evasion-focused \u2014 harder to hit but heavier", "WeightFactor": 1.1, "Slots_CT": 1, "Slots_LT": 0, "Slots_RT": 0, "CritChance": 3, "ExplosionDamage": 5, "HeatReduction": 0.0, "bonuses": {"Evasion": 1}, "icon": "core_shielded", "MaxPower": 70}}}, "stabilizer": {"color": "#d29922", "label": "Stabilizer", "role": "Balance and stability \u2014 what kind of platform is this mech?", "family": "reactor", "icon": "gyro", "baseStats": {"Tonnage": 0, "InventorySlots": 3, "StabilityThreshold": 40}, "items": {"standard": {"label": "Standard Stabilizer", "role": "Baseline \u2014 balanced stability", "InventorySlots": 3, "StabilityThreshold": 40, "bonuses": {}, "MaxLoad": 65}, "compact": {"label": "Compact Stabilizer", "role": "Saves slots but less stable", "InventorySlots": 1, "StabilityThreshold": 30, "bonuses": {}, "MaxLoad": 45}, "reinforced": {"label": "Reinforced Stabilizer", "role": "Assault anchor \u2014 very hard to knock down", "InventorySlots": 3, "StabilityThreshold": 70, "bonuses": {"StabilityDamageReduction": 20}, "MaxLoad": 100}, "dampened": {"label": "Dampened Stabilizer", "role": "Fire support platform \u2014 absorbs recoil", "InventorySlots": 3, "StabilityThreshold": 40, "bonuses": {"Recoil": -1}, "MaxLoad": 60}, "reactive": {"label": "Reactive Stabilizer", "role": "Agile platform \u2014 evasion and twist speed", "InventorySlots": 3, "StabilityThreshold": 50, "bonuses": {"Evasion": 1, "TorsoTwistSpeed": 15}, "implementation": "Not yet in game data", "MaxLoad": 55}, "brawler": {"label": "Brawler Stabilizer", "role": "Melee platform \u2014 punch harder, stay standing", "InventorySlots": 3, "StabilityThreshold": 50, "bonuses": {"MeleeAccuracy": 10, "KnockdownResist": 15}, "implementation": "Not yet in game data", "MaxLoad": 60}}}}}, "systems": {"label": "Systems", "color": "#3fb950", "families": {"cockpit": {"color": "#f85149", "label": "Pilot Capsule", "role": "Pilot interface \u2014 survival and protection", "family": "systems", "icon": "cockpit", "baseStats": {"Tonnage": 3, "InventorySlots": 0, "PilotSurvivalBonus": 0}, "items": {"standard": {"label": "Standard Capsule", "role": "Baseline \u2014 3 tons, balanced protection", "Tonnage": 3, "PilotSurvivalBonus": 0, "bonuses": {}}, "small": {"label": "Small Capsule", "role": "Lighter but less pilot protection", "Tonnage": 2, "PilotSurvivalBonus": -10, "bonuses": {}}, "torso_mount": {"label": "Torso Mount Capsule", "role": "Headshot immune but cannot eject", "Tonnage": 4, "PilotSurvivalBonus": 20, "bonuses": {"HeadshotImmunity": 1, "CanEject": 0}, "implementation": "Not yet in game data"}}, "designNotes": "Cockpits will roll random bonuses on loot \u2014 pilot stat boosts (+1 Gunnery, +1 Piloting, etc.) and rare rolls can grant minor/major passive skills the pilot doesn't have. This makes cockpits a key loot chase item \u2014 you might find a Small Cockpit that rolls +2 Gunnery and grants the Sensor Lock passive, making it worth the survival penalty. Quality tiers affect the roll pool: Salvaged gets only stat bonuses, Standard can roll minor passives, Military+ can roll major passives.", "rollPool": {"stats": [{"id": "gunnery", "label": "Gunnery", "range": [1, 2], "weight": 20}, {"id": "piloting", "label": "Piloting", "range": [1, 2], "weight": 20}, {"id": "guts", "label": "Guts", "range": [1, 2], "weight": 15}, {"id": "tactics", "label": "Tactics", "range": [1, 2], "weight": 15}, {"id": "accuracy", "label": "Accuracy", "range": [1, 3], "weight": 10}, {"id": "evasion", "label": "Evasion", "range": [1, 1], "weight": 10}, {"id": "resolve", "label": "Resolve Generation", "range": [3, 8], "weight": 10}], "minorPassives": [{"id": "sensor_lock", "label": "Sensor Lock", "desc": "Can designate a target for +15% lance accuracy", "weight": 15}, {"id": "brace_master", "label": "Brace Master", "desc": "Bracing removes 10 extra heat", "weight": 15}, {"id": "cool_under_fire", "label": "Cool Under Fire", "desc": "+5% accuracy when above 50% heat", "weight": 12}, {"id": "quick_draw", "label": "Quick Draw", "desc": "-1 tick weapon cooldown", "weight": 10}, {"id": "iron_will", "label": "Iron Will", "desc": "Ignore first injury penalty per battle", "weight": 12}, {"id": "spotter", "label": "Spotter", "desc": "+20% sensor range", "weight": 15}, {"id": "field_medic", "label": "Field Medic", "desc": "Pilot heals 1 injury between expedition battles", "weight": 10}, {"id": "scavenger_eye", "label": "Scavenger Eye", "desc": "+10% salvage quality", "weight": 11}], "majorPassives": [{"id": "ace_pilot", "label": "Ace Pilot", "desc": "Can move after shooting", "weight": 8}, {"id": "multi_target", "label": "Multi-Target", "desc": "Can fire weapons at different targets", "weight": 8}, {"id": "breaching_shot", "label": "Breaching Shot", "desc": "Ignores 50% damage reduction on called shots", "weight": 8}, {"id": "bulwark", "label": "Bulwark", "desc": "20% damage reduction when braced", "weight": 10}, {"id": "phantom", "label": "Phantom", "desc": "-25% sensor signature", "weight": 7}, {"id": "berserker", "label": "Berserker", "desc": "+30% melee damage, -10% ranged accuracy", "weight": 6}, {"id": "overcharge", "label": "Overcharge", "desc": "Can fire at +50% heat threshold once per battle", "weight": 5}], "qualityRolls": {"salvaged": {"statRolls": 1, "minorChance": 0, "majorChance": 0}, "standard": {"statRolls": 1, "minorChance": 15, "majorChance": 0}, "military": {"statRolls": 2, "minorChance": 30, "majorChance": 5}, "experimental": {"statRolls": 2, "minorChance": 40, "majorChance": 15}, "chaotic": {"statRolls": 3, "minorChance": 50, "majorChance": 25}, "eldritch": {"statRolls": 3, "minorChance": 75, "majorChance": 50}}}}, "lifesupport": {"color": "#f85149", "label": "Survival Module", "role": "Pilot endurance \u2014 injury resistance, recovery, and emergency options", "family": "systems", "icon": "lifesupport", "baseStats": {"Tonnage": 1, "InventorySlots": 0, "InjuryResistance": 0}, "items": {"standard": {"label": "Standard Survival Module", "role": "Baseline \u2014 no injury resistance", "Tonnage": 1, "InjuryResistance": 0, "bonuses": {}}, "hardened": {"label": "Hardened Survival Module", "role": "Better pilot protection, heavier", "Tonnage": 2, "InjuryResistance": 25, "bonuses": {"PilotProtection": 25}}, "trauma_kit": {"label": "Trauma Kit", "role": "Pilot heals 1 injury between expedition battles", "Tonnage": 1, "InventorySlots": 1, "InjuryResistance": 0, "bonuses": {"ExpeditionHeal": 1}, "implementation": "Not yet in game data"}, "stim_injector": {"label": "Stim Injector", "role": "Ignore first injury per battle, but double bleed rate", "Tonnage": 0.5, "InjuryResistance": 0, "bonuses": {"IgnoreFirstInjury": 1, "BleedRate": 100}, "implementation": "Not yet in game data"}, "emergency_extraction": {"label": "Emergency Extraction", "role": "Auto-extracts pilot at 20% structure \u2014 saves pilot, loses mech", "Tonnage": 1, "InjuryResistance": 0, "bonuses": {"AutoExtract": 20, "PilotSurvival": 100}, "implementation": "Not yet in game data"}}}, "targeting": {"color": "#58a6ff", "label": "Targeting", "role": "Aim assist and fire control \u2014 accuracy and weapon handling", "family": "systems", "icon": "targeting", "baseStats": {"Tonnage": 1, "InventorySlots": 0}, "items": {"standard": {"label": "Standard Optics", "role": "Baseline \u2014 basic aim assist", "Tonnage": 1, "bonuses": {"Accuracy": 5}}, "precision": {"label": "Precision Optics", "role": "Better accuracy, heavier", "Tonnage": 2, "bonuses": {"Accuracy": 10}}, "predictive": {"label": "Predictive Tracker", "role": "Tracks moving targets \u2014 ignores evasion", "Tonnage": 1.5, "bonuses": {"EvasionIgnore": 1}, "implementation": "Not yet in game data"}, "multi_lock": {"label": "Multi-Lock System", "role": "Engage multiple targets simultaneously", "Tonnage": 1.5, "bonuses": {"MultiTarget": 1}, "implementation": "Not yet in game data"}, "rangefinder": {"label": "Rangefinder", "role": "Extends effective weapon range", "Tonnage": 1, "bonuses": {"RangeBonus": 10}, "implementation": "Not yet in game data"}}}}}, "utility": {"label": "Utility", "color": "#d29922", "families": {"fieldrepair": {"color": "#f0883e", "label": "Field Repair", "role": "Expedition repair capability \u2014 fix more between battles", "family": "utility", "icon": "menu_repair", "baseStats": {"Tonnage": 0.5, "InventorySlots": 1}, "items": {"repair_kit": {"label": "Basic Repair Kit", "role": "Small boost to field repair success rate", "Tonnage": 0.5, "InventorySlots": 1, "bonuses": {"FieldRepairChance": 5}, "implementation": "Not yet in game data"}, "field_welder": {"label": "Field Welder", "role": "Restores more armor points per repair action", "Tonnage": 1, "InventorySlots": 1, "bonuses": {"ArmorRepairAmount": 15, "FieldRepairChance": 5}, "implementation": "Not yet in game data"}, "structural_brace": {"label": "Structural Brace Kit", "role": "Can field-repair internal structure damage", "Tonnage": 1.5, "InventorySlots": 2, "bonuses": {"StructureRepairEnabled": 1, "StructureRepairAmount": 10}, "implementation": "Not yet in game data"}, "mobile_workshop": {"label": "Mobile Workshop", "role": "Heavy \u2014 boosts entire lance field repair", "Tonnage": 3, "InventorySlots": 3, "bonuses": {"FieldRepairChance": 15, "LanceFieldRepairChance": 10}, "implementation": "Not yet in game data"}, "jury_rig_tools": {"label": "Jury-Rig Tools", "role": "Cheap \u2014 more repair attempts but lower quality", "Tonnage": 0.5, "InventorySlots": 1, "bonuses": {"ExtraRepairAttempts": 1, "RepairQuality": -20}, "implementation": "Not yet in game data"}, "spare_parts_bin": {"label": "Spare Parts Bin", "role": "Carries replacement components for equipment repair", "Tonnage": 2, "InventorySlots": 2, "bonuses": {"EquipmentRepairEnabled": 1, "EquipmentRepairChance": 10}, "implementation": "Not yet in game data"}}}, "salvage": {"color": "#d29922", "label": "Salvage", "role": "Post-combat loot and economy \u2014 roguelike progression", "family": "utility", "icon": "menu_warehouse", "baseStats": {"Tonnage": 0.5, "InventorySlots": 1}, "items": {"scrap_collector": {"label": "Scrap Collector", "role": "Gathers extra scrap from destroyed enemies", "Tonnage": 0.5, "InventorySlots": 1, "bonuses": {"ScrapBonus": 0.1}, "implementation": "Not yet in game data"}, "salvage_arm": {"label": "Salvage Arm", "role": "Better chance to recover intact equipment", "Tonnage": 1, "InventorySlots": 1, "bonuses": {"EquipmentSalvageChance": 0.15}, "implementation": "Not yet in game data"}, "component_analyzer": {"label": "Component Analyzer", "role": "Identifies equipment quality before salvage", "Tonnage": 0.5, "InventorySlots": 1, "bonuses": {"SalvageQualityReveal": 1, "EquipmentSalvageChance": 0.05}, "implementation": "Not yet in game data"}, "cargo_bay": {"label": "Cargo Bay", "role": "Extra salvage capacity \u2014 carry more loot", "Tonnage": 2, "InventorySlots": 2, "bonuses": {"SalvageCapacity": 2}, "implementation": "Not yet in game data"}, "field_strip_kit": {"label": "Field Strip Kit", "role": "Salvage equipment from crippled (not destroyed) locations", "Tonnage": 1, "InventorySlots": 1, "bonuses": {"CrippledSalvage": 1, "ScrapBonus": 0.05}, "implementation": "Not yet in game data"}, "black_market_contacts": {"label": "Black Market Uplink", "role": "Chance to find rare items in salvage pools", "Tonnage": 0.5, "InventorySlots": 1, "bonuses": {"RareSalvageChance": 0.1}, "implementation": "Not yet in game data"}}}}}};
+  switchMode('designer');
+}
+
+function getCurrentFamily() {
+  return DATA[currentGroup]?.families?.[currentCat];
+}
+
+function getItemsList(fam) {
+  if (!fam?.items) return [];
+  return Object.entries(fam.items).map(([key, item]) => ({ ...item, _key: key }));
+}
+
+// ═══════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════
+
+function renderTabs() {
+  const el = document.getElementById('catTabs');
+  el.innerHTML = '';
+  for (const [groupKey, group] of Object.entries(DATA)) {
+    const row = document.createElement('div');
+    row.className = 'family-row';
+
+    const lbl = document.createElement('span');
+    lbl.className = 'family-label';
+    lbl.textContent = group.label;
+    lbl.style.background = group.color;
+    lbl.style.borderColor = group.color;
+    row.appendChild(lbl);
+
+    for (const [catKey, fam] of Object.entries(group.families)) {
+      const count = Object.keys(fam.items || {}).length;
+      const btn = document.createElement('button');
+      btn.className = (groupKey === currentGroup && catKey === currentCat) ? 'active' : '';
+      const icon = fam.icon || 'structure';
+      btn.innerHTML = `<img src="/SpriteGenerator/Icons/${icon}.svg" width="14" height="14" style="filter:brightness(0.9)"> ${fam.label} <span class="count">(${count})</span>`;
+      if (groupKey === currentGroup && catKey === currentCat) {
+        btn.style.borderColor = group.color;
+      }
+      btn.onclick = () => { currentGroup = groupKey; currentCat = catKey; sortCol = null; renderTabs(); renderAll(); };
+      row.appendChild(btn);
+    }
+    el.appendChild(row);
+  }
+}
+
+// ═══════════════════════════════════════════
+// TABLE RENDERING
+// ═══════════════════════════════════════════
+
+function renderAll() {
+  const fam = getCurrentFamily();
+  if (!fam) { document.getElementById('tableContainer').innerHTML = '<div class="loading">No data</div>'; return; }
+  const group = DATA[currentGroup];
+
+  // Header
+  const icon = fam.icon || 'structure';
+  document.getElementById('catHeader').innerHTML = `
+    <div class="cat-header" style="border-left:4px solid ${group.color}">
+      <img src="/SpriteGenerator/Icons/${icon}.svg" class="cat-icon" style="filter:brightness(0.9)">
+      <div>
+        <div class="cat-label">${fam.label}</div>
+        <div class="cat-role">${fam.role}</div>
+      </div>
+      <button class="save-btn" onclick="saveData()">Save</button>
+      <span class="save-status" id="saveStatus"></span>
+    </div>
+    ${fam.designNotes ? `<div style="font-size:11px;color:var(--cyan);padding:8px 12px;margin-bottom:12px;background:rgba(57,210,192,0.06);border:1px solid rgba(57,210,192,0.15);border-radius:4px;line-height:1.5">${fam.designNotes}</div>` : ''}`;
+
+  // Build columns dynamically from item stats
+  const items = getItemsList(fam);
+  const statKeys = new Set();
+  for (const item of items) {
+    for (const k of Object.keys(item)) {
+      if (!['label', 'role', 'bonuses', 'parts', 'implementation', 'icon', 'subgroup', '_key'].includes(k)) statKeys.add(k);
+    }
+  }
+
+  const cols = [
+    { key: 'label', label: 'Name', type: 'name' },
+    { key: 'role', label: 'Role', type: 'role' },
+  ];
+  for (const k of statKeys) {
+    cols.push({ key: k, label: k, type: 'num' });
+  }
+  cols.push({ key: 'bonuses', label: 'Bonuses', type: 'bonuses' });
+  cols.push({ key: 'parts', label: 'Parts', type: 'parts' });
+
+  // Sort
+  if (sortCol !== null && sortCol < cols.length) {
+    const col = cols[sortCol];
+    items.sort((a, b) => {
+      let va = a[col.key], vb = b[col.key];
+      if (col.type === 'name' || col.type === 'role') {
+        va = (va || '').toLowerCase(); vb = (vb || '').toLowerCase();
+        return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+      }
+      va = parseFloat(va) || 0; vb = parseFloat(vb) || 0;
+      return sortAsc ? va - vb : vb - va;
+    });
+  }
+
+  let html = '<table class="eq-table"><thead><tr>';
+  cols.forEach((col, i) => {
+    // Skip empty columns
+    if (col.type === 'parts' && !items.some(it => it.parts?.length)) return;
+    if (col.type === 'bonuses' && !items.some(it => it.bonuses && Object.keys(it.bonuses).length)) return;
+    if (col.type === 'num' && !items.some(it => it[col.key] !== undefined)) return;
+    const arrow = sortCol === i ? (sortAsc ? ' ▲' : ' ▼') : '';
+    html += `<th onclick="sortBy(${i})">${col.label}${arrow}</th>`;
+  });
+  html += '</tr></thead><tbody>';
+
+  const groupColor = group.color;
+  const hasSubgroups = items.some(it => it.subgroup);
+  const colCount = cols.filter(col => {
+    if (col.type === 'parts' && !items.some(it => it.parts?.length)) return false;
+    if (col.type === 'bonuses' && !items.some(it => it.bonuses && Object.keys(it.bonuses).length)) return false;
+    if (col.type === 'num' && !items.some(it => it[col.key] !== undefined)) return false;
+    return true;
+  }).length;
+  let lastSubgroup = '';
+
+  // Sort by subgroup if present
+  if (hasSubgroups && sortCol === null) {
+    items.sort((a, b) => (a.subgroup || '').localeCompare(b.subgroup || ''));
+  }
+
+  for (const item of items) {
+    // Subgroup header
+    if (hasSubgroups && item.subgroup && item.subgroup !== lastSubgroup) {
+      lastSubgroup = item.subgroup;
+      html += `<tr><td colspan="${colCount}" style="background:var(--bg);color:var(--text-dim);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:8px 8px 4px;border-bottom:2px solid var(--border)">${item.subgroup}</td></tr>`;
+    }
+    const wip = item.implementation ? ' <span class="wip">[WIP]</span>' : '';
+    const itemIcon = item.icon || icon;
+    html += '<tr>';
+    for (const col of cols) {
+      const val = item[col.key];
+
+      if (col.type === 'name') {
+        html += `<td class="name-cell" style="border-left:3px solid ${groupColor}">
+          <img src="/SpriteGenerator/Icons/${itemIcon}.svg" class="icon-img" style="filter:brightness(0.9)">
+          ${val}${wip}
+        </td>`;
+      } else if (col.type === 'role') {
+        html += `<td class="role-cell">${val || ''}</td>`;
+      } else if (col.type === 'num') {
+        if (!items.some(it => it[col.key] !== undefined)) continue;
+        if (val === undefined || val === null) { html += '<td class="num dim">—</td>'; continue; }
+        const n = parseFloat(val);
+        let cls = 'neutral';
+        if (col.key === 'WeightFactor') cls = n < 1 ? 'positive' : n > 1 ? 'negative' : 'neutral';
+        else if (col.key === 'ArmorMultiplier' || col.key === 'StructureFactor' || col.key === 'DissipationPerSink' || col.key === 'DetectionRange') cls = n > 1 ? 'positive' : n < 1 ? 'negative' : 'neutral';
+        else if (col.key === 'ExplosionMultiplier' || col.key === 'FailureChance' || col.key === 'FailurePenalty') cls = n > 0 ? 'negative' : 'neutral';
+        else if (col.key === 'HeatsinkSlotBonus' || col.key === 'MaxPowerBonus' || col.key === 'HeatReduction' || col.key === 'PilotSurvivalBonus' || col.key === 'InjuryResistance') cls = n > 0 ? 'positive' : n < 0 ? 'negative' : 'neutral';
+        html += `<td class="num ${cls}">${n}</td>`;
+      } else if (col.type === 'bonuses') {
+        if (!items.some(it => it.bonuses && Object.keys(it.bonuses).length)) continue;
+        if (!val || typeof val !== 'object' || Object.keys(val).length === 0) { html += '<td class="dim">—</td>'; continue; }
+        const pills = Object.entries(val).map(([k, v]) => {
+          const cls = v > 0 ? 'pos' : v < 0 ? 'neg' : 'neu';
+          const fmt = Math.abs(v) < 1 ? `${v > 0 ? '+' : ''}${Math.round(v * 100)}%` : `${v > 0 ? '+' : ''}${v}`;
+          return `<span class="bonus-pill ${cls}">${k} ${fmt}</span>`;
+        }).join('');
+        html += `<td>${pills}</td>`;
+      } else if (col.type === 'parts') {
+        if (!items.some(it => it.parts?.length)) continue;
+        if (!Array.isArray(val) || val.length === 0) { html += '<td class="dim">—</td>'; continue; }
+        html += `<td class="dim">${val.join(' → ')}</td>`;
+      }
+    }
+    html += '</tr>';
+  }
+
+  html += '</tbody></table>';
+
+  // Cockpit roller
+  if (fam.rollPool) {
+    html += renderCockpitRoller(fam);
+  }
+
+  document.getElementById('tableContainer').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════
+// COCKPIT ROLLER
+// ═══════════════════════════════════════════
+
+let rolledCockpits = [];
+
+function weightedPick(pool) {
+  const total = pool.reduce((s, p) => s + p.weight, 0);
+  let r = Math.random() * total;
+  for (const p of pool) { r -= p.weight; if (r <= 0) return p; }
+  return pool[pool.length - 1];
+}
+
+function rollCockpit(fam) {
+  const pool = fam.rollPool;
+  const itemKeys = Object.keys(fam.items);
+  const itemKey = itemKeys[Math.floor(Math.random() * itemKeys.length)];
+  const item = fam.items[itemKey];
+  const qualities = Object.keys(pool.qualityRolls);
+  const quality = qualities[Math.floor(Math.random() * qualities.length)];
+  const qRules = pool.qualityRolls[quality];
+
+  const stats = [];
+  for (let i = 0; i < qRules.statRolls; i++) {
+    const s = weightedPick(pool.stats);
+    const val = s.range[0] + Math.floor(Math.random() * (s.range[1] - s.range[0] + 1));
+    stats.push({ label: s.label, value: val });
+  }
+
+  let minor = null;
+  if (Math.random() * 100 < qRules.minorChance) {
+    minor = weightedPick(pool.minorPassives);
+  }
+
+  let major = null;
+  if (Math.random() * 100 < qRules.majorChance) {
+    major = weightedPick(pool.majorPassives);
+  }
+
+  return { item, itemKey, quality, stats, minor, major, label: item.label };
+}
+
+function rollCockpits(n) {
+  const fam = getCurrentFamily();
+  if (!fam?.rollPool) return;
+  rolledCockpits = [];
+  for (let i = 0; i < n; i++) rolledCockpits.push(rollCockpit(fam));
+  renderAll();
+}
+
+const QUALITY_COLORS = {
+  salvaged: 'var(--text-dim)', standard: 'var(--text)', military: 'var(--blue)',
+  experimental: 'var(--purple)', chaotic: 'var(--red)', eldritch: '#ff00ff'
+};
+
+function renderCockpitRoller(fam) {
+  let html = `<div style="margin-top:16px;padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:6px">`;
+  html += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">`;
+  html += `<span style="font-size:13px;font-weight:700">Cockpit Roller</span>`;
+  html += `<button onclick="rollCockpits(5)" style="background:var(--blue);color:#000;border:none;padding:5px 12px;border-radius:4px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600">Roll 5</button>`;
+  html += `<button onclick="rollCockpits(20)" style="background:var(--orange);color:#000;border:none;padding:5px 12px;border-radius:4px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600">Roll 20</button>`;
+  html += `</div>`;
+
+  if (rolledCockpits.length > 0) {
+    html += `<div style="display:flex;flex-wrap:wrap;gap:8px">`;
+    for (const c of rolledCockpits) {
+      const qColor = QUALITY_COLORS[c.quality] || 'var(--text)';
+      html += `<div style="background:var(--bg);border:1px solid var(--border);border-left:3px solid ${qColor};border-radius:4px;padding:8px 10px;min-width:220px;max-width:280px">`;
+      html += `<div style="font-weight:700;font-size:12px;margin-bottom:4px"><img src="/SpriteGenerator/Icons/${c.item.icon || 'cockpit'}.svg" width="16" height="16" style="vertical-align:middle;margin-right:4px;filter:brightness(0.9)">${c.label}</div>`;
+      html += `<div style="font-size:10px;color:${qColor};margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em">${c.quality}</div>`;
+
+      if (c.stats.length > 0) {
+        html += `<div style="font-size:11px;margin-bottom:3px">`;
+        html += c.stats.map(s => `<span style="color:var(--green)">+${s.value} ${s.label}</span>`).join(', ');
+        html += `</div>`;
+      }
+
+      if (c.minor) {
+        html += `<div style="font-size:10px;padding:2px 6px;margin-top:3px;background:rgba(57,210,192,0.1);border:1px solid rgba(57,210,192,0.2);border-radius:3px;color:var(--cyan)"><strong>${c.minor.label}</strong> — ${c.minor.desc}</div>`;
+      }
+
+      if (c.major) {
+        html += `<div style="font-size:10px;padding:2px 6px;margin-top:3px;background:rgba(255,0,255,0.08);border:1px solid rgba(255,0,255,0.2);border-radius:3px;color:#ff00ff"><strong>${c.major.label}</strong> — ${c.major.desc}</div>`;
+      }
+
+      if (!c.minor && !c.major && c.stats.length === 0) {
+        html += `<div style="font-size:10px;color:var(--text-dim)">No bonuses</div>`;
+      }
+
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+// ═══════════════════════════════════════════
+// SAVE
+// ═══════════════════════════════════════════
+
+async function saveData() {
+  try {
+    const resp = await fetch('/api/equipment-families', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(DATA, null, 2)
+    });
+    const result = await resp.json();
+    const el = document.getElementById('saveStatus');
+    if (result.ok) { el.textContent = 'Saved!'; setTimeout(() => el.textContent = '', 2000); }
+    else { el.textContent = 'Error: ' + result.error; }
+  } catch(e) { document.getElementById('saveStatus').textContent = 'Error: ' + e.message; }
+}
+
+// ═══════════════════════════════════════════
+// INTERACTIONS
+// ═══════════════════════════════════════════
+
+function sortBy(colIdx) {
+  if (sortCol === colIdx) { sortAsc = !sortAsc; }
+  else { sortCol = colIdx; sortAsc = true; }
+  renderAll();
+}
+
+// ═══════════════════════════════════════════
+// MODE SWITCHING
+// ═══════════════════════════════════════════
+
+function switchMode(mode) {
+  currentMode = mode;
+  const el = id => document.getElementById(id);
+  if (el('mode-structure')) el('mode-structure').className = mode === 'structure' ? 'active' : '';
+  if (el('mode-equipment')) el('mode-equipment').className = mode === 'equipment' ? 'active' : '';
+  if (el('mode-designer')) el('mode-designer').className = mode === 'designer' ? 'active' : '';
+  if (el('catalogView')) el('catalogView').style.display = mode !== 'designer' ? '' : 'none';
+  if (el('designerView')) el('designerView').style.display = mode === 'designer' ? '' : 'none';
+
+  if (mode === 'structure') {
+    DATA = STRUCT_DATA;
+    const firstGroup = Object.keys(DATA)[0];
+    const firstCat = firstGroup ? Object.keys(DATA[firstGroup].families)[0] : '';
+    currentGroup = firstGroup || '';
+    currentCat = firstCat || '';
+    sortCol = null;
+    renderTabs();
+    renderAll();
+  } else if (mode === 'equipment') {
+    DATA = EQUIP_DATA;
+    const firstGroup = Object.keys(DATA)[0];
+    const firstCat = firstGroup ? Object.keys(DATA[firstGroup].families)[0] : '';
+    currentGroup = firstGroup || '';
+    currentCat = firstCat || '';
+    sortCol = null;
+    renderTabs();
+    renderAll();
+  } else if (mode === 'designer') {
+    renderDesigner();
+  }
+}
+
+// ═══════════════════════════════════════════
+// MODULAR DESIGNER
+// ═══════════════════════════════════════════
+
+let design = {
+  locomotion: null, core: null, stabilizer: null,
+  hull: null,       // hull defines center + N side locations, each with M section slots
+  sideCompartments: [],  // [side][section] - 2D array of compartments
+  sideArms: [],      // arm attached to each side (one per side)
+  sideTopMounts: [], // turret/rack mounted on top of each side (one per side)
+  head: null, cooling: null, armor: null, internals: null,
+  armorShifts: {},  // locId -> front armor shift (positive = more front, negative = more rear)
+  powerRating: 0    // current power level, adjustable +/-
+};
+
+function getFamily(group, famKey) {
+  return STRUCT_DATA[group]?.families?.[famKey] || EQUIP_DATA[group]?.families?.[famKey];
+}
+
+function getItems(group, famKey) {
+  const fam = getFamily(group, famKey);
+  if (!fam?.items) return [];
+  return Object.entries(fam.items).map(([k, v]) => ({ ...v, _key: k }));
+}
+
+function renderDesigner() {
+  const el = document.getElementById('designerView');
+  const loco = design.locomotion;
+  const core = design.core;
+  const stab = design.stabilizer;
+  const maxCarry = loco?.MaxCarry || 0;
+  const maxPower = core?.MaxPower || 0;
+  const maxLoad = stab?.MaxLoad || 0;
+  const maxTonnage = (loco && core && stab) ? Math.min(maxCarry, maxPower, maxLoad) : 0;
+  const bottleneck = maxTonnage > 0 ? (maxTonnage === maxCarry ? 'locomotion' : maxTonnage === maxPower ? 'core' : 'stabilizer') : '';
+
+  let usedTonnage = 0;
+  [design.locomotion, design.core, design.stabilizer, design.hull, design.head, design.cooling, ...design.sideArms, ...design.sideTopMounts].forEach(c => usedTonnage += c?.Tonnage || 0);
+  // Add compartment tonnage (2D array, standard sections are free)
+  for (const side of design.sideCompartments) {
+    if (Array.isArray(side)) side.forEach(c => { if (c) usedTonnage += c.Tonnage || 0; });
+  }
+  const sideCount = design.hull ? Math.max(0, (design.hull.Locations || 1) - 1) : 0;
+
+  const tonnagePct = maxTonnage > 0 ? Math.min(100, (usedTonnage / maxTonnage) * 100) : 0;
+  const barColor = tonnagePct > 90 ? 'var(--red)' : tonnagePct > 70 ? 'var(--orange)' : 'var(--green)';
+
+  const allBonuses = {};
+  const allComps = design.sideCompartments.flat().filter(Boolean);
+  [design.locomotion, design.core, design.stabilizer, design.hull, design.head, design.cooling, design.armor, ...allComps, ...design.sideArms, ...design.sideTopMounts].forEach(src => {
+    if (src?.bonuses) for (const [k, v] of Object.entries(src.bonuses)) allBonuses[k] = (allBonuses[k] || 0) + v;
+  });
+
+  let left = '';
+  let right = '';
+
+  // ── LEFT: CONTROLS + COMPONENT PICKERS ──
+  left += `<div style="display:flex;gap:6px;margin-bottom:8px">
+    <button onclick="randomizeMachine()" style="background:var(--orange);color:#000;border:none;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;flex:1">Random Machine</button>
+    <button onclick="resetMachine()" style="background:var(--border);color:var(--text);border:none;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600">Reset</button>
+  </div>`;
+
+  // Build side compartment picker content
+  function sideCompContent() {
+    if (sideCount === 0) return '<div style="font-size:10px;color:var(--text-dim)">Hull has no side locations</div>';
+    const sectionsPerSide = design.hull?.SideSections || 1;
+    let h = '';
+    const sideLabels = sideCount === 2 ? ['Left Hull', 'Right Hull'] : ['Left Outer Hull', 'Left Hull', 'Right Hull', 'Right Outer Hull'];
+    for (let i = 0; i < sideCount; i++) {
+      const label = sideLabels[i] || `Side ${i+1}`;
+      const comps = design.sideCompartments[i] || [];
+      const arm = design.sideArms[i];
+      const topMount = design.sideTopMounts[i];
+      const compNames = comps.filter(Boolean).map(c => c.label).join(', ');
+      const extras = [arm?.label, topMount?.label].filter(Boolean).join(', ');
+      h += `<div style="margin-bottom:12px;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:4px">`;
+      h += `<div style="font-size:11px;font-weight:700;color:var(--text);margin-bottom:6px">${label}${compNames ? ` — <span style="color:var(--cyan)">${compNames}</span>` : ''}${extras ? ` + <span style="color:var(--orange)">${extras}</span>` : ''}</div>`;
+
+      for (let s = 0; s < sectionsPerSide; s++) {
+        const comp = comps[s];
+        h += `<div style="font-size:9px;color:var(--text-dim);margin:${s > 0 ? '6px' : '0'} 0 4px">Section ${s+1}${!comp ? ' (Standard — free)' : ''}:</div>`;
+        h += renderCardPicker('sections', 'compartment', null, comp, i, s);
+      }
+
+      h += `<div style="font-size:9px;color:var(--text-dim);margin:6px 0 4px">Top Mount (turret/rack):</div>`;
+      h += renderTopMountPicker(i, design.sideTopMounts[i]);
+      h += `<div style="font-size:9px;color:var(--text-dim);margin:6px 0 4px">Side Arm:</div>`;
+      h += renderArmPicker(i, design.sideArms[i]);
+      h += '</div>';
+    }
+    return h;
+  }
+
+  const sections = [
+    { id: 'hull', label: 'Hull', sel: design.hull?.label, content: () => renderCardPicker('sections', 'hull', 'hull', design.hull) },
+    { id: 'command', label: 'Command', sel: design.head?.label, content: () => renderCardPickerMultiFam('command', 'head', design.head) },
+    { id: 'compartments', label: 'Side Compartments', sel: sideCount > 0 ? `${design.sideCompartments.filter(Boolean).length}/${sideCount} filled` : null, content: sideCompContent },
+    { id: 'locomotion', label: 'Locomotion', sel: design.locomotion?.label, content: () => renderCardPickerMultiFam('locomotion', 'locomotion', design.locomotion) },
+    { id: 'core', label: 'Flux Core', sel: design.core?.label, content: () => renderCardPicker('reactor', 'core', 'core', design.core) },
+    { id: 'stabilizer', label: 'Stabilizer', sel: design.stabilizer?.label, content: () => renderCardPicker('reactor', 'stabilizer', 'stabilizer', design.stabilizer) },
+    { id: 'cooling', label: 'Cooling', sel: design.cooling?.label, content: () => renderCardPicker('reactor', 'cooling', 'cooling', design.cooling) },
+    { id: 'armor', label: 'Armor', sel: design.armor?.label, content: () => renderCardPicker('chassis', 'armor', 'armor', design.armor) },
+    { id: 'internals', label: 'Internals', sel: design.internals?.label, content: () => renderCardPicker('chassis', 'structure', 'internals', design.internals) },
+  ];
+
+  for (const sec of sections) {
+    const open = openSections[sec.id] !== false;
+    const selBadge = sec.sel ? `<span style="font-size:9px;color:var(--cyan);font-weight:400;margin-left:6px">${sec.sel}</span>` : '';
+    left += `<div class="designer-panel">
+      <h3 onclick="toggleSection('${sec.id}')">${sec.label}${selBadge}${sec.extra || ''}<span class="toggle">${open ? '▼' : '▶'}</span></h3>
+      <div class="panel-body ${open ? '' : 'collapsed'}">${sec.content()}</div>
+    </div>`;
+  }
+
+  // ── RIGHT: MACHINE VISUALIZATION + STATS ──
+
+  // Calculate slots
+  let totalSlots = design.hull?.CenterSlots || 0;
+  let weaponSlots = 0;
+  let commandSlots = design.head?.CommandSlots || 0;
+  for (let i = 0; i < sideCount; i++) {
+    const comps = design.sideCompartments[i] || [];
+    comps.forEach(c => totalSlots += c?.Slots || design.hull?.SideSlots || 0);
+    const arm = design.sideArms[i];
+    const topMount = design.sideTopMounts[i];
+    if (arm) { totalSlots += arm.Slots || 0; }
+    if (topMount) { totalSlots += topMount.Slots || 0; weaponSlots += topMount.Slots || 0; }
+  }
+  if (design.head?.WeaponSlots) weaponSlots += design.head.WeaponSlots;
+
+  // System slots used (core, stabilizer, cooling go in center)
+  let systemSlotsUsed = 0;
+  if (design.core) systemSlotsUsed += 1;
+  if (design.stabilizer) systemSlotsUsed += 1;
+  if (design.cooling) systemSlotsUsed += 1;
+  if (design.armor) systemSlotsUsed += 1;
+  const freeCenterSlots = (design.hull?.CenterSlots || 0) - systemSlotsUsed;
+
+  // Build restrictions
+  const restrictions = [];
+  const canMelee = design.sideArms.some(a => a?.bonuses?.MeleeCapable || a?.bonuses?.MeleeDamage);
+  const locoMelee = design.locomotion?.bonuses?.MeleeCapable;
+  if (locoMelee && !canMelee) restrictions.push({ text: 'Melee capable (needs brawler arm)', ok: false });
+  if (canMelee) restrictions.push({ text: 'Melee capable', ok: true });
+  if (design.locomotion?.bonuses?.JumpCapable) restrictions.push({ text: 'Jump capable', ok: true });
+  if (design.locomotion?.bonuses?.TerrainPenaltyIgnore) restrictions.push({ text: 'Ignores terrain', ok: true });
+  if (design.head?.bonuses?.EjectCapable) restrictions.push({ text: 'Eject capable', ok: true });
+  if (!design.head?.bonuses?.EjectCapable && design.head) restrictions.push({ text: 'Cannot eject', ok: false });
+  if (design.hull && !design.core) restrictions.push({ text: 'No Flux Core — machine cannot operate', ok: false });
+  if (design.hull && !design.stabilizer) restrictions.push({ text: 'No Stabilizer — machine will fall over', ok: false });
+  if (design.hull && !design.cooling) restrictions.push({ text: 'No Cooling — machine will overheat', ok: false });
+  if (design.hull && !design.armor) restrictions.push({ text: 'No Armor — machine is unprotected', ok: false });
+  if (design.hull && !design.internals) restrictions.push({ text: 'No Internals — machine has no wiring', ok: false });
+  // Check for missing sections
+  if (design.hull && sideCount > 0) {
+    const sectionsPerSide = design.hull?.SideSections || 1;
+    let missingSections = 0;
+    for (let i = 0; i < sideCount; i++) {
+      const comps = design.sideCompartments[i] || [];
+      for (let s = 0; s < sectionsPerSide; s++) {
+        if (!comps[s]) missingSections++;
+      }
+    }
+    if (missingSections > 0) restrictions.push({ text: `${missingSections} section slot${missingSections > 1 ? 's' : ''} empty — select sections`, ok: 'warn' });
+  }
+  if (design.hull && !design.head) restrictions.push({ text: 'No Command Module — consider adding one', ok: 'warn' });
+  if (design.hull && !design.locomotion) restrictions.push({ text: 'No Locomotion — machine cannot move', ok: 'warn' });
+  if (design.hull && weaponSlots === 0) restrictions.push({ text: 'No weapon mounts — machine is unarmed', ok: 'warn' });
+  if (usedTonnage > maxTonnage && maxTonnage > 0) restrictions.push({ text: `Overweight! ${usedTonnage.toFixed(1)}t / ${maxTonnage}t`, ok: false });
+  if (tonnagePct > 90 && tonnagePct <= 100) restrictions.push({ text: 'Near tonnage limit', ok: false });
+
+  // Calculate total armor and internals across all locations
+  let totalArmor = 0, totalInternals = 0, locationCount = 0;
+  if (design.hull) {
+    totalArmor += (design.hull.CenterFrontArmorHP || 0) + (design.hull.CenterRearArmorHP || 0);
+    totalInternals += design.hull.CenterInternalsHP || 0;
+    locationCount++;
+    for (let i = 0; i < sideCount; i++) {
+      totalArmor += (design.hull.SideFrontArmorHP || 0) + (design.hull.SideRearArmorHP || 0);
+      totalInternals += design.hull.SideInternalsHP || 0;
+      locationCount++;
+    }
+  }
+  if (design.head) { totalArmor += (design.head.FrontArmorHP||0) + (design.head.RearArmorHP||0); totalInternals += design.head.InternalsHP||0; locationCount++; }
+  if (loco?.LegArmorHP) { totalArmor += loco.LegArmorHP * 2; totalInternals += loco.LegInternalsHP * 2; locationCount += 2; }
+  if (loco?.TrackArmorHP) { totalArmor += loco.TrackArmorHP * 2; totalInternals += loco.TrackInternalsHP * 2; locationCount += 2; }
+  if (loco?.WheelArmorHP) { totalArmor += loco.WheelArmorHP * 6; totalInternals += loco.WheelInternalsHP * 6; locationCount += 6; }
+  if (loco?.HoverArmorHP) { totalArmor += loco.HoverArmorHP; totalInternals += loco.HoverInternalsHP; locationCount++; }
+  for (const a of design.sideArms) { if (a) { totalArmor += a.ArmorHP||20; totalInternals += a.InternalsHP||10; locationCount++; } }
+  for (const m of design.sideTopMounts) { if (m) { totalArmor += m.ArmorHP||15; totalInternals += m.InternalsHP||8; locationCount++; } }
+
+  const stability = design.stabilizer?.StabilityThreshold || 0;
+  const critChance = design.core?.CritChance || 0;
+  const dissip = design.cooling?.DissipationPerSink || 0;
+  const moveSpeed = allBonuses.MovementSpeed || 0;
+
+  // Mock combat stats (will be real later)
+  const power = design.powerRating || design.core?.MaxPower || 0;
+  const engineTons = power > 0 ? (power * (design.core?.WeightFactor || 1) / 4).toFixed(1) : 0;
+  const mockSpeed = power > 0 ? (power / (maxTonnage || 50) * 10 + moveSpeed * 0.1).toFixed(1) : 0;
+  const mockAccel = (mockSpeed * 1.44).toFixed(1);
+  const mockAlphaDmg = weaponSlots * 35;
+  const mockAlphaHeat = weaponSlots * 12;
+  const mockHeatGen = mockAlphaHeat;
+  const mockDissipation = dissip * 4;
+  const mockNetHeat = mockHeatGen - mockDissipation;
+  const heatThreshold = (design.cooling?.bonuses?.HeatThreshold || 0) + 42;
+
+  // Stat line helper
+  const sl = (label, val, color) => `<div style="display:flex;justify-content:space-between;padding:1px 0"><span style="color:var(--text-dim)">${label}</span><span style="color:${color||'var(--text)'};font-weight:600">${val}</span></div>`;
+  // Stat bar helper
+  const sb = (label, val, max, color) => {
+    const pct = max > 0 ? Math.min(100, val/max*100) : 0;
+    return `<div style="margin:2px 0"><div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--text-dim)">${label}</span><span style="color:${color}">${val}/${max}</span></div><div style="height:4px;background:var(--bg);border-radius:2px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${color};border-radius:2px"></div></div></div>`;
+  };
+
+  // Stats panel
+  right += `<div class="designer-panel" style="background:linear-gradient(135deg,var(--surface) 0%,#1a1e28 100%);font-size:10px">
+    <div class="panel-body">
+
+    <div style="font-size:9px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px">Load Budget</div>
+    <div class="tonnage-bar" style="height:20px;margin-bottom:4px">
+      <div class="fill" style="width:${tonnagePct}%;background:${barColor}"></div>
+      <div class="label" style="line-height:20px;font-size:11px;font-weight:700">${usedTonnage.toFixed(1)}t / ${maxTonnage}t</div>
+    </div>
+    <div style="font-size:8px;color:var(--text-dim);display:flex;justify-content:space-between;margin-bottom:8px">
+      <span>carry ${maxCarry}t</span><span>power ${maxPower}t</span><span>load ${maxLoad}t</span>
+      ${bottleneck ? `<span style="color:var(--orange)">▸ ${bottleneck}</span>` : ''}
+    </div>
+
+    ${(() => {
+      // Section header helper
+      const sh = (label, color) => `<div style="font-size:9px;font-weight:700;color:${color};text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;border-bottom:1px solid var(--border);padding-bottom:2px">${label}</div>`;
+
+      // Survivability
+      const totalHP = totalArmor + totalInternals;
+      const dmgReduction = allBonuses.DamageReduction || 0;
+      const evasion = allBonuses.Evasion || 0;
+
+      // Sustained fire
+      const turnsToShutdown = mockAlphaHeat > 0 && mockNetHeat > 0 ? Math.floor(heatThreshold / mockNetHeat) : 99;
+      const heatNeutralDPS = mockDissipation > 0 ? Math.round(mockAlphaDmg * (mockDissipation / Math.max(1, mockAlphaHeat))) : 0;
+
+      // Ammo (mock — each weapon mount uses ammo)
+      const ammoTypes = [];
+      if (weaponSlots > 0) {
+        ammoTypes.push({ name: 'Strike', shots: 50 });
+        ammoTypes.push({ name: 'Cannon', shots: 100 });
+        ammoTypes.push({ name: 'Siege', shots: 200 });
+      }
+
+      // Pilot
+      const pilotProt = allBonuses.PilotProtection || 0;
+      const injuryResist = allBonuses.InjuryResistance || 0;
+      const ejectCapable = design.head?.bonuses?.EjectCapable ? true : false;
+
+      // Expedition
+      const fieldRepair = allBonuses.FieldRepairChance || 0;
+      const salvageBonus = allBonuses.ScrapBonus || allBonuses.SalvageChance || allBonuses.EquipmentSalvageChance || 0;
+      const jumpCapable = design.locomotion?.bonuses?.JumpCapable ? true : false;
+      const terrainIgnore = design.locomotion?.bonuses?.TerrainPenaltyIgnore ? true : false;
+
+      return `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+
+    <div>
+      ${sh('Overall', 'var(--cyan)')}
+      ${sb('Armor', totalArmor, totalArmor, '#3fb950')}
+      ${sb('Internals', totalInternals, totalInternals, '#f0883e')}
+      ${sl('Total HP', totalHP, 'var(--text)')}
+      ${sl('Engine', power, 'var(--purple)')}
+      ${sl('Locations', locationCount, 'var(--blue)')}
+      ${sl('Slots', totalSlots, 'var(--cyan)')}
+    </div>
+
+    <div>
+      ${sh('Alpha Strike', 'var(--red)')}
+      ${sl('Damage', '~' + mockAlphaDmg)}
+      ${sl('Wpn Mounts', weaponSlots)}
+      ${sl('Alpha Heat', mockAlphaHeat, mockAlphaHeat > heatThreshold ? 'var(--red)' : 'var(--orange)')}
+      ${sl('Core Crit', critChance + '%', critChance > 10 ? 'var(--red)' : critChance > 5 ? 'var(--orange)' : 'var(--text)')}
+      ${sl('Explode Dmg', design.core?.ExplosionDamage || 0, 'var(--red)')}
+      ${sl('Stability', stability)}
+    </div>
+
+    <div>
+      ${sh('Heat', 'var(--orange)')}
+      ${sl('Heat Gen', mockHeatGen, 'var(--orange)')}
+      ${sl('Dissipation', mockDissipation + '/turn', 'var(--cyan)')}
+      ${sl('Net Heat', (mockNetHeat >= 0 ? '+' : '') + mockNetHeat, mockNetHeat > 0 ? 'var(--red)' : 'var(--green)')}
+      ${sl('Threshold', heatThreshold)}
+      ${sh('Sustained Fire', 'var(--purple)')}
+      ${sl('Heat-neutral DPS', heatNeutralDPS)}
+      ${sl('Turns to shutdown', turnsToShutdown >= 99 ? '∞' : turnsToShutdown, turnsToShutdown <= 3 ? 'var(--red)' : turnsToShutdown <= 6 ? 'var(--orange)' : 'var(--green)')}
+    </div>
+
+    <div>
+      ${sh('Mobility', 'var(--green)')}
+      ${sl('Speed', mockSpeed + ' px/s', parseFloat(mockSpeed) > 15 ? 'var(--green)' : 'var(--text)')}
+      ${sl('Acceleration', mockAccel + ' px/s²')}
+      ${sl('Type', design.locomotion?.LocoType || '—')}
+      ${sl('Melee', design.locomotion?.bonuses?.MeleeCapable ? 'Yes' : 'No', design.locomotion?.bonuses?.MeleeCapable ? 'var(--green)' : 'var(--text-dim)')}
+      ${sl('Jump', jumpCapable ? 'Yes' : 'No', jumpCapable ? 'var(--green)' : 'var(--text-dim)')}
+      ${sl('Terrain Ignore', terrainIgnore ? 'Yes' : 'No', terrainIgnore ? 'var(--green)' : 'var(--text-dim)')}
+    </div>
+
+    <div>
+      ${sh('Survivability', '#bc8cff')}
+      ${sl('Total HP', totalHP)}
+      ${sl('Evasion', evasion > 0 ? '+' + evasion : '0', evasion > 0 ? 'var(--green)' : 'var(--text-dim)')}
+      ${sl('Dmg Reduction', dmgReduction > 0 ? Math.round(dmgReduction * 100) + '%' : '0%', dmgReduction > 0 ? 'var(--green)' : 'var(--text-dim)')}
+      ${sl('Armor Type', design.armor?.label || '—')}
+      ${sl('Internals Type', design.internals?.label || '—')}
+    </div>
+
+    <div>
+      ${sh('Pilot', 'var(--blue)')}
+      ${sl('Protection', pilotProt > 0 ? '+' + pilotProt + '%' : '0%', pilotProt > 0 ? 'var(--green)' : 'var(--text-dim)')}
+      ${sl('Injury Resist', injuryResist > 0 ? '+' + injuryResist + '%' : '0%', injuryResist > 0 ? 'var(--green)' : 'var(--text-dim)')}
+      ${sl('Eject', ejectCapable ? 'Yes' : 'No', ejectCapable ? 'var(--green)' : 'var(--red)')}
+      ${sl('Cmd Slots', commandSlots)}
+    </div>
+
+    <div>
+      ${sh('Ammo', 'var(--yellow)')}
+      ${ammoTypes.length > 0 ? ammoTypes.map(a => sl(a.name, a.shots + ' shots')).join('') : sl('No ammo weapons', '—', 'var(--text-dim)')}
+    </div>
+
+    <div>
+      ${sh('Expedition', '#d29922')}
+      ${sl('Field Repair', fieldRepair > 0 ? '+' + fieldRepair + '%' : '0%', fieldRepair > 0 ? 'var(--green)' : 'var(--text-dim)')}
+      ${sl('Salvage Bonus', salvageBonus > 0 ? '+' + salvageBonus + '%' : '0%', salvageBonus > 0 ? 'var(--green)' : 'var(--text-dim)')}
+      ${sl('Carry Cap', (design.locomotion?.MaxCarry || 0) + 't')}
+    </div>
+
+    </div>
+
+    ${restrictions.length > 0 ? `<div style="border-top:1px solid var(--border);padding-top:4px;margin-top:6px">
+      ${sh('Status', 'var(--yellow)')}
+      ${restrictions.map(r => {
+        const color = r.ok === true ? 'var(--green)' : r.ok === 'warn' ? 'var(--yellow)' : 'var(--red)';
+        const icon = r.ok === true ? '✓' : r.ok === 'warn' ? '⚠' : '✗';
+        return `<div style="color:${color};padding:1px 0">${icon} ${r.text}</div>`;
+      }).join('')}
+    </div>` : ''}
+    `;
+    })()}
+
+    </div>
+  </div>`;
+
+  // Machine layout
+  // Machine sprite preview
+  right += `<div class="designer-panel"><h3>Preview</h3><div class="panel-body" style="display:flex;justify-content:center;background:var(--bg);border-radius:4px;padding:12px">`;
+  right += renderMachineSprite();
+  right += `</div></div>`;
+
+  right += `<div class="designer-panel"><h3>Machine Layout</h3><div class="panel-body"><div class="machine-layout">`;
+
+  function renderLocPanel(loc) {
+    let h = `<div class="loc-panel" style="border-top:3px solid ${loc.color}">
+      <div class="loc-header"><span>${loc.name}</span>${loc.internalsHP > 0 ? `<span style="font-size:9px;color:var(--orange);font-weight:400;font-style:italic">I:${loc.internalsHP}</span>` : ''}</div>`;
+    const hasFrontRear = loc.frontArmorHP > 0;
+    const maxFront = loc.frontArmorHP || loc.armorHP || 0;
+    const maxRear = loc.rearArmorHP || 0;
+    const frontShift = loc.locId !== undefined ? (design.armorShifts[`${loc.locId}_front`] || 0) : 0;
+    const rearShift = loc.locId !== undefined ? (design.armorShifts[`${loc.locId}_rear`] || 0) : 0;
+    const frontA = Math.max(0, Math.min(maxFront, maxFront + frontShift));
+    const rearA = Math.max(0, Math.min(maxRear, maxRear + rearShift));
+    if (maxFront > 0 || maxRear > 0) {
+      h += `<div class="loc-bars">`;
+      if (loc.locId !== undefined && hasFrontRear) {
+        // Front/rear split with +/- controls
+        h += `<div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">
+          <span style="font-size:8px;color:#3fb950;width:10px">F</span>
+          <button onclick="adjustArmor('${loc.locId}','front',-5)" style="background:none;border:1px solid var(--border);color:var(--text-dim);width:16px;height:14px;font-size:9px;cursor:pointer;border-radius:2px;padding:0">-</button>
+          <div class="hp-bar" style="flex:1"><div class="hp-fill" style="width:${maxFront > 0 ? frontA/maxFront*100 : 0}%;background:#3fb950"></div><div class="hp-label">${frontA}/${maxFront}</div></div>
+          <button onclick="adjustArmor('${loc.locId}','front',5)" style="background:none;border:1px solid var(--border);color:var(--text-dim);width:16px;height:14px;font-size:9px;cursor:pointer;border-radius:2px;padding:0">+</button>
+        </div>`;
+        h += `<div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">
+          <span style="font-size:8px;color:#2a8a2a;width:10px">R</span>
+          <button onclick="adjustArmor('${loc.locId}','rear',-5)" style="background:none;border:1px solid var(--border);color:var(--text-dim);width:16px;height:14px;font-size:9px;cursor:pointer;border-radius:2px;padding:0">-</button>
+          <div class="hp-bar" style="flex:1;background:#1a2a1a"><div class="hp-fill" style="width:${maxRear > 0 ? rearA/maxRear*100 : 0}%;background:#2a8a2a"></div><div class="hp-label">${rearA}/${maxRear}</div></div>
+          <button onclick="adjustArmor('${loc.locId}','rear',5)" style="background:none;border:1px solid var(--border);color:var(--text-dim);width:16px;height:14px;font-size:9px;cursor:pointer;border-radius:2px;padding:0">+</button>
+        </div>`;
+      } else if (maxFront > 0 && !hasFrontRear) {
+        // Single armor bar (legs, arms, tracks, wheels)
+        h += `<div class="hp-bar" style="background:#1a2a1a"><div class="hp-fill" style="width:100%;background:#3fb950"></div><div class="hp-label">A ${maxFront}</div></div>`;
+      } else {
+        if (maxFront > 0) h += `<div class="hp-bar" style="background:#1a2a1a"><div class="hp-fill" style="width:100%;background:#3fb950"></div><div class="hp-label">F ${maxFront}</div></div>`;
+        if (maxRear > 0) h += `<div class="hp-bar" style="background:#1a2a1a"><div class="hp-fill" style="width:100%;background:#2a8a2a"></div><div class="hp-label">R ${maxRear}</div></div>`;
+      }
+      h += `</div>`;
+    }
+    // Reactor widget (center hull only)
+    if (loc.reactorWidget) h += loc.reactorWidget;
+
+    if (loc.slots > 0 || loc.systems.length > 0) {
+      h += `<div class="loc-slots">`;
+      for (const s of loc.systems) h += `<div class="loc-slot system">${s}</div>`;
+      for (let i = loc.systems.length; i < loc.slots; i++) h += `<div class="loc-slot empty">empty</div>`;
+      h += `</div>`;
+    }
+    if (loc.removable !== undefined) {
+      h += `<div style="padding:3px 8px;text-align:right"><button onclick="removeSection(${loc.removable})" style="background:var(--red);color:#fff;border:none;padding:2px 6px;border-radius:2px;cursor:pointer;font-size:9px">×</button></div>`;
+    }
+    h += `</div>`;
+    return h;
+  }
+
+  function renderReactorWidget() {
+    if (!design.core) {
+      return `<div style="padding:8px;border-top:1px solid var(--border);text-align:center">
+        <div style="font-size:9px;color:var(--cyan);margin-bottom:4px">Flux Core</div>
+        <div style="width:56px;height:56px;border-radius:50%;border:2px dashed var(--red);display:flex;align-items:center;justify-content:center;margin:8px auto;background:var(--bg)">
+          <span style="font-size:8px;color:var(--red)">NONE</span>
+        </div>
+        <div style="font-size:9px;color:var(--red);font-weight:600">⚠ Select a Flux Core</div>
+      </div>`;
+    }
+    const core = design.core;
+    const cooling = design.cooling;
+    const dissip = cooling?.DissipationPerSink || 0;
+    const coreIcon = core.icon || 'engine';
+
+    let h = `<div style="padding:6px 8px;border-top:1px solid var(--border)">`;
+
+    // Core header
+    h += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
+      <div style="font-size:9px;color:var(--cyan)">Flux Core</div>
+    </div>`;
+    h += `<div style="display:flex;align-items:center;gap:6px">
+      <img src="/SpriteGenerator/Icons/${coreIcon}.svg" width="14" height="14" style="filter:brightness(0.9)">
+      <span style="font-size:10px;font-weight:600">${core.label}</span>
+      <span style="font-size:9px;color:var(--text-dim);margin-left:auto">Crit: ${core.CritChance || 0}%</span>
+    </div>`;
+
+    // Power dial with +/- controls
+    const power = design.powerRating || maxPower;
+    const hsCount = 4;
+    h += `<div style="display:flex;align-items:center;justify-content:center;gap:6px;margin:6px 0">`;
+
+    // Heatsink column left
+    h += `<div style="display:flex;flex-direction:column;gap:2px">`;
+    for (let i = 0; i < Math.ceil(hsCount/2); i++) {
+      h += `<div style="background:#3fb950;color:#000;font-size:6px;font-weight:700;padding:1px 3px;border-radius:2px;text-align:center">HS</div>`;
+    }
+    h += `</div>`;
+
+    // Power circle with arc fill
+    const maxP = core.MaxPower || 100;
+    const pct = maxP > 0 ? power / maxP : 0;
+    const r = 25; const cx = 30; const cy = 30;
+    const angle = pct * 360;
+    const rad = (angle - 90) * Math.PI / 180;
+    const largeArc = angle > 180 ? 1 : 0;
+    const ex = cx + r * Math.cos(rad);
+    const ey = cy + r * Math.sin(rad);
+    const arcPath = angle >= 360
+      ? `M${cx},${cy-r} A${r},${r} 0 1,1 ${cx-0.01},${cy-r}`
+      : `M${cx},${cy-r} A${r},${r} 0 ${largeArc},1 ${ex},${ey}`;
+    const arcColor = pct > 0.9 ? '#f85149' : pct > 0.7 ? '#f0883e' : '#bc8cff';
+
+    h += `<div style="display:flex;align-items:center;gap:2px">
+      <button onclick="adjustPower(-5)" style="background:none;border:none;color:var(--text-dim);font-size:14px;cursor:pointer;padding:0 2px">-</button>
+      <div style="position:relative;width:60px;height:60px">
+        <svg width="60" height="60" style="position:absolute;top:0;left:0">
+          <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--border)" stroke-width="3"/>
+          ${angle > 0 ? `<path d="${arcPath}" fill="none" stroke="${arcColor}" stroke-width="3" stroke-linecap="round"/>` : ''}
+        </svg>
+        <div style="position:absolute;top:0;left:0;width:60px;height:60px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <div style="font-size:15px;font-weight:700;color:var(--text)">${power}</div>
+          <div style="font-size:7px;color:var(--text-dim)">power</div>
+        </div>
+      </div>
+      <button onclick="adjustPower(5)" style="background:none;border:none;color:var(--text-dim);font-size:14px;cursor:pointer;padding:0 2px">+</button>
+    </div>`;
+
+    // Heatsink column right
+    h += `<div style="display:flex;flex-direction:column;gap:2px">`;
+    for (let i = 0; i < Math.floor(hsCount/2); i++) {
+      h += `<div style="background:#3fb950;color:#000;font-size:6px;font-weight:700;padding:1px 3px;border-radius:2px;text-align:center">HS</div>`;
+    }
+    h += `</div>`;
+
+    h += `</div>`;
+
+    // Cooling
+    if (cooling) {
+      h += `<div style="display:flex;align-items:center;gap:6px;margin-top:4px">
+        <img src="/SpriteGenerator/Icons/${cooling.icon || 'heatsink'}.svg" width="14" height="14" style="filter:brightness(0.9)">
+        <span style="font-size:10px">${cooling.label}</span>
+        <span style="font-size:9px;color:var(--text-dim);margin-left:auto">${dissip}/sink</span>
+      </div>`;
+    }
+
+    h += `</div>`;
+    return h;
+  }
+
+  function renderMachineSprite() {
+    // Top-down view: forward = up, left/right = sides
+    const w = 260, h = 220;
+    const cx = w / 2, cy = h / 2;
+    let svg = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">`;
+
+    // Direction indicator
+    svg += `<polygon points="${cx},8 ${cx-4},16 ${cx+4},16" fill="#30363d" opacity="0.5"/>`;
+    svg += `<text x="${cx}" y="6" text-anchor="middle" fill="#30363d" font-size="7" font-family="monospace">FWD</text>`;
+
+    const hullC = '#bc8cff', sideC = '#6e7681', armC = '#d29922';
+    const headC = '#58a6ff', locoC = '#3fb950', mountC = '#f0883e';
+    const ghostStroke = '#30363d';
+
+    if (design.hull) {
+      const locs = design.hull.Locations || 1;
+      const bodyW = locs === 1 ? 50 : 60;
+      const bodyH = 80;
+      const bodyX = cx - bodyW/2;
+      const bodyY = cy - bodyH/2 + 10;
+
+      // Center hull — tapered front (narrower at top)
+      const taper = 8;
+      svg += `<polygon points="${bodyX+taper},${bodyY} ${bodyX+bodyW-taper},${bodyY} ${bodyX+bodyW},${bodyY+20} ${bodyX+bodyW},${bodyY+bodyH} ${bodyX},${bodyY+bodyH} ${bodyX},${bodyY+20}" fill="${hullC}18" stroke="${hullC}" stroke-width="1.5"/>`;
+
+      // Reactor glow in center
+      if (design.core) {
+        const power = design.powerRating || design.core.MaxPower || 50;
+        const maxP = design.core.MaxPower || 100;
+        const glowR = 5 + (power / maxP) * 7;
+        svg += `<circle cx="${cx}" cy="${bodyY+bodyH*0.55}" r="${glowR}" fill="${hullC}" opacity="0.12"/>`;
+        svg += `<circle cx="${cx}" cy="${bodyY+bodyH*0.55}" r="${glowR}" fill="none" stroke="${hullC}" stroke-width="0.8" opacity="0.5"/>`;
+      }
+
+      // Side hulls
+      if (locs >= 3) {
+        const sideW = 30;
+        const sideH = bodyH - 16;
+        const sideY = bodyY + 8;
+
+        // Left hull
+        svg += `<rect x="${bodyX-sideW-3}" y="${sideY}" width="${sideW}" height="${sideH}" rx="3" fill="${sideC}18" stroke="${sideC}" stroke-width="1"/>`;
+        // Right hull
+        svg += `<rect x="${bodyX+bodyW+3}" y="${sideY}" width="${sideW}" height="${sideH}" rx="3" fill="${sideC}18" stroke="${sideC}" stroke-width="1"/>`;
+
+        // Left arm — extends left
+        if (design.sideArms[0]) {
+          const ax = bodyX - sideW - 3 - 14;
+          svg += `<rect x="${ax}" y="${sideY+10}" width="10" height="${sideH-20}" rx="2" fill="${armC}28" stroke="${armC}" stroke-width="1"/>`;
+          // Hand/weapon at front
+          svg += `<rect x="${ax-1}" y="${sideY+4}" width="12" height="8" rx="2" fill="${armC}38" stroke="${armC}" stroke-width="0.7"/>`;
+        }
+
+        // Right arm — extends right
+        if (design.sideArms[1]) {
+          const ax = bodyX + bodyW + sideW + 7;
+          svg += `<rect x="${ax}" y="${sideY+10}" width="10" height="${sideH-20}" rx="2" fill="${armC}28" stroke="${armC}" stroke-width="1"/>`;
+          svg += `<rect x="${ax-1}" y="${sideY+4}" width="12" height="8" rx="2" fill="${armC}38" stroke="${armC}" stroke-width="0.7"/>`;
+        }
+
+        // Left top mount — circle on top of left hull
+        if (design.sideTopMounts[0]) {
+          const mtX = bodyX - sideW/2 - 3;
+          svg += `<circle cx="${mtX}" cy="${sideY+12}" r="9" fill="${mountC}28" stroke="${mountC}" stroke-width="1"/>`;
+          svg += `<line x1="${mtX}" y1="${sideY+3}" x2="${mtX}" y2="${sideY-6}" stroke="${mountC}" stroke-width="2" stroke-linecap="round"/>`;
+        }
+
+        // Right top mount
+        if (design.sideTopMounts[1]) {
+          const mtX = bodyX + bodyW + sideW/2 + 3;
+          svg += `<circle cx="${mtX}" cy="${sideY+12}" r="9" fill="${mountC}28" stroke="${mountC}" stroke-width="1"/>`;
+          svg += `<line x1="${mtX}" y1="${sideY+3}" x2="${mtX}" y2="${sideY-6}" stroke="${mountC}" stroke-width="2" stroke-linecap="round"/>`;
+        }
+      }
+
+      // Head/Command — front of hull
+      if (design.head) {
+        const headW = 24, headH = 18;
+        svg += `<rect x="${cx-headW/2}" y="${bodyY-headH-2}" width="${headW}" height="${headH}" rx="4" fill="${headC}22" stroke="${headC}" stroke-width="1.5"/>`;
+        // Sensor dish
+        svg += `<circle cx="${cx}" cy="${bodyY-headH/2-2}" r="4" fill="none" stroke="${headC}" stroke-width="0.8"/>`;
+        svg += `<circle cx="${cx}" cy="${bodyY-headH/2-2}" r="1.5" fill="${headC}" opacity="0.5"/>`;
+      } else {
+        svg += `<rect x="${cx-12}" y="${bodyY-20}" width="24" height="16" rx="3" fill="none" stroke="${ghostStroke}" stroke-width="1" stroke-dasharray="3,2"/>`;
+      }
+
+      // Locomotion — rear of hull
+      if (design.locomotion) {
+        const locoLabel = design.locomotion.label || '';
+        const ly = bodyY + bodyH;
+        const isBiped = locoLabel.toLowerCase().includes('biped') || locoLabel.toLowerCase().includes('walker');
+        const isTracked = locoLabel.toLowerCase().includes('track');
+        const isWheeled = locoLabel.toLowerCase().includes('wheel');
+        const isHover = locoLabel.toLowerCase().includes('hover');
+        const isQuad = locoLabel.toLowerCase().includes('quad');
+
+        if (isBiped) {
+          // Two legs below, spread
+          svg += `<rect x="${cx-20}" y="${ly+2}" width="10" height="20" rx="3" fill="${locoC}22" stroke="${locoC}" stroke-width="1"/>`;
+          svg += `<rect x="${cx+10}" y="${ly+2}" width="10" height="20" rx="3" fill="${locoC}22" stroke="${locoC}" stroke-width="1"/>`;
+          // Feet (wider)
+          svg += `<rect x="${cx-22}" y="${ly+18}" width="14" height="6" rx="2" fill="${locoC}33" stroke="${locoC}" stroke-width="0.7"/>`;
+          svg += `<rect x="${cx+8}" y="${ly+18}" width="14" height="6" rx="2" fill="${locoC}33" stroke="${locoC}" stroke-width="0.7"/>`;
+        } else if (isTracked) {
+          // Two long tracks on sides
+          svg += `<rect x="${cx-bodyW/2-4}" y="${ly-bodyH+5}" width="8" height="${bodyH+4}" rx="3" fill="${locoC}22" stroke="${locoC}" stroke-width="1.5"/>`;
+          svg += `<rect x="${cx+bodyW/2-4}" y="${ly-bodyH+5}" width="8" height="${bodyH+4}" rx="3" fill="${locoC}22" stroke="${locoC}" stroke-width="1.5"/>`;
+        } else if (isWheeled) {
+          // Wheels on sides
+          svg += `<circle cx="${cx-bodyW/2}" cy="${ly-15}" r="6" fill="${locoC}22" stroke="${locoC}" stroke-width="1"/>`;
+          svg += `<circle cx="${cx+bodyW/2}" cy="${ly-15}" r="6" fill="${locoC}22" stroke="${locoC}" stroke-width="1"/>`;
+          svg += `<circle cx="${cx-bodyW/2}" cy="${ly+8}" r="6" fill="${locoC}22" stroke="${locoC}" stroke-width="1"/>`;
+          svg += `<circle cx="${cx+bodyW/2}" cy="${ly+8}" r="6" fill="${locoC}22" stroke="${locoC}" stroke-width="1"/>`;
+        } else if (isHover) {
+          // Hover skirt around hull
+          svg += `<ellipse cx="${cx}" cy="${bodyY+bodyH/2}" rx="${bodyW/2+8}" ry="${bodyH/2+8}" fill="none" stroke="${locoC}" stroke-width="1" stroke-dasharray="4,3" opacity="0.4"/>`;
+        } else if (isQuad) {
+          // Four legs at corners
+          const pts = [[-20,ly+2], [10,ly+2], [-20,ly-bodyH-2], [10,ly-bodyH-2]];
+          for (const [px,py] of pts) {
+            svg += `<rect x="${cx+px}" y="${py}" width="10" height="14" rx="2" fill="${locoC}22" stroke="${locoC}" stroke-width="1"/>`;
+          }
+        } else {
+          svg += `<rect x="${cx-20}" y="${ly+2}" width="40" height="12" rx="3" fill="${locoC}22" stroke="${locoC}" stroke-width="1"/>`;
+        }
+      } else {
+        svg += `<rect x="${cx-16}" y="${bodyY+bodyH+2}" width="32" height="12" rx="3" fill="none" stroke="${ghostStroke}" stroke-width="1" stroke-dasharray="3,2"/>`;
+      }
+
+    } else {
+      // Ghost hull
+      svg += `<rect x="${cx-30}" y="${cy-30}" width="60" height="70" rx="4" fill="none" stroke="${ghostStroke}" stroke-width="1" stroke-dasharray="4,3"/>`;
+      svg += `<text x="${cx}" y="${cy+5}" text-anchor="middle" fill="${ghostStroke}" font-size="8" font-family="monospace">SELECT HULL</text>`;
+    }
+
+    svg += `</svg>`;
+    return svg;
+  }
+
+  function renderSystemSlot(label, item, statLabel, statValue, warningText) {
+    if (item) {
+      return `<div style="display:flex;align-items:center;gap:6px;margin-top:3px;padding:3px 6px;background:var(--bg);border:1px solid var(--border);border-radius:3px">
+        <span style="font-size:10px">${label} ${item.label}</span>
+        ${statLabel ? `<span style="font-size:9px;color:var(--text-dim);margin-left:auto">${statLabel} ${statValue}</span>` : ''}
+      </div>`;
+    }
+    return `<div style="margin-top:3px;padding:3px 6px;border:1px dashed var(--orange);border-radius:3px;text-align:center">
+      <span style="font-size:9px;color:var(--orange)">⚠ ${warningText}</span>
+    </div>`;
+  }
+
+  const hasAnything = design.head || design.hull || design.locomotion;
+
+  if (!hasAnything) {
+    right += `<div style="color:var(--text-dim);font-size:11px;text-align:center;padding:20px">Select a hull to start building</div>`;
+  } else {
+
+    // Machine grid layout
+    if (design.hull) {
+      right += `<div class="machine-row">`;
+
+      const sectionColors = ['#3fb950', '#58a6ff', '#d29922', '#bc8cff'];
+
+      function renderSectionWidget(sideIdx, secIdx, comp) {
+        const sColor = sectionColors[secIdx % sectionColors.length];
+        if (comp) {
+          let h = `<div style="padding:3px 8px;border-top:1px solid var(--border)">
+            <div style="font-size:8px;color:${sColor};font-weight:600;margin-bottom:2px">${comp.label} <span style="color:var(--text-dim);font-weight:400">${comp.Tonnage || 0}t</span></div>`;
+          const slots = comp.Slots || 0;
+          for (let i = 0; i < slots; i++) h += `<div class="loc-slot empty" style="border-left:2px solid ${sColor}">empty</div>`;
+          h += `</div>`;
+          return h;
+        }
+        return `<div style="padding:4px 8px;border-top:1px solid var(--border)">
+          <div class="loc-slot empty" style="border-left:2px solid var(--orange);border-color:var(--orange);color:var(--orange)">⚠ Section ${secIdx+1} — select</div>
+        </div>`;
+      }
+
+      function buildSidePanel(i) {
+        const comps = design.sideCompartments[i] || [];
+        const sectionsPerSide = design.hull?.SideSections || 1;
+        const sideLabels = sideCount <= 2 ? ['LEFT HULL', 'RIGHT HULL'] : ['LEFT OUTER HULL', 'LEFT HULL', 'RIGHT HULL', 'RIGHT OUTER HULL'];
+        const label = sideLabels[i] || `SIDE ${i+1}`;
+        const systems = [];
+        let totalSlots = 0;
+
+        // Build section widgets
+        let sectionWidgets = '';
+        for (let s = 0; s < sectionsPerSide; s++) {
+          const c = comps[s];
+          sectionWidgets += renderSectionWidget(i, s, c);
+          totalSlots += c?.Slots || design.hull.SideSlots || 0;
+        }
+
+        const locId = `side_${i}`;
+        return {
+          name: label, locId: locId,
+          frontArmorHP: comps[0]?.FrontArmorHP || design.hull.SideFrontArmorHP || 0,
+          rearArmorHP: comps[0]?.RearArmorHP || design.hull.SideRearArmorHP || 0,
+          internalsHP: comps[0]?.InternalsHP || design.hull.SideInternalsHP || 0,
+          slots: totalSlots,
+          color: '#6e7681',
+          systems: [],
+          reactorWidget: sectionWidgets
+        };
+      }
+
+      function renderAttachPanel(attach) {
+        if (!attach) return '';
+        const totalSlots = attach.Slots || 0;
+        const aColor = '#d29922';
+        const armorHP = attach.ArmorHP || 20;
+        const internalsHP = attach.InternalsHP || 10;
+        let h = `<div class="loc-panel" style="border-top:3px solid ${aColor};min-width:100px">
+          <div class="loc-header"><span>${attach.label}</span>${internalsHP ? `<span style="font-size:9px;color:var(--orange);font-weight:400;font-style:italic">I:${internalsHP}</span>` : ''}</div>`;
+        if (armorHP > 0) {
+          h += `<div class="loc-bars"><div class="hp-bar" style="background:#1a2a1a"><div class="hp-fill" style="width:100%;background:#3fb950"></div><div class="hp-label">A ${armorHP}</div></div></div>`;
+        }
+        h += `<div style="padding:3px 8px">
+            <div style="font-size:8px;color:var(--text-dim);margin-bottom:2px">${attach.Tonnage || 0}t${attach.FiringArc ? ' | ' + attach.FiringArc + '°' : ''}</div>`;
+        for (let i = 0; i < totalSlots; i++) h += `<div class="loc-slot empty" style="border-left:2px solid ${aColor}">empty</div>`;
+        if (totalSlots === 0) h += `<div style="font-size:8px;color:var(--text-dim)">no slots</div>`;
+        h += `</div></div>`;
+        return h;
+      }
+
+      // CSS GRID layout: 5 columns for 3-loc hull
+      // Col:  1=armL  2=leftHull  3=center  4=rightHull  5=armR
+      // Row1: -       topMountL   head      topMountR    -
+      // Row2: armL    leftHull    center    rightHull    armR
+      // Row3: -       -           loco      -            -
+
+      const hasLeft = sideCount >= 2;
+      const gc = hasLeft ? 5 : 1; // grid columns
+      right += `<div class="machine-grid" style="grid-template-columns:${'auto '.repeat(gc)};grid-template-rows:auto auto auto">`;
+
+      // ROW 1: top mounts + head/command (always shown)
+      if (hasLeft) {
+        right += `<div style="grid-row:1;grid-column:1"></div>`;
+        right += `<div style="grid-row:1;grid-column:2;align-self:end">${design.sideTopMounts[0] ? renderAttachPanel(design.sideTopMounts[0]) : ''}</div>`;
+      }
+      right += `<div style="grid-row:1;grid-column:${hasLeft?3:1};align-self:end">`;
+      if (design.head) {
+        right += renderLocPanel({
+          name: design.head.label || 'COMMAND', locId: 'head',
+          frontArmorHP: design.head.FrontArmorHP || 0, rearArmorHP: design.head.RearArmorHP || 0,
+          internalsHP: design.head.InternalsHP || 0, slots: design.head.CommandSlots || 0, color: '#58a6ff',
+          systems: [design.head.WeaponSlots ? `⚔ Wpn: ${design.head.WeaponSlots}` : null, 'Capsule', 'Targeting', 'Survival'].filter(Boolean)
+        });
+      } else {
+        right += `<div class="loc-panel" style="border-top:3px dashed var(--orange);min-width:140px">
+          <div style="padding:8px;text-align:center"><span style="font-size:9px;color:var(--orange)">⚠ Select Command Module</span></div>
+        </div>`;
+      }
+      right += `</div>`;
+      if (hasLeft) {
+        right += `<div style="grid-row:1;grid-column:4;align-self:end">${design.sideTopMounts[1] ? renderAttachPanel(design.sideTopMounts[1]) : ''}</div>`;
+        right += `<div style="grid-row:1;grid-column:5"></div>`;
+      }
+
+      // ROW 2: arms + hulls + center
+      if (hasLeft) {
+        right += (design.sideArms[0] ? `<div style="grid-row:2;grid-column:1;align-self:start">${renderAttachPanel(design.sideArms[0])}</div>` : `<div style="grid-row:2;grid-column:1"></div>`);
+        right += `<div style="grid-row:2;grid-column:2;align-self:start">${renderLocPanel(buildSidePanel(0))}</div>`;
+      }
+
+      // Build center hull content: reactor + system slots
+      let centerWidget = renderReactorWidget();
+      centerWidget += renderSystemSlot('◎', design.stabilizer, 'stab', design.stabilizer?.StabilityThreshold || 0, 'Select Stabilizer');
+      centerWidget += renderSystemSlot('🛡', design.armor, 'wt', (design.armor?.WeightFactor || 1) + 'x', 'Select Armor');
+      centerWidget += renderSystemSlot('⚙', design.internals, 'wt', (design.internals?.InternalsWeight || 1) + 'x', 'Select Internals');
+
+      const centerColNum = hasLeft ? 3 : 1;
+      right += `<div style="grid-row:2;grid-column:${centerColNum};align-self:start">`;
+      right += renderLocPanel({
+        name: design.hull.label || 'CENTER', locId: 'center',
+        frontArmorHP: design.hull.CenterFrontArmorHP || 0,
+        rearArmorHP: design.hull.CenterRearArmorHP || 0,
+        internalsHP: design.hull.CenterInternalsHP || 0,
+        slots: design.hull.CenterSlots || 0, color: '#bc8cff', systems: [],
+        reactorWidget: centerWidget
+      });
+      right += `</div>`;
+
+      if (hasLeft) {
+        right += `<div style="grid-row:2;grid-column:4;align-self:start">${renderLocPanel(buildSidePanel(1))}</div>`;
+        right += (design.sideArms[1] ? `<div style="grid-row:2;grid-column:5;align-self:start">${renderAttachPanel(design.sideArms[1])}</div>` : `<div style="grid-row:2;grid-column:5"></div>`);
+      }
+
+      // ROW 3: locomotion (always shown)
+      function renderLocoRow() {
+        if (!design.locomotion) {
+          if (hasLeft) right += `<div style="grid-row:3;grid-column:1"></div><div style="grid-row:3;grid-column:2"></div>`;
+          right += `<div style="grid-row:3;grid-column:${centerColNum}">
+            <div class="loc-panel" style="border-top:3px dashed var(--orange);min-width:140px">
+              <div style="padding:8px;text-align:center"><span style="font-size:9px;color:var(--orange)">⚠ Select Locomotion</span></div>
+            </div></div>`;
+          if (hasLeft) right += `<div style="grid-row:3;grid-column:4"></div><div style="grid-row:3;grid-column:5"></div>`;
+          return;
+        }
+
+        const loco = design.locomotion;
+        const lt = loco.LocoType || 'generic';
+        const locoLabel = `<div style="text-align:center;font-size:9px;color:var(--green);padding:4px">${loco.label}<br><span style="color:var(--text-dim)">Carry: ${loco.MaxCarry || 0}t</span></div>`;
+
+        if (lt === 'bipedal') {
+          // 2 legs: left + right
+          if (hasLeft) right += `<div style="grid-row:3;grid-column:1"></div>`;
+          right += `<div style="grid-row:3;grid-column:${hasLeft?2:1}">${renderLocPanel({ name:'LEFT LEG', locId:'leg_l', armorHP:loco.LegArmorHP||0, internalsHP:loco.LegInternalsHP||0, slots:loco.LegSlots||0, color:'#3fb950', systems:[] })}</div>`;
+          right += `<div style="grid-row:3;grid-column:${centerColNum};display:flex;align-items:center;justify-content:center">${locoLabel}</div>`;
+          right += `<div style="grid-row:3;grid-column:${hasLeft?4:3}">${renderLocPanel({ name:'RIGHT LEG', locId:'leg_r', armorHP:loco.LegArmorHP||0, internalsHP:loco.LegInternalsHP||0, slots:loco.LegSlots||0, color:'#3fb950', systems:[] })}</div>`;
+          if (hasLeft) right += `<div style="grid-row:3;grid-column:5"></div>`;
+
+        } else if (lt === 'tracked') {
+          // 2 tracks: left + right
+          if (hasLeft) right += `<div style="grid-row:3;grid-column:1"></div>`;
+          right += `<div style="grid-row:3;grid-column:${hasLeft?2:1}">${renderLocPanel({ name:'LEFT TRACK', locId:'track_l', armorHP:loco.TrackArmorHP||0, internalsHP:loco.TrackInternalsHP||0, slots:loco.TrackSlots||0, color:'#3fb950', systems:[] })}</div>`;
+          right += `<div style="grid-row:3;grid-column:${centerColNum};display:flex;align-items:center;justify-content:center">${locoLabel}</div>`;
+          right += `<div style="grid-row:3;grid-column:${hasLeft?4:3}">${renderLocPanel({ name:'RIGHT TRACK', locId:'track_r', armorHP:loco.TrackArmorHP||0, internalsHP:loco.TrackInternalsHP||0, slots:loco.TrackSlots||0, color:'#3fb950', systems:[] })}</div>`;
+          if (hasLeft) right += `<div style="grid-row:3;grid-column:5"></div>`;
+
+        } else if (lt === 'wheeled') {
+          // 6 wheels in 2 rows (row 3 + row 4)
+          const wa = loco.WheelArmorHP || 15, wi = loco.WheelInternalsHP || 8;
+          const miniWheel = (name, id) => `<div class="loc-panel" style="border-top:2px solid #3fb950;min-width:60px">
+            <div class="loc-header" style="padding:2px 6px;font-size:9px"><span>${name}</span><span style="font-size:8px;color:var(--orange);font-style:italic">I:${wi}</span></div>
+            <div class="loc-bars"><div class="hp-bar" style="background:#1a2a1a"><div class="hp-fill" style="width:100%;background:#3fb950"></div><div class="hp-label">A ${wa}</div></div></div></div>`;
+
+          if (hasLeft) right += `<div style="grid-row:3;grid-column:1"></div>`;
+          right += `<div style="grid-row:3;grid-column:${hasLeft?2:1}"><div style="display:flex;gap:2px">${miniWheel('FL','w_fl')}${miniWheel('FR','w_fr')}</div></div>`;
+          right += `<div style="grid-row:3;grid-column:${centerColNum};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px">
+            ${locoLabel}
+            <div style="display:flex;gap:2px">${miniWheel('ML','w_ml')}${miniWheel('MR','w_mr')}</div></div>`;
+          right += `<div style="grid-row:3;grid-column:${hasLeft?4:3}"><div style="display:flex;gap:2px">${miniWheel('RL','w_rl')}${miniWheel('RR','w_rr')}</div></div>`;
+          if (hasLeft) right += `<div style="grid-row:3;grid-column:5"></div>`;
+
+        } else if (lt === 'quad') {
+          // 4 legs
+          const la = loco.LegArmorHP || 30, li = loco.LegInternalsHP || 15, ls = loco.LegSlots || 1;
+          if (hasLeft) right += `<div style="grid-row:3;grid-column:1"></div>`;
+          right += `<div style="grid-row:3;grid-column:${hasLeft?2:1}"><div style="display:flex;flex-direction:column;gap:2px">
+            ${renderLocPanel({ name:'FRONT L', locId:'qleg_fl', armorHP:la, internalsHP:li, slots:ls, color:'#3fb950', systems:[] })}
+            ${renderLocPanel({ name:'REAR L', locId:'qleg_rl', armorHP:la, internalsHP:li, slots:ls, color:'#3fb950', systems:[] })}
+          </div></div>`;
+          right += `<div style="grid-row:3;grid-column:${centerColNum};display:flex;align-items:center;justify-content:center">${locoLabel}</div>`;
+          right += `<div style="grid-row:3;grid-column:${hasLeft?4:3}"><div style="display:flex;flex-direction:column;gap:2px">
+            ${renderLocPanel({ name:'FRONT R', locId:'qleg_fr', armorHP:la, internalsHP:li, slots:ls, color:'#3fb950', systems:[] })}
+            ${renderLocPanel({ name:'REAR R', locId:'qleg_rr', armorHP:la, internalsHP:li, slots:ls, color:'#3fb950', systems:[] })}
+          </div></div>`;
+          if (hasLeft) right += `<div style="grid-row:3;grid-column:5"></div>`;
+
+        } else {
+          // Hover, flying, generic — single center panel
+          if (hasLeft) right += `<div style="grid-row:3;grid-column:1"></div><div style="grid-row:3;grid-column:2"></div>`;
+          right += `<div style="grid-row:3;grid-column:${centerColNum}">`;
+          right += renderLocPanel({ name: loco.label || 'LOCOMOTION', armorHP: loco.HoverArmorHP || loco.RotorArmorHP || 0, internalsHP: loco.HoverInternalsHP || loco.RotorInternalsHP || 0, slots: loco.HoverSlots || loco.RotorSlots || 0, color: '#3fb950', systems: [`Carry: ${loco.MaxCarry || 0}t`] });
+          right += `</div>`;
+          if (hasLeft) right += `<div style="grid-row:3;grid-column:4"></div><div style="grid-row:3;grid-column:5"></div>`;
+        }
+      }
+      renderLocoRow();
+
+      right += `</div>`;
+    } else if (design.locomotion) {
+      // No hull but has locomotion
+      right += `<div class="machine-row">`;
+      right += renderLocPanel({ name: design.locomotion.label || 'LOCOMOTION', armorHP: 0, internalsHP: 0, slots: 0, color: '#3fb950', systems: [`Carry: ${design.locomotion.MaxCarry || 0}t`] });
+      right += `</div>`;
+    }
+  }
+
+  right += `</div></div></div>`;
+
+  // Bonuses
+  if (Object.keys(allBonuses).length > 0) {
+    right += `<div class="designer-panel"><h3>Combined Bonuses</h3><div class="panel-body">`;
+    for (const [k, v] of Object.entries(allBonuses)) {
+      const color = v > 0 ? 'var(--green)' : v < 0 ? 'var(--red)' : 'var(--text-dim)';
+      const fmt = Math.abs(v) < 1 && v !== 0 ? `${v > 0 ? '+' : ''}${Math.round(v * 100)}%` : `${v > 0 ? '+' : ''}${v}`;
+      right += `<div class="designer-stat"><span class="lbl">${k}</span><span style="color:${color}">${fmt}</span></div>`;
+    }
+    right += '</div></div>';
+  }
+
+  el.innerHTML = `<div class="designer-split">
+    <div class="designer-left-scroll">${left}</div>
+    <div class="designer-right-scroll">${right}</div>
+  </div>`;
+}
+
+// Section toggle state
+const openSections = {};
+function toggleSection(id) {
+  openSections[id] = openSections[id] === false ? true : false;
+  renderDesigner();
+}
+
+function renderDesignerSelect(label, group, famKey, designKey, current, extra) {
+  let html = `<div class="designer-panel"><h3>${label}</h3>`;
+  html += `<select class="designer-select" onchange="designChange('${group}','${famKey}','${designKey}',this.value)">`;
+  html += `<option value="">— Select —</option>`;
+  html += renderDesignerOptions(group, famKey, current?._key);
+  html += `</select>`;
+  if (extra) html += `<div style="font-size:10px;color:var(--text-dim);margin-top:2px">${extra}</div>`;
+  if (current?.role) html += `<div style="font-size:10px;color:var(--cyan);margin-top:4px">${current.role}</div>`;
+  html += '</div>';
+  return html;
+}
+
+function renderDesignerOptions(group, famKey, selectedKey) {
+  const items = getItems(group, famKey);
+  return items.map(it => `<option value="${it._key}" ${it._key === selectedKey ? 'selected' : ''}>${it.label}</option>`).join('');
+}
+
+function renderCardPicker(group, famKey, designKey, current, sideIdx, secIdx) {
+  const items = getItems(group, famKey);
+  if (items.length === 0) return '<div style="font-size:10px;color:var(--text-dim)">No items</div>';
+  let html = '<div class="card-picker">';
+  for (const it of items) {
+    const sel = current?._key === it._key ? 'selected' : '';
+    const icon = it.icon || getFamily(group, famKey)?.icon || 'structure';
+    const statLine = [];
+    if (it.Tonnage) statLine.push(`${it.Tonnage}t`);
+    if (it.MaxCarry) statLine.push(`carry ${it.MaxCarry}t`);
+    if (it.MaxPower) statLine.push(`power ${it.MaxPower}t`);
+    if (it.MaxLoad) statLine.push(`load ${it.MaxLoad}t`);
+    if (it.Locations) statLine.push(`${it.Locations} loc`);
+    if (it.CenterSlots) statLine.push(`${it.CenterSlots} center slots`);
+    if (it.Slots) statLine.push(`${it.Slots} slots`);
+    if (it.StabilityThreshold) statLine.push(`stab ${it.StabilityThreshold}`);
+    if (it.CritChance) statLine.push(`crit ${it.CritChance}%`);
+    if (it.DissipationPerSink) statLine.push(`dissip ${it.DissipationPerSink}`);
+    let onclick;
+    if (sideIdx !== undefined && secIdx !== undefined) {
+      onclick = `setSideCompartment(${sideIdx},${secIdx},'${it._key}')`;
+    } else if (designKey) {
+      onclick = `designChange('${group}','${famKey}','${designKey}','${it._key}')`;
+    } else {
+      onclick = `addSectionByKey('${group}','${famKey}','${it._key}')`;
+    }
+    html += `<div class="pick-card ${sel}" onclick="${onclick}">
+      <div class="pc-name"><img src="/SpriteGenerator/Icons/${icon}.svg" width="14" height="14" style="filter:brightness(0.9)">${it.label}</div>
+      <div class="pc-role">${it.role || ''}</div>
+      ${statLine.length ? `<div class="pc-stat">${statLine.join(' | ')}</div>` : ''}
+    </div>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderCardPickerMultiFam(groupPrefix, designKey, current) {
+  // Gather items from all families matching the group prefix (e.g. locomotion_*)
+  const allData = { ...STRUCT_DATA, ...EQUIP_DATA };
+  let html = '<div class="card-picker">';
+  for (const [gKey, gData] of Object.entries(allData)) {
+    if (gKey !== groupPrefix) continue;
+    for (const [famKey, fam] of Object.entries(gData.families)) {
+      const items = Object.entries(fam.items).map(([k, v]) => ({ ...v, _key: k, _famKey: famKey, _group: gKey }));
+      for (const it of items) {
+        const sel = current?._key === it._key ? 'selected' : '';
+        const icon = it.icon || fam.icon || 'leg';
+        const statLine = [];
+        if (it.MaxCarry) statLine.push(`carry ${it.MaxCarry}t`);
+        if (it.Tonnage) statLine.push(`${it.Tonnage}t`);
+        html += `<div class="pick-card ${sel}" onclick="designChangeMulti('${gKey}','${famKey}','${designKey}','${it._key}')">
+          <div class="pc-name"><img src="/SpriteGenerator/Icons/${icon}.svg" width="14" height="14" style="filter:brightness(0.9)">${it.label}</div>
+          <div class="pc-role">${it.role || ''}</div>
+          ${statLine.length ? `<div class="pc-stat">${statLine.join(' | ')}</div>` : ''}
+        </div>`;
+      }
+    }
+  }
+  html += '</div>';
+  return html;
+}
+
+function designChangeMulti(group, famKey, designKey, itemKey) {
+  const allData = { ...STRUCT_DATA, ...EQUIP_DATA };
+  const fam = allData[group]?.families?.[famKey];
+  if (!fam?.items?.[itemKey]) { design[designKey] = null; }
+  else { design[designKey] = { ...fam.items[itemKey], _key: itemKey }; }
+  renderDesigner();
+}
+
+function addSectionByKey(group, famKey, itemKey) {
+  const fam = getFamily(group, famKey);
+  if (fam?.items?.[itemKey]) {
+    design.sections.push({ ...fam.items[itemKey], _key: itemKey });
+    renderDesigner();
+  }
+}
+
+function renderDesignerSelectFiltered(label, group, famKey, designKey, current, subgroup, extra) {
+  let html = `<div class="designer-panel"><h3>${label}</h3>`;
+  html += `<select class="designer-select" onchange="designChange('${group}','${famKey}','${designKey}',this.value)">`;
+  html += `<option value="">— Select —</option>`;
+  html += renderDesignerOptionsFiltered(group, famKey, current?._key, subgroup);
+  html += `</select>`;
+  if (extra) html += `<div style="font-size:10px;color:var(--text-dim);margin-top:2px">${extra}</div>`;
+  if (current?.role) html += `<div style="font-size:10px;color:var(--cyan);margin-top:4px">${current.role}</div>`;
+  html += '</div>';
+  return html;
+}
+
+function renderDesignerOptionsFiltered(group, famKey, selectedKey, subgroup) {
+  const items = getItems(group, famKey).filter(it => it.subgroup === subgroup);
+  return items.map(it => `<option value="${it._key}" ${it._key === selectedKey ? 'selected' : ''}>${it.label}</option>`).join('');
+}
+
+function designChange(group, famKey, designKey, itemKey) {
+  if (!itemKey) { design[designKey] = null; }
+  else {
+    const fam = getFamily(group, famKey);
+    design[designKey] = { ...fam.items[itemKey], _key: itemKey };
+  }
+  // Reset power when core changes
+  if (designKey === 'core') {
+    design.powerRating = design.core?.MaxPower || 0;
+  }
+  // Reset sides when hull changes
+  if (designKey === 'hull') {
+    const newSideCount = design.hull ? Math.max(0, (design.hull.Locations || 1) - 1) : 0;
+    const sectionsPerSide = design.hull?.SideSections || 1;
+    design.sideCompartments = Array.from({length: newSideCount}, () => Array(sectionsPerSide).fill(null));
+    design.sideArms = new Array(newSideCount).fill(null);
+    design.sideTopMounts = new Array(newSideCount).fill(null);
+  }
+  renderDesigner();
+}
+
+function randomPick(group, famKey) {
+  const items = getItems(group, famKey);
+  if (items.length === 0) return null;
+  const it = items[Math.floor(Math.random() * items.length)];
+  return { ...it };
+}
+
+function randomPickMultiFam(groupPrefix) {
+  const allData = { ...STRUCT_DATA, ...EQUIP_DATA };
+  const allItems = [];
+  for (const [gKey, gData] of Object.entries(allData)) {
+    if (gKey !== groupPrefix) continue;
+    for (const [famKey, fam] of Object.entries(gData.families)) {
+      for (const [k, v] of Object.entries(fam.items)) {
+        allItems.push({ ...v, _key: k, _famKey: famKey, _group: gKey });
+      }
+    }
+  }
+  if (allItems.length === 0) return null;
+  return allItems[Math.floor(Math.random() * allItems.length)];
+}
+
+function randomizeMachine() {
+  // Hull first
+  design.hull = randomPick('sections', 'hull');
+
+  // Core systems
+  design.core = randomPick('reactor', 'core');
+  design.powerRating = design.core?.MaxPower || 0;
+  design.stabilizer = randomPick('reactor', 'stabilizer');
+  design.cooling = randomPick('reactor', 'cooling');
+  design.armor = randomPick('chassis', 'armor');
+  design.internals = randomPick('chassis', 'structure');
+
+  // Command
+  design.head = randomPickMultiFam('command');
+
+  // Locomotion
+  design.locomotion = randomPickMultiFam('locomotion');
+
+  // Side compartments
+  const sc = design.hull ? Math.max(0, (design.hull.Locations || 1) - 1) : 0;
+  const sectionsPerSide = design.hull?.SideSections || 1;
+  design.sideCompartments = Array.from({length: sc}, () => {
+    return Array.from({length: sectionsPerSide}, () => randomPick('sections', 'compartment'));
+  });
+
+  // Arms and top mounts (50% chance each)
+  design.sideArms = Array.from({length: sc}, () => Math.random() > 0.5 ? randomPick('sections', 'arms') : null);
+  design.sideTopMounts = Array.from({length: sc}, () => Math.random() > 0.5 ? randomPick('sections', 'mount') : null);
+
+  design.armorShifts = {};
+  renderDesigner();
+}
+
+function resetMachine() {
+  design.locomotion = null; design.core = null; design.stabilizer = null;
+  design.hull = null; design.sideCompartments = []; design.sideArms = []; design.sideTopMounts = [];
+  design.head = null; design.cooling = null; design.armor = null; design.internals = null;
+  design.armorShifts = {}; design.powerRating = 0;
+  renderDesigner();
+}
+
+function adjustPower(delta) {
+  const core = design.core;
+  if (!core) return;
+  const maxP = core.MaxPower || 100;
+  design.powerRating = Math.max(5, Math.min(maxP, (design.powerRating || maxP) + delta));
+  renderDesigner();
+}
+
+function adjustArmor(locId, face, delta) {
+  const key = `${locId}_${face}`;
+  design.armorShifts[key] = (design.armorShifts[key] || 0) + delta;
+  renderDesigner();
+}
+
+// legacy compat
+function shiftArmor(locId, delta) { adjustArmor(locId, 'front', delta); }
+
+function setSideCompartment(sideIdx, secIdx, itemKey) {
+  const fam = getFamily('sections', 'compartment');
+  if (fam?.items?.[itemKey]) {
+    if (!design.sideCompartments[sideIdx]) design.sideCompartments[sideIdx] = [];
+    design.sideCompartments[sideIdx][secIdx] = { ...fam.items[itemKey], _key: itemKey };
+  }
+  renderDesigner();
+}
+
+function renderTopMountPicker(sideIdx, current) {
+  let html = '<div class="card-picker">';
+  html += `<div class="pick-card ${!current ? 'selected' : ''}" onclick="setSideTopMount(${sideIdx},'none')">
+    <div class="pc-name">None</div>
+  </div>`;
+  const mounts = getItems('sections', 'mount');
+  for (const it of mounts) {
+    const sel = current?._key === it._key ? 'selected' : '';
+    const stats = [];
+    if (it.FiringArc) stats.push(`${it.FiringArc}°`);
+    if (it.Slots) stats.push(`${it.Slots} slots`);
+    if (it.Tonnage) stats.push(`${it.Tonnage}t`);
+    html += `<div class="pick-card ${sel}" onclick="setSideTopMount(${sideIdx},'${it._key}')">
+      <div class="pc-name"><img src="/SpriteGenerator/Icons/targeting.svg" width="12" height="12" style="filter:brightness(0.9)"> ${it.label}</div>
+      <div class="pc-role">${it.role || ''}</div>
+      ${stats.length ? `<div class="pc-stat">${stats.join(' | ')}</div>` : ''}
+    </div>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderArmPicker(sideIdx, current) {
+  let html = '<div class="card-picker">';
+  html += `<div class="pick-card ${!current ? 'selected' : ''}" onclick="setSideArm(${sideIdx},'none')">
+    <div class="pc-name">None</div>
+  </div>`;
+  const arms = getItems('sections', 'arms');
+  for (const it of arms) {
+    const sel = current?._key === it._key ? 'selected' : '';
+    html += `<div class="pick-card ${sel}" onclick="setSideArm(${sideIdx},'${it._key}')">
+      <div class="pc-name"><img src="/SpriteGenerator/Icons/arm.svg" width="12" height="12" style="filter:brightness(0.9)"> ${it.label}</div>
+      <div class="pc-role">${it.role || ''}</div>
+      ${it.Slots ? `<div class="pc-stat">${it.Slots} slots</div>` : ''}
+    </div>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function setSideArm(idx, itemKey) {
+  if (!itemKey || itemKey === 'none') { design.sideArms[idx] = null; }
+  else {
+    const fam = getFamily('sections', 'arms');
+    if (fam?.items?.[itemKey]) {
+      design.sideArms[idx] = { ...fam.items[itemKey], _key: itemKey };
+    }
+  }
+  renderDesigner();
+}
+
+function setSideTopMount(idx, itemKey) {
+  if (!itemKey || itemKey === 'none') { design.sideTopMounts[idx] = null; }
+  else {
+    const fam = getFamily('sections', 'mount');
+    if (fam?.items?.[itemKey]) {
+      design.sideTopMounts[idx] = { ...fam.items[itemKey], _key: itemKey };
+    }
+  }
+  renderDesigner();
+}
+
+function addSection() {} // legacy, no-op
+function removeSection(idx) {} // legacy, no-op
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+
+loadData();
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Thruster housing -->
+  <rect x="10" y="2" width="12" height="14" rx="2" fill="#ffffff" opacity="0.5"/>
+  <!-- Housing cap -->
+  <rect x="12" y="2" width="8" height="2.5" rx="1" fill="#ffffff" opacity="0.8"/>
+  <!-- Nozzle flare -->
+  <path d="M10 16 L7 22 L25 22 L22 16 Z" fill="#ffffff" opacity="0.7"/>
+  <!-- Exhaust flame core -->
+  <path d="M11 22 Q13 26 16 30 Q19 26 21 22" fill="#ffffff" opacity="0.6"/>
+  <path d="M13 22 Q14.5 25 16 28 Q17.5 25 19 22" fill="#ffffff" opacity="0.9"/>
+  <!-- Outer exhaust glow -->
+  <path d="M9 22 Q11 27 16 32 Q21 27 23 22" fill="#ffffff" opacity="0.2"/>
+</svg>

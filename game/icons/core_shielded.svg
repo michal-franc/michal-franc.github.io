@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Outer shield — diamond shape -->
+  <path d="M16 2 L28 16 L16 30 L4 16 Z" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.25"/>
+  <!-- Inner shield echo -->
+  <path d="M16 5 L25 16 L16 27 L7 16 Z" fill="#ffffff" opacity="0.08"/>
+  <!-- Mid energy ring -->
+  <circle cx="16" cy="16" r="8" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.35"/>
+  <!-- Core glow -->
+  <circle cx="16" cy="16" r="4.5" fill="#ffffff" opacity="0.25"/>
+  <circle cx="16" cy="16" r="3" fill="#ffffff" opacity="0.55"/>
+  <circle cx="16" cy="16" r="1.5" fill="#ffffff"/>
+  <!-- Shield deflection marks at corners -->
+  <path d="M16 2 L17.5 5" stroke="#ffffff" stroke-width="1" fill="none" opacity="0.4"/>
+  <path d="M16 2 L14.5 5" stroke="#ffffff" stroke-width="1" fill="none" opacity="0.4"/>
+  <path d="M28 16 L25 14.5" stroke="#ffffff" stroke-width="1" fill="none" opacity="0.35"/>
+  <path d="M28 16 L25 17.5" stroke="#ffffff" stroke-width="1" fill="none" opacity="0.35"/>
+  <path d="M4 16 L7 14.5" stroke="#ffffff" stroke-width="1" fill="none" opacity="0.35"/>
+  <path d="M4 16 L7 17.5" stroke="#ffffff" stroke-width="1" fill="none" opacity="0.35"/>
+  <!-- Subtle heat — minimal, contained -->
+  <path d="M18 12 Q19.5 10.5 18.5 9" stroke="#ffffff" stroke-width="0.9" fill="none" opacity="0.3"/>
+  <path d="M14 20 Q12.5 21.5 13.5 23" stroke="#ffffff" stroke-width="0.9" fill="none" opacity="0.3"/>
+</svg>

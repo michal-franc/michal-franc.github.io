@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Eldritch tendrils -->
+  <path d="M3 4 Q6 8 4 12 Q2 16 5 19" stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.25"/>
+  <path d="M28 28 Q25 24 27 21" stroke="#ffffff" stroke-width="0.7" fill="none" opacity="0.2"/>
+  <!-- Single energy dash -->
+  <rect x="2" y="14.5" width="14" height="3" rx="1" fill="#ffffff" opacity="0.8"/>
+  <!-- Impact burst -->
+  <circle cx="24" cy="16" r="6" fill="#ffffff" opacity="0.3"/>
+  <circle cx="24" cy="16" r="3.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="24" cy="16" r="1.5" fill="#ffffff"/>
+  <!-- Slit eye -->
+  <ellipse cx="5" cy="5" rx="2.5" ry="3.5" fill="#ffffff" opacity="0.2"/>
+  <ellipse cx="5" cy="5" rx="0.6" ry="2.5" fill="#ffffff" opacity="0.5"/>
+</svg>

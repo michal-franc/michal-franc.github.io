@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Hull body -->
+  <path d="M6 6 L26 6 L28 10 L28 16 L4 16 L4 10 Z" fill="#ffffff" opacity="0.4"/>
+  <!-- Upper turret/deck -->
+  <rect x="10" y="3" width="12" height="4" rx="1.5" fill="#ffffff" opacity="0.5"/>
+
+  <!-- Left track -->
+  <path d="M3 17 L3 27 Q3 29 6 29 L12 29 Q15 29 15 27 L15 17 Z" fill="#ffffff" opacity="0.25"/>
+  <!-- Left track wheels -->
+  <circle cx="6" cy="23" r="2.5" fill="#ffffff" opacity="0.4"/>
+  <circle cx="12" cy="23" r="2.5" fill="#ffffff" opacity="0.4"/>
+  <circle cx="9" cy="23" r="1.5" fill="#ffffff" opacity="0.3"/>
+  <!-- Left track teeth -->
+  <line x1="4" y1="28" x2="4" y2="29" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+  <line x1="7" y1="28" x2="7" y2="29" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+  <line x1="10" y1="28" x2="10" y2="29" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+  <line x1="13" y1="28" x2="13" y2="29" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+
+  <!-- Right track -->
+  <path d="M17 17 L17 27 Q17 29 20 29 L26 29 Q29 29 29 27 L29 17 Z" fill="#ffffff" opacity="0.25"/>
+  <!-- Right track wheels -->
+  <circle cx="20" cy="23" r="2.5" fill="#ffffff" opacity="0.4"/>
+  <circle cx="26" cy="23" r="2.5" fill="#ffffff" opacity="0.4"/>
+  <circle cx="23" cy="23" r="1.5" fill="#ffffff" opacity="0.3"/>
+  <!-- Right track teeth -->
+  <line x1="18" y1="28" x2="18" y2="29" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+  <line x1="21" y1="28" x2="21" y2="29" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+  <line x1="24" y1="28" x2="24" y2="29" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+  <line x1="27" y1="28" x2="27" y2="29" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+</svg>

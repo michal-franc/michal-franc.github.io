@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Left side: Pilot helmet -->
+  <path d="M1 19 Q1 8 7 8 Q13 8 13 19 L13 21.5 Q13 23 10.5 23.5 L3.5 23.5 Q1 23 1 21.5 Z" fill="#ffffff" opacity="0.35"/>
+  <!-- Pilot visor -->
+  <path d="M3 16.5 Q3 13.5 7 13.5 Q11 13.5 11 16.5 L11 18.5 Q11 20 7 20 Q3 20 3 18.5 Z" fill="#ffffff" opacity="0.7"/>
+  <!-- Visor glint -->
+  <path d="M4.5 15 Q6 14.5 9 15 L8.5 16.5 Q6 16 5 16.5 Z" fill="#ffffff" opacity="0.3"/>
+  <!-- Pilot shoulder -->
+  <rect x="0.5" y="24" width="13" height="2.5" rx="1" fill="#ffffff" opacity="0.25"/>
+
+  <!-- Link arrow: pilot → mech -->
+  <line x1="14" y1="18" x2="17.5" y2="18" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
+  <path d="M17 16.5 L19 18 L17 19.5" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
+
+  <!-- Right side: Mech silhouette -->
+  <!-- Head -->
+  <rect x="22.5" y="7" width="4" height="3.5" rx="0.8" fill="#ffffff" opacity="0.8"/>
+  <!-- Visor -->
+  <rect x="23.3" y="8.2" width="2.4" height="1.2" rx="0.4" fill="#ffffff" opacity="0.35"/>
+  <!-- Torso -->
+  <rect x="21" y="11" width="7" height="7.5" rx="0.8" fill="#ffffff" opacity="0.6"/>
+  <!-- Left arm -->
+  <rect x="18" y="11.5" width="2.5" height="6" rx="0.8" fill="#ffffff" opacity="0.4"/>
+  <!-- Right arm -->
+  <rect x="28.5" y="11.5" width="2.5" height="6" rx="0.8" fill="#ffffff" opacity="0.4"/>
+  <!-- Left leg -->
+  <rect x="21" y="19" width="3" height="7" rx="0.8" fill="#ffffff" opacity="0.5"/>
+  <!-- Right leg -->
+  <rect x="25" y="19" width="3" height="7" rx="0.8" fill="#ffffff" opacity="0.5"/>
+</svg>

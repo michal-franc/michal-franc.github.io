@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Left leg -->
+  <rect x="5" y="3" width="5" height="8" rx="1.5" fill="#ffffff" opacity="0.4"/>
+  <!-- Left knee -->
+  <circle cx="7.5" cy="13" r="2" fill="#ffffff" opacity="0.3"/>
+  <circle cx="7.5" cy="13" r="1" fill="#ffffff" opacity="0.6"/>
+  <!-- Left lower leg -->
+  <rect x="5" y="15" width="5" height="8" rx="1.5" fill="#ffffff" opacity="0.4"/>
+  <!-- Left foot -->
+  <rect x="3" y="24" width="9" height="2.5" rx="1" fill="#ffffff" opacity="0.6"/>
+
+  <!-- Right leg -->
+  <rect x="22" y="3" width="5" height="8" rx="1.5" fill="#ffffff" opacity="0.4"/>
+  <!-- Right knee -->
+  <circle cx="24.5" cy="13" r="2" fill="#ffffff" opacity="0.3"/>
+  <circle cx="24.5" cy="13" r="1" fill="#ffffff" opacity="0.6"/>
+  <!-- Right lower leg -->
+  <rect x="22" y="15" width="5" height="8" rx="1.5" fill="#ffffff" opacity="0.4"/>
+  <!-- Right foot -->
+  <rect x="20" y="24" width="9" height="2.5" rx="1" fill="#ffffff" opacity="0.6"/>
+
+  <!-- Hip bar connecting both -->
+  <rect x="7" y="1" width="18" height="3" rx="1" fill="#ffffff" opacity="0.5"/>
+  <!-- Hip joint dots -->
+  <circle cx="10" cy="2.5" r="1.2" fill="#ffffff" opacity="0.7"/>
+  <circle cx="22" cy="2.5" r="1.2" fill="#ffffff" opacity="0.7"/>
+
+  <!-- Ground line -->
+  <line x1="2" y1="28" x2="30" y2="28" stroke="#ffffff" stroke-width="0.8" opacity="0.15"/>
+</svg>

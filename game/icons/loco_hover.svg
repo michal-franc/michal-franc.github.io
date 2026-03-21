@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Hull body — flat, wide -->
+  <path d="M6 8 L26 8 L28 14 L28 18 L4 18 L4 14 Z" fill="#ffffff" opacity="0.4"/>
+  <!-- Upper deck -->
+  <rect x="10" y="5" width="12" height="4" rx="1.5" fill="#ffffff" opacity="0.55"/>
+  <!-- Front viewport -->
+  <rect x="12" y="6" width="8" height="2" rx="0.8" fill="#ffffff" opacity="0.75"/>
+  <!-- Skirt / hover plenum -->
+  <path d="M3 18 L3 21 Q8 23 16 23 Q24 23 29 21 L29 18 Z" fill="#ffffff" opacity="0.3"/>
+  <!-- Hover thrust glow — downward -->
+  <ellipse cx="10" cy="24" rx="3" ry="1.5" fill="#ffffff" opacity="0.4"/>
+  <ellipse cx="22" cy="24" rx="3" ry="1.5" fill="#ffffff" opacity="0.4"/>
+  <ellipse cx="16" cy="24.5" rx="4" ry="1.5" fill="#ffffff" opacity="0.25"/>
+  <!-- Ground effect ripples -->
+  <ellipse cx="16" cy="28" rx="12" ry="1.5" fill="none" stroke="#ffffff" stroke-width="0.7" opacity="0.2"/>
+  <ellipse cx="16" cy="30" rx="10" ry="1" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.12"/>
+</svg>

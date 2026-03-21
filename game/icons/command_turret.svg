@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Base platform -->
+  <rect x="6" y="24" width="20" height="4" rx="1.5" fill="#ffffff" opacity="0.25"/>
+  <!-- Turret ring — rotation track -->
+  <ellipse cx="16" cy="22" rx="12" ry="3" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.35"/>
+  <!-- Turret ring bearing marks -->
+  <circle cx="5" cy="22" r="0.8" fill="#ffffff" opacity="0.3"/>
+  <circle cx="27" cy="22" r="0.8" fill="#ffffff" opacity="0.3"/>
+  <circle cx="16" cy="19.2" r="0.8" fill="#ffffff" opacity="0.3"/>
+  <!-- Turret body — raised, rotatable -->
+  <path d="M8 20 L8 12 Q8 8 16 8 Q24 8 24 12 L24 20 Z" fill="#ffffff" opacity="0.35"/>
+  <!-- Command dome — wide view -->
+  <path d="M10 12 Q10 6 16 6 Q22 6 22 12 Z" fill="#ffffff" opacity="0.5"/>
+  <!-- Panoramic visor — wrap-around -->
+  <path d="M11 11 Q11 8 16 8 Q21 8 21 11 Z" fill="#ffffff" opacity="0.8"/>
+  <!-- Visor glint -->
+  <path d="M13 9.5 Q15 9 18 9.5 L17 10.5 Q15 10 14 10.5 Z" fill="#ffffff" opacity="0.3"/>
+  <!-- Rotation arrows -->
+  <path d="M3 20 A14 4 0 0 1 7 18.5" fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
+  <path d="M7 18.5 L5.5 18 M7 18.5 L6 19.8" stroke="#ffffff" stroke-width="0.6" fill="none" opacity="0.35"/>
+  <path d="M29 20 A14 4 0 0 0 25 18.5" fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
+  <path d="M25 18.5 L26.5 18 M25 18.5 L26 19.8" stroke="#ffffff" stroke-width="0.6" fill="none" opacity="0.35"/>
+</svg>

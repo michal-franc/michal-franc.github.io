@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Central hub — the source -->
+  <circle cx="16" cy="16" r="3" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.5"/>
+  <circle cx="16" cy="16" r="1.2" fill="#ffffff" opacity="0.7"/>
+  <!-- Lock target A — top-right -->
+  <circle cx="24" cy="7" r="3" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.7"/>
+  <circle cx="24" cy="7" r="1" fill="#ffffff" opacity="0.9"/>
+  <!-- Lock line to A -->
+  <line x1="18" y1="14" x2="22" y2="9" stroke="#ffffff" stroke-width="0.8" opacity="0.35"/>
+  <!-- Lock target B — bottom-right -->
+  <circle cx="25" cy="23" r="3" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.7"/>
+  <circle cx="25" cy="23" r="1" fill="#ffffff" opacity="0.9"/>
+  <!-- Lock line to B -->
+  <line x1="18" y1="18" x2="23" y2="21" stroke="#ffffff" stroke-width="0.8" opacity="0.35"/>
+  <!-- Lock target C — left -->
+  <circle cx="6" cy="12" r="3" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.7"/>
+  <circle cx="6" cy="12" r="1" fill="#ffffff" opacity="0.9"/>
+  <!-- Lock line to C -->
+  <line x1="14" y1="15" x2="8" y2="13" stroke="#ffffff" stroke-width="0.8" opacity="0.35"/>
+  <!-- Small crosshair ticks on each target -->
+  <line x1="24" y1="3.5" x2="24" y2="5" stroke="#ffffff" stroke-width="0.7" opacity="0.5"/>
+  <line x1="24" y1="9" x2="24" y2="10.5" stroke="#ffffff" stroke-width="0.7" opacity="0.5"/>
+  <line x1="25" y1="19.5" x2="25" y2="21" stroke="#ffffff" stroke-width="0.7" opacity="0.5"/>
+  <line x1="25" y1="25" x2="25" y2="26.5" stroke="#ffffff" stroke-width="0.7" opacity="0.5"/>
+  <line x1="6" y1="8.5" x2="6" y2="10" stroke="#ffffff" stroke-width="0.7" opacity="0.5"/>
+  <line x1="6" y1="14" x2="6" y2="15.5" stroke="#ffffff" stroke-width="0.7" opacity="0.5"/>
+</svg>

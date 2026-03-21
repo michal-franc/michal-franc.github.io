@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Compact central processor — smaller, dense -->
+  <rect x="13" y="13" width="6" height="6" rx="1" fill="#ffffff" opacity="0.7"/>
+  <rect x="14.2" y="14.2" width="3.6" height="3.6" rx="0.5" fill="#ffffff" opacity="0.3"/>
+  <!-- Thin dashed traces — fragile miniaturized wiring -->
+  <line x1="8" y1="14.5" x2="13" y2="14.5" stroke="#ffffff" stroke-width="0.8" stroke-dasharray="1.5 1" opacity="0.35"/>
+  <line x1="8" y1="17.5" x2="13" y2="17.5" stroke="#ffffff" stroke-width="0.8" stroke-dasharray="1.5 1" opacity="0.35"/>
+  <line x1="19" y1="14.5" x2="24" y2="14.5" stroke="#ffffff" stroke-width="0.8" stroke-dasharray="1.5 1" opacity="0.35"/>
+  <line x1="19" y1="17.5" x2="24" y2="17.5" stroke="#ffffff" stroke-width="0.8" stroke-dasharray="1.5 1" opacity="0.35"/>
+  <line x1="14.5" y1="8" x2="14.5" y2="13" stroke="#ffffff" stroke-width="0.8" stroke-dasharray="1.5 1" opacity="0.35"/>
+  <line x1="17.5" y1="8" x2="17.5" y2="13" stroke="#ffffff" stroke-width="0.8" stroke-dasharray="1.5 1" opacity="0.35"/>
+  <line x1="14.5" y1="19" x2="14.5" y2="24" stroke="#ffffff" stroke-width="0.8" stroke-dasharray="1.5 1" opacity="0.35"/>
+  <line x1="17.5" y1="19" x2="17.5" y2="24" stroke="#ffffff" stroke-width="0.8" stroke-dasharray="1.5 1" opacity="0.35"/>
+  <!-- Small connection nodes — tightly packed -->
+  <circle cx="8" cy="14.5" r="1.2" fill="#ffffff" opacity="0.5"/>
+  <circle cx="8" cy="17.5" r="1.2" fill="#ffffff" opacity="0.5"/>
+  <circle cx="24" cy="14.5" r="1.2" fill="#ffffff" opacity="0.5"/>
+  <circle cx="24" cy="17.5" r="1.2" fill="#ffffff" opacity="0.5"/>
+  <circle cx="14.5" cy="8" r="1.2" fill="#ffffff" opacity="0.5"/>
+  <circle cx="17.5" cy="8" r="1.2" fill="#ffffff" opacity="0.5"/>
+  <circle cx="14.5" cy="24" r="1.2" fill="#ffffff" opacity="0.5"/>
+  <circle cx="17.5" cy="24" r="1.2" fill="#ffffff" opacity="0.5"/>
+  <!-- Vulnerability marks — tiny cracks near traces -->
+  <line x1="10" y1="13" x2="11" y2="12" stroke="#ffffff" stroke-width="0.6" opacity="0.25"/>
+  <line x1="22" y1="19" x2="21" y2="20" stroke="#ffffff" stroke-width="0.6" opacity="0.25"/>
+</svg>

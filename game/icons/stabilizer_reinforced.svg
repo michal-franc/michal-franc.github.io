@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Heavy pivot mount — wide, bolted -->
+  <rect x="5" y="2" width="22" height="3.5" rx="1.5" fill="#ffffff" opacity="0.55"/>
+  <circle cx="7" cy="3.5" r="1.2" fill="#ffffff" opacity="0.7"/>
+  <circle cx="25" cy="3.5" r="1.2" fill="#ffffff" opacity="0.7"/>
+  <!-- Thick pivot -->
+  <circle cx="16" cy="6" r="2.2" fill="#ffffff" opacity="0.8"/>
+  <!-- Heavy pendulum arm -->
+  <line x1="16" y1="8" x2="16" y2="20" stroke="#ffffff" stroke-width="2.5" opacity="0.5"/>
+  <!-- Massive counterweight -->
+  <circle cx="16" cy="24" r="6.5" fill="#ffffff" opacity="0.2"/>
+  <circle cx="16" cy="24" r="4.5" fill="#ffffff" opacity="0.45"/>
+  <circle cx="16" cy="24" r="2.5" fill="#ffffff" opacity="0.7"/>
+  <circle cx="16" cy="24" r="1.2" fill="#ffffff"/>
+</svg>

@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X — Equipment Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg-card: #12121a;
+    --bg-card-hover: #1a1a28;
+    --accent: #00d4ff;
+    --accent-glow: rgba(0, 212, 255, 0.15);
+    --accent-warm: #ff6b35;
+    --accent-green: #00ff88;
+    --accent-purple: #b44aff;
+    --accent-red: #ff4a6a;
+    --accent-yellow: #ffcc00;
+    --text: #e0e0e8;
+    --text-dim: #7a7a8a;
+    --border: rgba(255,255,255,0.06);
+    --energy: #3aaa3a;
+    --ballistic: #4a7aaa;
+    --missile: #aa4a2a;
+    --melee: #cc8833;
+    --support: #7a6aaa;
+    --experimental: #b44aff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  .top-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,10,15,0.9); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem 2rem; display: flex; align-items: center; gap: 2rem;
+  }
+  .top-nav a { color: var(--text-dim); text-decoration: none; font-family: 'Orbitron', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+  .top-nav a:hover { color: var(--accent); }
+  .top-nav a.active { color: var(--accent); }
+  .top-nav .nav-title { font-weight: 900; font-size: 1rem; color: var(--text); }
+
+  .page-header { padding: 6rem 2rem 3rem; text-align: center; position: relative; }
+  .page-header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(0,212,255,0.06) 0%, transparent 60%); }
+  .page-header h1 { font-family: 'Orbitron', monospace; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, #fff 100%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; position: relative; }
+  .page-header p { color: var(--text-dim); font-size: 1rem; max-width: 700px; margin: 0 auto; position: relative; }
+
+  .content { max-width: 1100px; margin: 0 auto; padding: 0 2rem 4rem; }
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 3rem 0; }
+
+  /* ---- Category Section ---- */
+  .category-section { margin-bottom: 3rem; }
+  .category-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .category-header h2 { font-family: 'Orbitron', monospace; font-size: 1.4rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  .category-header .cat-tag { font-family: 'Orbitron', monospace; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; padding: 0.25rem 0.7rem; border-radius: 3px; text-transform: uppercase; }
+
+  .category-overview { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.7; }
+
+  /* ---- Subcategory Cards ---- */
+  .subcategory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+  .subcat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 1.2rem; transition: border-color 0.2s, background 0.2s; }
+  .subcat-card:hover { background: var(--bg-card-hover); border-color: rgba(255,255,255,0.12); }
+  .subcat-card h3 { font-family: 'Orbitron', monospace; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .subcat-card .subcat-identity { font-size: 0.82rem; color: var(--accent); font-style: italic; margin-bottom: 0.6rem; border-left: 2px solid var(--accent); padding-left: 0.6rem; }
+  .subcat-card .subcat-desc { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 0.8rem; line-height: 1.6; }
+  .subcat-card .key-stat { display: inline-block; font-family: 'Courier New', monospace; font-size: 0.7rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 3px; padding: 0.15rem 0.4rem; margin: 0.15rem 0.15rem 0.15rem 0; color: var(--text-dim); }
+  .subcat-card .key-stat .val { color: var(--text); }
+
+  /* ---- Item List inside cards ---- */
+  .item-list { margin-top: 0.8rem; padding: 0; list-style: none; }
+  .item-list li { font-size: 0.78rem; padding: 0.35rem 0; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.15rem; }
+  .item-list li:first-child { border-top: none; }
+  .item-label { font-family: 'Orbitron', monospace; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; }
+  .item-role { color: var(--text-dim); font-size: 0.75rem; }
+
+  /* ---- Design Philosophy Card ---- */
+  .philosophy-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
+    padding: 1.5rem 2rem; margin-bottom: 2rem;
+  }
+  .philosophy-card h3 { font-family: 'Orbitron', monospace; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+  .philosophy-card p { font-size: 0.88rem; color: var(--text-dim); line-height: 1.7; margin-bottom: 0.8rem; }
+  .philosophy-card p:last-child { margin-bottom: 0; }
+  .philosophy-card strong { color: var(--text); }
+  .philosophy-card .formula-box {
+    background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.15); border-radius: 4px;
+    padding: 0.8rem 1rem; margin: 0.8rem 0; font-family: 'Courier New', monospace; font-size: 0.82rem;
+    color: var(--accent); text-align: center; letter-spacing: 0.05em;
+  }
+  .philosophy-card ul { list-style: none; padding: 0; margin: 0.6rem 0; }
+  .philosophy-card ul li { font-size: 0.85rem; color: var(--text-dim); padding: 0.25rem 0 0.25rem 1.2rem; position: relative; }
+  .philosophy-card ul li::before { content: '\25B8'; position: absolute; left: 0; color: var(--accent); font-size: 0.7rem; }
+
+  /* ---- Mechanic highlight ---- */
+  .mechanic-highlight { background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.15); border-radius: 4px; padding: 0.5rem 0.7rem; margin: 0.5rem 0; font-size: 0.8rem; }
+  .mechanic-highlight strong { color: var(--accent); }
+
+  /* ---- Subsection header ---- */
+  .subsection-header { display: flex; align-items: center; gap: 0.8rem; margin: 2rem 0 1rem; }
+  .subsection-header h3 { font-family: 'Orbitron', monospace; font-size: 1rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  .subsection-header .cat-tag { font-family: 'Orbitron', monospace; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; padding: 0.2rem 0.5rem; border-radius: 3px; text-transform: uppercase; }
+
+  /* ---- Trait boxes ---- */
+  .category-traits { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+  @media (max-width: 768px) { .category-traits { grid-template-columns: 1fr; } }
+  .trait-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.2rem; }
+  .trait-box h4 { font-family: 'Orbitron', monospace; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .trait-box.pros h4 { color: var(--accent-green); }
+  .trait-box.cons h4 { color: var(--accent-warm); }
+  .trait-box ul { list-style: none; padding: 0; }
+  .trait-box ul li { font-size: 0.85rem; color: var(--text); padding: 0.25rem 0; padding-left: 1.2rem; position: relative; }
+  .trait-box.pros ul li::before { content: '+'; position: absolute; left: 0; color: var(--accent-green); font-weight: 700; font-family: 'Courier New', monospace; }
+  .trait-box.cons ul li::before { content: '\2212'; position: absolute; left: 0; color: var(--accent-warm); font-weight: 700; font-family: 'Courier New', monospace; }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-title">X</a>
+  <a href="index.html">Home</a>
+  <a href="weapons.html">Weapons</a>
+  <a href="equipment.html" class="active">Equipment</a>
+</nav>
+
+<div class="page-header">
+  <h1>Modular Machines</h1>
+  <p>Every mech is assembled from components. No hardpoints &mdash; just tonnage, slots, and power. Build what you want, carry what you can.</p>
+</div>
+
+<div class="content">
+
+<!-- ════ DESIGN PHILOSOPHY ════ -->
+<div class="philosophy-card">
+  <h3>Design Philosophy</h3>
+  <p>There are <strong>no hardpoints</strong> in the traditional sense. A mech's loadout is constrained by three things: <strong>tonnage</strong> (how much the frame can carry), <strong>slots</strong> (how many components fit in each location), and <strong>power</strong> (how much the reactor can feed). Every component &mdash; weapons, armor, systems &mdash; competes for the same budget.</p>
+  <p>Your mech's effective tonnage ceiling is the <strong>minimum</strong> of three capacities:</p>
+  <div class="formula-box">MaxTonnage = min( CarryCapacity, PowerOutput, LoadCapacity )</div>
+  <ul>
+    <li><strong>Carry</strong> &mdash; set by locomotion (legs, tracks, hover). Stronger legs carry more.</li>
+    <li><strong>Power</strong> &mdash; set by the flux core reactor. Bigger core = more tonnage budget.</li>
+    <li><strong>Load</strong> &mdash; set by the stabilizer. Better gyro supports heavier builds.</li>
+  </ul>
+  <p>This means upgrading just one system doesn't help if the others bottleneck you. A light hover with an assault reactor still can't carry assault-weight gear. Building a mech means balancing all three.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- STRUCTURE                                    -->
+<!-- ════════════════════════════════════════════ -->
+<div class="category-section">
+  <div class="category-header">
+    <h2>Structure</h2>
+    <span class="cat-tag" style="background:rgba(0,212,255,0.1);color:var(--accent);border:1px solid rgba(0,212,255,0.3)">Chassis Frame</span>
+  </div>
+  <p class="category-overview">The skeleton of every machine. Structure defines the physical layout: how the pilot sits, how it moves, what sections exist, and where weapons mount. Every build starts here.</p>
+
+  <!-- ── Command ── -->
+  <div class="subsection-header">
+    <h3><img src="icons/cockpit.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Command</h3>
+    <span class="cat-tag" style="background:rgba(88,166,255,0.1);color:#58a6ff;border:1px solid rgba(88,166,255,0.3)">Pilot Position</span>
+  </div>
+  <p class="category-overview">Where the pilot sits determines survivability, sensor capability, and whether the machine has a headshot-vulnerable location.</p>
+
+  <div class="subcategory-grid">
+    <!-- Head -->
+    <div class="subcat-card">
+      <h3 style="color:#58a6ff"><img src="icons/command_head.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Head</h3>
+      <div class="subcat-identity">Elevated command module &mdash; own location, eject capable, good sensors</div>
+      <div class="subcat-desc">Creates a separate targetable location with sensor bonus and line-of-sight advantage. Pilot can eject. Downside: headshots can kill the pilot directly.</div>
+      <div>
+        <span class="key-stat">Tons <span class="val">1-2.5t</span></span>
+        <span class="key-stat">Cmd Slots <span class="val">2</span></span>
+        <span class="key-stat">Eject <span class="val">Yes</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#58a6ff">Standard Head</span><span class="item-role">Balanced &mdash; 2 command slots, eject capable</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Armored Head</span><span class="item-role">Heavy &mdash; harder to headshot, 2 command slots</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Sensor Head</span><span class="item-role">Best sensors, fragile, 3 command slots</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Reinforced Head</span><span class="item-role">Heaviest &mdash; crit-proof, protects capsule</span></li>
+      </ul>
+    </div>
+
+    <!-- In-Hull -->
+    <div class="subcat-card">
+      <h3 style="color:#3fb950"><img src="icons/command_hull.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">In-Hull</h3>
+      <div class="subcat-identity">Pilot inside the hull &mdash; best protection, no own slots, can't eject</div>
+      <div class="subcat-desc">No separate location. Pilot sits inside the main hull &mdash; no headshot vulnerability, lightest option. But command systems compete with hull slots. No eject.</div>
+      <div>
+        <span class="key-stat">Tons <span class="val">0-2t</span></span>
+        <span class="key-stat">Cmd Slots <span class="val">0</span></span>
+        <span class="key-stat">Eject <span class="val">No</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#3fb950">Basic Cabin</span><span class="item-role">Minimal &mdash; no weight, no extras, systems use hull slots</span></li>
+        <li><span class="item-label" style="color:#3fb950">Armored Cabin</span><span class="item-role">Reinforced pilot position inside hull</span></li>
+        <li><span class="item-label" style="color:#3fb950">Command Station</span><span class="item-role">Full command center &mdash; lance buffs, but heavy</span></li>
+        <li><span class="item-label" style="color:#3fb950">Drone Controller Bay</span><span class="item-role">No pilot &mdash; remote controlled, no risk</span></li>
+      </ul>
+    </div>
+
+    <!-- Turret Command -->
+    <div class="subcat-card">
+      <h3 style="color:#f0883e"><img src="icons/command_turret.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Turret Command</h3>
+      <div class="subcat-identity">Pilot in a rotating turret &mdash; 360&deg; awareness, weapon slots, exposed</div>
+      <div class="subcat-desc">Rotating cupola on top of the hull. Full 360&deg; sensor coverage and can mount weapons. Heaviest command option but adds firepower. Exposed and targetable.</div>
+      <div>
+        <span class="key-stat">Tons <span class="val">1-6t</span></span>
+        <span class="key-stat">Wpn Slots <span class="val">1-3</span></span>
+        <span class="key-stat">Arc <span class="val">360&deg;</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#f0883e">Command Cupola</span><span class="item-role">Light turret &mdash; 360&deg; awareness, 1 weapon slot</span></li>
+        <li><span class="item-label" style="color:#f0883e">Armored Cupola</span><span class="item-role">Heavy turret &mdash; protected, 1 weapon slot</span></li>
+        <li><span class="item-label" style="color:#f0883e">Gun Turret</span><span class="item-role">Full weapon turret &mdash; 2 weapon slots, 360&deg; fire</span></li>
+        <li><span class="item-label" style="color:#f0883e">Heavy Gun Turret</span><span class="item-role">Assault turret &mdash; 3 weapon slots, heavy, slow rotation</span></li>
+        <li><span class="item-label" style="color:#f0883e">Open Turret</span><span class="item-role">Unarmored &mdash; best sensors, 1 weapon slot, very fragile</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── Locomotion ── -->
+  <div class="subsection-header">
+    <h3><img src="icons/leg.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Locomotion</h3>
+    <span class="cat-tag" style="background:rgba(0,255,136,0.1);color:var(--accent-green);border:1px solid rgba(0,255,136,0.3)">Movement System</span>
+  </div>
+  <p class="category-overview">How the machine moves. Locomotion sets carry capacity, speed, terrain handling, and whether it can melee or jump. The most build-defining structural choice.</p>
+
+  <div class="subcategory-grid">
+    <!-- Bipedal -->
+    <div class="subcat-card">
+      <h3 style="color:#3fb950"><img src="icons/loco_bipedal.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Bipedal</h3>
+      <div class="subcat-identity">Standard mech legs &mdash; versatile, can melee</div>
+      <div class="subcat-desc">The default. Two legs, terrain capable, melee capable. Variants range from light scouts to jump-capable thruster walkers.</div>
+      <div>
+        <span class="key-stat">Carry <span class="val">45-75t</span></span>
+        <span class="key-stat">Melee <span class="val">Yes</span></span>
+        <span class="key-stat">Legs <span class="val">2</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#3fb950">Bipedal Walker</span><span class="item-role">Standard mech legs &mdash; versatile, can melee</span></li>
+        <li><span class="item-label" style="color:#3fb950">Light Bipedal Walker</span><span class="item-role">Stripped legs &mdash; faster, less stable</span></li>
+        <li><span class="item-label" style="color:#3fb950">Reinforced Bipedal Walker</span><span class="item-role">Hardened legs &mdash; slower, harder to cripple</span></li>
+        <li><span class="item-label" style="color:#3fb950">Thruster Walker</span><span class="item-role">Bipedal with built-in jump capability</span></li>
+      </ul>
+    </div>
+
+    <!-- Tracked -->
+    <div class="subcat-card">
+      <h3 style="color:#f0883e"><img src="icons/loco_tracked.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Tracked</h3>
+      <div class="subcat-identity">Tank treads &mdash; high stability, no melee, can't jump</div>
+      <div class="subcat-desc">Trades mobility for platform stability. Excellent recoil absorption. Highest carry capacity. Cannot melee or jump.</div>
+      <div>
+        <span class="key-stat">Carry <span class="val">80-100t</span></span>
+        <span class="key-stat">Melee <span class="val">No</span></span>
+        <span class="key-stat">Stability <span class="val">+20/+40</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#f0883e">Tracked Drive</span><span class="item-role">Tank treads &mdash; high stability, no melee, can't jump</span></li>
+        <li><span class="item-label" style="color:#f0883e">Heavy Tracked Drive</span><span class="item-role">Assault platform &mdash; very stable, very slow</span></li>
+      </ul>
+    </div>
+
+    <!-- Wheeled -->
+    <div class="subcat-card">
+      <h3 style="color:#58a6ff"><img src="icons/loco_wheeled.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Wheeled</h3>
+      <div class="subcat-identity">Fast on roads, poor off-road, no melee</div>
+      <div class="subcat-desc">Fastest on paved terrain with massive road speed bonus. Terrible off-road. Low carry capacity. Scout and recon platform.</div>
+      <div>
+        <span class="key-stat">Carry <span class="val">40t</span></span>
+        <span class="key-stat">Speed <span class="val">+25</span></span>
+        <span class="key-stat">Road <span class="val">+20</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#58a6ff">Wheeled Drive</span><span class="item-role">Fast on roads, poor off-road, no melee</span></li>
+      </ul>
+    </div>
+
+    <!-- Hover -->
+    <div class="subcat-card">
+      <h3 style="color:#39d2c0"><img src="icons/loco_hover.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Hover</h3>
+      <div class="subcat-identity">Ignores terrain &mdash; fast and agile, fragile</div>
+      <div class="subcat-desc">Glides over any surface. Terrain penalties ignored. Built-in evasion bonus. Fragile and low carry. Cannot melee or jump.</div>
+      <div>
+        <span class="key-stat">Carry <span class="val">35t</span></span>
+        <span class="key-stat">Speed <span class="val">+15</span></span>
+        <span class="key-stat">Evasion <span class="val">+1</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#39d2c0">Hover Drive</span><span class="item-role">Ignores terrain &mdash; fast and agile, fragile</span></li>
+      </ul>
+    </div>
+
+    <!-- Quad -->
+    <div class="subcat-card">
+      <h3 style="color:#d29922"><img src="icons/loco_quad.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Quad</h3>
+      <div class="subcat-identity">Four-legged &mdash; very stable, no arm weapons</div>
+      <div class="subcat-desc">Four legs for superior stability. Can melee but no arm-mounted weapons. Good carry capacity with inherent stability bonus.</div>
+      <div>
+        <span class="key-stat">Carry <span class="val">70t</span></span>
+        <span class="key-stat">Stability <span class="val">+15</span></span>
+        <span class="key-stat">Legs <span class="val">4</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#d29922">Quad Walker</span><span class="item-role">Four-legged &mdash; very stable, no arm weapons</span></li>
+      </ul>
+    </div>
+
+    <!-- Flying -->
+    <div class="subcat-card">
+      <h3 style="color:#bc8cff"><img src="icons/loco_flying.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Flying</h3>
+      <div class="subcat-identity">Vertical takeoff &mdash; flies over terrain, very fragile</div>
+      <div class="subcat-desc">VTOL rotors for airborne movement. Ignores all terrain. Fastest and most fragile. Lowest carry capacity. Cannot melee.</div>
+      <div>
+        <span class="key-stat">Carry <span class="val">30t</span></span>
+        <span class="key-stat">Speed <span class="val">+20</span></span>
+        <span class="key-stat">Stability <span class="val">-15</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#bc8cff">VTOL Rotor</span><span class="item-role">Vertical takeoff &mdash; flies over terrain, very fragile</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── Sections ── -->
+  <div class="subsection-header">
+    <h3><img src="icons/structure.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Sections</h3>
+    <span class="cat-tag" style="background:rgba(255,204,0,0.1);color:var(--accent-yellow);border:1px solid rgba(255,204,0,0.3)">Body Layout</span>
+  </div>
+  <p class="category-overview">The physical body: hull frame, side compartments, weapon mounts, and arms. These define how many locations exist, how many slots each has, and where damage gets distributed.</p>
+
+  <div class="subcategory-grid">
+    <!-- Hull -->
+    <div class="subcat-card">
+      <h3 style="color:#6e7681"><img src="icons/structure.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Hull</h3>
+      <div class="subcat-identity">Frame shape &mdash; defines center compartment and side location slots</div>
+      <div class="subcat-desc">The core frame. Always has a center compartment with its own slots, armor, and internals. Side locations are empty slots for compartments. 1-location to 5-location hulls.</div>
+      <div>
+        <span class="key-stat">Locations <span class="val">1-5</span></span>
+        <span class="key-stat">Center Slots <span class="val">4-10</span></span>
+        <span class="key-stat">Side Slots <span class="val">0-8</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#6e7681">Light Hull</span><span class="item-role">Single section &mdash; fast, cheap, fragile. 20-35t.</span></li>
+        <li><span class="item-label" style="color:#6e7681">Medium Hull</span><span class="item-role">Standard 3-section. 35-55t.</span></li>
+        <li><span class="item-label" style="color:#6e7681">Heavy Hull</span><span class="item-role">Reinforced 3-section. 55-80t.</span></li>
+        <li><span class="item-label" style="color:#6e7681">Assault Hull</span><span class="item-role">Massive 3-section. 80-100t.</span></li>
+        <li><span class="item-label" style="color:#6e7681">Compact Hull</span><span class="item-role">Single dense section &mdash; small but lots of slots. 20-40t.</span></li>
+        <li><span class="item-label" style="color:#6e7681">Wide Hull</span><span class="item-role">5-section &mdash; more locations for spreading damage. 50-75t.</span></li>
+      </ul>
+    </div>
+
+    <!-- Compartment -->
+    <div class="subcat-card">
+      <h3 style="color:#8b949e"><img src="icons/structure.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Compartment</h3>
+      <div class="subcat-identity">Side location modules &mdash; install into hull side slots</div>
+      <div class="subcat-desc">Each side slot on the hull gets a compartment. Variants specialize for weapons, ammo storage, cargo, or raw armor. Each is a separate targetable location.</div>
+      <div>
+        <span class="key-stat">Tons <span class="val">0-2t</span></span>
+        <span class="key-stat">Slots <span class="val">2-6</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#8b949e">Standard Section</span><span class="item-role">General purpose side compartment</span></li>
+        <li><span class="item-label" style="color:#8b949e">Armored Section</span><span class="item-role">Heavy side compartment &mdash; more HP, fewer slots</span></li>
+        <li><span class="item-label" style="color:#8b949e">Weapon Bay</span><span class="item-role">Extra weapon slots &mdash; built to hold firepower</span></li>
+        <li><span class="item-label" style="color:#8b949e">Reactor Bay</span><span class="item-role">Houses reactor overflow &mdash; for exposed cores and extra radiators</span></li>
+        <li><span class="item-label" style="color:#8b949e">Cargo Section</span><span class="item-role">Salvage and supply storage &mdash; expedition utility</span></li>
+        <li><span class="item-label" style="color:#8b949e">Ammo Bunker</span><span class="item-role">Reinforced ammo storage &mdash; explosion-contained</span></li>
+        <li><span class="item-label" style="color:#8b949e">Light Section</span><span class="item-role">Minimal side compartment &mdash; cheap and fragile</span></li>
+      </ul>
+    </div>
+
+    <!-- Weapon Mount -->
+    <div class="subcat-card">
+      <h3 style="color:#58a6ff"><img src="icons/targeting.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Weapon Mount</h3>
+      <div class="subcat-identity">How weapons attach &mdash; firing arc and rotation</div>
+      <div class="subcat-desc">Mounts determine weapon firing arcs. From fixed forward-only mounts to full 360&deg; heavy turrets. More arc = more weight and vulnerability.</div>
+      <div>
+        <span class="key-stat">Tons <span class="val">0-2t</span></span>
+        <span class="key-stat">Arc <span class="val">45-360&deg;</span></span>
+        <span class="key-stat">Hardpoints <span class="val">1-2</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#58a6ff">Fixed Mount</span><span class="item-role">Forward-facing only &mdash; lightest, no rotation</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Arm Mount</span><span class="item-role">Standard bipedal arm weapon &mdash; follows torso twist</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Light Turret</span><span class="item-role">180&deg; rotation &mdash; versatile but costs weight</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Heavy Turret</span><span class="item-role">360&deg; rotation, 2 hardpoints &mdash; full coverage</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Dorsal Mount</span><span class="item-role">Top-mounted &mdash; 270&deg; arc, good for indirect fire</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Sponson Mount</span><span class="item-role">Side-mounted pair &mdash; one per side, limited arc</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Missile Rack</span><span class="item-role">Top-mounted missile launcher &mdash; indirect fire, 270&deg; arc</span></li>
+      </ul>
+    </div>
+
+    <!-- Arms -->
+    <div class="subcat-card">
+      <h3 style="color:#d29922"><img src="icons/arm.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Arms</h3>
+      <div class="subcat-identity">Upper limb function &mdash; weapon handling, melee, and utility</div>
+      <div class="subcat-desc">Arms hold weapons, deliver melee, and provide utility. Some trade combat capability for salvage bonuses or weapon capacity.</div>
+      <div>
+        <span class="key-stat">Tons <span class="val">0-0.5t</span></span>
+        <span class="key-stat">Slots <span class="val">1-3</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#d29922">Standard Arm</span><span class="item-role">Baseline &mdash; balanced handling and melee</span></li>
+        <li><span class="item-label" style="color:#d29922">Weapon Platform Arm</span><span class="item-role">Extra weapon slot but no melee capability</span></li>
+        <li><span class="item-label" style="color:#d29922">Brawler Arm</span><span class="item-role">Built for close combat &mdash; punch harder and more often</span></li>
+        <li><span class="item-label" style="color:#d29922">Reinforced Arm</span><span class="item-role">Hardened &mdash; protects mounted weapons from crits</span></li>
+        <li><span class="item-label" style="color:#d29922">Salvage Arm</span><span class="item-role">Utility arm &mdash; better loot from kills, worse aim</span></li>
+        <li><span class="item-label" style="color:#d29922">Light Arm</span><span class="item-role">Stripped down &mdash; faster twist, less durable</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- EQUIPMENT                                    -->
+<!-- ════════════════════════════════════════════ -->
+<div class="category-section">
+  <div class="category-header">
+    <h2>Equipment</h2>
+    <span class="cat-tag" style="background:rgba(180,74,255,0.1);color:var(--accent-purple);border:1px solid rgba(180,74,255,0.3)">Internal Systems</span>
+  </div>
+  <p class="category-overview">The internals that define how the machine performs. Reactor, chassis protection, pilot systems, and utility gear. Every ton spent here is a ton not spent on weapons.</p>
+
+  <!-- ── Reactor ── -->
+  <div class="subsection-header">
+    <h3><img src="icons/engine.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Reactor</h3>
+    <span class="cat-tag" style="background:rgba(240,136,62,0.1);color:#f0883e;border:1px solid rgba(240,136,62,0.3)">Power Plant</span>
+  </div>
+  <p class="category-overview">The heart of the machine. Flux core provides power, cooling dissipates heat, and the stabilizer keeps it upright. All three constrain max tonnage.</p>
+
+  <div class="subcategory-grid">
+    <!-- Flux Core -->
+    <div class="subcat-card">
+      <h3 style="color:#f0883e"><img src="icons/core_standard.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Flux Core</h3>
+      <div class="subcat-identity">Fusion reactor core &mdash; weight vs crit vulnerability</div>
+      <div class="subcat-desc">The engine. Lighter cores save tonnage but explode spectacularly when hit. Weight factor multiplies engine tonnage. Crit chance determines how often hits penetrate.</div>
+      <div>
+        <span class="key-stat">Weight <span class="val">0.5-1.5x</span></span>
+        <span class="key-stat">Crit <span class="val">0-15%</span></span>
+        <span class="key-stat">Power <span class="val">45-80</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#f0883e">Standard Flux Core</span><span class="item-role">Reliable baseline &mdash; low crit risk, moderate weight</span></li>
+        <li><span class="item-label" style="color:#f0883e">Light Flux Core</span><span class="item-role">25% lighter but more crit-prone, bigger explosions</span></li>
+        <li><span class="item-label" style="color:#f0883e">Reinforced Flux Core</span><span class="item-role">Crit-immune but 50% heavier &mdash; assault anchor</span></li>
+        <li><span class="item-label" style="color:#f0883e">Exposed Flux Core</span><span class="item-role">Lightest &mdash; components spread into side torsos, very crit-vulnerable</span></li>
+        <li><span class="item-label" style="color:#f0883e">Salvaged Flux Core</span><span class="item-role">Cheap junk &mdash; unreliable but available early</span></li>
+        <li><span class="item-label" style="color:#f0883e">Volatile Flux Core</span><span class="item-role">Runs hot, hits harder &mdash; heat-aggressive builds</span></li>
+        <li><span class="item-label" style="color:#f0883e">Shielded Flux Core</span><span class="item-role">Evasion-focused &mdash; harder to hit but heavier</span></li>
+      </ul>
+    </div>
+
+    <!-- Cooling -->
+    <div class="subcat-card">
+      <h3 style="color:#39d2c0"><img src="icons/heatsink.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Cooling</h3>
+      <div class="subcat-identity">Heat dissipation system &mdash; efficiency vs weight vs reliability</div>
+      <div class="subcat-desc">Radiators remove heat every tick. Better radiators dissipate more per ton. Experimental ones can fail mid-combat. Heat batteries store heat instead of dissipating it.</div>
+      <div>
+        <span class="key-stat">Tons <span class="val">1-2t</span></span>
+        <span class="key-stat">Dissipation <span class="val">0-10/sink</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#39d2c0">Standard Radiator</span><span class="item-role">Cheap and reliable &mdash; starter system</span></li>
+        <li><span class="item-label" style="color:#39d2c0">Pressurized Radiator</span><span class="item-role">Double dissipation but heavier</span></li>
+        <li><span class="item-label" style="color:#39d2c0">Dual-Loop Radiator</span><span class="item-role">Best efficiency &mdash; same weight, double cooling. Rare.</span></li>
+        <li><span class="item-label" style="color:#39d2c0">Prototype Radiator</span><span class="item-role">Same as double but can fail mid-combat</span></li>
+        <li><span class="item-label" style="color:#39d2c0">Heat Battery</span><span class="item-role">Pure heat storage &mdash; no cooling, +20 heat threshold for alpha strikes</span></li>
+      </ul>
+    </div>
+
+    <!-- Stabilizer -->
+    <div class="subcat-card">
+      <h3 style="color:#d29922"><img src="icons/gyro.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Stabilizer</h3>
+      <div class="subcat-identity">Balance and stability &mdash; what kind of platform is this mech?</div>
+      <div class="subcat-desc">The gyro. Sets stability threshold (knockdown resistance) and max load capacity. Variants specialize for fire support, brawling, or agility.</div>
+      <div>
+        <span class="key-stat">Slots <span class="val">1-3</span></span>
+        <span class="key-stat">Stability <span class="val">30-70</span></span>
+        <span class="key-stat">Load <span class="val">45-100t</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#d29922">Standard Stabilizer</span><span class="item-role">Baseline &mdash; balanced stability</span></li>
+        <li><span class="item-label" style="color:#d29922">Compact Stabilizer</span><span class="item-role">Saves slots but less stable</span></li>
+        <li><span class="item-label" style="color:#d29922">Reinforced Stabilizer</span><span class="item-role">Assault anchor &mdash; very hard to knock down</span></li>
+        <li><span class="item-label" style="color:#d29922">Dampened Stabilizer</span><span class="item-role">Fire support platform &mdash; absorbs recoil</span></li>
+        <li><span class="item-label" style="color:#d29922">Reactive Stabilizer</span><span class="item-role">Agile platform &mdash; evasion and twist speed</span></li>
+        <li><span class="item-label" style="color:#d29922">Brawler Stabilizer</span><span class="item-role">Melee platform &mdash; punch harder, stay standing</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── Chassis ── -->
+  <div class="subsection-header">
+    <h3><img src="icons/armor_standard.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Chassis</h3>
+    <span class="cat-tag" style="background:rgba(188,140,255,0.1);color:#bc8cff;border:1px solid rgba(188,140,255,0.3)">Protection</span>
+  </div>
+  <p class="category-overview">Armor type, armor mods, and internal structure. These determine how damage is absorbed, what it's resistant to, and how the internals hold up under fire.</p>
+
+  <div class="subcategory-grid">
+    <!-- Armor -->
+    <div class="subcat-card">
+      <h3 style="color:#bc8cff"><img src="icons/armor_standard.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Armor</h3>
+      <div class="subcat-identity">Damage absorption and resistance specialization</div>
+      <div class="subcat-desc">Global armor type applied to all locations. Determines weight-per-point and damage type resistances. Heavier armor gives more HP. Specialized coatings trade one vulnerability for another.</div>
+      <div>
+        <span class="key-stat">Weight <span class="val">0.7-2.0x</span></span>
+        <span class="key-stat">Armor <span class="val">1.0-2.0x</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#bc8cff">Composite Plating</span><span class="item-role">Baseline &mdash; no tradeoffs</span></li>
+        <li><span class="item-label" style="color:#bc8cff">Woven Carbide</span><span class="item-role">Lighter armor with minor damage reduction</span></li>
+        <li><span class="item-label" style="color:#bc8cff">Layered Composite</span><span class="item-role">Heavy tank &mdash; more armor HP but slower</span></li>
+        <li><span class="item-label" style="color:#bc8cff">Ablative Mesh</span><span class="item-role">Anti-missile specialist</span></li>
+        <li><span class="item-label" style="color:#bc8cff">Prismatic Coating</span><span class="item-role">Anti-energy but ballistic-vulnerable</span></li>
+        <li><span class="item-label" style="color:#bc8cff">Scrap Patchwork</span><span class="item-role">Cheap and light but fragile</span></li>
+        <li><span class="item-label" style="color:#bc8cff">Reactive Plating</span><span class="item-role">Anti-missile and AoE, weak to AP</span></li>
+        <li><span class="item-label" style="color:#bc8cff">Reflective Coating</span><span class="item-role">Anti-energy but melee-vulnerable</span></li>
+        <li><span class="item-label" style="color:#bc8cff">Hardened Plating</span><span class="item-role">AP-immune heavy armor, reduces speed</span></li>
+        <li><span class="item-label" style="color:#bc8cff">Stealth Coating</span><span class="item-role">Reduces visibility and sensor signature</span></li>
+      </ul>
+    </div>
+
+    <!-- Armor Mods -->
+    <div class="subcat-card">
+      <h3 style="color:#8b949e"><img src="icons/armor_standard.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Armor Mods</h3>
+      <div class="subcat-identity">Bolt-on protection &mdash; location-specific upgrades</div>
+      <div class="subcat-desc">Installed per-location. Extra plating, spall liners, blast shields. Each costs a slot and half a ton but can save a location from destruction.</div>
+      <div>
+        <span class="key-stat">Tons <span class="val">0.25-1t</span></span>
+        <span class="key-stat">Slots <span class="val">1</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#8b949e">Bolt-On Plating (Light)</span><span class="item-role">Extra armor to one location</span></li>
+        <li><span class="item-label" style="color:#8b949e">Bolt-On Plating (Heavy)</span><span class="item-role">More armor, more weight</span></li>
+        <li><span class="item-label" style="color:#8b949e">Spall Liner</span><span class="item-role">Reduces crit chance and splash damage to location</span></li>
+        <li><span class="item-label" style="color:#8b949e">Blast Shield</span><span class="item-role">Contains internal explosions &mdash; ammo detonation stays in location</span></li>
+        <li><span class="item-label" style="color:#8b949e">Impact Padding</span><span class="item-role">Reduces melee and DFA damage to location</span></li>
+        <li><span class="item-label" style="color:#8b949e">Heat Shielding</span><span class="item-role">Reduces energy weapon damage to location</span></li>
+        <li><span class="item-label" style="color:#8b949e">Bulkhead</span><span class="item-role">Blocks explosion propagation from this location to adjacent</span></li>
+        <li><span class="item-label" style="color:#8b949e">Blast Dampener</span><span class="item-role">Reduces internal explosion damage by 50% in this location</span></li>
+      </ul>
+    </div>
+
+    <!-- Internals -->
+    <div class="subcat-card">
+      <h3 style="color:#58a6ff"><img src="icons/structure.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Internals</h3>
+      <div class="subcat-identity">Internal electronics layout &mdash; compactness vs durability</div>
+      <div class="subcat-desc">Global internal structure type. Lighter internals save tonnage but increase crit vulnerability. Reinforced internals resist crits at the cost of weight. Modular speeds up field repairs.</div>
+      <div>
+        <span class="key-stat">Weight <span class="val">0.5-1.5x</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#58a6ff">Standard Internals</span><span class="item-role">Baseline &mdash; reliable internal layout</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Compact Internals</span><span class="item-role">Miniaturized internals &mdash; lighter but fragile wiring</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Lightweight Internals</span><span class="item-role">Moderate weight savings, slightly more vulnerable</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Reinforced Internals</span><span class="item-role">Hardened internals &mdash; heavier but crit-resistant</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Salvaged Internals</span><span class="item-role">Junk internals &mdash; heavy but cheap to fix</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Modular Internals</span><span class="item-role">Easy to swap components &mdash; faster field repairs, standard weight</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── Systems ── -->
+  <div class="subsection-header">
+    <h3><img src="icons/targeting.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Systems</h3>
+    <span class="cat-tag" style="background:rgba(248,81,73,0.1);color:#f85149;border:1px solid rgba(248,81,73,0.3)">Pilot Interface</span>
+  </div>
+  <p class="category-overview">The pilot's direct interface with the machine. Capsule keeps the pilot alive, targeting helps aim, and survival modules handle emergencies. Higher-quality capsules can roll random pilot bonuses on loot.</p>
+
+  <div class="subcategory-grid">
+    <!-- Pilot Capsule -->
+    <div class="subcat-card">
+      <h3 style="color:#f85149"><img src="icons/cockpit.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Pilot Capsule</h3>
+      <div class="subcat-identity">Pilot interface &mdash; survival and protection</div>
+      <div class="subcat-desc">The pilot's seat. Determines tonnage overhead, headshot immunity, and eject capability. Capsules roll random bonuses on loot &mdash; stat boosts and passive skills based on quality tier.</div>
+      <div>
+        <span class="key-stat">Tons <span class="val">2-4t</span></span>
+      </div>
+      <div class="mechanic-highlight"><strong>Loot rolls</strong> &mdash; capsules can grant pilot stat bonuses (+Gunnery, +Piloting) and passive skills. Higher quality = better rolls. Chase item for pilot builds.</div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#f85149">Standard Capsule</span><span class="item-role">Baseline &mdash; 3 tons, balanced protection</span></li>
+        <li><span class="item-label" style="color:#f85149">Small Capsule</span><span class="item-role">Lighter but less pilot protection</span></li>
+        <li><span class="item-label" style="color:#f85149">Torso Mount Capsule</span><span class="item-role">Headshot immune but cannot eject</span></li>
+      </ul>
+    </div>
+
+    <!-- Targeting -->
+    <div class="subcat-card">
+      <h3 style="color:#58a6ff"><img src="icons/targeting.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Targeting</h3>
+      <div class="subcat-identity">Aim assist and fire control &mdash; accuracy and weapon handling</div>
+      <div class="subcat-desc">Fire control systems. Standard optics give a small accuracy bonus. Upgrades unlock evasion ignore, multi-target, or extended range.</div>
+      <div>
+        <span class="key-stat">Tons <span class="val">1-2t</span></span>
+        <span class="key-stat">Acc <span class="val">+5/+10</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#58a6ff">Standard Optics</span><span class="item-role">Baseline &mdash; basic aim assist</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Precision Optics</span><span class="item-role">Better accuracy, heavier</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Predictive Tracker</span><span class="item-role">Tracks moving targets &mdash; ignores evasion</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Multi-Lock System</span><span class="item-role">Engage multiple targets simultaneously</span></li>
+        <li><span class="item-label" style="color:#58a6ff">Rangefinder</span><span class="item-role">Extends effective weapon range</span></li>
+      </ul>
+    </div>
+
+    <!-- Survival Module -->
+    <div class="subcat-card">
+      <h3 style="color:#f85149"><img src="icons/lifesupport.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Survival Module</h3>
+      <div class="subcat-identity">Pilot endurance &mdash; injury resistance, recovery, and emergency options</div>
+      <div class="subcat-desc">Keeps the pilot functional. From basic life support to auto-extraction systems that sacrifice the mech to save the pilot. Critical for expedition endurance.</div>
+      <div>
+        <span class="key-stat">Tons <span class="val">0.5-2t</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#f85149">Standard Survival Module</span><span class="item-role">Baseline &mdash; no injury resistance</span></li>
+        <li><span class="item-label" style="color:#f85149">Hardened Survival Module</span><span class="item-role">Better pilot protection, heavier</span></li>
+        <li><span class="item-label" style="color:#f85149">Trauma Kit</span><span class="item-role">Pilot heals 1 injury between expedition battles</span></li>
+        <li><span class="item-label" style="color:#f85149">Stim Injector</span><span class="item-role">Ignore first injury per battle, but double bleed rate</span></li>
+        <li><span class="item-label" style="color:#f85149">Emergency Extraction</span><span class="item-role">Auto-extracts pilot at 20% structure &mdash; saves pilot, loses mech</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── Utility ── -->
+  <div class="subsection-header">
+    <h3><img src="icons/menu_repair.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Utility</h3>
+    <span class="cat-tag" style="background:rgba(210,153,34,0.1);color:#d29922;border:1px solid rgba(210,153,34,0.3)">Expedition Gear</span>
+  </div>
+  <p class="category-overview">Non-combat equipment for the expedition loop. Field repair kits keep mechs running between battles. Salvage gear turns dead enemies into progression. Every slot spent here is a slot not spent on weapons.</p>
+
+  <div class="subcategory-grid">
+    <!-- Field Repair -->
+    <div class="subcat-card">
+      <h3 style="color:#f0883e"><img src="icons/menu_repair.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Field Repair</h3>
+      <div class="subcat-identity">Expedition repair capability &mdash; fix more between battles</div>
+      <div class="subcat-desc">Tools and kits for patching damage in the field. From basic repair kits to mobile workshops that boost the entire lance. Essential for deep expeditions.</div>
+      <div>
+        <span class="key-stat">Tons <span class="val">0.5-3t</span></span>
+        <span class="key-stat">Slots <span class="val">1-3</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#f0883e">Basic Repair Kit</span><span class="item-role">Small boost to field repair success rate</span></li>
+        <li><span class="item-label" style="color:#f0883e">Field Welder</span><span class="item-role">Restores more armor points per repair action</span></li>
+        <li><span class="item-label" style="color:#f0883e">Structural Brace Kit</span><span class="item-role">Can field-repair internal structure damage</span></li>
+        <li><span class="item-label" style="color:#f0883e">Mobile Workshop</span><span class="item-role">Heavy &mdash; boosts entire lance field repair</span></li>
+        <li><span class="item-label" style="color:#f0883e">Jury-Rig Tools</span><span class="item-role">Cheap &mdash; more repair attempts but lower quality</span></li>
+        <li><span class="item-label" style="color:#f0883e">Spare Parts Bin</span><span class="item-role">Carries replacement components for equipment repair</span></li>
+      </ul>
+    </div>
+
+    <!-- Salvage -->
+    <div class="subcat-card">
+      <h3 style="color:#d29922"><img src="icons/menu_warehouse.svg" width="24" height="24" style="vertical-align:middle;margin-right:8px;filter:brightness(0.9)">Salvage</h3>
+      <div class="subcat-identity">Post-combat loot and economy &mdash; roguelike progression</div>
+      <div class="subcat-desc">Salvage gear turns battlefield wreckage into usable equipment and scrap currency. More salvage capacity = more loot per mission. The roguelike progression engine.</div>
+      <div>
+        <span class="key-stat">Tons <span class="val">0.5-2t</span></span>
+        <span class="key-stat">Slots <span class="val">1-2</span></span>
+      </div>
+      <ul class="item-list">
+        <li><span class="item-label" style="color:#d29922">Scrap Collector</span><span class="item-role">Gathers extra scrap from destroyed enemies</span></li>
+        <li><span class="item-label" style="color:#d29922">Salvage Arm</span><span class="item-role">Better chance to recover intact equipment</span></li>
+        <li><span class="item-label" style="color:#d29922">Component Analyzer</span><span class="item-role">Identifies equipment quality before salvage</span></li>
+        <li><span class="item-label" style="color:#d29922">Cargo Bay</span><span class="item-role">Extra salvage capacity &mdash; carry more loot</span></li>
+        <li><span class="item-label" style="color:#d29922">Field Strip Kit</span><span class="item-role">Salvage equipment from crippled (not destroyed) locations</span></li>
+        <li><span class="item-label" style="color:#d29922">Black Market Uplink</span><span class="item-role">Chance to find rare items in salvage pools</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div><!-- .content -->
+
+</body>
+</html>

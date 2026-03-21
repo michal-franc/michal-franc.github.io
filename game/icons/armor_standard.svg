@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Incoming hit -->
+  <rect x="2" y="15" width="6" height="2" rx="0.8" fill="#ffffff" opacity="0.5"/>
+  <!-- Single plate stopping it -->
+  <rect x="12" y="6" width="5" height="20" rx="1" fill="#ffffff" opacity="0.7"/>
+  <!-- Deflection sparks -->
+  <rect x="19" y="9" width="4" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(-30, 21, 10)"/>
+  <rect x="19" y="16" width="3" height="1.5" rx="0.5" fill="#ffffff" opacity="0.3" transform="rotate(10, 20, 17)"/>
+  <rect x="18" y="22" width="4" height="1.5" rx="0.5" fill="#ffffff" opacity="0.4" transform="rotate(35, 20, 23)"/>
+</svg>

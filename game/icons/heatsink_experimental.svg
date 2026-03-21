@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Two heatsink plates stacked in center -->
+  <rect x="4" y="14" width="24" height="4" rx="1" fill="#ffffff" opacity="0.8"/>
+  <rect x="4" y="19" width="24" height="4" rx="1" fill="#ffffff" opacity="0.6"/>
+  <!-- Heat waves going UP -->
+  <path d="M8 12 Q10 10 8 8 Q6 6 8 4" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.6"/>
+  <path d="M16 12 Q18 10 16 8 Q14 6 16 4" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.6"/>
+  <path d="M24 12 Q26 10 24 8 Q22 6 24 4" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.6"/>
+  <!-- Upper fading tips -->
+  <path d="M8 3 Q9.5 1.5 8 0.5" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.25"/>
+  <path d="M16 3 Q17.5 1.5 16 0.5" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.25"/>
+  <path d="M24 3 Q25.5 1.5 24 0.5" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.25"/>
+  <!-- Heat waves going DOWN (mirrored) -->
+  <path d="M8 24 Q10 26 8 28 Q6 30 8 32" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.6"/>
+  <path d="M16 24 Q18 26 16 28 Q14 30 16 32" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.6"/>
+  <path d="M24 24 Q26 26 24 28 Q22 30 24 32" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.6"/>
+  <!-- Lower fading tips -->
+  <path d="M8 33 Q9.5 34.5 8 35.5" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.25"/>
+  <path d="M16 33 Q17.5 34.5 16 35.5" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.25"/>
+  <path d="M24 33 Q25.5 34.5 24 35.5" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.25"/>
+</svg>
