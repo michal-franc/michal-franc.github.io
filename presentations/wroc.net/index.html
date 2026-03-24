@@ -184,38 +184,46 @@
             <div class="two-col" style="font-size: 0.75em;">
                 <div>
                     <ul>
-                        <li><span class="highlight">Staff/Principal Engineer</span></li>
+                        <li><span class="highlight">Staff+ Engineer</span></li>
                         <li>15+ lat w branży, 12+ lat dla rynku UK/US, firmy produktowe</li>
                         <li>Obecnie Affirm (BNPL fintech), tech lead tech leadów, 30+ inżynierów</li>
-                        <li>Impact oriented, wysoki lvl individual contributor</li>
+                        <li>Impact oriented individual contributor</li>
                     </ul>
                 </div>
                 <div>
                     <ul>
-                        <li>AWS, Kubernetes, Terraform, Go, Python, C#, Kotlin</li>
-                        <li>Reliability, observability, cost optimization</li>
-                        <li>M.Sc. Politechnika Wrocławska</li>
+                        <li>Polyglot software engineer</li>
+                        <li>Scalability / Reliability, architecture, system design, data driven product development</li>
                         <li>Kiedyś współzałożyciel dotnetconf.pl i grupa .NET Wrocław na PWr</li>
                         <li><a href="https://mfranc.com" class="mono">mfranc.com</a> · <a href="https://twitter.com/francmichal" class="mono">@francmichal</a></li>
                     </ul>
                 </div>
             </div>
             <br>
-            <p class="dim">Polyglot programmer, ale Toadie to mój pierwszy projekt gdzie nie napisałem ani linijki kodu</p>
             <p class="dim" style="font-size: 0.55em; font-style: italic;">Psycho fan vima i i3wm · hobbystycznie pisze <a href="https://mfranc.com/game/">grę</a> · maluje figurki Warhammera</p>
+        </section>
+
+        <!-- LAST 6 MONTHS -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="font-size: 1.2em; margin-bottom: 0.3em;">A tak wyglądam ostatnie pół roku</h2>
+            <div style="max-width: 400px; margin: 0 auto;">
+                <img src=".images/excited.gif" style="border-radius: 12px; width: 100%;">
+            </div>
+        </section>
+
+        <!-- TOADIE? -->
+        <section data-background-color="#0a0e1a" data-transition="zoom">
+            <h1 style="font-size: 3.5em; background: linear-gradient(135deg, var(--green), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Toadie?</h1>
+            <div style="max-width: 250px; margin: 1em auto 0 auto;">
+                <img src=".images/toadwart.png" style="border-radius: 16px; width: 100%;">
+            </div>
+            <p class="dim" style="font-size: 0.7em; margin-top: 0.5em;">Mój personalny bot napędzany Claude Codem</p>
         </section>
 
         <!-- HOOK -->
         <section>
-            <h2>Co zbudowałem</h2>
-            <ul>
-                <li>Aplikacja na <span class="highlight">Galaxy Watch</span>, Kotlin, Wear OS</li>
-                <li>Aplikacja na <span class="highlight">telefon Android</span>, z botem Tamagotchi</li>
-                <li><span class="highlight">Serwer Python</span>, HTTP, WebSocket, STT, TTS</li>
-                <li><span class="highlight">Dashboard webowy</span>, Vue.js, timeline w real-time</li>
-                <li><span class="highlight">System uprawnień</span>, hooks, polling, zatwierdzanie z zegarka</li>
-                <li><span class="highlight">Integracja z Tailscale</span>, weryfikacja peerów, telefon jako relay</li>
-            </ul>
+            <h2>Ale konkrety, co to jest?</h2>
+            <p style="font-size: 0.75em;"><span class="highlight">Claude Code</span> z odpowiednim kontekstem, dostępny z <span class="highlight">komórki</span> i <span class="highlight">zegarka</span> (Kotlin, Wear OS), napędzany serwerem w <span class="highlight">Pythonie</span> (WebSockety), z wbudowanym dashboardem <span class="highlight">Vue.js</span>, dostępny poza siecią przez <span class="highlight">Tailscale</span> i <span class="highlight">Cloudflare Tunnel</span>, z systemem uprawnień i wsparciem STT/TTS od <span class="highlight">Deepgram</span>.</p>
             <br>
             <p class="dim">Pokażę jak to wszystko działa...</p>
             <p class="dim">...i dlaczego Kotlin w ogóle pojawił się na grupie .NET</p>
@@ -230,21 +238,20 @@
             <div class="card" style="max-width: 550px; margin: 0 auto; border-color: #F59E0B;">
                 <h3 style="color: #F59E0B;">Demo na żywo</h3>
                 <p>
-                    "Hey Toadie, dodaj notatkę że prezentacja idzie naprawdę dobrze"
+                    "Hey Toadie, zaczęliśmy prezentację"
                 </p>
             </div>
             <br>
-            <p class="mono" style="color: #F59E0B;">[ screen share: phone + obsidian ]</p>
+            <p class="mono" style="color: #F59E0B;"><a href="https://toadie.mfranc.com/viewer" style="color: #F59E0B;">toadie.mfranc.com/viewer</a></p>
         </section>
 
         <!-- THE PROBLEM -->
         <section>
-            <h2>Problem</h2>
+            <h2>Jak to się zaczęło</h2>
             <p>Chciałem <a href="https://superwhisper.com">Superwhisper</a> ale na Linuxie</p>
             <br>
             <ul>
-                <li>Wciśnij klawisz → zacznij dyktować</li>
-                <li>Tekst pojawia się w aktywnym oknie (streaming)</li>
+                <li>Dyktowanie do aktywnego okna</li>
                 <li>Działa wszędzie, terminal, przeglądarka, Obsidian</li>
                 <li>Bonus: przekieruj tekst do Claude jako komendy</li>
             </ul>
@@ -291,8 +298,6 @@
                 });
             })();
             </script>
-            <p style="font-size: 0.75em;">Emulacja doświadczenia dyktowania jak na Macu. Python orkiestrujący przechwytywanie audio, wywołanie API i <code>xdotool</code>.</p>
-            <br>
             <div class="two-col" style="font-size: 0.75em;">
                 <div>
                     <ul>
@@ -359,21 +364,11 @@
                 });
             })();
             </script>
-            <p style="font-size: 0.75em;">Dyktowanie do aktywnego okna jest fajne, ale czasem chcę po prostu pogadać z Claude. Wciśnij przycisk, powiedz coś, tekst ląduje w Claude Code.</p>
-            <br>
             <div class="two-col" style="font-size: 0.75em;">
                 <div>
                     <ul>
-                        <li>Nowy skrypt, spawnuje instancję Claude Code w <code>i3wm</code></li>
+                        <li>Nowy skrypt, spawnuje instancję Claude Code</li>
                         <li>Transkrypcja pipe'owana bezpośrednio do procesu</li>
-                        <li>Działa z mikrofonu słuchawek, z dala od biurka</li>
-                    </ul>
-                </div>
-                <div>
-                    <ul>
-                        <li>Szybka myśl lub komenda głosem</li>
-                        <li>Nie trzeba siadać do komputera</li>
-                        <li>Wciśnij przycisk → mów → Claude dostaje</li>
                     </ul>
                 </div>
             </div>
@@ -425,31 +420,26 @@
                 });
             })();
             </script>
-            <p style="font-size: 0.75em;">Poprzedni skrypt za każdym razem startował nowy proces Claude, nowy kontekst. A ja chcę mówić do <em>istniejącej</em> sesji.</p>
-            <br>
             <div class="two-col" style="font-size: 0.75em;">
                 <div>
                     <ul>
                         <li>Claude CLI działa w <code>tmux</code> z nazwaną sesją</li>
                         <li>Transkrypcja buforowana i wysyłana przez <code>tmux send-keys -t session:pane</code></li>
-                        <li>Kontekst zostaje między komendami</li>
-                    </ul>
-                </div>
-                <div>
-                    <ul>
-                        <li>Długie sesje z pełnym kontekstem projektu</li>
-                        <li>Mów z mikrofonu słuchawek, z dala od biurka</li>
-                        <li>Głos trafia do tego samego procesu co klawiatura</li>
+                        <li>Dlaczego nie stdin/stdout? Nie działało dobrze, było błędogenne, tmux przyszedł z pomocą</li>
                     </ul>
                 </div>
             </div>
         </section>
 
+        <!-- TRANSITION TO WATCH -->
+        <section data-background-color="#0a0e1a" data-transition="fade">
+            <p style="font-size: 1.1em; color: var(--dim); line-height: 1.8;">Więc mam teraz możliwość gadania do Claude z mikrofonu<br>ale muszę być przy biurku<br><br>a przecież mam... <span class="highlight" style="font-size: 1.3em;">zegarek na ręce</span> ... hmmm</p>
+            <p class="dim" style="font-size: 0.55em; font-style: italic; margin-top: 1.5em;">(nawet nie wiedziałem czy mój zegarek ma wbudowany mikrofon 🙈)</p>
+        </section>
+
         <!-- GALAXY WATCH -->
         <section>
             <h2>Galaxy Watch</h2>
-            <p style="font-size: 0.75em; font-style: italic;">Pewnej nocy mózg zdecydował: zegarek ma mikrofon... czemu nie gadać z Claude z nadgarstka?</p>
-            <br>
             <div class="two-col" style="font-size: 0.75em;">
                 <div>
                     <ul>
@@ -469,15 +459,13 @@
 
         <!-- DEMO: GALAXY WATCH VIDEO -->
         <section data-background-color="#0a0e1a">
-            <h2 style="color: #F59E0B;">Demo, Galaxy Watch</h2>
-            <br>
-            <div style="max-width: 500px; margin: 0 auto;">
+            <h2 style="font-size: 1.2em; color: #F59E0B; margin-bottom: 0.2em;">Demo, Galaxy Watch</h2>
+            <div style="max-width: 420px; margin: 0 auto;">
                 <video controls style="width: 100%; border-radius: 10px; border: 1px solid #F59E0B;">
                     <source src="https://mfranc.com/images/claudewatchwatchdemo.mp4" type="video/mp4">
                 </video>
             </div>
-            <br>
-            <p class="mono" style="color: #F59E0B;">Głos z zegarka → odpowiedź z Claude</p>
+            <p class="mono" style="color: #F59E0B; font-size: 0.5em; margin-top: 0.3em;">Głos → zegarek → Python → Deepgram → Claude</p>
         </section>
 
         <!-- ARCHITECTURE -->
@@ -677,7 +665,7 @@
         <!-- SERVER DASHBOARD -->
         <section>
             <h2>Server Dashboard</h2>
-            <p style="font-size: 0.75em;">Z zegarkiem, serwerem, WebSocketami i permission hooks setup robi się skomplikowany. Potrzebowałem widoczności.</p>
+            <p style="font-size: 0.75em;">Zegarek, serwer, websockety, permission hooki - robi się skomplikowanie</p>
             <br>
             <div class="two-col" style="font-size: 0.75em;">
                 <div>
@@ -690,7 +678,7 @@
                 <div>
                     <ul>
                         <li>Vue.js, single-page, WebSocket live updates</li>
-                        <li>Pomaga debugować problemy i rozumieć flow</li>
+                        <li>Pomaga debugować problemy, rozumieć flow, gdzie zacina się pipeline, co zoptymalizować</li>
                         <li>Dostępny przez Cloudflare Tunnel</li>
                     </ul>
                 </div>
@@ -705,7 +693,7 @@
                 <h3 style="color: #F59E0B;">Demo na żywo</h3>
                 <p>
                     1. Timeline, settings, chat w akcji<br>
-                    2. Wysyłamy komendę i obserwujemy flow
+                    2. Komenda + flow
                 </p>
             </div>
             <br>
@@ -716,30 +704,21 @@
         <section>
             <h2>Aplikacja na telefon</h2>
             <p style="font-size: 0.75em;">Mam zegarek... czemu nie telefon? Więcej ekranu, a może nawet trochę <span class="highlight">osobowości</span>?</p>
-            <p style="font-size: 0.75em;">Tak narodził się <span class="highlight">Toadie</span>.</p>
+            <p style="font-size: 0.75em;">Bo na telefonie można wyświetlić więcej niż na zegarku.</p>
             <br>
-            <div class="two-col" style="font-size: 0.75em;">
-                <div>
-                    <ul>
-                        <li><span class="highlight">Tamagotchi</span>, zielony troll z animowanymi stanami (idle, słuchanie, myślenie, mówienie, spanie)</li>
-                        <li>Kolejna apka <span class="highlight">Kotlin</span>, chat, wiadomości głosowe i tekstowe</li>
-                        <li>Z punktu widzenia serwera, klient jest abstrakcją</li>
-                    </ul>
-                </div>
-                <div>
-                    <ul>
-                        <li><span class="highlight">Telefon jako relay</span> dla zegarka, Watch → Phone (DataLayer) → Server</li>
-                        <li>Wizualizacja mockup stworzona w Remotion + Claude</li>
-                        <li>Ten sam protokół WebSocket co zegarek</li>
-                    </ul>
-                </div>
-            </div>
+            <ul style="font-size: 0.75em; max-width: 700px; margin: 0 auto;">
+                <li><span class="highlight">Tamagotchi</span>, zielony troll z animowanymi stanami (idle, słuchanie, myślenie, mówienie, spanie)</li>
+                <li>Kolejna apka <span class="highlight">Kotlin</span>, chat, wiadomości głosowe i tekstowe</li>
+                <li>Z punktu widzenia serwera, klient jest abstrakcją</li>
+            </ul>
         </section>
+
+
 
         <!-- DEMO: PHONE APP VIDEO -->
         <section data-background-color="#0a0e1a">
             <h2 style="font-size: 1.2em; color: #F59E0B; margin-bottom: 0.2em;">Demo, Aplikacja na telefon</h2>
-            <div style="max-width: 300px; margin: 0 auto;">
+            <div style="max-width: 250px; margin: 0 auto;">
                 <video controls style="width: 100%; border-radius: 10px; border: 1px solid #F59E0B;">
                     <source src="https://mfranc.com/images/claudewatchdemo.mp4" type="video/mp4">
                 </video>
@@ -767,14 +746,7 @@
                         <li><span class="highlight">WireGuard</span>, szyfrowany tunel</li>
                         <li>Tailscale orkiestruje: tożsamość, zarządzanie kluczami, discovery</li>
                         <li>Każde urządzenie dostaje IP <code>100.x.x.x</code></li>
-                        <li>It JUST works</li>
-                    </ul>
-                </div>
-                <div>
-                    <ul>
-                        <li><span class="highlight">UDP hole punching</span>, urządzenia za NAT (normalnie niedostępne publicznie) rozmawiają ze sobą</li>
-                        <li>Jeśli hole punching nie działa, <span class="highlight">DERP relay</span> server przejmuje</li>
-                        <li>Świetny UX, zero konfiguracji</li>
+                        <li>Świetny UX, prosta konfiguracja, it JUST works</li>
                     </ul>
                 </div>
             </div>
@@ -803,22 +775,11 @@
             <h2>Problem: zegarek nie ma Tailscale</h2>
             <p style="font-size: 0.75em;">Galaxy Watch nie wspiera Tailscale. Rozwiązanie: telefon jako relay.</p>
             <br>
-            <div class="two-col" style="font-size: 0.75em;">
-                <div>
-                    <ul>
-                        <li>Watch → Phone → Server (przez Tailscale)</li>
-                        <li>Telefon działa jako <span class="highlight">transparentny proxy</span></li>
-                        <li>Android <span class="highlight">Wearable DataLayer</span> do komunikacji watch↔phone</li>
-                    </ul>
-                </div>
-                <div>
-                    <ul>
-                        <li>Protokół sygnałowy zapewnia stabilne połączenie</li>
-                        <li>Zegarek nie musi być w publicznej sieci</li>
-                        <li>Dużo bardziej niezawodne połączenie niż bezpośrednie</li>
-                    </ul>
-                </div>
-            </div>
+            <ul style="font-size: 0.75em; max-width: 700px; margin: 0 auto;">
+                <li>Watch → Phone → Server (przez Tailscale)</li>
+                <li>Telefon działa jako <span class="highlight">transparentny proxy</span></li>
+                <li>Android <span class="highlight">Wearable DataLayer</span> do komunikacji watch↔phone (Bluetooth + WiFi lub cloud relay)</li>
+            </ul>
         </section>
 
         <!-- PHONE RELAY ARCHITECTURE -->
@@ -833,25 +794,157 @@
             <h2>Wake Word</h2>
             <p style="font-size: 0.85em;">"Hey Toadie"</p>
             <br>
-            <div class="two-col" style="font-size: 0.75em;">
-                <div>
-                    <ul>
-                        <li><span class="highlight">PicoVoice Porcupine</span>, działa lokalnie na telefonie</li>
-                        <li>Bez połączenia z serwerem (poza aktywacją klucza)</li>
-                        <li>1 custom wake word za darmo</li>
-                        <li>Automatycznie uruchamia nagrywanie</li>
-                    </ul>
-                </div>
-                <div>
-                    <ul>
-                        <li>W 2-3 tygodnie zbudowałem naprawdę funkcjonalny software z dobrym UX</li>
-                        <li>Używam tego codziennie</li>
-                        <li>Ciekawe i trochę przerażające co jedna osoba może teraz zbudować</li>
-                    </ul>
-                </div>
-            </div>
+            <ul style="font-size: 0.75em; max-width: 700px; margin: 0 auto;">
+                <li><span class="highlight">PicoVoice Porcupine</span>, działa lokalnie na telefonie</li>
+                <li>Bez połączenia z serwerem (poza aktywacją klucza)</li>
+                <li>1 custom wake word za darmo</li>
+            </ul>
             <br>
             <p class="dim" style="font-style: italic;">Moment "WOW"</p>
+        </section>
+
+        <!-- WAKE WORD PROCESS -->
+        <section data-transition="fade">
+            <h2 style="font-size: 1.2em; margin-bottom: 0.2em;">Jak działa Wake Word</h2>
+            <div id="wakeword-flow"></div>
+            <script>
+            (function() {
+                const container = document.getElementById('wakeword-flow');
+                const svg = d3.select(container).append('svg')
+                    .attr('viewBox', '0 0 940 380');
+
+                const defs = svg.append('defs');
+                const glow = defs.append('filter').attr('id','ww-glow').attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');
+                glow.append('feGaussianBlur').attr('stdDeviation','4').attr('result','blur');
+                glow.append('feMerge').selectAll('feMergeNode').data(['blur','SourceGraphic']).enter().append('feMergeNode').attr('in', d => d);
+
+                ['#38bdf8','#a78bfa','#34d399','#fb923c','#f87171'].forEach((c,i) => {
+                    defs.append('marker').attr('id','ww-arr-'+i).attr('viewBox','0 0 10 10')
+                        .attr('refX',10).attr('refY',5).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto')
+                        .append('path').attr('d','M0,0 L10,5 L0,10 Z').attr('fill',c);
+                });
+
+                const gridG = svg.append('g').attr('opacity',0.04);
+                for(let x=0;x<940;x+=40) gridG.append('line').attr('x1',x).attr('y1',0).attr('x2',x).attr('y2',380).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+                for(let y=0;y<380;y+=40) gridG.append('line').attr('x1',0).attr('y1',y).attr('x2',940).attr('y2',y).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+
+                const nodesG = svg.append('g');
+                const edgesG = svg.append('g');
+                const packetsG = svg.append('g');
+
+                function box(x,y,w,h,label,sub,color) {
+                    nodesG.append('rect').attr('x',x-w/2).attr('y',y-h/2).attr('width',w).attr('height',h)
+                        .attr('rx',8).attr('fill','#111827').attr('stroke',color).attr('stroke-width',1.5);
+                    nodesG.append('text').attr('x',x).attr('y',sub?y-2:y+4).attr('text-anchor','middle')
+                        .attr('fill','#e2e8f0').attr('font-family','Space Grotesk').attr('font-size','11px').attr('font-weight',600).text(label);
+                    if(sub) nodesG.append('text').attr('x',x).attr('y',y+13).attr('text-anchor','middle')
+                        .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','8px').text(sub);
+                }
+
+                function edge(x1,y1,x2,y2,color,mi) {
+                    edgesG.append('line').attr('x1',x1).attr('y1',y1).attr('x2',x2).attr('y2',y2)
+                        .attr('stroke',color).attr('stroke-width',1.5).attr('stroke-dasharray','5,4').attr('opacity',0.5)
+                        .attr('marker-end','url(#ww-arr-'+mi+')');
+                }
+
+                // Top row: continuous listening loop
+                const mic = {x:80, y:80};
+                const audio = {x:250, y:80};
+                const porcupine = {x:470, y:80};
+                const detected = {x:700, y:80};
+
+                box(mic.x, mic.y, 100, 50, 'Mikrofon', 'ciągle otwarty', '#38bdf8');
+                box(audio.x, audio.y, 120, 50, 'Audio Frame', 'co ~30ms', '#a78bfa');
+                box(porcupine.x, porcupine.y, 160, 50, 'Porcupine Model', 'lokalny ML, ~1MB', '#34d399');
+                box(detected.x, detected.y, 130, 50, '"Hey Toadie"?', 'index: 0 lub -1', '#fb923c');
+
+                edge(mic.x+50, mic.y, audio.x-60, audio.y, '#38bdf8', 0);
+                edge(audio.x+60, audio.y, porcupine.x-80, porcupine.y, '#a78bfa', 1);
+                edge(porcupine.x+80, porcupine.y, detected.x-65, detected.y, '#34d399', 2);
+
+                // No match: loop back
+                edgesG.append('path')
+                    .attr('d', `M${detected.x+65},${detected.y} L${detected.x+65+40},${detected.y} L${detected.x+65+40},${detected.y-60} L${mic.x},${detected.y-60} L${mic.x},${mic.y-25}`)
+                    .attr('fill','none').attr('stroke','#f87171').attr('stroke-width',1.5)
+                    .attr('stroke-dasharray','5,4').attr('opacity',0.3)
+                    .attr('marker-end','url(#ww-arr-4)');
+                nodesG.append('text').attr('x',470).attr('y',12).attr('text-anchor','middle')
+                    .attr('fill','#f87171').attr('font-family','JetBrains Mono').attr('font-size','9px').text('nie → następny frame');
+
+                // Match: bottom row (right to left: detected → record → send → server)
+                const record = {x:700, y:230};
+                const send = {x:470, y:230};
+                const server = {x:200, y:230};
+
+                box(record.x, record.y, 140, 50, 'Start nagrywania', 'pełna wiadomość', '#34d399');
+                box(send.x, send.y, 150, 50, 'Wyślij do serwera', 'DataLayer → Phone', '#a78bfa');
+                box(server.x, server.y, 160, 50, 'Deepgram + Claude', 'STT → odpowiedź', '#fb923c');
+
+                // Yes arrow straight down
+                edge(detected.x, detected.y+25, record.x, record.y-25, '#34d399', 2);
+                nodesG.append('text').attr('x',detected.x+20).attr('y',detected.y+50).attr('text-anchor','start')
+                    .attr('fill','#34d399').attr('font-family','JetBrains Mono').attr('font-size','9px').attr('font-weight',600).text('tak!');
+
+                // Bottom row arrows with marker-start (line goes right-to-left, arrow at start = left side)
+                defs.append('marker').attr('id','ww-arr-l1').attr('viewBox','0 0 10 10')
+                    .attr('refX',0).attr('refY',5).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto-start-reverse')
+                    .append('path').attr('d','M0,0 L10,5 L0,10 Z').attr('fill','#a78bfa');
+                defs.append('marker').attr('id','ww-arr-l3').attr('viewBox','0 0 10 10')
+                    .attr('refX',0).attr('refY',5).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto-start-reverse')
+                    .append('path').attr('d','M0,0 L10,5 L0,10 Z').attr('fill','#fb923c');
+
+                edgesG.append('line').attr('x1',record.x-70).attr('y1',record.y).attr('x2',send.x+75).attr('y2',send.y)
+                    .attr('stroke','#a78bfa').attr('stroke-width',1.5).attr('stroke-dasharray','5,4').attr('opacity',0.5)
+                    .attr('marker-end','url(#ww-arr-l1)');
+                edgesG.append('line').attr('x1',send.x-75).attr('y1',send.y).attr('x2',server.x+80).attr('y2',server.y)
+                    .attr('stroke','#fb923c').attr('stroke-width',1.5).attr('stroke-dasharray','5,4').attr('opacity',0.5)
+                    .attr('marker-end','url(#ww-arr-l3)');
+
+                // Labels
+                nodesG.append('text').attr('x',470).attr('y',310).attr('text-anchor','middle')
+                    .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','9px')
+                    .text('Foreground Service  •  Mikrofon ciągle otwarty  •  Cały processing lokalnie');
+                nodesG.append('text').attr('x',470).attr('y',335).attr('text-anchor','middle')
+                    .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','9px')
+                    .text('Nic nie leci na serwer dopóki nie powiesz "Hey Toadie"');
+
+                // Animate
+                function animP(ax,ay,bx,by,color,dur,delay) {
+                    const p = packetsG.append('circle').attr('cx',ax).attr('cy',ay).attr('r',4)
+                        .attr('fill',color).attr('filter','url(#ww-glow)').attr('opacity',0);
+                    p.transition().delay(delay).duration(0).attr('opacity',1)
+                        .transition().duration(dur).ease(d3.easeCubicInOut).attr('cx',bx).attr('cy',by)
+                        .transition().duration(200).attr('opacity',0).remove();
+                }
+
+                let wwInterval = null;
+                function cycleNoMatch() {
+                    animP(mic.x+50,mic.y, audio.x-60,audio.y, '#38bdf8', 400, 0);
+                    animP(audio.x+60,audio.y, porcupine.x-80,porcupine.y, '#a78bfa', 400, 500);
+                    animP(porcupine.x+80,porcupine.y, detected.x-65,detected.y, '#34d399', 400, 1000);
+                }
+                function cycleMatch() {
+                    animP(mic.x+50,mic.y, audio.x-60,audio.y, '#38bdf8', 400, 0);
+                    animP(audio.x+60,audio.y, porcupine.x-80,porcupine.y, '#a78bfa', 400, 500);
+                    animP(porcupine.x+80,porcupine.y, detected.x-65,detected.y, '#34d399', 400, 1000);
+                    animP(detected.x,detected.y+25, record.x,record.y-25, '#34d399', 500, 1600);
+                    animP(record.x-70,record.y, send.x+75,send.y, '#a78bfa', 400, 2200);
+                    animP(send.x-75,send.y, server.x+80,server.y, '#fb923c', 400, 2700);
+                }
+
+                let count = 0;
+                function cycle() { if(count % 4 === 3) cycleMatch(); else cycleNoMatch(); count++; }
+                function startWw(){cycle();wwInterval=setInterval(cycle,3500);}
+                function stopWw(){if(wwInterval){clearInterval(wwInterval);wwInterval=null;}packetsG.selectAll('*').interrupt().remove();}
+
+                if(typeof Reveal!=='undefined'){
+                    Reveal.on('slidechanged',e=>{
+                        if(e.currentSlide.querySelector('#wakeword-flow'))startWw();else stopWw();
+                    });
+                }
+                startWw();
+            })();
+            </script>
         </section>
 
         <!-- DEMO: WAKE WORD -->
@@ -878,48 +971,37 @@
                 <h3 style="color: #F59E0B;">Demo na żywo</h3>
                 <p>
                     1. Wyślij <strong>screenshot</strong> na telefon przez <code>toadie-show</code><br>
-                    2. Wyślij <strong>animację D3.js</strong>, interaktywna treść na telefonie
+                    2. Wyślij <strong>animację D3.js</strong>, np. wizualizacja ostatnich prezentacji wroc.net
                 </p>
             </div>
             <br>
             <p class="mono" style="color: #F59E0B;">[ screen share: phone + terminal ]</p>
-            <br>
-            <p class="dim" style="font-size: 0.55em; font-style: italic;">(jak Michał zrobi rich content w webie bo na komórce jest)</p>
+            <p class="dim" style="font-size: 0.55em; font-style: italic;">(Udało się dodać tę funkcję ale 2 dni temu więc ... może działa a może nie)</p>
+            <p class="dim" style="font-size: 0.55em; font-style: italic;">(możliwe że tutaj będziemy musieli ssh do bota i mu pomóc)<br>(jak coś pójdzie nie tak: <code>~/demo/wrocnet.html</code>)</p>
         </section>
 
         <!-- WHAT CAN IT DO -->
         <section>
             <h2>Co potrafi Toadie?</h2>
-            <div class="two-col" style="font-size: 0.75em;">
-                <div>
-                    <ul>
-                        <li>Czyta cele, listę zadań, kalendarz, maile</li>
-                        <li>Dostęp do wszystkich notatek <span class="highlight">2nd brain</span> (Obsidian)</li>
-                        <li>Steruje monitorami (wejścia, jasność)</li>
-                        <li>Włącza TV i uruchamia apki na telewizorze (mam też apkę TV z botem)</li>
-                    </ul>
-                </div>
-                <div>
-                    <ul>
-                        <li>Dyskutuje pomysły, pisze posty na bloga, tworzy plany</li>
-                        <li>Stał się mega użytecznym narzędziem do pracy z notatkami</li>
-                        <li>95% gotowe żeby Toadie zarządzał innymi botami</li>
-                    </ul>
-                </div>
-            </div>
+            <ul style="font-size: 0.75em; max-width: 700px; margin: 0 auto;">
+                <li>Czyta cele, listę zadań, kalendarz, maile</li>
+                <li>Dostęp do wszystkich notatek <span class="highlight">2nd brain</span> (Obsidian)</li>
+                <li>Steruje monitorami (wejścia, jasność)</li>
+                <li>Włącza TV i uruchamia apki na telewizorze (mam też apkę TV z botem)</li>
+                <li>Dyskutuje pomysły, pisze posty na bloga, tworzy plany</li>
+            </ul>
             <br>
-            <p class="dim">Następny krok: <span class="highlight">Toadie jako manager</span>, "hey, popracuj z zespołem na tym repo, sprawdź GitHub issues i po prostu pracuj nad nimi"</p>
         </section>
 
         <!-- SECURITY -->
         <section>
-            <h2>Bezpieczeństwo, Defense in Depth</h2>
+            <h2 style="font-size: 1.2em; margin-bottom: 0.2em;">Bezpieczeństwo, Defense in Depth</h2>
             <div id="security-layers"></div>
             <script>
             (function() {
                 const container = document.getElementById('security-layers');
                 const svg = d3.select(container).append('svg')
-                    .attr('viewBox', '0 0 700 300');
+                    .attr('viewBox', '0 0 700 280');
 
                 const layers = [
                     { y: 50, w: 600, label: 'Tailscale + WireGuard', sub: 'Server not publicly exposed', color: '#34d399' },
@@ -1307,7 +1389,6 @@
                 <li><span class="highlight">Decydowałem</span> o architekturze, nie o implementacji</li>
             </ul>
             <br>
-            <p class="dim">Python, Kotlin, Vue.js, WebSockets, języki których ledwo dotykam</p>
         </section>
 
         <!-- SPEC-DRIVEN DEVELOPMENT -->
@@ -1419,8 +1500,6 @@
         <!-- PROJECT MANAGEMENT VIA GITHUB -->
         <section data-transition="fade">
             <h2>Zarządzanie projektem przez GitHub</h2>
-            <p style="font-size: 0.75em;">Wszystkie zmiany, plany i prace trzymamy w GitHub. Pomysły, dyskusje i plan pracy.</p>
-            <br>
             <div class="two-col" style="font-size: 0.75em;">
                 <div>
                     <ul>
@@ -1433,7 +1512,7 @@
                 <div>
                     <ul>
                         <li>Pełna historia decyzji i zmian</li>
-                        <li>CI/CD sprawdza linty i testy automatycznie</li>
+                        <li>CI/CD Lintery, testy (to jest ważne)</li>
                         <li>Każda funkcjonalność = branch + PR</li>
                         <li>Transparentność, widać co bot zrobił i dlaczego</li>
                     </ul>
@@ -1448,24 +1527,12 @@
             <h2>Wiele botów, wiele issues naraz</h2>
             <p style="font-size: 0.75em;">Każdy bot pracuje nad swoim issue w izolacji. Klucz: <span class="highlight">git worktrees</span>.</p>
             <br>
-            <div class="two-col" style="font-size: 0.75em;">
-                <div>
-                    <ul>
-                        <li>Każdy bot dostaje <span class="highlight">własny worktree</span>, osobna kopia repo</li>
-                        <li>Brak konfliktów, boty nie nadpisują sobie zmian</li>
-                        <li>Każdy bot tworzy branch → PR → review</li>
-                        <li>Mogę odpalić 3-4 boty równolegle na różnych taskach</li>
-                    </ul>
-                </div>
-                <div>
-                    <ul>
-                        <li>Claude Code ma już <span class="highlight">wbudowane wsparcie</span> dla worktrees</li>
-                        <li>Ale polecam samemu zarządzać worktrees z botem</li>
-                        <li>Większa kontrola nad tym co bot robi i gdzie</li>
-                        <li><code>git worktree add ./worktrees/feature -b feature</code></li>
-                    </ul>
-                </div>
-            </div>
+            <ul style="font-size: 0.75em; max-width: 700px; margin: 0 auto;">
+                <li>Każdy bot dostaje <span class="highlight">własny worktree</span>, osobna kopia repo</li>
+                <li>Brak konfliktów, boty nie nadpisują sobie zmian</li>
+                <li>Każdy bot tworzy branch → PR → review</li>
+                <li>Mogę odpalić 3-4 boty równolegle na różnych taskach</li>
+            </ul>
             <br>
             <p class="dim" style="font-style: italic;">Worktree = tani klon repo bez kopiowania historii. Każdy bot ma swój sandbox.</p>
         </section>
@@ -1667,9 +1734,7 @@
                     .attr('rx',12).attr('fill','none').attr('stroke','#F59E0B').attr('stroke-width',1)
                     .attr('opacity',0.2).attr('filter','url(#mf-glow)');
                 nodesG.append('text').attr('x',mgrX).attr('y',mgrY-25).attr('text-anchor','middle')
-                    .attr('fill','#F59E0B').attr('font-family','Space Grotesk').attr('font-size','16px').attr('font-weight',700).text('Toadie');
-                nodesG.append('text').attr('x',mgrX).attr('y',mgrY).attr('text-anchor','middle')
-                    .attr('fill','#F59E0B').attr('font-family','Space Grotesk').attr('font-size','12px').attr('font-weight',600).text('Manager');
+                    .attr('fill','#F59E0B').attr('font-family','Space Grotesk').attr('font-size','14px').attr('font-weight',700).text('(bot manager)');
                 nodesG.append('text').attr('x',mgrX).attr('y',mgrY+20).attr('text-anchor','middle')
                     .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','8px').text('czyta issues');
                 nodesG.append('text').attr('x',mgrX).attr('y',mgrY+33).attr('text-anchor','middle')
@@ -1748,6 +1813,155 @@
                 startMf();
             })();
             </script>
+        </section>
+
+        <!-- HARNESS ENGINEERING -->
+        <section data-transition="fade">
+            <h2>Harness Engineering</h2>
+            <p style="font-size: 0.75em;">Spec to tylko jeden wymiar. Potrzebujemy systemu pętli które pomagają botowi zrozumieć co chcemy zbudować.</p>
+            <br>
+            <div class="two-col" style="font-size: 0.75em;">
+                <div>
+                    <ul>
+                        <li><span class="highlight">CLAUDE.md</span>, kontekst projektu, reguły, konwencje</li>
+                        <li><span class="highlight">Git workflow</span>, branches, PRy - review checkpointów</li>
+                        <li><span class="highlight">Linters + CI</span>, feedback loop</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li><span class="highlight">context-doctor</span>, utrzymywanie kontekstu</li>
+                        <li>Każda pętla = mniej błędów, lepsze wyniki</li>
+                    </ul>
+                </div>
+            </div>
+            <br>
+            <p class="dim" style="font-style: italic;">Budujemy uprząż (harness) która prowadzi bota w dobrym kierunku</p>
+        </section>
+
+        <!-- HARNESS ENGINEERING D3 -->
+        <section data-transition="fade">
+            <h2 style="font-size: 1.2em; margin-bottom: 0.2em;">Harness Engineering</h2>
+            <div id="harness-viz"></div>
+            <script>
+            (function() {
+                const container = document.getElementById('harness-viz');
+                const svg = d3.select(container).append('svg')
+                    .attr('viewBox', '0 0 940 400');
+
+                const defs = svg.append('defs');
+                const glow = defs.append('filter').attr('id','he-glow').attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');
+                glow.append('feGaussianBlur').attr('stdDeviation','4').attr('result','blur');
+                glow.append('feMerge').selectAll('feMergeNode').data(['blur','SourceGraphic']).enter().append('feMergeNode').attr('in', d => d);
+
+                const gridG = svg.append('g').attr('opacity',0.04);
+                for(let x=0;x<940;x+=40) gridG.append('line').attr('x1',x).attr('y1',0).attr('x2',x).attr('y2',400).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+                for(let y=0;y<400;y+=40) gridG.append('line').attr('x1',0).attr('y1',y).attr('x2',940).attr('y2',y).attr('stroke','#38bdf8').attr('stroke-width',0.5);
+
+                const linesG = svg.append('g');
+                const nodesG = svg.append('g');
+                const packetsG = svg.append('g');
+
+                // Central bot
+                const cx = 470, cy = 200;
+                nodesG.append('circle').attr('cx',cx).attr('cy',cy).attr('r',55)
+                    .attr('fill','#111827').attr('stroke','#F59E0B').attr('stroke-width',2.5);
+                nodesG.append('circle').attr('cx',cx).attr('cy',cy).attr('r',55)
+                    .attr('fill','none').attr('stroke','#F59E0B').attr('stroke-width',1)
+                    .attr('opacity',0.2).attr('filter','url(#he-glow)');
+                nodesG.append('text').attr('x',cx).attr('y',cy-8).attr('text-anchor','middle')
+                    .attr('fill','#F59E0B').attr('font-family','Space Grotesk').attr('font-size','16px').attr('font-weight',700).text('Bot');
+                nodesG.append('text').attr('x',cx).attr('y',cy+12).attr('text-anchor','middle')
+                    .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','9px').text('Claude Code');
+
+                // Harness loops around the bot
+                const loops = [
+                    { angle: -90, r: 130, label: 'CLAUDE.md', sub: 'kontekst', color: '#38bdf8' },
+                    { angle: -40, r: 140, label: 'Spec / Plan', sub: 'co budujemy', color: '#a78bfa' },
+                    { angle: 10, r: 135, label: 'Git + PR', sub: 'review checkpoint', color: '#34d399' },
+                    { angle: 60, r: 140, label: 'CI / Linters', sub: 'feedback loop', color: '#22d3ee' },
+                    { angle: 120, r: 135, label: 'OKRs, KPIs', sub: 'mierzenie sukcesu', color: '#f87171' },
+                    { angle: 170, r: 140, label: 'context-doctor', sub: 'walidacja kontekstu', color: '#34d399' },
+                    { angle: -140, r: 135, label: 'Auto-pamięć', sub: 'uczenie między sesjami', color: '#fb923c' },
+                ];
+
+                loops.forEach(l => {
+                    const rad = l.angle * Math.PI / 180;
+                    const x = cx + l.r * Math.cos(rad);
+                    const y = cy + l.r * Math.sin(rad);
+                    const w = 130, h = 42;
+
+                    nodesG.append('rect').attr('x',x-w/2).attr('y',y-h/2).attr('width',w).attr('height',h)
+                        .attr('rx',8).attr('fill','#111827').attr('stroke',l.color).attr('stroke-width',1.5);
+                    nodesG.append('text').attr('x',x).attr('y',y-4).attr('text-anchor','middle')
+                        .attr('fill','#e2e8f0').attr('font-family','Space Grotesk').attr('font-size','10px').attr('font-weight',600).text(l.label);
+                    nodesG.append('text').attr('x',x).attr('y',y+11).attr('text-anchor','middle')
+                        .attr('fill','#64748b').attr('font-family','JetBrains Mono').attr('font-size','7px').text(l.sub);
+
+                    // Line to center
+                    linesG.append('line').attr('x1',x).attr('y1',y)
+                        .attr('x2',cx + 58 * Math.cos(rad)).attr('y2',cy + 58 * Math.sin(rad))
+                        .attr('stroke',l.color).attr('stroke-width',1.5).attr('stroke-dasharray','4,3').attr('opacity',0.4);
+                });
+
+                // Outer ring (harness - the line we keep the bot in)
+                linesG.append('circle').attr('cx',cx).attr('cy',cy).attr('r',220)
+                    .attr('fill','none').attr('stroke','#f87171').attr('stroke-width',3)
+                    .attr('stroke-dasharray','12,6').attr('opacity',0.5);
+
+                nodesG.append('rect').attr('x',cx-250).attr('y',375).attr('width',500).attr('height',22)
+                    .attr('rx',4).attr('fill','#000').attr('opacity',0.7);
+                nodesG.append('text').attr('x',cx).attr('y',390).attr('text-anchor','middle')
+                    .attr('fill','#e2e8f0').attr('font-family','JetBrains Mono').attr('font-size','9px')
+                    .text('Każda warstwa = pętla feedbacku ograniczająca i prowadząca bota');
+
+                // Animate pulses from loops to bot
+                let heInterval = null;
+                function pulse() {
+                    loops.forEach((l,i) => {
+                        const rad = l.angle * Math.PI / 180;
+                        const x = cx + l.r * Math.cos(rad);
+                        const y = cy + l.r * Math.sin(rad);
+                        const p = packetsG.append('circle').attr('cx',x).attr('cy',y).attr('r',4)
+                            .attr('fill',l.color).attr('filter','url(#he-glow)').attr('opacity',0);
+                        p.transition().delay(i*200).duration(0).attr('opacity',1)
+                            .transition().duration(600).ease(d3.easeCubicInOut)
+                            .attr('cx',cx + 58 * Math.cos(rad)).attr('cy',cy + 58 * Math.sin(rad))
+                            .transition().duration(200).attr('opacity',0).remove();
+                    });
+                }
+
+                function startHe(){pulse();heInterval=setInterval(pulse,3000);}
+                function stopHe(){if(heInterval){clearInterval(heInterval);heInterval=null;}packetsG.selectAll('*').interrupt().remove();}
+
+                if(typeof Reveal!=='undefined'){
+                    Reveal.on('slidechanged',e=>{
+                        if(e.currentSlide.querySelector('#harness-viz'))startHe();else stopHe();
+                    });
+                }
+                startHe();
+            })();
+            </script>
+        </section>
+
+        <!-- BLACKSMITH PLACEHOLDER -->
+        <section data-transition="fade">
+            <div style="margin: 0 auto;">
+                <img src=".images/blacksmith.jpg" style="border-radius: 10px; max-height: 650px; width: auto; display: block; margin: 0 auto;">
+            </div>
+        </section>
+
+        <!-- SRE + DATA DRIVEN -->
+        <section data-transition="fade">
+            <h2>Nie code-first, ale...</h2>
+            <p style="font-size: 0.75em;">Zmiana podejścia do tworzenia produktów.</p>
+            <br>
+            <ul style="font-size: 0.75em; max-width: 700px; margin: 0 auto;">
+                <li><span class="highlight">Specka first</span>, co budujemy, dlaczego, jakie ograniczenia</li>
+                <li><span class="highlight">Kontekst first</span>, CLAUDE.md, pamięć, feature docs</li>
+                <li><span class="highlight">Harness engineering</span>, budowanie mechanizmów kontroli bota</li>
+                <li><span class="highlight">Metryki first</span>, jak zmierzymy sukces?</li>
+            </ul>
         </section>
 
         <!-- CONTEXT MANAGEMENT -->
@@ -1832,11 +2046,9 @@
 
         <!-- CONTEXT-DOCTOR EXAMPLE -->
         <section data-transition="fade">
-            <h2 style="color: var(--green);">context-doctor</h2>
-            <p class="mono" style="font-size: 0.6em;"><a href="https://github.com/michal-franc/context-doctor" style="color: var(--green);">github.com/michal-franc/context-doctor</a></p>
-            <p class="dim">Linter dla CLAUDE.md, uruchom, dostań ocenę</p>
-            <br>
-            <div style="text-align: left; max-width: 720px; margin: 0 auto; background: #0a0e1a; border: 1px solid #1e293b; border-radius: 12px; padding: 1.2em 1.5em; font-family: 'JetBrains Mono', monospace; font-size: 0.45em; line-height: 1.7;">
+            <h2 style="font-size: 1.2em; color: var(--green); margin-bottom: 0.1em;">context-doctor</h2>
+            <p class="mono" style="font-size: 0.5em; margin-bottom: 0.3em;"><a href="https://github.com/michal-franc/context-doctor" style="color: var(--green);">github.com/michal-franc/context-doctor</a></p>
+            <div style="text-align: left; max-width: 780px; margin: 0 auto; background: #0a0e1a; border: 1px solid #1e293b; border-radius: 12px; padding: 1em 1.5em; font-family: 'JetBrains Mono', monospace; font-size: 0.55em; line-height: 1.6;">
 <span style="color: #64748b;">$</span> <span style="color: #e2e8f0;">context-doctor CLAUDE.md</span>
 <br><br>
 <span style="color: #64748b;">METRICS</span>
@@ -1862,10 +2074,7 @@
 <span style="color: #64748b;">OVERALL SCORE</span>
 <br><span style="color: #34d399;">  ███████████████████░</span> <span style="color: #e2e8f0; font-size: 1.3em; font-weight: 700;">96/100</span>
             </div>
-            <br>
-            <p class="mono" style="color: var(--green);"><a href="https://github.com/michal-franc/context-doctor" style="color: var(--green);">github.com/michal-franc/context-doctor</a></p>
         </section>
-
 
         <!-- REAL PROMPTS: FEATURES -->
         <section data-transition="fade">
