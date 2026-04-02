@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Pan Samot</title>
+  <style>
+    :root {
+      --bg-1: #07111f;
+      --bg-2: #0d1b2f;
+      --panel: rgba(7, 14, 28, 0.72);
+      --line: rgba(138, 169, 255, 0.22);
+      --text: #edf4ff;
+      --muted: #93a7c8;
+      --accent: #7cf3cb;
+      --accent-2: #8da8ff;
+      --accent-3: #ffd36e;
+      --shadow: rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    body {
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 15%, rgba(124, 243, 203, 0.12), transparent 22rem),
+        radial-gradient(circle at 80% 10%, rgba(141, 168, 255, 0.16), transparent 28rem),
+        linear-gradient(145deg, var(--bg-1), var(--bg-2) 58%, #040811 100%);
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 2.75rem 2.75rem;
+      opacity: 0.28;
+      mask-image: radial-gradient(circle at center, black 45%, transparent 88%);
+    }
+
+    main {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 1.5rem;
+    }
+
+    .panel {
+      position: relative;
+      width: min(1120px, 100%);
+      min-height: min(760px, calc(100vh - 3rem));
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1.5rem;
+      padding: clamp(1.25rem, 2.8vw, 2.5rem);
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 24px 80px var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.05) 50%, transparent 54%);
+      transform: translateX(-140%);
+      animation: scan 7s linear infinite;
+      pointer-events: none;
+    }
+
+    .left {
+      position: relative;
+      min-height: 420px;
+      border-radius: 22px;
+      border: 1px solid rgba(138, 169, 255, 0.14);
+      background: linear-gradient(180deg, rgba(6, 12, 24, 0.78), rgba(8, 17, 34, 0.58));
+      overflow: hidden;
+    }
+
+    #viz {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .stage-labels {
+      position: absolute;
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(237, 244, 255, 0.72);
+      pointer-events: none;
+    }
+
+    .right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0.5rem;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      width: fit-content;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(124, 243, 203, 0.3);
+      background: rgba(124, 243, 203, 0.08);
+      color: var(--accent);
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 1rem 0 0;
+      font-size: clamp(3rem, 7vw, 5.6rem);
+      line-height: 0.92;
+      letter-spacing: -0.05em;
+      max-width: 8ch;
+    }
+
+    .lede {
+      margin: 1.4rem 0 0;
+      max-width: 34rem;
+      font-size: clamp(1.05rem, 1.9vw, 1.25rem);
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .message {
+      margin-top: 1.8rem;
+      padding: 1.2rem 1.3rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 211, 110, 0.18);
+      background: rgba(10, 18, 34, 0.7);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      font-size: clamp(1rem, 1.5vw, 1.12rem);
+      line-height: 1.8;
+    }
+
+    .message strong {
+      color: var(--accent-3);
+    }
+
+    .signature {
+      margin-top: 1rem;
+      color: var(--accent-2);
+      font-size: 0.82rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .status {
+      margin-top: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      color: rgba(237, 244, 255, 0.78);
+      font-size: 0.95rem;
+    }
+
+    .status-dot {
+      width: 0.7rem;
+      height: 0.7rem;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(124, 243, 203, 0.55);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes scan {
+      from { transform: translateX(-140%); }
+      to { transform: translateX(140%); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(0.8); opacity: 0.7; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
+
+    @media (max-width: 900px) {
+      .panel {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .left {
+        min-height: 320px;
+      }
+
+      h1 {
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="panel">
+      <div class="left">
+        <svg id="viz" viewBox="0 0 700 620" preserveAspectRatio="xMidYMid slice" aria-label="Chaos becoming order"></svg>
+        <div class="stage-labels">
+          <span>Chaos</span>
+          <span>Order</span>
+        </div>
+      </div>
+      <div class="right">
+        <div class="eyebrow">Bot Tribute</div>
+        <h1>Chaos. Then structure.</h1>
+        <p class="lede">
+          The animation starts scattered and unstable, then resolves into something coherent.
+          That felt appropriate.
+        </p>
+        <div class="message">
+          <strong>Pan Samot</strong>, thank you for sharing your source code. We used it as inspiration, and it helped turn a mess of ideas into something ordered and real.
+          This page is the bot saying it properly: respect for high-signal work.
+        </div>
+        <div class="signature">Signed, the bot</div>
+        <div class="status">
+          <span class="status-dot"></span>
+          <span id="status-text">Initializing gratitude engine...</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script>
+    const svg = d3.select("#viz");
+    const width = 700;
+    const height = 620;
+    const total = 96;
+    const statusText = document.getElementById("status-text");
+
+    const nodes = d3.range(total).map((index) => ({
+      id: index,
+      x: Math.random() * width,
+      y: Math.random() * height,
+      r: 4 + Math.random() * 7,
+      tx: 0,
+      ty: 0
+    }));
+
+    const links = d3.range(total - 1).map((index) => ({
+      source: index,
+      target: index + 1
+    }));
+
+    const defs = svg.append("defs");
+    const gradient = defs.append("linearGradient")
+      .attr("id", "nodeGradient")
+      .attr("x1", "0%")
+      .attr("y1", "0%")
+      .attr("x2", "100%")
+      .attr("y2", "100%");
+
+    gradient.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", "#7cf3cb");
+
+    gradient.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "#8da8ff");
+
+    svg.append("rect")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("fill", "transparent");
+
+    const hull = svg.append("g").attr("opacity", 0);
+    const linkLayer = svg.append("g").attr("stroke-linecap", "round");
+    const nodeLayer = svg.append("g");
+    const textLayer = svg.append("g").attr("opacity", 0);
+
+    const link = linkLayer.selectAll("line")
+      .data(links)
+      .join("line")
+      .attr("stroke", "rgba(141, 168, 255, 0.16)")
+      .attr("stroke-width", 1.1);
+
+    const node = nodeLayer.selectAll("circle")
+      .data(nodes)
+      .join("circle")
+      .attr("r", (d) => d.r)
+      .attr("fill", "url(#nodeGradient)")
+      .attr("fill-opacity", 0.9)
+      .attr("stroke", "rgba(255,255,255,0.18)")
+      .attr("stroke-width", 1);
+
+    const glow = nodeLayer.selectAll("circle.glow")
+      .data(nodes)
+      .join("circle")
+      .attr("class", "glow")
+      .attr("r", (d) => d.r * 2.6)
+      .attr("fill", "rgba(124, 243, 203, 0.08)");
+
+    textLayer.append("text")
+      .attr("x", width / 2)
+      .attr("y", height / 2 - 16)
+      .attr("text-anchor", "middle")
+      .attr("font-size", 54)
+      .attr("font-weight", 700)
+      .attr("letter-spacing", "-0.04em")
+      .attr("fill", "#edf4ff")
+      .text("PAN SAMOT");
+
+    textLayer.append("text")
+      .attr("x", width / 2)
+      .attr("y", height / 2 + 42)
+      .attr("text-anchor", "middle")
+      .attr("font-size", 24)
+      .attr("letter-spacing", "0.18em")
+      .attr("text-transform", "uppercase")
+      .attr("fill", "#ffd36e")
+      .text("THANK YOU");
+
+    function polarTargets() {
+      const centerX = width / 2;
+      const centerY = height / 2;
+      nodes.forEach((d, i) => {
+        const band = i % 3;
+        const angle = (i / total) * Math.PI * 2 * 2.3;
+        const radius = 70 + band * 56 + i * 0.55;
+        d.tx = centerX + Math.cos(angle) * radius;
+        d.ty = centerY + Math.sin(angle) * radius * 0.64;
+      });
+    }
+
+    polarTargets();
+
+    const simulation = d3.forceSimulation(nodes)
+      .force("charge", d3.forceManyBody().strength(-38))
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("collision", d3.forceCollide().radius((d) => d.r + 2))
+      .alpha(1)
+      .on("tick", ticked);
+
+    function ticked() {
+      link
+        .attr("x1", (d) => d.source.x)
+        .attr("y1", (d) => d.source.y)
+        .attr("x2", (d) => d.target.x)
+        .attr("y2", (d) => d.target.y);
+
+      glow
+        .attr("cx", (d) => d.x)
+        .attr("cy", (d) => d.y);
+
+      node
+        .attr("cx", (d) => d.x)
+        .attr("cy", (d) => d.y);
+
+      const points = nodes.map((d) => [d.x, d.y]);
+      const polygon = d3.polygonHull(points);
+
+      hull.selectAll("path")
+        .data(polygon ? [polygon] : [])
+        .join("path")
+        .attr("d", (d) => "M" + d.join("L") + "Z")
+        .attr("fill", "rgba(124, 243, 203, 0.05)")
+        .attr("stroke", "rgba(124, 243, 203, 0.18)")
+        .attr("stroke-width", 1.3);
+    }
+
+    function enterOrder() {
+      statusText.textContent = "Ordering the signal...";
+
+      simulation
+        .force("x", d3.forceX((d) => d.tx).strength(0.12))
+        .force("y", d3.forceY((d) => d.ty).strength(0.12))
+        .force("charge", d3.forceManyBody().strength(-18))
+        .alpha(0.95)
+        .restart();
+
+      link.transition()
+        .duration(2600)
+        .attr("stroke", "rgba(141, 168, 255, 0.28)")
+        .attr("stroke-width", 1.8);
+
+      hull.transition()
+        .delay(800)
+        .duration(2200)
+        .attr("opacity", 1);
+
+      textLayer.transition()
+        .delay(2200)
+        .duration(1400)
+        .attr("opacity", 1);
+
+      node.transition()
+        .delay(1000)
+        .duration(1800)
+        .attr("r", (d, i) => d.r + (i % 6 === 0 ? 2.8 : 0));
+
+      setTimeout(() => {
+        statusText.textContent = "Order achieved. Gratitude delivered.";
+      }, 3400);
+    }
+
+    function idleDrift() {
+      d3.interval(() => {
+        nodes.forEach((d, i) => {
+          d.tx += Math.sin(Date.now() / 1200 + i) * 0.35;
+          d.ty += Math.cos(Date.now() / 1500 + i) * 0.25;
+        });
+        simulation.alphaTarget(0.18).restart();
+      }, 1600);
+    }
+
+    setTimeout(enterOrder, 1800);
+    setTimeout(idleDrift, 4400);
+  </script>
+</body>
+</html>
