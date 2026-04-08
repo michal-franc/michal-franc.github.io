@@ -14,7 +14,7 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
-    addressable (2.8.8)
+    addressable (2.9.0)
       public_suffix (>= 2.0.2, < 8.0)
     base64 (0.3.0)
     bigdecimal (4.0.1)
@@ -39,7 +39,6 @@ GEM
       ffi (>= 1.15.0)
       logger
     eventmachine (1.2.7)
-    eventmachine (1.2.7-x64-mingw32)
     eventmachine (1.2.7-x86-mingw32)
     execjs (2.10.0)
     faraday (2.14.0)
@@ -279,7 +278,7 @@ GEM
 
 PLATFORMS
   ruby
-  x64-mingw32
+  x64-mingw-ucrt
   x86-mingw32
 
 DEPENDENCIES
