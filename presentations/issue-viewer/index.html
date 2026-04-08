@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Issue Viewer — AI Workflow Without Losing Your Mind</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue: #0099FF;
+            --orange: #F59E0B;
+            --green: #34d399;
+            --red: #f87171;
+            --purple: #a78bfa;
+            --cyan: #22d3ee;
+            --dim: #64748b;
+            --bg-card: #111827;
+        }
+        .reveal { font-family: 'DM Sans', sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            text-transform: none;
+            letter-spacing: -0.02em;
+        }
+        .reveal h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .reveal h2 { font-size: 1.8em; color: var(--blue); margin-bottom: 0.8em; }
+        .reveal code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(56,189,248,0.1);
+            padding: 0.1em 0.4em;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        .reveal .mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7em;
+            color: var(--dim);
+        }
+        .reveal ul, .reveal ol { text-align: left; font-size: 0.85em; }
+        .reveal li { margin-bottom: 0.4em; }
+        .reveal .highlight { color: var(--green); font-weight: 600; }
+        .reveal .dim { color: var(--dim); font-size: 0.8em; }
+        .reveal .two-col { display: flex; gap: 2em; align-items: flex-start; }
+        .reveal .two-col > div { flex: 1; }
+        .reveal .card {
+            background: var(--bg-card);
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 1em;
+            margin: 0.5em 0;
+            text-align: left;
+        }
+        .reveal .card h3 { font-size: 0.9em; color: var(--blue); margin: 0 0 0.3em 0; }
+        .reveal .card p { font-size: 0.7em; color: var(--dim); margin: 0; }
+        .reveal .tag {
+            display: inline-block;
+            background: rgba(56,189,248,0.15);
+            color: var(--blue);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55em;
+            padding: 0.2em 0.6em;
+            border-radius: 4px;
+            margin: 0.1em;
+        }
+
+        /* Context counter animation */
+        .ctx-counter {
+            display: flex;
+            gap: 0.4em;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 0.5em 0;
+        }
+        .ctx-box {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2em;
+            font-weight: 700;
+            width: 1.4em;
+            height: 1.4em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 2px solid #1e293b;
+            background: var(--bg-card);
+            color: var(--dim);
+            transition: all 0.3s;
+        }
+        .ctx-box.c1 { color: var(--green); border-color: var(--green); }
+        .ctx-box.c2 { color: var(--orange); border-color: var(--orange); }
+        .ctx-box.c3 { color: var(--red); border-color: var(--red); background: rgba(248,113,113,0.1); }
+
+        /* Pipeline */
+        .pipeline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin: 1em 0;
+            flex-wrap: nowrap;
+        }
+        .pipe-step {
+            background: var(--bg-card);
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            padding: 0.6em 0.9em;
+            text-align: center;
+            min-width: 100px;
+        }
+        .pipe-step .label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55em;
+            color: var(--dim);
+            display: block;
+            margin-bottom: 0.2em;
+        }
+        .pipe-step .name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.65em;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+        .pipe-arrow {
+            font-size: 1.2em;
+            color: var(--dim);
+            padding: 0 0.3em;
+        }
+        .pipe-step.s1 { border-color: var(--blue); }
+        .pipe-step.s1 .name { color: var(--blue); }
+        .pipe-step.s2 { border-color: var(--cyan); }
+        .pipe-step.s2 .name { color: var(--cyan); }
+        .pipe-step.s3 { border-color: var(--purple); }
+        .pipe-step.s3 .name { color: var(--purple); }
+        .pipe-step.s4 { border-color: var(--green); }
+        .pipe-step.s4 .name { color: var(--green); }
+
+        /* Token badge */
+        .token-badge {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--red);
+            background: rgba(248,113,113,0.1);
+            border: 1px solid var(--red);
+            border-radius: 8px;
+            padding: 0.2em 0.5em;
+            margin: 0.2em;
+        }
+
+        /* Top-aligned slide */
+        .reveal .slides section[data-state="no-center"] {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            box-sizing: border-box;
+            padding: 1em !important;
+            transform: none !important;
+            margin-top: 0 !important;
+        }
+
+        /* Pulsing dot */
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .pulse-dot {
+            display: inline-block;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: pulse-dot 1.5s infinite;
+            vertical-align: middle;
+            margin-right: 0.3em;
+        }
+
+        /* cli block */
+        .cli-block {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 0.8em 1em;
+            text-align: left;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55em;
+            color: #e6edf3;
+            line-height: 1.6;
+            margin: 0.4em 0;
+            white-space: pre;
+        }
+        .cli-block .prompt { color: var(--green); }
+        .cli-block .cmd { color: var(--cyan); }
+        .cli-block .out { color: var(--dim); }
+        .cli-block .ok { color: var(--green); }
+        .cli-block .warn { color: var(--orange); }
+    </style>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+
+        <!-- SLIDE 1: TITLE -->
+        <section>
+            <h1>Issue Viewer</h1>
+            <p style="font-size: 0.9em; color: var(--green);">AI Workflow Without Losing Your Mind</p>
+            <br>
+            <p class="mono">Michal Franc · 2026</p>
+        </section>
+
+        <!-- SLIDE 2: ME WORKING HARD -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="font-size: 1.2em; margin-bottom: 0.5em;">This is me for the past few months</h2>
+            <div style="max-width: 420px; margin: 0 auto;">
+                <!-- replace with your "working hard" gif -->
+                <img src="images/working.gif" style="border-radius: 12px; width: 100%;"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                <div style="display:none; background:var(--bg-card); border-radius:12px; padding:3em; color:var(--dim); font-family:'JetBrains Mono',monospace; font-size:0.7em;">
+                    [ working.gif ]
+                </div>
+            </div>
+            <p class="dim" style="margin-top: 0.8em; font-style: italic;">Working with agents intensively...</p>
+        </section>
+
+        <!-- SLIDE 3: GITHUB + TOKENS -->
+        <section>
+            <h2 style="margin-bottom: 0.4em;">There is definitely a visible change since Opus 4.6</h2>
+            <div style="display: flex; flex-direction: column; gap: 0.6em; align-items: center; height: 68vh;">
+                <img src="images/github.png" style="border-radius: 8px; max-width: 90%; max-height: 48%; object-fit: contain;">
+                <img src="images/tokens.png" style="border-radius: 8px; max-width: 90%; max-height: 48%; object-fit: contain;">
+            </div>
+        </section>
+
+        <!-- SLIDE 4: WHAT I'M BUILDING -->
+        <section data-state="no-center">
+            <div class="two-col" style="width: 100%; align-items: stretch; height: 90vh; margin-top: -1em;">
+                <div class="card" style="border-color: var(--purple); height: 100%; display: flex; flex-direction: column;">
+                    <h3 style="color: var(--purple);">🎮 Game (Godot)</h3>
+                    <p>Hobby project — roguelike / RPG, worked on evenings and weekends.</p>
+                    <p><a href="https://mfranc.com/game/" style="color: var(--purple); font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">mfranc.com/game</a></p>
+                    <br>
+                    <video src="https://mfranc.com/game/AC_H_hit_211652.mp4" autoplay loop muted playsinline style="width: 100%; border-radius: 8px; margin-top: 0.4em;"></video>
+                </div>
+                <div class="card" style="border-color: var(--orange); height: 100%; display: flex; flex-direction: column;">
+                    <h3 style="color: var(--orange);">🐸 Toadie</h3>
+                    <p>Personal assistant powered by Claude Code — available from phone, watch, voice.</p>
+                    <p><a href="https://mfranc.com/blog/speaking-to-ai-agent-ended-up-with-tamagochi/" style="color: var(--orange); font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">mfranc.com/blog/toadie</a></p>
+                    <br>
+                    <video src="https://mfranc.com/images/claudewatchdemo.mp4" autoplay loop muted playsinline style="width: 50%; height: auto; border-radius: 8px; margin-top: 0.4em;"></video>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 5: BRAIN FRY -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="font-size: 1.4em; margin-bottom: 0.6em;">Working with 5–6 agents simultaneously is...</h2>
+            <div class="two-col" style="align-items: center; gap: 2em;">
+                <div style="font-size: 0.6em; line-height: 2; text-align: left;">
+                    <p style="color: var(--dim);">context switching</p>
+                    <p style="color: var(--dim);">re-explaining the same things over and over</p>
+                    <p style="color: var(--dim);">keeping track of what each agent is doing</p>
+                    <p style="color: var(--dim);">fixing what the previous agent broke</p>
+                    <p style="color: var(--dim);">wondering if any of it is actually coherent</p>
+                    <br>
+                    <p style="font-size: 1.2em; font-weight: 700;">
+                        <a href="https://hbr.org/2026/03/when-using-ai-leads-to-brain-fry"
+                           style="color: var(--red); text-decoration: none; border-bottom: 2px solid var(--red); padding-bottom: 0.1em;">
+                            Brain Fry
+                        </a>
+                    </p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="images/agents-work.png" style="border-radius: 10px; max-width: 100%; max-height: 65vh; object-fit: contain;">
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 5b: GITHUB FLOW -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="font-size: 1.2em; margin-bottom: 0.5em;">This was the flow for a while</h2>
+            <img src="images/github-flow.png" style="border-radius: 10px; max-width: 90%; max-height: 75vh; object-fit: contain;">
+        </section>
+
+        <!-- SLIDE 5c: EVOLUTION -->
+        <section>
+            <h2 style="margin-bottom: 0.6em;">Evolution</h2>
+            <div class="two-col" style="align-items: center; gap: 2em;">
+                <div>
+                    <div class="card" style="border-color: var(--dim); margin-bottom: 0.8em;">
+                        <h3 style="color: var(--dim);">GitHub Issues</h3>
+                        <p>API-dependent · online only · overkill for hobby projects</p>
+                    </div>
+                    <div style="text-align: center; font-size: 1.5em; color: var(--dim); margin: 0.3em 0;">↓</div>
+                    <div class="card" style="border-color: var(--cyan);">
+                        <h3 style="color: var(--cyan);">Markdown files · locally hosted</h3>
+                        <p>Plain <code>.md</code> files with YAML frontmatter · no API · no internet · full control</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="cli-block">
+<span class="out">issues/</span>
+<span class="out">  combat/</span>
+<span class="out">    42.md</span>
+<span class="out">    pathfinding.md</span>
+<span class="out">  toadie/</span>
+<span class="out">    watch-support.md</span>
+<span class="out">    voice-commands.md</span>
+                    </div>
+                    <p style="font-size: 0.6em; color: var(--dim); margin-top: 0.5em; text-align: center;">each file = one issue · git tracked · agent readable</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 5d: ISSUE VIEWER SCREENSHOTS -->
+        <section data-background-color="#0a0e1a">
+            <div style="display: flex; gap: 0.8em; align-items: flex-start; height: 80vh; margin-top: -0.5em;">
+                <img src="images/viewer-1.png" style="border-radius: 8px; flex: 1; min-width: 0; max-height: 100%; object-fit: contain;">
+                <img src="images/viewer-2.png" style="border-radius: 8px; flex: 1; min-width: 0; max-height: 100%; object-fit: contain;">
+                <img src="images/viewer-3.png" style="border-radius: 8px; flex: 1; min-width: 0; max-height: 100%; object-fit: contain;">
+            </div>
+            <p style="font-size: 0.65em; color: var(--green); margin-top: 0.5em;">Agents could just modify the <code>.md</code> files directly — no API, no tooling, just plain text.</p>
+        </section>
+
+        <!-- SLIDE 5e: NEW PROBLEM -->
+        <section>
+            <h2 style="color: var(--orange); margin-bottom: 0.6em;">But this created new problems</h2>
+            <div style="max-width: 680px; margin: 0 auto; font-size: 0.85em; display: flex; flex-direction: column; gap: 0.6em;">
+                <div class="card" style="border-color: var(--red);">
+                    <h3 style="color: var(--red);">No control</h3>
+                    <p>Agents could modify any <code>.md</code> file freely — change status, overwrite content, mark things done without actually doing them.</p>
+                </div>
+                <div class="card" style="border-color: var(--orange);">
+                    <h3 style="color: var(--orange);">Still babysitting</h3>
+                    <p>I still had to watch every agent session. Without guardrails, mistakes were silent and hard to catch.</p>
+                </div>
+                <div class="card" style="border-color: var(--dim);">
+                    <h3 style="color: var(--dim);">Power without structure = chaos</h3>
+                    <p>The freedom that made agents useful also made them unpredictable.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 5f: SKILLS -->
+        <section>
+            <h2 style="margin-bottom: 0.4em;">How to add control?</h2>
+            <p style="font-size: 0.85em; color: var(--dim); margin-bottom: 1em;">Well... skills. Sure thing.</p>
+            <div class="card" style="border-color: var(--cyan); max-width: 640px; margin: 0 auto; font-size: 0.85em;">
+                <h3 style="color: var(--cyan);">Claude Code Skills</h3>
+                <p>Reusable prompt templates that agents can invoke — with defined inputs, outputs, and guardrails built in.</p>
+                <p style="margin-top: 0.5em;">Instead of free-form file edits, agents call a skill. The skill enforces the rules.</p>
+            </div>
+            <br>
+            <p style="font-size: 0.75em; color: var(--orange); text-align: center;">
+                But just telling agents <em>how to nicely modify</em> <code>.md</code> files is not enough.
+            </p>
+        </section>
+
+        <!-- SLIDE 5g: NON-DETERMINISM PROBLEM -->
+        <section>
+            <h2 style="color: var(--red); margin-bottom: 0.5em;">But... skills are non-deterministic</h2>
+            <p style="font-size: 0.7em; color: var(--dim); margin-bottom: 0.8em;">The bigger the context, the less predictable the agent gets.</p>
+            <div class="two-col" style="gap: 1.5em; font-size: 0.8em;">
+                <div class="card" style="border-color: var(--orange);">
+                    <h3 style="color: var(--orange);">Instruction overload</h3>
+                    <p>LLMs reliably follow <span style="color: var(--green);">~150–200 instructions</span>.</p>
+                    <p style="margin-top: 0.4em;">Claude Code's system prompt already uses <span style="color: var(--orange);">~50</span>.</p>
+                    <p style="margin-top: 0.4em;">Every instruction you add <span style="color: var(--red);">competes for attention</span> — and compliance decreases uniformly as count grows.</p>
+                </div>
+                <div class="card" style="border-color: var(--purple);">
+                    <h3 style="color: var(--purple);">Lost in the Middle</h3>
+                    <p>LLMs have a <span style="color: var(--cyan);">U-shaped attention curve</span> — they recall the beginning and end well, but <span style="color: var(--red);">miss the middle</span>.</p>
+                    <p style="margin-top: 0.4em;">Your context file sits at the start — make every line count.</p>
+                    <p style="margin-top: 0.4em; color: var(--dim); font-style: italic;">More instructions ≠ more control.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 5f2: BETTER WAY -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="margin-bottom: 0.5em;">Is there a better way?</h2>
+            <p style="font-size: 0.8em; color: var(--dim); margin-bottom: 1em;">What if we stop fighting non-determinism — and contain it instead?</p>
+            <div class="card" style="border-color: var(--green); max-width: 640px; margin: 0 auto; text-align: center; padding: 1.5em;">
+                <p style="font-size: 0.85em; color: var(--dim); margin-bottom: 0.6em;">Mix</p>
+                <p style="font-size: 1.1em; color: var(--purple); font-weight: 600;">non-deterministic LLMs</p>
+                <p style="font-size: 1.5em; color: var(--dim); margin: 0.2em 0;">+</p>
+                <p style="font-size: 1.1em; color: var(--cyan); font-weight: 600;">deterministically behaving tools</p>
+                <br>
+                <p style="font-size: 1.3em; font-weight: 700; color: var(--green);">Enter <code style="font-size: 1em; background: rgba(52,211,153,0.1); color: var(--green);">issue-cli</code></p>
+            </div>
+        </section>
+
+        <!-- SLIDE 5f3: ISSUE-CLI COMMANDS -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="margin-bottom: 0; margin-top: 0;"><code>issue-cli</code> in action</h2>
+<div class="two-col" style="gap: 0.6em; font-size: 0.62em; margin-top: 0;">
+                <div class="cli-block">
+<span class="prompt">$</span> <span class="cmd">issue-cli done pathfinding</span>
+<span class="warn">✗ unchecked items remain:</span>
+<span class="warn">  [ ] add unit tests</span>
+<span class="out">Complete checkboxes before marking done.</span>
+                </div>
+                <div class="cli-block">
+<span class="prompt">$</span> <span class="cmd">issue-cli check pathfinding "add unit tests"</span>
+<span class="ok">✓ checked off</span>
+
+<span class="prompt">$</span> <span class="cmd">issue-cli done pathfinding</span>
+<span class="ok">✓ status → done · assignee cleared</span>
+                </div>
+            </div>
+            <div class="cli-block" style="margin-top: 0.4em; font-size: 0.62em;">
+<span class="prompt">$</span> <span class="cmd">issue-cli transition pathfinding --to testing</span>
+<span class="ok">✓ status → testing</span>
+<span class="out">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+<span class="out">Next steps:</span>
+<span class="out">  1. Run automated tests</span>
+<span class="out">  2. Add ## Test Plan section (### Automated / ### Manual)</span>
+<span class="out">  3. issue-cli comment pathfinding --text "tests: all passing"</span>
+<span class="out">  4. issue-cli transition pathfinding --to documentation</span>
+<span class="out">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 5f4: WORKFLOW.YAML -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="margin-bottom: 0.4em;">But why hardcode the rules?</h2>
+            <p style="font-size: 0.75em; color: var(--dim); margin-bottom: 0.6em;">Projects define their own workflow — validations, prompts, side effects — in <code>workflow.yaml</code></p>
+            <div class="two-col" style="gap: 1em; font-size: 0.72em; align-items: flex-start;">
+                <div class="cli-block" style="flex: 1;">
+<span style="color:var(--cyan);">statuses:</span>
+<span style="color:var(--dim);">  - name: <span style="color:var(--green);">"in design"</span></span>
+<span style="color:var(--dim);">    prompt: |</span>
+<span style="color:var(--dim);">      Turn the problem into checklists,</span>
+<span style="color:var(--dim);">      assumptions, and open questions.</span>
+<span style="color:var(--dim);">      Ask for backlog approval before</span>
+<span style="color:var(--dim);">      attempting the transition.</span>
+
+<span style="color:var(--cyan);">transitions:</span>
+<span style="color:var(--dim);">  - from: <span style="color:var(--orange);">"in design"</span></span>
+<span style="color:var(--dim);">    to:   <span style="color:var(--orange);">"backlog"</span></span>
+<span style="color:var(--dim);">    actions:</span>
+<span style="color:var(--dim);">      - type: <span style="color:var(--purple);">"validate"</span></span>
+<span style="color:var(--dim);">        rule: <span style="color:var(--green);">"has_checkboxes"</span></span>
+<span style="color:var(--dim);">      - type: <span style="color:var(--purple);">"append_section"</span></span>
+<span style="color:var(--dim);">        title: <span style="color:var(--green);">"Acceptance Criteria"</span></span>
+                </div>
+                <div style="flex: 1; display: flex; flex-direction: column; gap: 0.6em;">
+                    <div class="card" style="border-color: var(--cyan);">
+                        <h3 style="color: var(--cyan);">Per-status prompts</h3>
+                        <p>Each status tells the agent what to do — injected automatically at dispatch time.</p>
+                    </div>
+                    <div class="card" style="border-color: var(--purple);">
+                        <h3 style="color: var(--purple);">Transition validations</h3>
+                        <p>Must have checkboxes? Body not empty? Blocks the move if rules aren't met.</p>
+                    </div>
+                    <div class="card" style="border-color: var(--green);">
+                        <h3 style="color: var(--green);">Side effects</h3>
+                        <p>Auto-append sections, clear assignee, inject checklists on transition.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 5f5: VISUAL UI -->
+        <section>
+            <h2 style="margin-bottom: 0.5em;">Workflow Designer</h2>
+            <p style="font-size: 0.75em; color: var(--dim); margin-bottom: 0.8em;">Managing statuses, transitions, validations, and side effects in YAML by hand gets painful.</p>
+            <img src="images/workflow-ui.png" style="border-radius: 10px; max-width: 90%; max-height: 60vh; object-fit: contain;">
+        </section>
+
+        <!-- SLIDE: EXAMPLE FLOW -->
+        <section>
+            <h2 style="margin-bottom: 0.6em;">Example flow</h2>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5em; font-size: 0.72em;">
+
+                <div class="card" style="border-color: var(--dim); text-align: center;">
+                    <div>💡</div>
+                    <div style="color: var(--dim); font-weight: 600; margin: 0.2em 0;">idea</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">👤 I have an idea</div>
+                </div>
+
+                <div class="card" style="border-color: var(--blue); text-align: center;">
+                    <div>🤖</div>
+                    <div style="color: var(--blue); font-weight: 600; margin: 0.2em 0;">in design</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">agent clarifies,<br>writes checkboxes</div>
+                </div>
+
+                <div class="card" style="border-color: var(--orange); text-align: center;">
+                    <div>👤</div>
+                    <div style="color: var(--orange); font-weight: 600; margin: 0.2em 0;">backlog</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">I approve design,<br>agent unclaimed</div>
+                </div>
+
+                <div class="card" style="border-color: var(--cyan); text-align: center;">
+                    <div>🤖</div>
+                    <div style="color: var(--cyan); font-weight: 600; margin: 0.2em 0;">in progress</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">agent implements,<br>checks off items</div>
+                </div>
+
+                <div class="card" style="border-color: var(--purple); text-align: center;">
+                    <div>🤖</div>
+                    <div style="color: var(--purple); font-weight: 600; margin: 0.2em 0;">testing</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">agent writes<br>test plan</div>
+                </div>
+
+                <div class="card" style="border-color: var(--orange); text-align: center;">
+                    <div>👤</div>
+                    <div style="color: var(--orange); font-weight: 600; margin: 0.2em 0;">human-testing</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">I play-test<br>the feature</div>
+                </div>
+
+                <div class="card" style="border-color: var(--blue); text-align: center;">
+                    <div>🤖</div>
+                    <div style="color: var(--blue); font-weight: 600; margin: 0.2em 0;">documentation</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">agent updates<br>the docs</div>
+                </div>
+
+                <div class="card" style="border-color: var(--green); text-align: center;">
+                    <div>✅</div>
+                    <div style="color: var(--green); font-weight: 600; margin: 0.2em 0;">done</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">shipped</div>
+                </div>
+
+            </div>
+            <div style="display: flex; justify-content: center; gap: 2em; margin-top: 0.6em; font-size: 0.65em;">
+                <span>🤖 <span style="color: var(--dim);">agent</span></span>
+                <span>👤 <span style="color: var(--dim);">human approves / verifies</span></span>
+            </div>
+        </section>
+
+        <!-- SLIDE: BUILDING BLOCKS -->
+        <section>
+            <h2 style="margin-bottom: 0.6em;">Building Blocks</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.6em; font-size: 0.75em;">
+
+                <div class="card" style="border-color: var(--blue);">
+                    <h3 style="color: var(--blue);">Base Prompt</h3>
+                    <p>Injected to every agent session. Defines who the agent is, project context, and global rules.</p>
+                    <p style="margin-top: 0.4em; color: var(--dim); font-size: 0.85em;">Loaded from <code>CLAUDE.md</code></p>
+                </div>
+
+                <div class="card" style="border-color: var(--cyan);">
+                    <h3 style="color: var(--cyan);">Status Prompt</h3>
+                    <p>Injected on each status. Tells the agent exactly what to do at this stage of the workflow.</p>
+                    <p style="margin-top: 0.4em; color: var(--dim); font-size: 0.85em;">Defined in <code>workflow.yaml</code></p>
+                </div>
+
+                <div class="card" style="border-color: var(--purple);">
+                    <h3 style="color: var(--purple);">Inject Prompt</h3>
+                    <p>Optional extra context injected at dispatch — issue body, metadata, related issues.</p>
+                    <p style="margin-top: 0.4em; color: var(--dim); font-size: 0.85em;">Per-issue override</p>
+                </div>
+
+                <div class="card" style="border-color: var(--red);">
+                    <h3 style="color: var(--red);">Validate</h3>
+                    <p>Blocks a transition if conditions aren't met — <code>has_checkboxes</code>, <code>body_not_empty</code>, assignee set.</p>
+                    <p style="margin-top: 0.4em; color: var(--dim); font-size: 0.85em;">Hard stops, not suggestions</p>
+                </div>
+
+                <div class="card" style="border-color: var(--green);">
+                    <h3 style="color: var(--green);">Append Sections</h3>
+                    <p>Automatically adds structured sections to the issue on transition — checklists, test plans, docs stubs.</p>
+                    <p style="margin-top: 0.4em; color: var(--dim); font-size: 0.85em;">Side effect on transition</p>
+                </div>
+
+                <div class="card" style="border-color: var(--orange);">
+                    <h3 style="color: var(--orange);">Human Approval</h3>
+                    <p>Certain statuses require a human to approve before the agent can proceed. Agent waits.</p>
+                    <p style="margin-top: 0.4em; color: var(--dim); font-size: 0.85em;"><code>backlog</code>, <code>human-testing</code></p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SLIDE: ROGUETECH EXAMPLES -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="margin-bottom: 0.5em;">RogueTech examples</h2>
+            <div class="two-col" style="gap: 1em; font-size: 0.72em; align-items: flex-start;">
+                <div>
+                    <p style="color: var(--dim); font-size: 0.8em; margin-bottom: 0.4em;">Real issue in the project:</p>
+                    <div class="cli-block">
+<span style="color:var(--cyan);">title:</span> <span style="color:var(--green);">"stress volume system redesign"</span>
+<span style="color:var(--cyan);">status:</span> <span style="color:var(--orange);">in design</span>
+<span style="color:var(--cyan);">system:</span> MechLab
+<span style="color:var(--cyan);">version:</span> 0.1
+
+<span style="color:var(--dim);">Replace slots+stress model with a visible</span>
+<span style="color:var(--dim);">internal-layout system. Hulls define shaped</span>
+<span style="color:var(--dim);">build space. Items occupy rectangular</span>
+<span style="color:var(--dim);">footprints (1x2, 2x2, 2x3).</span>
+
+<span style="color:var(--dim);">- [ ] Design layout grid system</span>
+<span style="color:var(--dim);">- [ ] Hull defines internal sections</span>
+<span style="color:var(--dim);">- [ ] Weapons have footprint costs</span>
+<span style="color:var(--dim);">- [ ] Mount/arc choices expand footprint</span>
+                    </div>
+                </div>
+                <div>
+                    <p style="color: var(--dim); font-size: 0.8em; margin-bottom: 0.4em;">Status prompt injected to agent:</p>
+                    <div class="cli-block">
+<span style="color:var(--cyan);"># in design prompt</span>
+
+<span style="color:var(--green);">Review the relevant docs, code, and</span>
+<span style="color:var(--green);">existing content before proposing changes.</span>
+<span style="color:var(--green);">Turn requirements into explicit checklists.</span>
+<span style="color:var(--green);">Surface assumptions, risks, edge cases,</span>
+<span style="color:var(--green);">and required human input clearly.</span>
+<span style="color:var(--green);">Keep the design focused on what will</span>
+<span style="color:var(--green);">actually be implemented.</span>
+                    </div>
+                    <p style="color: var(--dim); font-size: 0.8em; margin: 0.5em 0 0.3em 0;">Validation on transition → backlog:</p>
+                    <div class="cli-block">
+<span style="color:var(--cyan);">- type:</span> <span style="color:var(--purple);">validate</span>
+<span style="color:var(--cyan);">  rule:</span> <span style="color:var(--green);">has_checkboxes</span>
+<span style="color:var(--cyan);">- type:</span> <span style="color:var(--purple);">validate</span>
+<span style="color:var(--cyan);">  rule:</span> <span style="color:var(--green);">body_not_empty</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE: BASE PROMPT EXAMPLE -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="margin-bottom: 0.4em;">Base Prompt — <code>issue-cli process</code></h2>
+            <div class="two-col" style="gap: 1em; font-size: 0.63em; align-items: flex-start;">
+                <div class="cli-block">
+<span style="color:var(--cyan);">== AI-Native Project Viewer ==</span>
+
+<span style="color:var(--dim);">You are working with a markdown-based</span>
+<span style="color:var(--dim);">issue tracker. Issues are .md files in</span>
+<span style="color:var(--dim);">issues/&lt;System&gt;/ directories.</span>
+
+<span style="color:var(--cyan);">== Rules ==</span>
+<span style="color:var(--green);">- Always use 'start' to begin work</span>
+<span style="color:var(--green);">- Never skip statuses</span>
+<span style="color:var(--green);">- Always update docs before marking done</span>
+<span style="color:var(--green);">- Use checkboxes [x] to track subtasks</span>
+
+<span style="color:var(--cyan);">== IMPORTANT: Command output ==</span>
+<span style="color:var(--orange);">- NEVER suppress stderr (no 2>/dev/null)</span>
+<span style="color:var(--orange);">- ALWAYS read the full output — it contains</span>
+<span style="color:var(--orange);">  next steps</span>
+<span style="color:var(--orange);">- If a command fails, fix it, don't retry</span>
+                </div>
+                <div class="cli-block">
+<span style="color:var(--cyan);">== When you pick up an issue ==</span>
+<span style="color:var(--green);">1. issue-cli start &lt;slug&gt;</span>
+<span style="color:var(--dim);">   claims it, moves to in-progress</span>
+<span style="color:var(--green);">2. Do the work, check off items</span>
+<span style="color:var(--green);">3. Add ## Test Plan section</span>
+<span style="color:var(--green);">4. issue-cli transition &lt;slug&gt; --to testing</span>
+<span style="color:var(--green);">5. issue-cli comment &lt;slug&gt; "tests: ..."</span>
+<span style="color:var(--green);">6. issue-cli transition &lt;slug&gt; --to docs</span>
+<span style="color:var(--green);">7. issue-cli done &lt;slug&gt;</span>
+
+<span style="color:var(--cyan);">== Quick start ==</span>
+<span style="color:var(--dim);">issue-cli next --version 0.1</span>
+<span style="color:var(--dim);">issue-cli start &lt;slug&gt;</span>
+<span style="color:var(--dim);">issue-cli done &lt;slug&gt;</span>
+                </div>
+            </div>
+            <p style="font-size: 0.6em; color: var(--dim); margin-top: 0.4em; text-align: center;">Agent runs <code>issue-cli process</code> first — sets rules, workflow, and step-by-step guidance for the whole session.</p>
+        </section>
+
+        <!-- SLIDE: THREE PROMPTS -->
+        <section>
+            <h2 style="margin-bottom: 0.3em;">Three Prompts, Three Roles</h2>
+            <div style="display: flex; flex-direction: column; gap: 0.4em; font-size: 0.68em; max-width: 860px; margin: 0 auto;">
+
+                <div style="display: flex; gap: 1em; align-items: stretch;">
+                    <div style="background: rgba(0,153,255,0.1); border-left: 4px solid var(--blue); padding: 0.4em 0.8em; border-radius: 0 8px 8px 0; flex: 1;">
+                        <div style="color: var(--blue); font-weight: 700; margin-bottom: 0.3em;">Base Prompt <span style="font-size:0.75em; color:var(--dim);">— always injected</span></div>
+                        <div style="color: #e2e8f0;">Who the agent is, how the project works, global rules, tooling conventions. Sets the foundation for every session regardless of what issue is being worked on.</div>
+                        <div style="font-family:'JetBrains Mono',monospace; font-size:0.75em; color:var(--dim); margin-top:0.3em;">issue-cli process</div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1em; align-items: stretch;">
+                    <div style="background: rgba(34,211,238,0.1); border-left: 4px solid var(--cyan); padding: 0.4em 0.8em; border-radius: 0 8px 8px 0; flex: 1;">
+                        <div style="color: var(--cyan); font-weight: 700; margin-bottom: 0.3em;">Status Prompt <span style="font-size:0.75em; color:var(--dim);">— injected per status</span></div>
+                        <div style="color: #e2e8f0;">What to do <em>right now</em> at this stage. Changes with every status transition. Keeps the agent focused on the current phase without re-explaining the whole workflow.</div>
+                        <div style="font-family:'JetBrains Mono',monospace; font-size:0.75em; color:var(--dim); margin-top:0.3em;">defined in workflow.yaml · injected at dispatch</div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1em; align-items: stretch;">
+                    <div style="background: rgba(167,139,250,0.1); border-left: 4px solid var(--purple); padding: 0.4em 0.8em; border-radius: 0 8px 8px 0; flex: 1;">
+                        <div style="color: var(--purple); font-weight: 700; margin-bottom: 0.3em;">Inject Prompt <span style="font-size:0.75em; color:var(--dim);">— defined in workflow.yaml</span></div>
+                        <div style="color: #e2e8f0;">Injects additional actions or instructions at a specific transition point. Used to tell the agent to do something extra — append a section, run a check, follow a specific pattern for this transition.</div>
+                        <div style="font-family:'JetBrains Mono',monospace; font-size:0.75em; color:var(--dim); margin-top:0.3em;">type: inject_prompt · fires on transition</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SLIDE: BASE WORKFLOW vs SUBSYSTEM OVERLAY -->
+        <section>
+            <h2 style="margin-bottom: 0.5em;">Base Workflow vs Subsystem Overlay</h2>
+            <div class="two-col" style="gap: 1em; font-size: 0.72em; align-items: flex-start;">
+                <div>
+                    <div class="card" style="border-color: var(--blue); margin-bottom: 0.6em;">
+                        <h3 style="color: var(--blue);">Base Workflow</h3>
+                        <p>Defines statuses, transitions, validations, and prompts for the whole project. Every issue follows this by default.</p>
+                    </div>
+                    <div class="cli-block">
+<span style="color:var(--cyan);">statuses:</span>
+<span style="color:var(--dim);">  idea → in design → backlog</span>
+<span style="color:var(--dim);">  → in progress → testing</span>
+<span style="color:var(--dim);">  → human-testing → done</span>
+
+<span style="color:var(--cyan);">transitions:</span>
+<span style="color:var(--dim);">  - from: backlog → in progress</span>
+<span style="color:var(--dim);">    validate: has_assignee</span>
+<span style="color:var(--dim);">    validate: human_approved</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="card" style="border-color: var(--purple); margin-bottom: 0.6em;">
+                        <h3 style="color: var(--purple);">Subsystem Overlay</h3>
+                        <p>Per-system overrides that add extra instructions for specific domains — injected on top of the base workflow.</p>
+                    </div>
+                    <div class="cli-block">
+<span style="color:var(--cyan);">systems:</span>
+<span style="color:var(--purple);">  Combat:</span>
+<span style="color:var(--dim);">    transitions:</span>
+<span style="color:var(--dim);">      - from: backlog → in progress</span>
+<span style="color:var(--green);">        inject_prompt: "Build a reproducible</span>
+<span style="color:var(--green);">          shooter-vs-target scenario and</span>
+<span style="color:var(--green);">          validate outcomes statistically."</span>
+
+<span style="color:var(--purple);">  Campaign:</span>
+<span style="color:var(--dim);">    transitions:</span>
+<span style="color:var(--dim);">      - from: in design → backlog</span>
+<span style="color:var(--green);">        inject_prompt: "Identify ALL code paths</span>
+<span style="color:var(--green);">          that create or modify UnitData..."</span>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 0.6em; color: var(--dim); margin-top: 0.5em; text-align: center;">Base handles the generic flow · subsystem overlays inject domain expertise at the right moment</p>
+        </section>
+
+        <!-- SLIDE: COMPOSED PROMPT -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="margin-bottom: 0.6em;">Composed, Just-in-Time Prompt</h2>
+            <p style="font-size: 0.75em; color: var(--dim); margin-bottom: 0.8em;">Every agent dispatch assembles a fresh, precise context from its parts.</p>
+
+            <div style="display: flex; align-items: center; justify-content: center; gap: 0.5em; font-size: 0.72em; flex-wrap: wrap; margin-bottom: 0.8em;">
+                <div class="card" style="border-color: var(--blue); padding: 0.5em 0.8em; text-align: center; min-width: 120px;">
+                    <div style="color: var(--blue); font-weight: 600;">Base Prompt</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">who, what, rules</div>
+                </div>
+                <div style="color: var(--dim); font-size: 1.2em;">+</div>
+                <div class="card" style="border-color: var(--cyan); padding: 0.5em 0.8em; text-align: center; min-width: 120px;">
+                    <div style="color: var(--cyan); font-weight: 600;">Status Prompt</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">what to do now</div>
+                </div>
+                <div style="color: var(--dim); font-size: 1.2em;">+</div>
+                <div class="card" style="border-color: var(--purple); padding: 0.5em 0.8em; text-align: center; min-width: 120px;">
+                    <div style="color: var(--purple); font-weight: 600;">Subsystem Overlay</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">domain expertise</div>
+                </div>
+                <div style="color: var(--dim); font-size: 1.2em;">+</div>
+                <div class="card" style="border-color: var(--orange); padding: 0.5em 0.8em; text-align: center; min-width: 120px;">
+                    <div style="color: var(--orange); font-weight: 600;">Inject Prompt</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">extra actions</div>
+                </div>
+                <div style="color: var(--dim); font-size: 1.2em;">+</div>
+                <div class="card" style="border-color: var(--dim); padding: 0.5em 0.8em; text-align: center; min-width: 120px;">
+                    <div style="color: #e2e8f0; font-weight: 600;">Issue Content</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">the actual task</div>
+                </div>
+            </div>
+
+            <div style="font-size: 1.5em; color: var(--dim); text-align: center; margin: 0.3em 0;">↓</div>
+
+            <div class="card" style="border-color: var(--green); max-width: 600px; margin: 0 auto; text-align: center; padding: 0.8em 1.2em;">
+                <div style="font-size: 1em; font-weight: 700; color: var(--green);">Composed Context</div>
+                <div style="font-size: 0.75em; color: var(--dim); margin-top: 0.3em;">Precise · minimal · assembled at dispatch time<br>Agent knows exactly what to do, in this project, at this status, for this issue.</div>
+            </div>
+
+            <p style="font-size: 0.6em; color: var(--dim); margin-top: 0.6em; font-style: italic; text-align: center;">No re-explaining. No guessing. No babysitting.</p>
+        </section>
+
+        <!-- SLIDE: VALIDATIONS AS GUARDRAILS -->
+        <section>
+            <h2 style="margin-bottom: 0.5em;">Validations &amp; Human Approval</h2>
+            <p style="font-size: 0.75em; color: var(--dim); margin-bottom: 0.8em;">Not just rules — a signal to the agent that something went wrong.</p>
+            <div class="two-col" style="gap: 1em; font-size: 0.75em; align-items: flex-start;">
+                <div>
+                    <div class="card" style="border-color: var(--red); margin-bottom: 0.6em;">
+                        <h3 style="color: var(--red);">Validations</h3>
+                        <p>Block a transition when the agent missed something — no checkboxes, empty body, test plan absent.</p>
+                        <p style="margin-top: 0.4em; color: #e2e8f0;">The CLI returns a clear error. The agent reads it, self-corrects, and retries. <span style="color: var(--green);">No human needed.</span></p>
+                    </div>
+                    <div class="card" style="border-color: var(--orange);">
+                        <h3 style="color: var(--orange);">Human Approval</h3>
+                        <p>Hard stops at key gates — <code>backlog</code>, <code>human-testing</code>. Agent cannot proceed until a human explicitly approves in the UI.</p>
+                        <p style="margin-top: 0.4em; color: #e2e8f0;">Catches non-deterministic drift before it compounds.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card" style="border-color: var(--dim);">
+                        <h3 style="color: #e2e8f0;">Why this matters</h3>
+                        <p>LLMs are non-deterministic. They will occasionally skip steps, hallucinate progress, or mark things done prematurely.</p>
+                        <p style="margin-top: 0.5em;">Validations and approvals are checkpoints that <span style="color: var(--green);">surface undeterministic behavior</span> before it causes damage — without requiring you to watch every session.</p>
+                        <p style="margin-top: 0.5em; color: var(--dim); font-style: italic;">The system catches the agent. Not you.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE: BUT WAIT THERE IS MORE -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="margin-bottom: 0.5em;">But wait... there is more</h2>
+            <p style="font-size: 0.8em; color: var(--dim); margin-bottom: 0.8em;">If agents already use <code>issue-cli</code> as their primary tool — why not extend it?</p>
+
+            <div class="two-col" style="gap: 1em; font-size: 0.75em;">
+                <div class="card" style="border-color: var(--red);">
+                    <h3 style="color: var(--red);">🐛 Bug Reports</h3>
+                    <p>Agent hits an unexpected failure during implementation? It files a bug issue itself.</p>
+                    <p style="margin-top: 0.4em; color: var(--dim); font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">issue-cli report-bug "description"</p>
+                    <p style="margin-top: 0.4em; color: #e2e8f0;">No context lost. Filed with full context while it's fresh.</p>
+                </div>
+                <div class="card" style="border-color: var(--cyan);">
+                    <h3 style="color: var(--cyan);">📓 Retros</h3>
+                    <p>Agent reflects on what went wrong, what was unclear, what slowed it down — and writes it up.</p>
+                    <p style="margin-top: 0.4em; color: var(--dim); font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">issue-cli retrospective &lt;slug&gt; --body "..."</p>
+                    <p style="margin-top: 0.4em; color: #e2e8f0;">Structured feedback loop from the agent back to you.</p>
+                </div>
+            </div>
+            <br>
+            <p style="font-size: 0.7em; color: var(--green); text-align: center;">The agent isn't just a worker — it becomes a participant in the workflow.</p>
+        </section>
+
+        <!-- SLIDE: RETROS VIEW -->
+        <section data-background-color="#0a0e1a">
+            <img src="images/retros.png" style="border-radius: 10px; max-width: 90%; max-height: 85vh; object-fit: contain;">
+        </section>
+
+        <!-- SLIDE: SELF-REINFORCING SYSTEM -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="margin-bottom: 0.5em;">A Self-Reinforcing System</h2>
+            <p style="font-size: 0.75em; color: var(--dim); margin-bottom: 0.8em;">A bot reviews retros and bugs — and feeds findings back into the workflow.</p>
+
+            <div style="display: flex; align-items: center; justify-content: center; gap: 1em; font-size: 0.72em; flex-wrap: wrap;">
+
+                <div class="card" style="border-color: var(--blue); text-align: center; padding: 0.7em 1em; min-width: 130px;">
+                    <div style="font-size: 1.2em;">🤖</div>
+                    <div style="color: var(--blue); font-weight: 600; margin-top: 0.2em;">Agent works</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">implements issues</div>
+                </div>
+
+                <div style="color: var(--dim); font-size: 1.4em;">→</div>
+
+                <div class="card" style="border-color: var(--red); text-align: center; padding: 0.7em 1em; min-width: 130px;">
+                    <div style="font-size: 1.2em;">🐛 📓</div>
+                    <div style="color: var(--red); font-weight: 600; margin-top: 0.2em;">Files bugs &amp; retros</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">via issue-cli</div>
+                </div>
+
+                <div style="color: var(--dim); font-size: 1.4em;">→</div>
+
+                <div class="card" style="border-color: var(--cyan); text-align: center; padding: 0.7em 1em; min-width: 130px;">
+                    <div style="font-size: 1.2em;">🤖</div>
+                    <div style="color: var(--cyan); font-weight: 600; margin-top: 0.2em;">Bot reviews</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">reads retros &amp; bugs</div>
+                </div>
+
+                <div style="color: var(--dim); font-size: 1.4em;">→</div>
+
+                <div class="card" style="border-color: var(--purple); text-align: center; padding: 0.7em 1em; min-width: 130px;">
+                    <div style="font-size: 1.2em;">⚙️</div>
+                    <div style="color: var(--purple); font-weight: 600; margin-top: 0.2em;">Updates workflow</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">prompts, validations</div>
+                </div>
+
+                <div style="color: var(--dim); font-size: 1.4em;">→</div>
+
+                <div class="card" style="border-color: var(--green); text-align: center; padding: 0.7em 1em; min-width: 130px;">
+                    <div style="font-size: 1.2em;">🤖</div>
+                    <div style="color: var(--green); font-weight: 600; margin-top: 0.2em;">Agent improves</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">better context next time</div>
+                </div>
+
+            </div>
+
+            <br>
+            <p style="font-size: 0.7em; color: var(--green); text-align: center; font-weight: 600;">The system gets smarter over time — without you manually tuning it.</p>
+        </section>
+
+        <!-- SLIDE: RETRO EXAMPLES -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="margin-bottom: 0.5em;">Real Retros from RogueTech</h2>
+            <div style="display: flex; flex-direction: column; gap: 0.5em; font-size: 0.64em; max-width: 900px; margin: 0 auto;">
+
+                <div class="card" style="border-color: var(--cyan);">
+                    <div style="display: flex; gap: 1em; align-items: baseline;">
+                        <span style="color: var(--cyan); font-family: 'JetBrains Mono', monospace; white-space: nowrap;">stress-volume-system-redesign</span>
+                        <span style="color: var(--dim); font-size: 0.85em;">idea · 2026-04-07</span>
+                    </div>
+                    <p style="margin-top: 0.4em; color: #e2e8f0;"><span style="color: var(--orange);">Tooling friction:</span> <code>issue-cli start</code> is listed as step 1 in generic instructions, but it cannot work from <code>idea</code> status — the workflow should branch earlier for idea issues and direct the agent to gather clarification first.</p>
+                </div>
+
+                <div class="card" style="border-color: var(--purple);">
+                    <div style="display: flex; gap: 1em; align-items: baseline;">
+                        <span style="color: var(--purple); font-family: 'JetBrains Mono', monospace; white-space: nowrap;">weapon-mount-types-with-firing-arcs</span>
+                        <span style="color: var(--dim); font-size: 0.85em;">in progress · Equipment</span>
+                    </div>
+                    <p style="margin-top: 0.4em; color: #e2e8f0;"><span style="color: var(--orange);">Subsystem gap:</span> Equipment guidance should explicitly direct agents to current arc/stress/chassis seams and existing structure family files <em>earlier</em> so design work starts from the real implementation surface.</p>
+                    <p style="margin-top: 0.3em; color: #e2e8f0;"><span style="color: var(--red);">Tooling bug:</span> <code>issue-cli check</code> reported success for multiple items but <code>issue-cli checklist</code> remained stale immediately afterward — hard to know when status is truly ready for transition.</p>
+                </div>
+
+            </div>
+            <p style="font-size: 0.6em; color: var(--green); margin-top: 0.6em; text-align: center;">Agent surfaces its own blind spots → feeds directly into workflow and tooling improvements.</p>
+        </section>
+
+        <!-- SLIDE: ISSUE-CLI AGENT FIRST -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="margin-bottom: 0.4em;">issue-cli — Agent First</h2>
+            <p style="font-size: 0.72em; color: var(--dim); margin-bottom: 0.6em;">Designed for AI consumption. If we notice agents want to do things a certain way — we just add it and get out of the way.</p>
+
+            <div class="two-col" style="gap: 1em; font-size: 0.68em; align-items: flex-start;">
+                <div>
+                    <p style="color: var(--cyan); font-size: 0.85em; margin-bottom: 0.3em;">Aliases — because agents use natural names:</p>
+                    <div class="cli-block">
+<span class="cmd">context &lt;slug&gt;</span>  <span class="out">alias: show</span>
+<span class="out">→ agents naturally say "show me the issue"</span>
+
+<span class="cmd">start &lt;slug&gt;</span>
+<span class="ok">*** USE THIS TO BEGIN WORK ***</span>
+<span class="out">claims + transitions in one command</span>
+<span class="out">→ agents kept doing claim + transition</span>
+<span class="out">   separately, so we merged it</span>
+                    </div>
+                    <div class="cli-block" style="margin-top: 0.5em;">
+<span class="cmd">check &lt;slug&gt; "text match"</span>
+<span class="out">→ agents would grep for checkbox text</span>
+<span class="out">   and edit .md files directly, so we</span>
+<span class="out">   gave them a proper command</span>
+                    </div>
+                </div>
+                <div>
+                    <p style="color: var(--cyan); font-size: 0.85em; margin-bottom: 0.3em;">AI-native design principles:</p>
+                    <div class="card" style="border-color: var(--blue); margin-bottom: 0.5em;">
+                        <h3 style="color: var(--blue);">Every output contains next steps</h3>
+                        <p>Commands tell the agent exactly what to do next. No silence after success.</p>
+                    </div>
+                    <div class="card" style="border-color: var(--orange); margin-bottom: 0.5em;">
+                        <h3 style="color: var(--orange);">Errors are actionable</h3>
+                        <p>Failures explain <em>why</em> and <em>what to fix</em> — not just exit code 1.</p>
+                    </div>
+                    <div class="card" style="border-color: var(--green);">
+                        <h3 style="color: var(--green);">Never get in the way</h3>
+                        <p>If an agent finds a workaround, that workaround becomes a command.</p>
+                    </div>
+                    <p style="font-size: 0.75em; color: var(--dim); margin-top: 0.5em; font-style: italic;">This tool will likely end up with tens of commands doing similar things in slightly different ways — and that's completely fine.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE: AGENT DISPATCH FROM UI -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="margin-bottom: 0.4em;">Launch agents from UI</h2>
+            <p style="font-size: 0.72em; color: var(--dim); margin-bottom: 0.5em;">Approve an issue, pick Claude or Codex — spins up a terminal, pastes the composed prompt, agent starts immediately.</p>
+            <img src="images/dispatch.png" style="border-radius: 10px; max-width: 90%; max-height: 72vh; object-fit: contain;">
+        </section>
+
+        <!-- SLIDE: DISPATCH EXAMPLES -->
+        <section data-background-color="#0a0e1a">
+            <div style="display: flex; gap: 1em; align-items: flex-start; height: 90vh; margin-top: -0.5em;">
+                <img src="images/dispatch-2.png" style="border-radius: 8px; flex: 1; min-width: 0; max-height: 100%; object-fit: contain;">
+                <img src="images/dispatch-3.png" style="border-radius: 8px; flex: 1; min-width: 0; max-height: 100%; object-fit: contain;">
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+    Reveal.initialize({
+        hash: true,
+        transition: 'fade',
+        transitionSpeed: 'fast',
+        backgroundTransition: 'fade',
+        controls: true,
+        progress: true,
+        center: true,
+        width: 1200,
+        height: 700,
+    });
+
+    function pinTopSlides() {
+        document.querySelectorAll('.reveal .slides section[data-state="no-center"]').forEach(el => {
+            el.style.setProperty('top', '0', 'important');
+            el.style.setProperty('transform', 'none', 'important');
+        });
+    }
+    Reveal.on('ready', pinTopSlides);
+    Reveal.on('slidechanged', pinTopSlides);
+
+</script>
+</body>
+</html>

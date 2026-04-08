@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Issue Viewer — Short</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue: #0099FF;
+            --orange: #F59E0B;
+            --green: #34d399;
+            --red: #f87171;
+            --purple: #a78bfa;
+            --cyan: #22d3ee;
+            --dim: #64748b;
+            --bg-card: #111827;
+        }
+        .reveal { font-family: 'DM Sans', sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            text-transform: none;
+            letter-spacing: -0.02em;
+        }
+        .reveal h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .reveal h2 { font-size: 1.8em; color: var(--blue); margin-bottom: 0.8em; }
+        .reveal code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(56,189,248,0.1);
+            padding: 0.1em 0.4em;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        .reveal .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.7em; color: var(--dim); }
+        .reveal .highlight { color: var(--green); font-weight: 600; }
+        .reveal .dim { color: var(--dim); font-size: 0.8em; }
+        .reveal .two-col { display: flex; gap: 2em; align-items: flex-start; }
+        .reveal .two-col > div { flex: 1; }
+        .reveal .card {
+            background: var(--bg-card);
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 1em;
+            margin: 0.5em 0;
+            text-align: left;
+        }
+        .reveal .card h3 { font-size: 0.9em; color: var(--blue); margin: 0 0 0.3em 0; }
+        .reveal .card p { font-size: 0.7em; color: var(--dim); margin: 0; }
+        .reveal .tag {
+            display: inline-block;
+            background: rgba(56,189,248,0.15);
+            color: var(--blue);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55em;
+            padding: 0.2em 0.6em;
+            border-radius: 4px;
+            margin: 0.1em;
+        }
+        .cli-block {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 0.8em 1em;
+            text-align: left;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55em;
+            color: #e6edf3;
+            line-height: 1.6;
+            margin: 0.4em 0;
+            white-space: pre;
+        }
+        .cli-block .prompt { color: var(--green); }
+        .cli-block .cmd { color: var(--cyan); }
+        .cli-block .out { color: var(--dim); }
+        .cli-block .ok { color: var(--green); }
+        .cli-block .warn { color: var(--orange); }
+    </style>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+
+        <!-- SLIDE 1: THE PROBLEM -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="color: var(--red); margin-bottom: 0.5em;">The Problem</h2>
+            <div class="two-col" style="font-size: 0.8em; gap: 1.5em;">
+                <div>
+                    <div class="card" style="border-color: var(--red);">
+                        <h3 style="color: var(--red);">Agents without structure</h3>
+                        <p>Free-form sessions. Re-explaining context every time. No idea what each agent did or didn't do.</p>
+                    </div>
+                    <div class="card" style="border-color: var(--orange); margin-top: 0.5em;">
+                        <h3 style="color: var(--orange);">Non-determinism compounds</h3>
+                        <p>The more agents, the more drift. Mistakes are silent. Babysitting required.</p>
+                    </div>
+                    <div class="card" style="border-color: var(--dim); margin-top: 0.5em;">
+                        <h3 style="color: var(--dim);">Skills don't scale</h3>
+                        <p>LLMs follow ~150-200 instructions. Claude Code already uses ~50. Every rule competes for attention.</p>
+                    </div>
+                </div>
+                <div style="text-align: center; display: flex; align-items: center; justify-content: center;">
+                    <div>
+                        <p style="font-size: 1.8em; margin-bottom: 0.3em;">🤖 🤖 🤖</p>
+                        <p style="font-size: 0.75em; color: var(--dim);">5-6 agents running simultaneously</p>
+                        <p style="font-size: 0.75em; color: var(--dim);">each needs full context from scratch</p>
+                        <p style="font-size: 0.75em; color: var(--dim);">each can silently go off-track</p>
+                        <br>
+                        <p style="font-size: 1em; color: var(--red); font-weight: 700;">
+                            <a href="https://hbr.org/2026/03/when-using-ai-leads-to-brain-fry" style="color: var(--red);">Brain Fry</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: THE HARNESS -->
+        <section>
+            <h2 style="margin-bottom: 0.5em;">The Harness</h2>
+            <p style="font-size: 0.72em; color: var(--dim); margin-bottom: 0.8em;">Issue Viewer = web app + <code>issue-cli</code>. Issues are markdown files. Agents are first-class citizens.</p>
+            <div class="two-col" style="font-size: 0.75em; gap: 1em;">
+                <div>
+                    <div class="card" style="border-color: var(--blue);">
+                        <h3 style="color: var(--blue);">Web App</h3>
+                        <p>Kanban board, issue detail, workflow designer. Human approvals, agent dispatch — one click to spin up Claude or Codex.</p>
+                    </div>
+                    <div class="card" style="border-color: var(--cyan); margin-top: 0.5em;">
+                        <h3 style="color: var(--cyan);">issue-cli</h3>
+                        <p>Agent-first CLI. Agents use it instead of touching files directly. Every output contains next steps.</p>
+                    </div>
+                    <div class="card" style="border-color: var(--purple); margin-top: 0.5em;">
+                        <h3 style="color: var(--purple);">workflow.yaml</h3>
+                        <p>Per-project rules: statuses, transitions, validations, prompts, subsystem overlays. Fully configurable.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="cli-block">
+<span class="prompt">$</span> <span class="cmd">issue-cli next --version 0.1</span>
+<span class="ok">→ pathfinding.md  [backlog · high]</span>
+
+<span class="prompt">$</span> <span class="cmd">issue-cli start pathfinding</span>
+<span class="ok">✓ claimed · status → in progress</span>
+<span class="out">Next: implement, check off items</span>
+<span class="out">Then: issue-cli transition pathfinding</span>
+
+<span class="prompt">$</span> <span class="cmd">issue-cli done pathfinding</span>
+<span class="warn">✗ unchecked items remain:</span>
+<span class="warn">  [ ] add unit tests</span>
+
+<span class="prompt">$</span> <span class="cmd">issue-cli check pathfinding "add unit tests"</span>
+<span class="ok">✓ checked off</span>
+
+<span class="prompt">$</span> <span class="cmd">issue-cli done pathfinding</span>
+<span class="ok">✓ done · assignee cleared</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: WORKFLOW DESIGNER -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="margin-bottom: 0.3em;">JIRA + CMT but for agents</h2>
+            <div style="display: flex; align-items: center; justify-content: center; height: 80vh;">
+                <img src="images/workflow-ui.png" style="border-radius: 8px; max-height: 100%; max-width: 100%; object-fit: contain;">
+            </div>
+        </section>
+
+        <!-- SLIDE 4: COMPOSABLE PROMPT -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="margin-bottom: 0.5em;">Composed, Just-in-Time Prompt</h2>
+            <p style="font-size: 0.72em; color: var(--dim); margin-bottom: 0.8em;">Every agent dispatch assembles a fresh, precise context from its parts.</p>
+
+            <div style="display: flex; align-items: center; justify-content: center; gap: 0.5em; font-size: 0.72em; flex-wrap: wrap; margin-bottom: 0.8em;">
+                <div class="card" style="border-color: var(--blue); padding: 0.5em 0.8em; text-align: center; min-width: 110px;">
+                    <div style="color: var(--blue); font-weight: 600;">Base Prompt</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">who, rules, tooling</div>
+                </div>
+                <div style="color: var(--dim); font-size: 1.2em;">+</div>
+                <div class="card" style="border-color: var(--cyan); padding: 0.5em 0.8em; text-align: center; min-width: 110px;">
+                    <div style="color: var(--cyan); font-weight: 600;">Status Prompt</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">what to do now</div>
+                </div>
+                <div style="color: var(--dim); font-size: 1.2em;">+</div>
+                <div class="card" style="border-color: var(--purple); padding: 0.5em 0.8em; text-align: center; min-width: 110px;">
+                    <div style="color: var(--purple); font-weight: 600;">Subsystem Overlay</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">domain expertise</div>
+                </div>
+                <div style="color: var(--dim); font-size: 1.2em;">+</div>
+                <div class="card" style="border-color: var(--orange); padding: 0.5em 0.8em; text-align: center; min-width: 110px;">
+                    <div style="color: var(--orange); font-weight: 600;">Inject Prompt</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">extra actions</div>
+                </div>
+                <div style="color: var(--dim); font-size: 1.2em;">+</div>
+                <div class="card" style="border-color: var(--dim); padding: 0.5em 0.8em; text-align: center; min-width: 110px;">
+                    <div style="color: #e2e8f0; font-weight: 600;">Issue Content</div>
+                    <div style="font-size: 0.75em; color: var(--dim);">the actual task</div>
+                </div>
+            </div>
+
+            <div style="font-size: 1.5em; color: var(--dim); text-align: center; margin: 0.2em 0;">↓</div>
+
+            <div class="card" style="border-color: var(--green); max-width: 580px; margin: 0 auto; text-align: center; padding: 0.7em 1.2em;">
+                <div style="font-size: 1em; font-weight: 700; color: var(--green);">Composed Context</div>
+                <div style="font-size: 0.72em; color: var(--dim); margin-top: 0.3em;">Precise · minimal · assembled at dispatch time<br>Agent knows exactly what to do, in this project, at this status, for this issue.</div>
+            </div>
+
+            <p style="font-size: 0.6em; color: var(--dim); margin-top: 0.5em; font-style: italic; text-align: center;">No re-explaining. No guessing. No babysitting.</p>
+        </section>
+
+        <!-- SLIDE 4b: DISPATCH EXAMPLE -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="margin-bottom: 0.3em;">Example</h2>
+            <div style="display: flex; align-items: center; justify-content: center; height: 80vh;">
+                <img src="images/dispatch-2.png" style="border-radius: 8px; max-height: 100%; max-width: 100%; object-fit: contain;">
+            </div>
+        </section>
+
+        <!-- SLIDE 5: CONTROL + FEEDBACK LOOP -->
+        <section>
+            <h2 style="margin-bottom: 0.5em;">Control + Feedback Loop</h2>
+            <div class="two-col" style="font-size: 0.75em; gap: 1em;">
+                <div>
+                    <div class="card" style="border-color: var(--red); margin-bottom: 0.5em;">
+                        <h3 style="color: var(--red);">Validations</h3>
+                        <p>Block transitions when agent misses something. CLI returns a clear error — agent self-corrects and retries. No human needed.</p>
+                    </div>
+                    <div class="card" style="border-color: var(--orange); margin-bottom: 0.5em;">
+                        <h3 style="color: var(--orange);">Human Approval Gates</h3>
+                        <p>Hard stops at <code>backlog</code> and <code>human-testing</code>. Catches non-deterministic drift before it compounds.</p>
+                    </div>
+                    <div class="card" style="border-color: var(--cyan);">
+                        <h3 style="color: var(--cyan);">Retros &amp; Bug Reports</h3>
+                        <p><code>issue-cli retrospective</code> · <code>issue-cli report-bug</code><br>Agent files its own feedback. Bot reviews it. Workflow improves.</p>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: column; justify-content: center; gap: 0.5em; text-align: center; font-size: 0.85em;">
+                    <div style="color: var(--blue);">🤖 agent works</div>
+                    <div style="color: var(--dim);">↓</div>
+                    <div style="color: var(--red);">🐛 📓 files bugs &amp; retros</div>
+                    <div style="color: var(--dim);">↓</div>
+                    <div style="color: var(--cyan);">🤖 bot reviews</div>
+                    <div style="color: var(--dim);">↓</div>
+                    <div style="color: var(--purple);">⚙️ workflow improves</div>
+                    <div style="color: var(--dim);">↓</div>
+                    <div style="color: var(--green);">🤖 agent improves</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 6: DISPATCH EXAMPLES -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="margin-bottom: 0.5em;">Control Feedback Examples</h2>
+            <div class="two-col" style="gap: 1.2em; align-items: flex-start;">
+                <div>
+                    <img src="images/dispatch.png" style="border-radius: 8px; width: 100%; object-fit: contain;">
+                </div>
+                <div>
+                    <p style="font-size: 0.65em; color: var(--dim); margin-bottom: 0.5em;">Agent receives structured validation errors and self-corrects:</p>
+                    <div class="cli-block">
+<span class="prompt">$</span> <span class="cmd">issue-cli transition pathfinding done</span>
+<span class="warn">✗ transition blocked</span>
+<span class="warn">  rule: section_checkboxes_checked: Testing</span>
+<span class="warn">  unchecked items in Testing:</span>
+<span class="warn">    [ ] All relevant automated tests passing</span>
+<span class="warn">    [ ] Test results logged with "tests:" prefix</span>
+
+<span class="prompt">$</span> <span class="cmd">issue-cli comment pathfinding \</span>
+<span class="cmd">  "tests: all passing, 42 assertions"</span>
+<span class="ok">✓ comment added</span>
+
+<span class="prompt">$</span> <span class="cmd">issue-cli check pathfinding \</span>
+<span class="cmd">  "All relevant automated tests passing"</span>
+<span class="ok">✓ checked off</span>
+
+<span class="prompt">$</span> <span class="cmd">issue-cli transition pathfinding done</span>
+<span class="ok">✓ transitioned → done</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+    Reveal.initialize({
+        hash: true,
+        transition: 'fade',
+        transitionSpeed: 'fast',
+        backgroundTransition: 'fade',
+        controls: true,
+        progress: true,
+        center: true,
+        width: 1200,
+        height: 700,
+    });
+</script>
+</body>
+</html>
