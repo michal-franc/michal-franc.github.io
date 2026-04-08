@@ -87,7 +87,7 @@
     <div class="slides">
 
         <!-- SLIDE 1: THE PROBLEM -->
-        <section data-background-color="#0a0e1a">
+        <section data-background-color="#1a1c2b">
             <h2 style="color: var(--red); margin-bottom: 0.5em;">The Problem</h2>
             <div class="two-col" style="font-size: 0.8em; gap: 1.5em;">
                 <div>
@@ -101,7 +101,7 @@
                     </div>
                     <div class="card" style="border-color: var(--dim); margin-top: 0.5em;">
                         <h3 style="color: var(--dim);">Skills don't scale</h3>
-                        <p>LLMs follow ~150-200 instructions. Claude Code already uses ~50. Every rule competes for attention.</p>
+                        <p>LLMs follow ~150-200 instructions. Claude Code already uses ~50. Every rule competes for attention. <a href="https://arxiv.org/abs/2307.03172" style="color: var(--dim); text-decoration: underline;">Lost in the Middle</a> — context position matters.</p>
                     </div>
                 </div>
                 <div style="text-align: center; display: flex; align-items: center; justify-content: center;">
@@ -120,7 +120,7 @@
         </section>
 
         <!-- SLIDE 3: THE HARNESS -->
-        <section>
+        <section data-background-color="#1a1c2b">
             <h2 style="margin-bottom: 0.5em;">The Harness</h2>
             <p style="font-size: 0.72em; color: var(--dim); margin-bottom: 0.8em;">Issue Viewer = web app + <code>issue-cli</code>. Issues are markdown files. Agents are first-class citizens.</p>
             <div class="two-col" style="font-size: 0.75em; gap: 1em;">
@@ -163,7 +163,7 @@
         </section>
 
         <!-- SLIDE 3: WORKFLOW DESIGNER -->
-        <section data-background-color="#0a0e1a">
+        <section data-background-color="#1a1c2b">
             <h2 style="margin-bottom: 0.3em;">JIRA + CMT but for agents</h2>
             <div style="display: flex; align-items: center; justify-content: center; height: 80vh;">
                 <img src="images/workflow-ui.png" style="border-radius: 8px; max-height: 100%; max-width: 100%; object-fit: contain;">
@@ -171,7 +171,7 @@
         </section>
 
         <!-- SLIDE 4: COMPOSABLE PROMPT -->
-        <section data-background-color="#0a0e1a">
+        <section data-background-color="#1a1c2b">
             <h2 style="margin-bottom: 0.5em;">Composed, Just-in-Time Prompt</h2>
             <p style="font-size: 0.72em; color: var(--dim); margin-bottom: 0.8em;">Every agent dispatch assembles a fresh, precise context from its parts.</p>
 
@@ -213,15 +213,77 @@
         </section>
 
         <!-- SLIDE 4b: DISPATCH EXAMPLE -->
-        <section data-background-color="#0a0e1a">
+        <section data-background-color="#1a1c2b">
             <h2 style="margin-bottom: 0.3em;">Example</h2>
             <div style="display: flex; align-items: center; justify-content: center; height: 80vh;">
                 <img src="images/dispatch-2.png" style="border-radius: 8px; max-height: 100%; max-width: 100%; object-fit: contain;">
             </div>
         </section>
 
+        <!-- SLIDE 4c: INTERACTION FLOW -->
+        <section data-background-color="#1a1c2b">
+            <h2 style="margin-bottom: 0.6em;">How It Actually Works</h2>
+            <div style="display: flex; align-items: flex-start; justify-content: center; gap: 0; font-size: 0.72em;">
+
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 0.2em; min-width: 160px;">
+                    <div class="card" style="border-color: var(--blue); text-align: center; padding: 0.5em 0.8em; width: 100%;">
+                        <div style="color: var(--blue); font-weight: 600;">👤 1. Human</div>
+                        <div style="font-size: 0.8em; color: var(--dim);">clicks dispatch in web UI</div>
+                    </div>
+                    <div style="color: var(--dim);">↓</div>
+                    <div class="card" style="border-color: var(--cyan); text-align: center; padding: 0.5em 0.8em; width: 100%;">
+                        <div style="color: var(--cyan); font-weight: 600;">⚙️ 2. tmux session</div>
+                        <div style="font-size: 0.8em; color: var(--dim);">claude / codex launched in alacritty</div>
+                    </div>
+                    <div style="color: var(--dim);">↓</div>
+                    <div class="card" style="border-color: var(--purple); text-align: center; padding: 0.5em 0.8em; width: 100%;">
+                        <div style="color: var(--purple); font-weight: 600;">⚙️ 3. Composed prompt</div>
+                        <div style="font-size: 0.8em; color: var(--dim);">base + status + subsystem + issue</div>
+                    </div>
+                    <div style="color: var(--dim);">↓</div>
+                    <div class="card" style="border-color: var(--cyan); text-align: center; padding: 0.5em 0.8em; width: 100%;">
+                        <div style="color: var(--cyan); font-weight: 600;">🤖 4. issue-cli start</div>
+                        <div style="font-size: 0.8em; color: var(--dim);">claims issue, status → in progress</div>
+                    </div>
+                </div>
+
+                <div style="width: 1px; background: #1e293b; align-self: stretch; margin: 0 1.2em;"></div>
+
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 0.2em; min-width: 160px;">
+                    <div style="border: 1px dashed #64748b; border-radius: 10px; padding: 0.5em; width: 100%; position: relative;">
+                        <div style="position: absolute; top: -0.7em; left: 0.8em; background: #1a1c2b; padding: 0 0.4em; font-size: 0.7em; color: var(--dim); font-family: 'JetBrains Mono', monospace;">loop</div>
+                        <div class="card" style="border-color: var(--green); text-align: center; padding: 0.5em 0.8em; width: 100%; box-sizing: border-box;">
+                            <div style="color: var(--green); font-weight: 600;">🤖 5. Agent works</div>
+                            <div style="font-size: 0.8em; color: var(--dim);">implements, checks off items</div>
+                        </div>
+                        <div style="color: var(--dim); text-align: center;">↓</div>
+                        <div class="card" style="border-color: var(--cyan); text-align: center; padding: 0.5em 0.8em; width: 100%; box-sizing: border-box;">
+                            <div style="color: var(--cyan); font-weight: 600;">🤖 6. issue-cli transition</div>
+                            <div style="font-size: 0.8em; color: var(--dim);">attempts to advance status</div>
+                        </div>
+                        <div style="color: var(--dim); text-align: center;">↓</div>
+                        <div class="card" style="border-color: var(--red); text-align: center; padding: 0.5em 0.8em; width: 100%; box-sizing: border-box;">
+                            <div style="color: var(--red); font-weight: 600;">⚙️ 7. Validation</div>
+                            <div style="font-size: 0.8em; color: var(--dim);">blocked → error returned → self-correct → retry</div>
+                        </div>
+                    </div>
+                    <div style="color: var(--dim);">↓</div>
+                    <div class="card" style="border-color: var(--orange); text-align: center; padding: 0.5em 0.8em; width: 100%;">
+                        <div style="color: var(--orange); font-weight: 600;">👤 8. Human approval gate</div>
+                        <div style="font-size: 0.8em; color: var(--dim);">hard stop — human reviews &amp; approves</div>
+                    </div>
+                    <div style="color: var(--dim);">↓</div>
+                    <div class="card" style="border-color: var(--green); text-align: center; padding: 0.5em 0.8em; width: 100%;">
+                        <div style="color: var(--green); font-weight: 600;">✅ 9. Done</div>
+                        <div style="font-size: 0.8em; color: var(--dim);">assignee cleared · retro filed</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
         <!-- SLIDE 5: CONTROL + FEEDBACK LOOP -->
-        <section>
+        <section data-background-color="#1a1c2b">
             <h2 style="margin-bottom: 0.5em;">Control + Feedback Loop</h2>
             <div class="two-col" style="font-size: 0.75em; gap: 1em;">
                 <div>
@@ -253,7 +315,7 @@
         </section>
 
         <!-- SLIDE 6: DISPATCH EXAMPLES -->
-        <section data-background-color="#0a0e1a">
+        <section data-background-color="#1a1c2b">
             <h2 style="margin-bottom: 0.5em;">Control Feedback Examples</h2>
             <div class="two-col" style="gap: 1.2em; align-items: flex-start;">
                 <div>
@@ -299,6 +361,7 @@
         center: true,
         width: 1200,
         height: 700,
+        backgroundColor: '#1a1c2b',
     });
 </script>
 </body>

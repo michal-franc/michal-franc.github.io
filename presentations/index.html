@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Presentations</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #0a0e1a;
+            color: #e2e8f0;
+            font-family: 'DM Sans', system-ui, sans-serif;
+            padding: 3em 2em;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.2em;
+            background: linear-gradient(135deg, #0099FF, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: #64748b;
+            font-size: 0.9em;
+            margin-bottom: 2.5em;
+        }
+        .presentation {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 1.5em;
+            margin-bottom: 1.2em;
+        }
+        .presentation h2 {
+            font-size: 1.1em;
+            color: #0099FF;
+            margin-bottom: 0.4em;
+        }
+        .links {
+            display: flex;
+            gap: 1em;
+            margin-top: 0.8em;
+        }
+        .links a {
+            display: inline-block;
+            padding: 0.35em 0.9em;
+            border-radius: 6px;
+            font-size: 0.8em;
+            text-decoration: none;
+            background: rgba(56,189,248,0.1);
+            color: #22d3ee;
+            border: 1px solid rgba(56,189,248,0.2);
+            transition: background 0.15s;
+        }
+        .links a:hover { background: rgba(56,189,248,0.2); }
+        .links a.secondary {
+            background: rgba(100,116,139,0.1);
+            color: #94a3b8;
+            border-color: rgba(100,116,139,0.2);
+        }
+        .links a.secondary:hover { background: rgba(100,116,139,0.2); }
+        .desc { font-size: 0.8em; color: #64748b; }
+    </style>
+</head>
+<body>
+    <h1>Presentations</h1>
+    <p class="subtitle">mfranc — talk slides</p>
+
+    <div class="presentation">
+        <h2>Issue Viewer — Agent Orchestration Platform</h2>
+        <p class="desc">How a markdown-based issue tracker + issue-cli became a harness for running AI agents with control, feedback loops, and composable prompts.</p>
+        <div class="links">
+            <a href="issue-viewer/index.html">Full version</a>
+            <a href="issue-viewer/short.html" class="secondary">Short version</a>
+        </div>
+    </div>
+
+    <div class="presentation">
+        <h2>wroc.net</h2>
+        <p class="desc">wroc.net talk slides.</p>
+        <div class="links">
+            <a href="wroc.net/index.html">View</a>
+        </div>
+    </div>
+</body>
+</html>
