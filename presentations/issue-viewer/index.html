@@ -202,6 +202,49 @@
         .cli-block .out { color: var(--dim); }
         .cli-block .ok { color: var(--green); }
         .cli-block .warn { color: var(--orange); }
+
+        /* Image modal — click any slide image to view fullscreen */
+        .reveal .slides img { cursor: zoom-in; }
+        .img-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            cursor: zoom-out;
+            opacity: 0;
+            transition: opacity 0.18s ease;
+            padding: 2vh 2vw;
+        }
+        .img-modal.open { opacity: 1; }
+        .img-modal img {
+            max-width: 96vw;
+            max-height: 96vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+        .img-modal-close {
+            position: absolute;
+            top: 1.2em;
+            right: 1.2em;
+            width: 2.4em;
+            height: 2.4em;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.4em;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .img-modal-close:hover { background: rgba(255, 255, 255, 0.18); }
     </style>
 </head>
 <body>
@@ -479,6 +522,34 @@
             <p style="font-size: 0.85em; color: #e2e8f0; text-align: center; margin-top: 1.6em; line-height: 1.7;">
                 <span style="color: var(--orange); font-style: italic; font-weight: 600;">But just telling agents <em>how to nicely modify</em> <code>.md</code> files is not enough.</span>
             </p>
+        </section>
+
+        <!-- SLIDE 5f1: SKILL — FIRST STEP TOWARD DETERMINISM -->
+        <section data-background-color="#0a0e1a" id="skill-step-slide">
+            <h2 style="font-size: 1.3em; margin-bottom: 0.2em; text-align: center;">
+                Skills nudge us back toward <span style="color: var(--cyan);">repeatable</span>.
+            </h2>
+            <p style="font-size: 0.7em; color: var(--dim); text-align: center; margin: 0 0 0.6em 0;">
+                Same conversation, written down once — now it's a reusable prompt.
+            </p>
+
+            <div class="two-col" style="gap: 1.2em; align-items: center;">
+                <div id="skill-step-diagram" style="width: 100%; height: 60vh; min-height: 380px;"></div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.7em; font-size: 0.7em; text-align: left;">
+                    <div style="border-left: 3px solid var(--purple); padding: 0.2em 0 0.2em 0.8em;">
+                        <p style="color: var(--purple); font-weight: 700; margin: 0; font-size: 1.05em;">Conversation with Agent</p>
+                        <p style="color: var(--dim); margin: 0.2em 0 0 0;">Maximum flexibility. Each run is different. Stable until it isn't.</p>
+                    </div>
+                    <div style="border-left: 3px solid var(--cyan); padding: 0.2em 0 0.2em 0.8em;">
+                        <p style="color: var(--cyan); font-weight: 700; margin: 0; font-size: 1.05em;">Skill</p>
+                        <p style="color: var(--dim); margin: 0.2em 0 0 0;">Reusable prompt. Behavior starts to converge — still LLM output.</p>
+                    </div>
+                    <p style="color: var(--orange); font-style: italic; font-size: 0.85em; margin: 0.4em 0 0 0; text-align: center;">
+                        A half-step toward determinism — but not all the way.
+                    </p>
+                </div>
+            </div>
         </section>
 
         <!-- SLIDE 5g: NON-DETERMINISM PROBLEM -->
@@ -1069,6 +1140,39 @@
             </div>
         </section>
 
+        <!-- SLIDE: SKILL + CODE + HARNESS — ULTIMATE EVOLUTION -->
+        <section data-background-color="#0a0e1a" id="harness-step-slide">
+            <h2 style="font-size: 1.3em; margin-bottom: 0.2em; text-align: center;">
+                The full loop: <span style="color: var(--blue);">skill + code + harness</span>.
+            </h2>
+            <p style="font-size: 0.7em; color: var(--dim); text-align: center; margin: 0 0 0.6em 0;">
+                Validations and approval gates close the loop — the system catches drift, not you.
+            </p>
+
+            <div class="two-col" style="gap: 1.2em; align-items: center;">
+                <div id="harness-step-diagram" style="width: 100%; height: 60vh; min-height: 380px;"></div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.55em; font-size: 0.65em; text-align: left;">
+                    <div style="border-left: 3px solid var(--purple); padding: 0.2em 0 0.2em 0.8em;">
+                        <p style="color: var(--purple); font-weight: 700; margin: 0; font-size: 1.05em;">Conversation with Agent</p>
+                        <p style="color: var(--dim); margin: 0.2em 0 0 0;">Maximum flexibility. Each run is different.</p>
+                    </div>
+                    <div style="border-left: 3px solid var(--cyan); padding: 0.2em 0 0.2em 0.8em;">
+                        <p style="color: var(--cyan); font-weight: 700; margin: 0; font-size: 1.05em;">Skill</p>
+                        <p style="color: var(--dim); margin: 0.2em 0 0 0;">Reusable prompt. Behavior converges.</p>
+                    </div>
+                    <div style="border-left: 3px solid var(--green); padding: 0.2em 0 0.2em 0.8em;">
+                        <p style="color: var(--green); font-weight: 700; margin: 0; font-size: 1.05em;">Skill + Code</p>
+                        <p style="color: var(--dim); margin: 0.2em 0 0 0;">Deterministic. Repeatable.</p>
+                    </div>
+                    <div style="border-left: 3px solid var(--blue); padding: 0.2em 0 0.2em 0.8em;">
+                        <p style="color: var(--blue); font-weight: 700; margin: 0; font-size: 1.05em;">Skill + Code + Harness</p>
+                        <p style="color: var(--dim); margin: 0.2em 0 0 0;">Validations, approvals, retros. The system catches the agent — not you.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- SLIDE: BUT WAIT THERE IS MORE -->
         <section data-background-color="#0a0e1a">
             <h2 style="margin-bottom: 0.5em;">But wait... there is more</h2>
@@ -1265,6 +1369,47 @@
         height: 700,
     });
 
+    // Click-to-fullscreen for slide images
+    (function setupImageModal() {
+        let modal = null;
+
+        function close() {
+            if (!modal) return;
+            modal.classList.remove('open');
+            const m = modal;
+            modal = null;
+            setTimeout(() => m.remove(), 180);
+        }
+
+        function open(src, alt) {
+            if (modal) close();
+            modal = document.createElement('div');
+            modal.className = 'img-modal';
+            modal.innerHTML = '<button class="img-modal-close" aria-label="Close">×</button><img>';
+            const img = modal.querySelector('img');
+            img.src = src;
+            if (alt) img.alt = alt;
+            modal.addEventListener('click', close);
+            document.body.appendChild(modal);
+            requestAnimationFrame(() => modal.classList.add('open'));
+        }
+
+        document.addEventListener('click', (e) => {
+            const img = e.target.closest('.reveal .slides img');
+            if (!img) return;
+            e.preventDefault();
+            e.stopPropagation();
+            open(img.src, img.alt);
+        }, true);
+
+        document.addEventListener('keydown', (e) => {
+            if (modal && e.key === 'Escape') {
+                e.stopPropagation();
+                close();
+            }
+        }, true);
+    })();
+
     function pinTopSlides() {
         document.querySelectorAll('.reveal .slides section[data-state="no-center"]').forEach(el => {
             el.style.setProperty('top', '0', 'important');
@@ -1425,6 +1570,15 @@
         ], '#f87171');
     }
 
+    function drawSkillStepDiagram() {
+        drawAxisDiagram('#skill-step-diagram', [
+            { x: 0.18, y: 0.82, lines: ['Conversation', 'with Agent'], color: '#a78bfa',
+              tag: '⚡ fast · flexible', tagColor: '#F59E0B' },
+            { x: 0.34, y: 0.66, lines: ['Skill'],                       color: '#22d3ee',
+              tag: '↗ more repeatable', tagColor: '#64748b' },
+        ], '#22d3ee');
+    }
+
     function drawDeterminismDiagram() {
         drawAxisDiagram('#determinism-diagram', [
             { x: 0.18, y: 0.82, lines: ['Conversation', 'with Agent'], color: '#a78bfa',
@@ -1433,6 +1587,17 @@
             { x: 0.56, y: 0.44, lines: ['Skill + Code'],                color: '#34d399',
               tag: '🔒 stable · predictable', tagColor: '#64748b' },
         ], '#34d399');
+    }
+
+    function drawHarnessStepDiagram() {
+        drawAxisDiagram('#harness-step-diagram', [
+            { x: 0.16, y: 0.84, lines: ['Conversation', 'with Agent'], color: '#a78bfa',
+              tag: '⚡ fast · flexible', tagColor: '#F59E0B' },
+            { x: 0.30, y: 0.68, lines: ['Skill'],                       color: '#22d3ee' },
+            { x: 0.48, y: 0.48, lines: ['Skill + Code'],                color: '#34d399' },
+            { x: 0.74, y: 0.20, lines: ['Skill + Code', '+ Harness'],   color: '#0099FF',
+              tag: '🛡 safe · self-correcting', tagColor: '#64748b' },
+        ], '#0099FF');
     }
 
     function drawShapingDiagram() {
@@ -1862,7 +2027,9 @@
     function drawAllDiagrams() {
         drawLettingGoDiagram();
         drawShapingDiagram();
+        drawSkillStepDiagram();
         drawDeterminismDiagram();
+        drawHarnessStepDiagram();
         drawAgentMdDiagram();
         drawAgentToolMdDiagram();
     }
