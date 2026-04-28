@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <style>
         :root {
             --blue: #0099FF;
@@ -258,28 +259,116 @@
             </div>
         </section>
 
-        <!-- SLIDE 5: BRAIN FRY -->
+        <!-- SLIDE 5: CONTROL FREAK -->
         <section data-background-color="#0a0e1a">
-            <h2 style="font-size: 1.4em; margin-bottom: 0.6em;">Working with 5–6 agents simultaneously is...</h2>
-            <div class="two-col" style="align-items: center; gap: 2em;">
-                <div style="font-size: 0.6em; line-height: 2; text-align: left;">
-                    <p style="color: var(--dim);">context switching</p>
-                    <p style="color: var(--dim);">re-explaining the same things over and over</p>
-                    <p style="color: var(--dim);">keeping track of what each agent is doing</p>
-                    <p style="color: var(--dim);">fixing what the previous agent broke</p>
-                    <p style="color: var(--dim);">wondering if any of it is actually coherent</p>
-                    <br>
-                    <p style="font-size: 1.2em; font-weight: 700;">
-                        <a href="https://hbr.org/2026/03/when-using-ai-leads-to-brain-fry"
-                           style="color: var(--red); text-decoration: none; border-bottom: 2px solid var(--red); padding-bottom: 0.1em;">
-                            Brain Fry
-                        </a>
-                    </p>
+            <h2 style="font-size: 1.5em; margin-bottom: 0.5em; color: var(--red); text-align: center;">I'm a control freak.</h2>
+
+            <div class="two-col" style="align-items: stretch; gap: 1.5em;">
+                <div style="display: flex; flex-direction: column; gap: 0.8em; font-size: 0.72em; text-align: left;">
+
+                    <div style="border-left: 3px solid var(--orange); padding: 0.2em 0 0.2em 0.8em;">
+                        <p style="color: #e2e8f0; margin: 0;">Even in a hobby project, I struggle to let go.</p>
+                        <p style="color: var(--orange); font-weight: 700; margin: 0.3em 0 0.1em 0; font-size: 1.1em;">
+                            I did let go — once.
+                        </p>
+                        <p style="color: var(--dim); margin: 0; font-size: 0.85em;">
+                            I stopped writing the code myself. No more crafting the perfect function — the agent does it now. A huge step for a software engineer.
+                        </p>
+                        <p style="color: #e2e8f0; margin: 0.4em 0 0 0; font-style: italic;">
+                            But there's a limit to how far a control freak can stretch.
+                        </p>
+                    </div>
+
+                    <div style="display: flex; align-items: center; justify-content: center; flex: 1;">
+                        <img src="images/agents-work.png" style="border-radius: 10px; width: 100%; max-height: 45vh; object-fit: contain;">
+                    </div>
                 </div>
-                <div style="text-align: center;">
-                    <img src="images/agents-work.png" style="border-radius: 10px; max-width: 100%; max-height: 65vh; object-fit: contain;">
+
+                <div style="display: flex; flex-direction: column; gap: 0.9em; font-size: 0.72em; text-align: left;">
+                    <div style="border-left: 3px solid var(--red); padding: 0.2em 0 0.2em 0.8em;">
+                        <p style="color: #e2e8f0; margin: 0;">So I overcompensated — watching every session, approving every change, juggling 5–6 agents in my head at once.</p>
+                        <p style="color: var(--red); font-weight: 700; margin: 0.4em 0 0.1em 0; font-size: 1.15em;">
+                            It's unsustainable.
+                        </p>
+                        <p style="color: var(--dim); margin: 0;">
+                            You can't keep up. You burn out →
+                            <a href="https://hbr.org/2026/03/when-using-ai-leads-to-brain-fry"
+                               style="color: var(--red); text-decoration: none; border-bottom: 2px solid var(--red); font-weight: 700;">Brain Fry</a>.
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(52,211,153,0.08); border: 1px solid var(--green); border-radius: 10px; padding: 0.9em 1.1em; text-align: center;">
+                        <p style="color: var(--green); font-weight: 700; font-size: 0.95em; margin: 0; line-height: 1.4;">
+                            The only way to let go: channel the control-freak instinct into a harness.
+                        </p>
+                    </div>
                 </div>
             </div>
+        </section>
+
+        <!-- SLIDE 5a1: LETTING GO -->
+        <section data-background-color="#0a0e1a" id="letting-go-slide">
+            <h2 style="font-size: 1.3em; margin-bottom: 0.2em; text-align: center;">
+                The Leap: Hardcoded → Conversation
+            </h2>
+            <p style="font-size: 0.7em; color: var(--dim); text-align: center; margin: 0 0 0.6em 0;">
+                I traded predictability for speed.
+            </p>
+
+            <div class="two-col" style="gap: 1.2em; align-items: center;">
+                <div id="letting-go-diagram" style="width: 100%; height: 60vh; min-height: 380px;"></div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.7em; font-size: 0.7em; text-align: left;">
+                    <div style="border-left: 3px solid var(--green); padding: 0.2em 0 0.2em 0.8em;">
+                        <p style="color: var(--green); font-weight: 700; margin: 0; font-size: 1.05em;">Hardcoded Code (where I started)</p>
+                        <p style="color: var(--dim); margin: 0.2em 0 0 0;">Fully deterministic. Repeatable. <span style="color:#e2e8f0;">But slow to change — every feature is hours of work.</span></p>
+                    </div>
+                    <div style="text-align: center; font-size: 1.4em; color: var(--orange); margin: 0.2em 0;">↙</div>
+                    <div style="border-left: 3px solid var(--purple); padding: 0.2em 0 0.2em 0.8em;">
+                        <p style="color: var(--purple); font-weight: 700; margin: 0; font-size: 1.05em;">Conversation with Agent</p>
+                        <p style="color: var(--dim); margin: 0.2em 0 0 0;">Maximum flexibility. Insanely fast — I no longer write code at all. <span style="color: var(--red);">But every run is different.</span></p>
+                    </div>
+                    <p style="color: var(--orange); font-style: italic; font-size: 0.85em; margin: 0.5em 0 0 0; text-align: center;">
+                        I gained speed and flexibility — and lost stability.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 5a1b: WE WERE NEVER FULLY DETERMINISTIC -->
+        <section data-background-color="#0a0e1a" id="shaping-slide">
+            <h2 style="font-size: 1.3em; margin-bottom: 0.2em; text-align: center;">
+                We were never fully deterministic.
+            </h2>
+            <p style="font-size: 0.7em; color: var(--dim); text-align: center; margin: 0 0 0.6em 0;">
+                Code has always been <em>shaped</em> — not poured.
+            </p>
+
+            <div id="shaping-diagram" style="width: 100%; height: 38vh; min-height: 240px;"></div>
+
+            <div class="two-col" style="gap: 1em; margin-top: 0.6em; align-items: stretch;">
+                <div style="display: flex; flex-direction: column; gap: 0.4em; font-size: 0.7em; text-align: left;">
+                    <p style="color: #e2e8f0; margin: 0;">
+                        Hand-written code wasn't pure determinism either.
+                        We held it together with <span style="color: var(--orange); font-weight: 700;">tests, verification, and analysis</span> — the blacksmith's tools.
+                    </p>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.4em; font-size: 0.7em; text-align: left;">
+                    <p style="color: #e2e8f0; margin: 0;">
+                        With agents, the craft is the same.
+                        The starting point moved a bit further left — but the same hammer still shapes it into something stable.
+                    </p>
+                </div>
+            </div>
+
+            <p style="color: var(--green); font-style: italic; font-size: 0.8em; margin-top: 0.6em; text-align: center; font-weight: 700;">
+                It's not a new problem — it's the old one, with a wider gap to close.
+            </p>
+        </section>
+
+        <!-- SLIDE 5a1c: FORGE -->
+        <section data-background-color="#0a0e1a">
+            <img src="images/forge.png" style="border-radius: 12px; max-width: 92%; max-height: 88vh; object-fit: contain;">
         </section>
 
         <!-- SLIDE 5b: GITHUB FLOW -->
@@ -288,23 +377,37 @@
             <img src="images/github-flow.png" style="border-radius: 10px; max-width: 90%; max-height: 75vh; object-fit: contain;">
         </section>
 
+        <!-- SLIDE 5b2: GITHUB API → LOCAL MD -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="font-size: 1.4em; text-align: center; margin-bottom: 0.3em;">
+                The GitHub API was <span style="color: var(--red);">annoying</span>.
+            </h2>
+            <p style="font-size: 0.75em; color: var(--dim); text-align: center; margin-bottom: 1.6em;">
+                Rate limits · auth tokens · network round-trips · brittle.
+            </p>
+
+            <div style="text-align: center; font-size: 1.5em; line-height: 1.6; margin: 1.2em 0;">
+                <span style="color: var(--red); text-decoration: line-through; opacity: 0.65; font-family: 'JetBrains Mono', monospace;">GitHub Issues API</span>
+                <span style="color: var(--orange); margin: 0 0.6em;">→</span>
+                <span style="color: var(--green); font-family: 'JetBrains Mono', monospace;">local .md files</span>
+            </div>
+
+            <p style="font-size: 0.85em; color: #e2e8f0; text-align: center; margin-top: 1.4em; line-height: 1.7;">
+                No API. No auth. No network.<br>
+                <span style="color: var(--green); font-style: italic; font-weight: 600;">If the agent can read a file, that's the API.</span>
+            </p>
+        </section>
+
         <!-- SLIDE 5c: EVOLUTION -->
-        <section>
-            <h2 style="margin-bottom: 0.6em;">Evolution</h2>
-            <div class="two-col" style="align-items: center; gap: 2em;">
-                <div>
-                    <div class="card" style="border-color: var(--dim); margin-bottom: 0.8em;">
-                        <h3 style="color: var(--dim);">GitHub Issues</h3>
-                        <p>API-dependent · online only · overkill for hobby projects</p>
-                    </div>
-                    <div style="text-align: center; font-size: 1.5em; color: var(--dim); margin: 0.3em 0;">↓</div>
-                    <div class="card" style="border-color: var(--cyan);">
-                        <h3 style="color: var(--cyan);">Markdown files · locally hosted</h3>
-                        <p>Plain <code>.md</code> files with YAML frontmatter · no API · no internet · full control</p>
-                    </div>
-                </div>
-                <div>
-                    <div class="cli-block">
+        <section data-background-color="#0a0e1a">
+            <h2 style="font-size: 1.4em; text-align: center; margin-bottom: 0.3em;">
+                What it actually looks like.
+            </h2>
+            <p style="font-size: 0.75em; color: var(--dim); text-align: center; margin-bottom: 1.4em;">
+                Plain <code>.md</code> files with YAML frontmatter — that's the whole "database".
+            </p>
+
+            <div class="cli-block" style="max-width: 320px; margin: 0 auto; font-size: 0.55em; padding: 0.6em 1em;">
 <span class="out">issues/</span>
 <span class="out">  combat/</span>
 <span class="out">    42.md</span>
@@ -312,10 +415,12 @@
 <span class="out">  toadie/</span>
 <span class="out">    watch-support.md</span>
 <span class="out">    voice-commands.md</span>
-                    </div>
-                    <p style="font-size: 0.6em; color: var(--dim); margin-top: 0.5em; text-align: center;">each file = one issue · git tracked · agent readable</p>
-                </div>
             </div>
+
+            <p style="font-size: 0.85em; color: #e2e8f0; text-align: center; margin-top: 1.4em; line-height: 1.7;">
+                One file = one issue.<br>
+                <span style="color: var(--green); font-style: italic; font-weight: 600;">Git tracked. Agent readable. Offline by default.</span>
+            </p>
         </section>
 
         <!-- SLIDE 5d: ISSUE VIEWER SCREENSHOTS -->
@@ -323,77 +428,171 @@
             <div style="display: flex; gap: 0.8em; align-items: flex-start; height: 80vh; margin-top: -0.5em;">
                 <img src="images/viewer-1.png" style="border-radius: 8px; flex: 1; min-width: 0; max-height: 100%; object-fit: contain;">
                 <img src="images/viewer-2.png" style="border-radius: 8px; flex: 1; min-width: 0; max-height: 100%; object-fit: contain;">
-                <img src="images/viewer-3.png" style="border-radius: 8px; flex: 1; min-width: 0; max-height: 100%; object-fit: contain;">
             </div>
             <p style="font-size: 0.65em; color: var(--green); margin-top: 0.5em;">Agents could just modify the <code>.md</code> files directly — no API, no tooling, just plain text.</p>
         </section>
 
         <!-- SLIDE 5e: NEW PROBLEM -->
-        <section>
-            <h2 style="color: var(--orange); margin-bottom: 0.6em;">But this created new problems</h2>
-            <div style="max-width: 680px; margin: 0 auto; font-size: 0.85em; display: flex; flex-direction: column; gap: 0.6em;">
-                <div class="card" style="border-color: var(--red);">
-                    <h3 style="color: var(--red);">No control</h3>
-                    <p>Agents could modify any <code>.md</code> file freely — change status, overwrite content, mark things done without actually doing them.</p>
+        <section data-background-color="#0a0e1a">
+            <h2 style="font-size: 1.4em; text-align: center; margin-bottom: 0.3em;">
+                But this created <span style="color: var(--orange);">new problems</span>.
+            </h2>
+            <p style="font-size: 0.75em; color: var(--dim); text-align: center; margin-bottom: 1.6em;">
+                Plain text + free agents = no guardrails.
+            </p>
+
+            <div style="max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.2em;">
+                <div style="border-left: 4px solid var(--red); padding: 0.3em 0 0.3em 1em;">
+                    <p style="color: var(--red); font-weight: 700; margin: 0; font-size: 1em;">No control</p>
+                    <p style="color: #e2e8f0; margin: 0.3em 0 0 0; font-size: 0.85em; line-height: 1.5;">
+                        Agents could modify any <code>.md</code> file freely — change status, overwrite content, mark things done without actually doing them.
+                    </p>
                 </div>
-                <div class="card" style="border-color: var(--orange);">
-                    <h3 style="color: var(--orange);">Still babysitting</h3>
-                    <p>I still had to watch every agent session. Without guardrails, mistakes were silent and hard to catch.</p>
-                </div>
-                <div class="card" style="border-color: var(--dim);">
-                    <h3 style="color: var(--dim);">Power without structure = chaos</h3>
-                    <p>The freedom that made agents useful also made them unpredictable.</p>
+
+                <div style="border-left: 4px solid var(--orange); padding: 0.3em 0 0.3em 1em;">
+                    <p style="color: var(--orange); font-weight: 700; margin: 0; font-size: 1em;">Still babysitting</p>
+                    <p style="color: #e2e8f0; margin: 0.3em 0 0 0; font-size: 0.85em; line-height: 1.5;">
+                        I still had to watch every agent session. Without guardrails, mistakes were silent and hard to catch.
+                    </p>
                 </div>
             </div>
         </section>
 
         <!-- SLIDE 5f: SKILLS -->
-        <section>
-            <h2 style="margin-bottom: 0.4em;">How to add control?</h2>
-            <p style="font-size: 0.85em; color: var(--dim); margin-bottom: 1em;">Well... skills. Sure thing.</p>
-            <div class="card" style="border-color: var(--cyan); max-width: 640px; margin: 0 auto; font-size: 0.85em;">
-                <h3 style="color: var(--cyan);">Claude Code Skills</h3>
-                <p>Reusable prompt templates that agents can invoke — with defined inputs, outputs, and guardrails built in.</p>
-                <p style="margin-top: 0.5em;">Instead of free-form file edits, agents call a skill. The skill enforces the rules.</p>
+        <section data-background-color="#0a0e1a">
+            <h2 style="font-size: 1.4em; text-align: center; margin-bottom: 0.3em;">
+                How to add <span style="color: var(--cyan);">control</span>?
+            </h2>
+            <p style="font-size: 0.75em; color: var(--dim); text-align: center; margin-bottom: 1.6em;">
+                Well... skills. Sure thing.
+            </p>
+
+            <div style="max-width: 720px; margin: 0 auto;">
+                <div style="border-left: 4px solid var(--cyan); padding: 0.3em 0 0.3em 1em;">
+                    <p style="color: var(--cyan); font-weight: 700; margin: 0; font-size: 1em;">Claude Code Skills</p>
+                    <p style="color: #e2e8f0; margin: 0.3em 0 0 0; font-size: 0.85em; line-height: 1.6;">
+                        Reusable prompt templates that agents can invoke — with defined inputs, outputs, and guardrails built in. Instead of free-form file edits, agents call a skill. The skill enforces the rules.
+                    </p>
+                </div>
             </div>
-            <br>
-            <p style="font-size: 0.75em; color: var(--orange); text-align: center;">
-                But just telling agents <em>how to nicely modify</em> <code>.md</code> files is not enough.
+
+            <p style="font-size: 0.85em; color: #e2e8f0; text-align: center; margin-top: 1.6em; line-height: 1.7;">
+                <span style="color: var(--orange); font-style: italic; font-weight: 600;">But just telling agents <em>how to nicely modify</em> <code>.md</code> files is not enough.</span>
             </p>
         </section>
 
         <!-- SLIDE 5g: NON-DETERMINISM PROBLEM -->
-        <section>
-            <h2 style="color: var(--red); margin-bottom: 0.5em;">But... skills are non-deterministic</h2>
-            <p style="font-size: 0.7em; color: var(--dim); margin-bottom: 0.8em;">The bigger the context, the less predictable the agent gets.</p>
-            <div class="two-col" style="gap: 1.5em; font-size: 0.8em;">
-                <div class="card" style="border-color: var(--orange);">
-                    <h3 style="color: var(--orange);">Instruction overload</h3>
-                    <p>LLMs reliably follow <span style="color: var(--green);">~150–200 instructions</span>.</p>
-                    <p style="margin-top: 0.4em;">Claude Code's system prompt already uses <span style="color: var(--orange);">~50</span>.</p>
-                    <p style="margin-top: 0.4em;">Every instruction you add <span style="color: var(--red);">competes for attention</span> — and compliance decreases uniformly as count grows.</p>
+        <section data-background-color="#0a0e1a">
+            <h2 style="font-size: 1.4em; text-align: center; margin-bottom: 0.3em;">
+                But... skills are <span style="color: var(--red);">non-deterministic</span>.
+            </h2>
+            <p style="font-size: 0.75em; color: var(--dim); text-align: center; margin-bottom: 1.6em;">
+                The bigger the context, the less predictable the agent gets.
+            </p>
+
+            <div style="max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.2em;">
+                <div style="border-left: 4px solid var(--orange); padding: 0.3em 0 0.3em 1em;">
+                    <p style="color: var(--orange); font-weight: 700; margin: 0; font-size: 1em;">Instruction overload</p>
+                    <p style="color: #e2e8f0; margin: 0.3em 0 0 0; font-size: 0.85em; line-height: 1.6;">
+                        LLMs reliably follow <span style="color: var(--green); font-weight: 600;">~150–200 instructions</span>. Claude Code's system prompt already uses <span style="color: var(--orange); font-weight: 600;">~50</span>. Every one you add <span style="color: var(--red); font-weight: 600;">competes for attention</span>.
+                    </p>
                 </div>
-                <div class="card" style="border-color: var(--purple);">
-                    <h3 style="color: var(--purple);">Lost in the Middle</h3>
-                    <p>LLMs have a <span style="color: var(--cyan);">U-shaped attention curve</span> — they recall the beginning and end well, but <span style="color: var(--red);">miss the middle</span>.</p>
-                    <p style="margin-top: 0.4em;">Your context file sits at the start — make every line count.</p>
-                    <p style="margin-top: 0.4em; color: var(--dim); font-style: italic;">More instructions ≠ more control.</p>
+
+                <div style="border-left: 4px solid var(--purple); padding: 0.3em 0 0.3em 1em;">
+                    <p style="color: var(--purple); font-weight: 700; margin: 0; font-size: 1em;">Lost in the Middle</p>
+                    <p style="color: #e2e8f0; margin: 0.3em 0 0 0; font-size: 0.85em; line-height: 1.6;">
+                        LLMs have a <span style="color: var(--cyan); font-weight: 600;">U-shaped attention curve</span> — they recall the beginning and end well, but <span style="color: var(--red); font-weight: 600;">miss the middle</span>.
+                    </p>
                 </div>
             </div>
+
+            <p style="font-size: 0.85em; color: var(--dim); text-align: center; margin-top: 1.4em; font-style: italic;">
+                More instructions ≠ more control.
+            </p>
         </section>
 
         <!-- SLIDE 5f2: BETTER WAY -->
         <section data-background-color="#0a0e1a">
-            <h2 style="margin-bottom: 0.5em;">Is there a better way?</h2>
-            <p style="font-size: 0.8em; color: var(--dim); margin-bottom: 1em;">What if we stop fighting non-determinism — and contain it instead?</p>
-            <div class="card" style="border-color: var(--green); max-width: 640px; margin: 0 auto; text-align: center; padding: 1.5em;">
-                <p style="font-size: 0.85em; color: var(--dim); margin-bottom: 0.6em;">Mix</p>
-                <p style="font-size: 1.1em; color: var(--purple); font-weight: 600;">non-deterministic LLMs</p>
-                <p style="font-size: 1.5em; color: var(--dim); margin: 0.2em 0;">+</p>
-                <p style="font-size: 1.1em; color: var(--cyan); font-weight: 600;">deterministically behaving tools</p>
-                <br>
-                <p style="font-size: 1.3em; font-weight: 700; color: var(--green);">Enter <code style="font-size: 1em; background: rgba(52,211,153,0.1); color: var(--green);">issue-cli</code></p>
+            <h2 style="font-size: 1.4em; text-align: center; margin-bottom: 0.3em;">
+                Is there a <span style="color: var(--green);">better way</span>?
+            </h2>
+            <p style="font-size: 0.75em; color: var(--dim); text-align: center; margin-bottom: 1.6em;">
+                Stop fighting non-determinism — contain it instead.
+            </p>
+
+            <div style="text-align: center; font-size: 1.4em; line-height: 1.7; margin: 1.4em 0;">
+                <span style="color: var(--purple); font-family: 'JetBrains Mono', monospace;">non-deterministic LLMs</span>
+                <span style="color: var(--orange); margin: 0 0.6em;">+</span>
+                <span style="color: var(--cyan); font-family: 'JetBrains Mono', monospace;">deterministic tools</span>
             </div>
+        </section>
+
+        <!-- SLIDE 5f2b: DETERMINISM EVOLUTION -->
+        <section data-background-color="#0a0e1a" id="determinism-slide">
+            <h2 style="font-size: 1.3em; margin-bottom: 0.2em; text-align: center;">
+                Deterministic → Non-Deterministic → Back Again
+            </h2>
+            <p style="font-size: 0.7em; color: var(--dim); text-align: center; margin: 0 0 0.6em 0;">
+                The evolution that happens the moment you let an agent write your code.
+            </p>
+
+            <div class="two-col" style="gap: 1.2em; align-items: center;">
+                <div id="determinism-diagram" style="width: 100%; height: 60vh; min-height: 380px;"></div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.7em; font-size: 0.7em; text-align: left;">
+                    <div style="border-left: 3px solid var(--purple); padding: 0.2em 0 0.2em 0.8em;">
+                        <p style="color: var(--purple); font-weight: 700; margin: 0; font-size: 1.05em;">Conversation with Agent</p>
+                        <p style="color: var(--dim); margin: 0.2em 0 0 0;">Maximum flexibility. Each run is different. Stable until it isn't.</p>
+                    </div>
+                    <div style="border-left: 3px solid var(--cyan); padding: 0.2em 0 0.2em 0.8em;">
+                        <p style="color: var(--cyan); font-weight: 700; margin: 0; font-size: 1.05em;">Skill</p>
+                        <p style="color: var(--dim); margin: 0.2em 0 0 0;">Reusable prompt. Behavior starts to converge — still LLM output.</p>
+                    </div>
+                    <div style="border-left: 3px solid var(--green); padding: 0.2em 0 0.2em 0.8em;">
+                        <p style="color: var(--green); font-weight: 700; margin: 0; font-size: 1.05em;">Skill + Code</p>
+                        <p style="color: var(--dim); margin: 0.2em 0 0 0;">Deterministic. Repeatable. The escape hatch from drift.</p>
+                    </div>
+                    <p style="color: var(--orange); font-style: italic; font-size: 0.85em; margin: 0.4em 0 0 0; text-align: center;">
+                        The more deterministic, the less flexible.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 5f2c: AGENT ↔ MD FILES -->
+        <section data-background-color="#0a0e1a" id="agent-md-slide">
+            <h2 style="font-size: 1.4em; text-align: center; margin-bottom: 0.3em;">
+                Agent reads and writes <code>.md</code> files.
+            </h2>
+            <p style="font-size: 0.75em; color: var(--dim); text-align: center; margin-bottom: 0.6em;">
+                Free-form access. Plain text in, plain text out — no API in the way.
+            </p>
+
+            <div id="agent-md-diagram" style="width: 100%; height: 60vh; min-height: 400px;"></div>
+
+            <p style="font-size: 0.85em; color: #e2e8f0; text-align: center; margin-top: 0.6em; line-height: 1.6;">
+                <span style="color: var(--orange); font-style: italic; font-weight: 600;">
+                    Powerful — but nothing stops it from rewriting whatever it wants.
+                </span>
+            </p>
+        </section>
+
+        <!-- SLIDE 5f2d: AGENT → TOOL → MD -->
+        <section data-background-color="#0a0e1a" id="agent-tool-md-slide">
+            <h2 style="font-size: 1.4em; text-align: center; margin-bottom: 0.3em;">
+                Inject <span style="color: var(--green);">determinism</span> in the middle.
+            </h2>
+            <p style="font-size: 0.75em; color: var(--dim); text-align: center; margin-bottom: 0.6em;">
+                A tool sits between the agent and the files — every read and write goes through it.
+            </p>
+
+            <div id="agent-tool-md-diagram" style="width: 100%; height: 60vh; min-height: 400px;"></div>
+
+            <p style="font-size: 0.85em; color: #e2e8f0; text-align: center; margin-top: 0.6em; line-height: 1.6;">
+                <span style="color: var(--green); font-style: italic; font-weight: 600;">
+                    Validation, side effects, prompts — all enforced in code, not hoped for in prose.
+                </span>
+            </p>
         </section>
 
         <!-- SLIDE 5f3: ISSUE-CLI COMMANDS -->
@@ -424,6 +623,60 @@
 <span class="out">  3. issue-cli comment pathfinding --text "tests: all passing"</span>
 <span class="out">  4. issue-cli transition pathfinding --to documentation</span>
 <span class="out">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 5f3b: DEMO TIME -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="font-size: 2.4em; text-align: center; margin-bottom: 0.2em;">
+                <span style="color: var(--green);">DEMO</span> <span style="color: var(--orange);">TIME</span>
+            </h2>
+            <p style="font-size: 0.85em; color: var(--dim); text-align: center; margin-bottom: 1.4em;">
+                Three commands to get the feel of <code>issue-cli</code>.
+            </p>
+
+            <div class="cli-block" style="max-width: 480px; margin: 0 auto; font-size: 0.55em;">
+<span class="prompt">$</span> <span class="cmd">issue-cli list</span>
+<span class="prompt">$</span> <span class="cmd">issue-cli process</span>
+<span class="prompt">$</span> <span class="cmd">issue-cli help</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 5f3c: DEMO TIME 2 -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="font-size: 2.4em; text-align: center; margin-bottom: 0.2em;">
+                <span style="color: var(--green);">DEMO</span> <span style="color: var(--orange);">TIME</span>
+            </h2>
+            <p style="font-size: 0.85em; color: var(--dim); text-align: center; margin-bottom: 1.4em;">
+                The actual workflow.
+            </p>
+
+            <div class="cli-block" style="max-width: 480px; margin: 0 auto; font-size: 0.55em;">
+<span class="prompt">$</span> <span class="cmd">issue-cli create</span>
+<span class="prompt">$</span> <span class="cmd">issue-cli start &lt;slug&gt;</span>
+<span class="prompt">$</span> <span class="cmd">issue-cli context &lt;slug&gt;</span>
+<span class="prompt">$</span> <span class="cmd">issue-cli transition &lt;slug&gt;</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 5f3d: DEMO TIME 3 -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="font-size: 2.4em; text-align: center; margin-bottom: 0.2em;">
+                <span style="color: var(--green);">DEMO</span> <span style="color: var(--orange);">TIME</span>
+            </h2>
+            <p style="font-size: 0.85em; color: var(--dim); text-align: center; margin-bottom: 1.4em;">
+                Edit, transition, inspect — then look at the file directly.
+            </p>
+
+            <div class="cli-block" style="max-width: 480px; margin: 0 auto; font-size: 0.55em;">
+<span class="prompt">$</span> <span class="cmd">issue-cli append &lt;slug&gt;</span>
+<span class="prompt">$</span> <span class="cmd">issue-cli transition &lt;slug&gt;</span>
+<span class="prompt">$</span> <span class="cmd">issue-cli context &lt;slug&gt;</span>
+            </div>
+
+            <div style="max-width: 480px; margin: 1em auto 0; font-size: 0.7em; color: var(--dim); text-align: left;">
+                <p style="margin: 0.3em 0;">→ open the <code>.md</code> file in <span style="color: var(--green); font-weight: 600;">nvim</span></p>
+                <p style="margin: 0.3em 0;">→ same file rendered in the <span style="color: var(--cyan); font-weight: 600;">issue-viewer app</span></p>
             </div>
         </section>
 
@@ -972,6 +1225,21 @@
             <img src="images/dispatch.png" style="border-radius: 10px; max-width: 90%; max-height: 72vh; object-fit: contain;">
         </section>
 
+        <!-- SLIDE: DEMO TIME 4 — TRANSITIONS IN APP + CMT -->
+        <section data-background-color="#0a0e1a">
+            <h2 style="font-size: 2.4em; text-align: center; margin-bottom: 0.2em;">
+                <span style="color: var(--green);">DEMO</span> <span style="color: var(--orange);">TIME</span>
+            </h2>
+            <p style="font-size: 0.85em; color: var(--dim); text-align: center; margin-bottom: 1.4em;">
+                The full loop — agent + workflow + human, end to end.
+            </p>
+
+            <div style="max-width: 520px; margin: 0 auto; font-size: 0.8em; color: var(--dim); text-align: left;">
+                <p style="margin: 0.5em 0;">→ trigger a <span style="color: var(--cyan); font-weight: 600;">transition in the app</span> on a real issue</p>
+                <p style="margin: 0.5em 0;">→ walk through the <span style="color: var(--green); font-weight: 600;">CMT process</span> end to end</p>
+            </div>
+        </section>
+
         <!-- SLIDE: DISPATCH EXAMPLES -->
         <section data-background-color="#0a0e1a">
             <div style="display: flex; gap: 1em; align-items: flex-start; height: 90vh; margin-top: -0.5em;">
@@ -1005,6 +1273,603 @@
     }
     Reveal.on('ready', pinTopSlides);
     Reveal.on('slidechanged', pinTopSlides);
+
+    function drawAxisDiagram(selector, nodes, arrowColor) {
+        const container = d3.select(selector);
+        if (container.empty()) return;
+        const node = container.node();
+        const width = node.clientWidth;
+        const height = node.clientHeight;
+        if (!width || !height) return;
+        container.selectAll('*').remove();
+
+        const margin = { top: 30, right: 30, bottom: 50, left: 30 };
+        const innerW = width - margin.left - margin.right;
+        const innerH = height - margin.top - margin.bottom;
+
+        const axisColor = '#F59E0B';
+        const dimColor = '#64748b';
+        const flowColor = arrowColor || '#e2e8f0';
+
+        const svg = container.append('svg')
+            .attr('width', width)
+            .attr('height', height);
+
+        const defs = svg.append('defs');
+        const mkArrow = (id, color) => {
+            defs.append('marker')
+                .attr('id', id)
+                .attr('viewBox', '0 0 10 10')
+                .attr('refX', 8).attr('refY', 5)
+                .attr('markerWidth', 7).attr('markerHeight', 7)
+                .attr('orient', 'auto')
+                .append('path')
+                .attr('d', 'M 0 0 L 10 5 L 0 10 z')
+                .attr('fill', color);
+        };
+        const flowArrowId = `arrow-flow-${selector.replace(/[^a-z0-9]/gi, '')}`;
+        mkArrow('arrow-axis', axisColor);
+        mkArrow(flowArrowId, flowColor);
+
+        const g = svg.append('g')
+            .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+        // Y-axis (vertical, arrow up)
+        g.append('line')
+            .attr('x1', 0).attr('y1', innerH)
+            .attr('x2', 0).attr('y2', 0)
+            .attr('stroke', axisColor).attr('stroke-width', 2)
+            .attr('marker-end', 'url(#arrow-axis)');
+
+        // X-axis (horizontal, arrow right)
+        g.append('line')
+            .attr('x1', 0).attr('y1', innerH)
+            .attr('x2', innerW).attr('y2', innerH)
+            .attr('stroke', axisColor).attr('stroke-width', 2)
+            .attr('marker-end', 'url(#arrow-axis)');
+
+        g.append('text')
+            .attr('x', 8).attr('y', 12)
+            .attr('fill', axisColor).attr('font-size', '13px')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('Deterministic');
+
+        g.append('text')
+            .attr('x', innerW - 5).attr('y', innerH - 8)
+            .attr('text-anchor', 'end')
+            .attr('fill', axisColor).attr('font-size', '13px')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('Repeatable');
+
+        g.append('text')
+            .attr('x', 8).attr('y', 28)
+            .attr('fill', dimColor).attr('font-size', '11px')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('(less Flexible)');
+
+        const px = n => n.x * innerW;
+        const py = n => n.y * innerH;
+        const boxW = 130;
+
+        // Connecting arrows between nodes (in declared order)
+        for (let i = 0; i < nodes.length - 1; i++) {
+            const a = nodes[i], b = nodes[i + 1];
+            const ax = px(a), ay = py(a), bx = px(b), by = py(b);
+            const dx = bx - ax, dy = by - ay;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const ux = dx / dist, uy = dy / dist;
+            const offset = 42;
+            g.append('line')
+                .attr('x1', ax + ux * offset).attr('y1', ay + uy * offset)
+                .attr('x2', bx - ux * offset).attr('y2', by - uy * offset)
+                .attr('stroke', flowColor).attr('stroke-width', 2.5)
+                .attr('marker-end', `url(#${flowArrowId})`);
+        }
+
+        // Draw node boxes
+        nodes.forEach(n => {
+            const ng = g.append('g').attr('transform', `translate(${px(n)}, ${py(n)})`);
+            const h = 24 + n.lines.length * 16;
+            ng.append('rect')
+                .attr('x', -boxW / 2).attr('y', -h / 2)
+                .attr('width', boxW).attr('height', h)
+                .attr('rx', 8)
+                .attr('fill', '#0d1117')
+                .attr('stroke', n.color).attr('stroke-width', 2);
+            n.lines.forEach((line, i) => {
+                ng.append('text')
+                    .attr('text-anchor', 'middle')
+                    .attr('y', -((n.lines.length - 1) * 8) + i * 16 + 4)
+                    .attr('fill', n.color)
+                    .attr('font-size', '13px')
+                    .attr('font-weight', '600')
+                    .attr('font-family', 'Space Grotesk, sans-serif')
+                    .text(line);
+            });
+        });
+
+        // Render tags on a top-most layer, AFTER all nodes & arrows
+        const tagLayer = g.append('g').attr('class', 'tag-layer');
+        nodes.forEach(n => {
+            if (!n.tag) return;
+            const tagColor = n.tagColor || n.color;
+            const h = 24 + n.lines.length * 16;
+            const tg = tagLayer.append('g')
+                .attr('transform', `translate(${px(n)}, ${py(n) + h / 2 + 18})`);
+            const tagText = tg.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('y', 4)
+                .attr('fill', tagColor)
+                .attr('font-size', '11px')
+                .attr('font-weight', '700')
+                .attr('font-family', 'JetBrains Mono, monospace')
+                .text(n.tag);
+            const bbox = tagText.node().getBBox();
+            tg.insert('rect', 'text')
+                .attr('x', bbox.x - 6).attr('y', bbox.y - 2)
+                .attr('width', bbox.width + 12).attr('height', bbox.height + 4)
+                .attr('rx', 4)
+                .attr('fill', '#0d1117')
+                .attr('stroke', tagColor)
+                .attr('stroke-width', 1);
+            tagText.raise();
+        });
+    }
+
+    function drawLettingGoDiagram() {
+        drawAxisDiagram('#letting-go-diagram', [
+            { x: 0.82, y: 0.18, lines: ['Hardcoded',  'Code'],         color: '#34d399',
+              tag: 'rigid · slow', tagColor: '#64748b' },
+            { x: 0.18, y: 0.82, lines: ['Conversation', 'with Agent'], color: '#a78bfa',
+              tag: '⚡ faster · more flexible', tagColor: '#F59E0B' },
+        ], '#f87171');
+    }
+
+    function drawDeterminismDiagram() {
+        drawAxisDiagram('#determinism-diagram', [
+            { x: 0.18, y: 0.82, lines: ['Conversation', 'with Agent'], color: '#a78bfa',
+              tag: '⚡ fast · flexible', tagColor: '#F59E0B' },
+            { x: 0.34, y: 0.66, lines: ['Skill'],                       color: '#22d3ee' },
+            { x: 0.56, y: 0.44, lines: ['Skill + Code'],                color: '#34d399',
+              tag: '🔒 stable · predictable', tagColor: '#64748b' },
+        ], '#34d399');
+    }
+
+    function drawShapingDiagram() {
+        const container = d3.select('#shaping-diagram');
+        if (container.empty()) return;
+        const node = container.node();
+        const width = node.clientWidth;
+        const height = node.clientHeight;
+        if (!width || !height) return;
+        container.selectAll('*').remove();
+
+        const margin = { top: 50, right: 60, bottom: 70, left: 60 };
+        const innerW = width - margin.left - margin.right;
+        const innerH = height - margin.top - margin.bottom;
+
+        const svg = container.append('svg')
+            .attr('width', width).attr('height', height);
+
+        const defs = svg.append('defs');
+        const grad = defs.append('linearGradient')
+            .attr('id', 'spectrum-grad')
+            .attr('x1', '0%').attr('x2', '100%');
+        grad.append('stop').attr('offset', '0%').attr('stop-color', '#a78bfa');
+        grad.append('stop').attr('offset', '100%').attr('stop-color', '#34d399');
+
+        const g = svg.append('g')
+            .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+        const barY = innerH / 2;
+        const barH = 14;
+
+        // Spectrum bar
+        g.append('rect')
+            .attr('x', 0).attr('y', barY - barH / 2)
+            .attr('width', innerW).attr('height', barH)
+            .attr('rx', 7)
+            .attr('fill', 'url(#spectrum-grad)')
+            .attr('opacity', 0.35);
+
+        // Endpoint labels
+        g.append('text')
+            .attr('x', 0).attr('y', barY + 36)
+            .attr('fill', '#a78bfa').attr('font-size', '12px')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('non-deterministic');
+        g.append('text')
+            .attr('x', innerW).attr('y', barY + 36)
+            .attr('text-anchor', 'end')
+            .attr('fill', '#34d399').attr('font-size', '12px')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('fully deterministic');
+
+        // Markers
+        const positions = [
+            { x: 0.50, label: 'Agent-written',   color: '#a78bfa' },
+            { x: 0.78, label: 'Hand-written',    color: '#22d3ee' },
+        ];
+
+        positions.forEach(p => {
+            const cx = p.x * innerW;
+            g.append('circle')
+                .attr('cx', cx).attr('cy', barY)
+                .attr('r', 10)
+                .attr('fill', '#0d1117')
+                .attr('stroke', p.color)
+                .attr('stroke-width', 3);
+            g.append('text')
+                .attr('x', cx).attr('y', barY - 22)
+                .attr('text-anchor', 'middle')
+                .attr('fill', p.color).attr('font-size', '13px')
+                .attr('font-weight', '700')
+                .attr('font-family', 'Space Grotesk, sans-serif')
+                .text(p.label);
+        });
+
+        // Blacksmith zone — gap between leftmost marker and 100%
+        const minX = Math.min(...positions.map(p => p.x)) * innerW;
+        const zoneY = barY + 56;
+        g.append('rect')
+            .attr('x', minX).attr('y', zoneY)
+            .attr('width', innerW - minX).attr('height', 26)
+            .attr('rx', 6)
+            .attr('fill', '#F59E0B').attr('opacity', 0.12)
+            .attr('stroke', '#F59E0B').attr('stroke-width', 1);
+        g.append('text')
+            .attr('x', minX + (innerW - minX) / 2)
+            .attr('y', zoneY + 17)
+            .attr('text-anchor', 'middle')
+            .attr('fill', '#F59E0B').attr('font-size', '12px')
+            .attr('font-weight', '700')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('🔨 shaped by tests · verification · analysis');
+    }
+
+    function drawAgentMdDiagram() {
+        const container = d3.select('#agent-md-diagram');
+        if (container.empty()) return;
+        const node = container.node();
+        const width = node.clientWidth;
+        const height = node.clientHeight;
+        if (!width || !height) return;
+        container.selectAll('*').remove();
+
+        const svg = container.append('svg')
+            .attr('width', width).attr('height', height);
+
+        const defs = svg.append('defs');
+        const mkArrow = (id, color) => {
+            defs.append('marker')
+                .attr('id', id)
+                .attr('viewBox', '0 0 10 10')
+                .attr('refX', 9).attr('refY', 5)
+                .attr('markerWidth', 8).attr('markerHeight', 8)
+                .attr('orient', 'auto')
+                .append('path')
+                .attr('d', 'M 0 0 L 10 5 L 0 10 z')
+                .attr('fill', color);
+        };
+        mkArrow('arrow-read', '#22d3ee');
+        mkArrow('arrow-write', '#34d399');
+
+        const purple = '#a78bfa';
+        const cyan = '#22d3ee';
+        const green = '#34d399';
+        const dim = '#64748b';
+        const txt = '#e2e8f0';
+
+        // Agent node on the left
+        const agentX = width * 0.22;
+        const agentY = height * 0.5;
+        const agentW = 150, agentH = 80;
+
+        const ag = svg.append('g').attr('transform', `translate(${agentX}, ${agentY})`);
+        ag.append('rect')
+            .attr('x', -agentW / 2).attr('y', -agentH / 2)
+            .attr('width', agentW).attr('height', agentH)
+            .attr('rx', 12)
+            .attr('fill', '#0d1117')
+            .attr('stroke', purple).attr('stroke-width', 2.5);
+        ag.append('text')
+            .attr('text-anchor', 'middle').attr('y', -8)
+            .attr('fill', purple).attr('font-size', '20px')
+            .attr('font-weight', '700')
+            .attr('font-family', 'Space Grotesk, sans-serif')
+            .text('🤖 Agent');
+        ag.append('text')
+            .attr('text-anchor', 'middle').attr('y', 16)
+            .attr('fill', dim).attr('font-size', '12px')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('claude · codex');
+
+        // MD files stack on the right
+        const fileX = width * 0.78;
+        const fileCenterY = height * 0.5;
+        const fileW = 130, fileH = 50;
+        const files = [
+            { label: '42.md',           dir: 'combat/' },
+            { label: 'pathfinding.md',  dir: 'combat/' },
+            { label: 'watch-support.md', dir: 'toadie/' },
+        ];
+        const gap = 14;
+        const totalH = files.length * fileH + (files.length - 1) * gap;
+        const startY = fileCenterY - totalH / 2 + fileH / 2;
+
+        const fileGroup = svg.append('g').attr('class', 'files');
+        files.forEach((f, i) => {
+            const fy = startY + i * (fileH + gap);
+            const fg = fileGroup.append('g').attr('transform', `translate(${fileX}, ${fy})`);
+            fg.append('rect')
+                .attr('x', -fileW / 2).attr('y', -fileH / 2)
+                .attr('width', fileW).attr('height', fileH)
+                .attr('rx', 8)
+                .attr('fill', '#0d1117')
+                .attr('stroke', '#30363d').attr('stroke-width', 1.5);
+            fg.append('text')
+                .attr('text-anchor', 'middle').attr('y', -4)
+                .attr('fill', dim).attr('font-size', '10px')
+                .attr('font-family', 'JetBrains Mono, monospace')
+                .text(f.dir);
+            fg.append('text')
+                .attr('text-anchor', 'middle').attr('y', 14)
+                .attr('fill', txt).attr('font-size', '13px')
+                .attr('font-weight', '600')
+                .attr('font-family', 'JetBrains Mono, monospace')
+                .text(f.label);
+        });
+
+        // Group label "issues/"
+        svg.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('x', fileX).attr('y', startY - fileH / 2 - 16)
+            .attr('fill', dim).attr('font-size', '12px')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('issues/');
+
+        // Two arrows between agent and the file stack
+        const ax = agentX + agentW / 2 + 6;
+        const fx = fileX - fileW / 2 - 6;
+        const arcOffset = 36;
+
+        const readPath = `M ${ax},${agentY - 10} C ${(ax + fx) / 2},${agentY - arcOffset} ${(ax + fx) / 2},${agentY - arcOffset} ${fx},${agentY - 10}`;
+        const writePath = `M ${fx},${agentY + 10} C ${(ax + fx) / 2},${agentY + arcOffset} ${(ax + fx) / 2},${agentY + arcOffset} ${ax},${agentY + 10}`;
+
+        // read arrow: file → agent (so reverse — start at file, end at agent... actually agent reads FROM file)
+        // write arrow: agent → file
+        // Let me redo: read = file → agent (info flows file to agent), write = agent → file
+        svg.append('path')
+            .attr('d', `M ${fx},${agentY - 10} C ${(ax + fx) / 2},${agentY - arcOffset} ${(ax + fx) / 2},${agentY - arcOffset} ${ax},${agentY - 10}`)
+            .attr('fill', 'none')
+            .attr('stroke', cyan).attr('stroke-width', 2.5)
+            .attr('marker-end', 'url(#arrow-read)');
+
+        svg.append('path')
+            .attr('d', `M ${ax},${agentY + 10} C ${(ax + fx) / 2},${agentY + arcOffset} ${(ax + fx) / 2},${agentY + arcOffset} ${fx},${agentY + 10}`)
+            .attr('fill', 'none')
+            .attr('stroke', green).attr('stroke-width', 2.5)
+            .attr('marker-end', 'url(#arrow-write)');
+
+        // Arrow labels
+        const midX = (ax + fx) / 2;
+        svg.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('x', midX).attr('y', agentY - arcOffset - 6)
+            .attr('fill', cyan).attr('font-size', '13px')
+            .attr('font-weight', '700')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('reads');
+
+        svg.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('x', midX).attr('y', agentY + arcOffset + 18)
+            .attr('fill', green).attr('font-size', '13px')
+            .attr('font-weight', '700')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('writes');
+    }
+
+    function drawAgentToolMdDiagram() {
+        const container = d3.select('#agent-tool-md-diagram');
+        if (container.empty()) return;
+        const node = container.node();
+        const width = node.clientWidth;
+        const height = node.clientHeight;
+        if (!width || !height) return;
+        container.selectAll('*').remove();
+
+        const svg = container.append('svg')
+            .attr('width', width).attr('height', height);
+
+        const defs = svg.append('defs');
+        const mkArrow = (id, color) => {
+            defs.append('marker')
+                .attr('id', id)
+                .attr('viewBox', '0 0 10 10')
+                .attr('refX', 9).attr('refY', 5)
+                .attr('markerWidth', 8).attr('markerHeight', 8)
+                .attr('orient', 'auto')
+                .append('path')
+                .attr('d', 'M 0 0 L 10 5 L 0 10 z')
+                .attr('fill', color);
+        };
+        mkArrow('arrow-read2', '#22d3ee');
+        mkArrow('arrow-write2', '#34d399');
+
+        const purple = '#a78bfa';
+        const cyan   = '#22d3ee';
+        const green  = '#34d399';
+        const orange = '#F59E0B';
+        const dim    = '#64748b';
+        const txt    = '#e2e8f0';
+
+        const cy = height * 0.5;
+
+        // Agent (left)
+        const agentX = width * 0.16;
+        const agentW = 130, agentH = 75;
+        const ag = svg.append('g').attr('transform', `translate(${agentX}, ${cy})`);
+        ag.append('rect')
+            .attr('x', -agentW / 2).attr('y', -agentH / 2)
+            .attr('width', agentW).attr('height', agentH)
+            .attr('rx', 12)
+            .attr('fill', '#0d1117')
+            .attr('stroke', purple).attr('stroke-width', 2.5);
+        ag.append('text')
+            .attr('text-anchor', 'middle').attr('y', -6)
+            .attr('fill', purple).attr('font-size', '18px')
+            .attr('font-weight', '700')
+            .attr('font-family', 'Space Grotesk, sans-serif')
+            .text('🤖 Agent');
+        ag.append('text')
+            .attr('text-anchor', 'middle').attr('y', 16)
+            .attr('fill', dim).attr('font-size', '11px')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('claude · codex');
+
+        // Tool (middle) — highlighted
+        const toolX = width * 0.50;
+        const toolW = 260, toolH = 140;
+        const tg = svg.append('g').attr('transform', `translate(${toolX}, ${cy})`);
+        tg.append('rect')
+            .attr('x', -toolW / 2).attr('y', -toolH / 2)
+            .attr('width', toolW).attr('height', toolH)
+            .attr('rx', 16)
+            .attr('fill', 'rgba(52,211,153,0.08)')
+            .attr('stroke', green).attr('stroke-width', 3);
+        tg.append('text')
+            .attr('text-anchor', 'middle').attr('y', -34)
+            .attr('fill', green).attr('font-size', '13px')
+            .attr('font-weight', '700')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('🔒 deterministic tool');
+        tg.append('text')
+            .attr('text-anchor', 'middle').attr('y', 4)
+            .attr('fill', green).attr('font-size', '28px')
+            .attr('font-weight', '700')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('issue-cli');
+        tg.append('text')
+            .attr('text-anchor', 'middle').attr('y', 38)
+            .attr('fill', dim).attr('font-size', '13px')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('validates · enforces · injects');
+
+        // MD files (right)
+        const fileX = width * 0.84;
+        const fileW = 130, fileH = 50;
+        const files = [
+            { label: '42.md',           dir: 'combat/' },
+            { label: 'pathfinding.md',  dir: 'combat/' },
+            { label: 'watch-support.md', dir: 'toadie/' },
+        ];
+        const gap = 12;
+        const totalH = files.length * fileH + (files.length - 1) * gap;
+        const startY = cy - totalH / 2 + fileH / 2;
+
+        files.forEach((f, i) => {
+            const fy = startY + i * (fileH + gap);
+            const fg = svg.append('g').attr('transform', `translate(${fileX}, ${fy})`);
+            fg.append('rect')
+                .attr('x', -fileW / 2).attr('y', -fileH / 2)
+                .attr('width', fileW).attr('height', fileH)
+                .attr('rx', 8)
+                .attr('fill', '#0d1117')
+                .attr('stroke', '#30363d').attr('stroke-width', 1.5);
+            fg.append('text')
+                .attr('text-anchor', 'middle').attr('y', -4)
+                .attr('fill', dim).attr('font-size', '10px')
+                .attr('font-family', 'JetBrains Mono, monospace')
+                .text(f.dir);
+            fg.append('text')
+                .attr('text-anchor', 'middle').attr('y', 14)
+                .attr('fill', txt).attr('font-size', '13px')
+                .attr('font-weight', '600')
+                .attr('font-family', 'JetBrains Mono, monospace')
+                .text(f.label);
+        });
+
+        svg.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('x', fileX).attr('y', startY - fileH / 2 - 16)
+            .attr('fill', dim).attr('font-size', '12px')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('issues/');
+
+        // Edge x positions
+        const agentRX = agentX + agentW / 2 + 4;
+        const toolLX  = toolX - toolW / 2 - 4;
+        const toolRX  = toolX + toolW / 2 + 4;
+        const fileLX  = fileX - fileW / 2 - 4;
+
+        const arc = 28;
+
+        // READ path: file → tool → agent (top arcs, cyan)
+        svg.append('path')
+            .attr('d', `M ${fileLX},${cy - 12} C ${(toolRX + fileLX) / 2},${cy - arc} ${(toolRX + fileLX) / 2},${cy - arc} ${toolRX},${cy - 12}`)
+            .attr('fill', 'none')
+            .attr('stroke', cyan).attr('stroke-width', 2.5)
+            .attr('marker-end', 'url(#arrow-read2)');
+        svg.append('path')
+            .attr('d', `M ${toolLX},${cy - 12} C ${(agentRX + toolLX) / 2},${cy - arc} ${(agentRX + toolLX) / 2},${cy - arc} ${agentRX},${cy - 12}`)
+            .attr('fill', 'none')
+            .attr('stroke', cyan).attr('stroke-width', 2.5)
+            .attr('marker-end', 'url(#arrow-read2)');
+
+        // WRITE path: agent → tool → file (bottom arcs, green)
+        svg.append('path')
+            .attr('d', `M ${agentRX},${cy + 12} C ${(agentRX + toolLX) / 2},${cy + arc} ${(agentRX + toolLX) / 2},${cy + arc} ${toolLX},${cy + 12}`)
+            .attr('fill', 'none')
+            .attr('stroke', green).attr('stroke-width', 2.5)
+            .attr('marker-end', 'url(#arrow-write2)');
+        svg.append('path')
+            .attr('d', `M ${toolRX},${cy + 12} C ${(toolRX + fileLX) / 2},${cy + arc} ${(toolRX + fileLX) / 2},${cy + arc} ${fileLX},${cy + 12}`)
+            .attr('fill', 'none')
+            .attr('stroke', green).attr('stroke-width', 2.5)
+            .attr('marker-end', 'url(#arrow-write2)');
+
+        // Labels for read / write
+        const leftMidX = (agentRX + toolLX) / 2;
+        const rightMidX = (toolRX + fileLX) / 2;
+        svg.append('text')
+            .attr('text-anchor', 'middle').attr('x', leftMidX).attr('y', cy - arc - 8)
+            .attr('fill', cyan).attr('font-size', '12px')
+            .attr('font-weight', '700')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('reads');
+        svg.append('text')
+            .attr('text-anchor', 'middle').attr('x', rightMidX).attr('y', cy - arc - 8)
+            .attr('fill', cyan).attr('font-size', '12px')
+            .attr('font-weight', '700')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('reads');
+        svg.append('text')
+            .attr('text-anchor', 'middle').attr('x', leftMidX).attr('y', cy + arc + 18)
+            .attr('fill', green).attr('font-size', '12px')
+            .attr('font-weight', '700')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('writes');
+        svg.append('text')
+            .attr('text-anchor', 'middle').attr('x', rightMidX).attr('y', cy + arc + 18)
+            .attr('fill', green).attr('font-size', '12px')
+            .attr('font-weight', '700')
+            .attr('font-family', 'JetBrains Mono, monospace')
+            .text('writes');
+
+    }
+
+    function drawAllDiagrams() {
+        drawLettingGoDiagram();
+        drawShapingDiagram();
+        drawDeterminismDiagram();
+        drawAgentMdDiagram();
+        drawAgentToolMdDiagram();
+    }
+
+    Reveal.on('ready', drawAllDiagrams);
+    Reveal.on('slidechanged', drawAllDiagrams);
+    window.addEventListener('resize', drawAllDiagrams);
 
 </script>
 </body>
