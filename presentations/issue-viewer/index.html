@@ -902,50 +902,18 @@
             </div>
         </section>
 
-        <!-- SLIDE: ROGUETECH EXAMPLES -->
+        <!-- SLIDE: DEMO TIME — REAL ISSUE TRANSITION -->
         <section data-background-color="#0a0e1a">
-            <h2 style="margin-bottom: 0.5em;">RogueTech examples</h2>
-            <div class="two-col" style="gap: 1em; font-size: 0.72em; align-items: flex-start;">
-                <div>
-                    <p style="color: var(--dim); font-size: 0.8em; margin-bottom: 0.4em;">Real issue in the project:</p>
-                    <div class="cli-block">
-<span style="color:var(--cyan);">title:</span> <span style="color:var(--green);">"stress volume system redesign"</span>
-<span style="color:var(--cyan);">status:</span> <span style="color:var(--orange);">in design</span>
-<span style="color:var(--cyan);">system:</span> MechLab
-<span style="color:var(--cyan);">version:</span> 0.1
+            <h2 style="font-size: 2.4em; text-align: center; margin-bottom: 0.2em;">
+                <span style="color: var(--green);">DEMO</span> <span style="color: var(--orange);">TIME</span>
+            </h2>
+            <p style="font-size: 0.85em; color: var(--dim); text-align: center; margin-bottom: 1.4em;">
+                A real issue transition in the project.
+            </p>
 
-<span style="color:var(--dim);">Replace slots+stress model with a visible</span>
-<span style="color:var(--dim);">internal-layout system. Hulls define shaped</span>
-<span style="color:var(--dim);">build space. Items occupy rectangular</span>
-<span style="color:var(--dim);">footprints (1x2, 2x2, 2x3).</span>
-
-<span style="color:var(--dim);">- [ ] Design layout grid system</span>
-<span style="color:var(--dim);">- [ ] Hull defines internal sections</span>
-<span style="color:var(--dim);">- [ ] Weapons have footprint costs</span>
-<span style="color:var(--dim);">- [ ] Mount/arc choices expand footprint</span>
-                    </div>
-                </div>
-                <div>
-                    <p style="color: var(--dim); font-size: 0.8em; margin-bottom: 0.4em;">Status prompt injected to agent:</p>
-                    <div class="cli-block">
-<span style="color:var(--cyan);"># in design prompt</span>
-
-<span style="color:var(--green);">Review the relevant docs, code, and</span>
-<span style="color:var(--green);">existing content before proposing changes.</span>
-<span style="color:var(--green);">Turn requirements into explicit checklists.</span>
-<span style="color:var(--green);">Surface assumptions, risks, edge cases,</span>
-<span style="color:var(--green);">and required human input clearly.</span>
-<span style="color:var(--green);">Keep the design focused on what will</span>
-<span style="color:var(--green);">actually be implemented.</span>
-                    </div>
-                    <p style="color: var(--dim); font-size: 0.8em; margin: 0.5em 0 0.3em 0;">Validation on transition → backlog:</p>
-                    <div class="cli-block">
-<span style="color:var(--cyan);">- type:</span> <span style="color:var(--purple);">validate</span>
-<span style="color:var(--cyan);">  rule:</span> <span style="color:var(--green);">has_checkboxes</span>
-<span style="color:var(--cyan);">- type:</span> <span style="color:var(--purple);">validate</span>
-<span style="color:var(--cyan);">  rule:</span> <span style="color:var(--green);">body_not_empty</span>
-                    </div>
-                </div>
+            <div style="max-width: 520px; margin: 0 auto; font-size: 0.8em; color: var(--dim); text-align: left;">
+                <p style="margin: 0.5em 0;">→ show the <span style="color: var(--cyan); font-weight: 600;">issue viewer app</span></p>
+                <p style="margin: 0.5em 0;">→ walk through the <span style="color: var(--green); font-weight: 600;">timeline</span></p>
             </div>
         </section>
 
@@ -1422,11 +1390,12 @@
     function drawAxisDiagram(selector, nodes, arrowColor) {
         const container = d3.select(selector);
         if (container.empty()) return;
-        const node = container.node();
-        const width = node.clientWidth;
-        const height = node.clientHeight;
-        if (!width || !height) return;
         container.selectAll('*').remove();
+
+        // Fixed logical canvas — SVG scales as a unit via viewBox so
+        // proportions (boxes, text, spacing) never drift across screens.
+        const width = 960;
+        const height = 520;
 
         const margin = { top: 30, right: 30, bottom: 50, left: 30 };
         const innerW = width - margin.left - margin.right;
@@ -1437,8 +1406,10 @@
         const flowColor = arrowColor || '#e2e8f0';
 
         const svg = container.append('svg')
-            .attr('width', width)
-            .attr('height', height);
+            .attr('viewBox', `0 0 ${width} ${height}`)
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .attr('width', '100%')
+            .attr('height', '100%');
 
         const defs = svg.append('defs');
         const mkArrow = (id, color) => {
@@ -1603,18 +1574,20 @@
     function drawShapingDiagram() {
         const container = d3.select('#shaping-diagram');
         if (container.empty()) return;
-        const node = container.node();
-        const width = node.clientWidth;
-        const height = node.clientHeight;
-        if (!width || !height) return;
         container.selectAll('*').remove();
+
+        const width = 960;
+        const height = 320;
 
         const margin = { top: 50, right: 60, bottom: 70, left: 60 };
         const innerW = width - margin.left - margin.right;
         const innerH = height - margin.top - margin.bottom;
 
         const svg = container.append('svg')
-            .attr('width', width).attr('height', height);
+            .attr('viewBox', `0 0 ${width} ${height}`)
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .attr('width', '100%')
+            .attr('height', '100%');
 
         const defs = svg.append('defs');
         const grad = defs.append('linearGradient')
@@ -1695,14 +1668,16 @@
     function drawAgentMdDiagram() {
         const container = d3.select('#agent-md-diagram');
         if (container.empty()) return;
-        const node = container.node();
-        const width = node.clientWidth;
-        const height = node.clientHeight;
-        if (!width || !height) return;
         container.selectAll('*').remove();
 
+        const width = 1080;
+        const height = 500;
+
         const svg = container.append('svg')
-            .attr('width', width).attr('height', height);
+            .attr('viewBox', `0 0 ${width} ${height}`)
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .attr('width', '100%')
+            .attr('height', '100%');
 
         const defs = svg.append('defs');
         const mkArrow = (id, color) => {
@@ -1838,14 +1813,16 @@
     function drawAgentToolMdDiagram() {
         const container = d3.select('#agent-tool-md-diagram');
         if (container.empty()) return;
-        const node = container.node();
-        const width = node.clientWidth;
-        const height = node.clientHeight;
-        if (!width || !height) return;
         container.selectAll('*').remove();
 
+        const width = 1080;
+        const height = 500;
+
         const svg = container.append('svg')
-            .attr('width', width).attr('height', height);
+            .attr('viewBox', `0 0 ${width} ${height}`)
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .attr('width', '100%')
+            .attr('height', '100%');
 
         const defs = svg.append('defs');
         const mkArrow = (id, color) => {
