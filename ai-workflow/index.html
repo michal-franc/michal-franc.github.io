@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown Workflow Engine</title>
+<meta name="description" content="A workflow engine for getting work done — whatever the work. Markdown files are the database. issue-cli enforces the workflow contract; the web UI is the human window.">
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-tertiary: #21262d;
+    --bg-elevated: #1c2128;
+    --border: #30363d;
+    --border-muted: #21262d;
+    --text: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-muted: #6e7681;
+    --link: #58a6ff;
+    --accent: #238636;
+    --accent-hover: #2ea043;
+    --warn: #d29922;
+    --danger: #f85149;
+    --purple: #bc8cff;
+    --pink: #f778ba;
+    --cyan: #76e4f7;
+    --orange: #f0883e;
+    --green: #56d364;
+
+    --code-bg: #0a0d12;
+
+    --radius: 6px;
+    --radius-sm: 4px;
+
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px;
+  }
+
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  code, pre, .mono { font-family: var(--mono); }
+  p code, li code, h1 code, h2 code, h3 code, h4 code {
+    background: var(--bg-tertiary);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Top nav */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(13, 17, 23, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+  }
+  .nav-brand {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text);
+  }
+  .nav-links {
+    display: flex;
+    gap: 22px;
+    font-size: 13px;
+  }
+  .nav-links a { color: var(--text-secondary); }
+  .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+  /* Hero — toned down */
+  .hero {
+    padding: 64px 0 32px;
+  }
+  .hero h1 {
+    font-size: 36px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+  .hero .lede {
+    font-size: 17px;
+    color: var(--text-secondary);
+    max-width: 760px;
+    margin-bottom: 24px;
+  }
+  .hero .lede code { color: var(--text); }
+  .cta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    background: var(--bg-tertiary);
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.12s ease, border-color 0.12s ease;
+  }
+  .btn:hover {
+    background: var(--bg-elevated);
+    border-color: var(--text-muted);
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+  }
+
+  /* Sections */
+  section { padding: 48px 0; border-top: 1px solid var(--border); }
+  section:first-of-type { border-top: none; }
+
+  .section-head { margin-bottom: 32px; max-width: 760px; }
+  .section-head h2 {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    margin-bottom: 10px;
+  }
+  .section-head p {
+    color: var(--text-secondary);
+    font-size: 16px;
+  }
+
+  .prose p { color: var(--text-secondary); margin-bottom: 14px; max-width: 760px; }
+  .prose p strong, .prose p code { color: var(--text); }
+
+  /* DB-mapping grid */
+  .db-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .db-row {
+    display: grid;
+    grid-template-columns: 220px 40px 1fr;
+    background: var(--bg-secondary);
+    align-items: center;
+  }
+  .db-row:hover { background: var(--bg-tertiary); }
+  .db-cell {
+    padding: 14px 18px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  .db-cell strong { color: var(--text); font-weight: 600; }
+  .db-key {
+    font-family: var(--mono);
+    color: var(--text);
+    font-size: 13px;
+  }
+  .db-arrow {
+    color: var(--text-muted);
+    font-family: var(--mono);
+  }
+  @media (max-width: 700px) {
+    .db-row { grid-template-columns: 1fr; }
+    .db-cell { padding: 8px 14px; }
+    .db-row .db-cell:nth-child(2) { display: none; }
+  }
+
+  /* Lifecycle SVG */
+  .diagram-wrap {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    overflow-x: auto;
+  }
+  .diagram-wrap svg {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    height: auto;
+    min-width: 800px;
+    max-width: 1000px;
+  }
+  .node-rect { stroke-width: 1.5; rx: 6; ry: 6; }
+  .node-label { font-family: var(--font); font-size: 13px; font-weight: 600; fill: var(--text); }
+  .node-sub { font-family: var(--font); font-size: 11px; fill: var(--text-secondary); }
+  .arrow { stroke: var(--border); stroke-width: 2; fill: none; }
+  .arrow-marker { fill: var(--border); }
+  .gate { font-family: var(--font); font-size: 10px; fill: var(--warn); font-weight: 600; }
+  .legend {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    justify-content: center;
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; }
+  .legend-swatch { width: 12px; height: 12px; border-radius: 3px; border: 1px solid var(--border); }
+
+  /* Code blocks */
+  pre.code {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text);
+  }
+  pre.code .k { color: #ff7b72; }
+  pre.code .s { color: #a5d6ff; }
+  pre.code .c { color: var(--text-muted); font-style: italic; }
+  pre.code .n { color: #79c0ff; }
+  pre.code .h { color: var(--green); }
+  pre.code .anno { color: var(--text-muted); font-style: italic; }
+  pre.code .hl {
+    background: rgba(210, 153, 34, 0.1);
+    border-left: 2px solid var(--warn);
+    padding-left: 10px;
+    margin-left: -12px;
+    display: block;
+  }
+  pre.code .hl-purple {
+    background: rgba(188, 140, 255, 0.08);
+    border-left: 2px solid var(--purple);
+    padding-left: 10px;
+    margin-left: -12px;
+    display: block;
+  }
+  pre.code .hl-pink {
+    background: rgba(247, 120, 186, 0.08);
+    border-left: 2px solid var(--pink);
+    padding-left: 10px;
+    margin-left: -12px;
+    display: block;
+  }
+
+  /* Anatomy two-col */
+  .anatomy {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .callout-list { display: flex; flex-direction: column; gap: 12px; }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+  }
+  .callout.warn { border-left-color: var(--warn); }
+  .callout.purple { border-left-color: var(--purple); }
+  .callout.pink { border-left-color: var(--pink); }
+  .callout h4 { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .callout h4 code { background: var(--bg-tertiary); padding: 1px 6px; border-radius: 3px; font-size: 12px; color: var(--text); }
+  .callout p { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+
+  /* Examples grid */
+  .examples-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .example {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .example header { padding: 14px 18px; border-bottom: 1px solid var(--border); }
+  .example .badge {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-bottom: 6px;
+  }
+  .example.approval .badge { color: var(--warn); background: rgba(210, 153, 34, 0.1); }
+  .example.shell .badge { color: var(--cyan); background: rgba(118, 228, 247, 0.08); }
+  .example.optional .badge { color: var(--purple); background: rgba(188, 140, 255, 0.08); }
+  .example.overlay .badge { color: var(--pink); background: rgba(247, 120, 186, 0.08); }
+  .example h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .example p { font-size: 13px; color: var(--text-secondary); }
+  .example pre.code { border-radius: 0; border: none; border-top: 1px solid var(--border-muted); margin: 0; }
+
+  /* CLI section */
+  .cli-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .cmd-table {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .cmd-table h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .cmd-table dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 6px 16px;
+    font-size: 13px;
+  }
+  .cmd-table dt {
+    font-family: var(--mono);
+    color: var(--text);
+    font-weight: 500;
+  }
+  .cmd-table dd {
+    color: var(--text-secondary);
+  }
+
+  /* File-evolution timeline */
+  .file-evolution {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .file-evolution header {
+    background: var(--bg-tertiary);
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .file-evolution header .dots { display: flex; gap: 6px; }
+  .file-evolution header .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--border); }
+  .file-evolution pre.code {
+    border-radius: 0;
+    border: none;
+    margin: 0;
+    background: transparent;
+    font-size: 12.5px;
+  }
+  .stage-tag {
+    display: inline-block;
+    font-size: 10.5px;
+    padding: 1px 7px;
+    border-radius: 3px;
+    margin-left: 8px;
+    font-family: var(--font);
+    font-weight: 500;
+    vertical-align: middle;
+  }
+  .stage-tag.created  { color: var(--text-muted);  background: rgba(110, 118, 129, 0.15); }
+  .stage-tag.idea     { color: var(--purple);      background: rgba(188, 140, 255, 0.1); }
+  .stage-tag.progress { color: var(--link);        background: rgba(88, 166, 255, 0.1); }
+  .stage-tag.testing  { color: var(--cyan);        background: rgba(118, 228, 247, 0.1); }
+  .stage-tag.docs     { color: var(--green);       background: rgba(86, 211, 100, 0.1); }
+  .stage-tag.shipping { color: var(--pink);        background: rgba(247, 120, 186, 0.1); }
+
+  /* Screenshots — small */
+  .shots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .shot {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .shot:hover { border-color: var(--text-muted); }
+  .shot img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-bottom: 1px solid var(--border-muted);
+    cursor: zoom-in;
+  }
+  .shot .caption {
+    padding: 10px 12px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+  }
+  .shot .caption strong { color: var(--text); display: block; margin-bottom: 2px; font-size: 13px; }
+  .shot .caption code { background: var(--bg-tertiary); padding: 1px 5px; border-radius: 3px; font-size: 11.5px; color: var(--text); }
+
+  /* Modal */
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    cursor: zoom-out;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .modal.open {
+    display: flex;
+    animation: modalIn 0.15s ease-out;
+  }
+  @keyframes modalIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal-img {
+    max-width: 95%;
+    max-height: 92vh;
+    border-radius: 6px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border);
+    display: block;
+  }
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(13, 17, 23, 0.7);
+    color: var(--text);
+    border: 1px solid var(--border);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .modal-close:hover { background: var(--bg-tertiary); color: #fff; }
+
+  /* Try */
+  .try-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .try-step {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+  }
+  .try-step h3 { font-size: 14px; margin-bottom: 6px; }
+  .try-step p { color: var(--text-secondary); font-size: 13px; margin-bottom: 12px; }
+  .try-step pre.code { padding: 12px 14px; font-size: 12.5px; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--bg-secondary);
+    padding: 24px 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 12.5px;
+  }
+  footer a { color: var(--text-secondary); }
+
+  @media (max-width: 800px) {
+    .anatomy, .examples-grid, .cli-grid, .shots, .try-grid {
+      grid-template-columns: 1fr;
+    }
+    .nav-links { display: none; }
+    .hero h1 { font-size: 28px; }
+    section { padding: 36px 0; }
+    .hero { padding: 40px 0 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <div class="nav-brand">Markdown Workflow Engine</div>
+    <div class="nav-links">
+      <a href="#database">Database</a>
+      <a href="#lifecycle">Lifecycle</a>
+      <a href="#anatomy">Anatomy</a>
+      <a href="#examples">Examples</a>
+      <a href="#cli">CLI</a>
+      <a href="#files">Files</a>
+      <a href="https://github.com/michal-franc/ai-native-project-viewer" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <h1>A workflow engine for doing the work.</h1>
+    <p class="lede">
+      Whatever the work — feature dev, research, hiring pipelines, content production, ops runbooks — if it walks a state machine, this engine runs it. The workflow lives in <code>workflow.yaml</code>: statuses, transitions, validators, side-effects, human-approval gates. <strong>Markdown files are the database.</strong> One file per work item, plain text, version-controlled, greppable.
+    </p>
+    <p class="lede" style="margin-top: -8px;">
+      <code>issue-cli</code> enforces the workflow contract step by step. The web UI is the human window. Agents, humans, and scripts are all valid clients.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/michal-franc/ai-native-project-viewer" target="_blank" rel="noopener">View on GitHub</a>
+      <a class="btn" href="https://github.com/michal-franc/ai-native-project-viewer/blob/main/docs/workflow.md" target="_blank" rel="noopener">Read the docs</a>
+    </div>
+  </div>
+</header>
+
+<section id="database">
+  <div class="container">
+    <div class="section-head">
+      <h2>Markdown files are the database</h2>
+      <p>The workflow engine doesn't sit on top of Postgres or a SaaS API. The substrate is a directory of markdown files — one per work item — and a few sidecar files. That choice changes everything downstream.</p>
+    </div>
+    <div class="db-grid">
+      <div class="db-row">
+        <div class="db-cell"><span class="db-key">file</span></div>
+        <div class="db-cell"><span class="db-arrow">→</span></div>
+        <div class="db-cell"><strong>row.</strong> One work item per <code>.md</code> file. The filename is the slug.</div>
+      </div>
+      <div class="db-row">
+        <div class="db-cell"><span class="db-key">YAML frontmatter</span></div>
+        <div class="db-cell"><span class="db-arrow">→</span></div>
+        <div class="db-cell"><strong>schema.</strong> Typed fields like <code>status</code>, <code>priority</code>, <code>assignee</code>. Custom keys are open columns.</div>
+      </div>
+      <div class="db-row">
+        <div class="db-cell"><span class="db-key">markdown body</span></div>
+        <div class="db-cell"><span class="db-arrow">→</span></div>
+        <div class="db-cell"><strong>row content.</strong> Sections that grow as the work progresses — design, implementation, test plan, docs.</div>
+      </div>
+      <div class="db-row">
+        <div class="db-cell"><span class="db-key">subdirectories</span></div>
+        <div class="db-cell"><span class="db-arrow">→</span></div>
+        <div class="db-cell"><strong>partitions.</strong> <code>issues/Combat/</code>, <code>issues/Renderer/</code> — tag and namespace at once.</div>
+      </div>
+      <div class="db-row">
+        <div class="db-cell"><span class="db-key">sidecar JSON</span></div>
+        <div class="db-cell"><span class="db-arrow">→</span></div>
+        <div class="db-cell"><strong>wide-column.</strong> <code>&lt;slug&gt;.data.json</code> for structured rows; <code>&lt;slug&gt;.stats.json</code> for transition stats.</div>
+      </div>
+      <div class="db-row">
+        <div class="db-cell"><span class="db-key">git history</span></div>
+        <div class="db-cell"><span class="db-arrow">→</span></div>
+        <div class="db-cell"><strong>audit log.</strong> Every status change and body edit is a commit. Free, automatic, replicable.</div>
+      </div>
+      <div class="db-row">
+        <div class="db-cell"><span class="db-key">grep / find / sed</span></div>
+        <div class="db-cell"><span class="db-arrow">→</span></div>
+        <div class="db-cell"><strong>query language.</strong> No SDK, no SQL, no API token. Anything that reads files is a client.</div>
+      </div>
+    </div>
+    <div class="prose" style="margin-top: 28px;">
+      <p>The trade-off is real: no <code>JOIN</code>, no transactions across rows, no millions-per-second throughput. In return, you get a database that survives any tool change, that diffs cleanly in a code review, that anyone with a text editor can read or write, that backs up by being <code>git push</code>-ed, and that an LLM can reason about with the same primitives it uses on source code.</p>
+    </div>
+  </div>
+</section>
+
+<section id="lifecycle">
+  <div class="container">
+    <div class="section-head">
+      <h2>The default lifecycle</h2>
+      <p>Nine statuses configured in <code>workflow.yaml</code>. Each transition can carry validators, side-effects, and human-approval gates. The CLI walks the path strictly; the web UI lets a human drag-and-drop to override.</p>
+    </div>
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 1000 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Workflow lifecycle diagram">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" class="arrow-marker"/>
+          </marker>
+          <marker id="arrowGate" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#d29922"/>
+          </marker>
+        </defs>
+
+        <g>
+          <rect class="node-rect" x="20"  y="30" width="160" height="60" fill="#21262d" stroke="#6e7681"/>
+          <text class="node-label" x="100" y="56" text-anchor="middle">idea</text>
+          <text class="node-sub"   x="100" y="74" text-anchor="middle">raw, needs exploration</text>
+
+          <rect class="node-rect" x="220" y="30" width="160" height="60" fill="#21262d" stroke="#bc8cff"/>
+          <text class="node-label" x="300" y="56" text-anchor="middle">in design</text>
+          <text class="node-sub"   x="300" y="74" text-anchor="middle">specced, checklists</text>
+
+          <rect class="node-rect" x="420" y="30" width="160" height="60" fill="#21262d" stroke="#d29922"/>
+          <text class="node-label" x="500" y="56" text-anchor="middle">backlog</text>
+          <text class="node-sub"   x="500" y="74" text-anchor="middle">ready, awaits human</text>
+
+          <rect class="node-rect" x="620" y="30" width="160" height="60" fill="#21262d" stroke="#58a6ff"/>
+          <text class="node-label" x="700" y="56" text-anchor="middle">in progress</text>
+          <text class="node-sub"   x="700" y="74" text-anchor="middle">actively implementing</text>
+
+          <rect class="node-rect" x="820" y="30" width="160" height="60" fill="#21262d" stroke="#76e4f7"/>
+          <text class="node-label" x="900" y="56" text-anchor="middle">testing</text>
+          <text class="node-sub"   x="900" y="74" text-anchor="middle">verifying behavior</text>
+        </g>
+
+        <path class="arrow" d="M180 60 L220 60" marker-end="url(#arrow)"/>
+        <path class="arrow" d="M380 60 L420 60" marker-end="url(#arrow)"/>
+        <path class="arrow" d="M580 60 L620 60" marker-end="url(#arrowGate)" stroke="#d29922"/>
+        <text class="gate" x="600" y="50" text-anchor="middle">human approval</text>
+        <path class="arrow" d="M780 60 L820 60" marker-end="url(#arrow)"/>
+
+        <path class="arrow" d="M900 90 Q 900 130, 900 180" marker-end="url(#arrow)"/>
+
+        <g>
+          <rect class="node-rect" x="820" y="180" width="160" height="60" fill="#21262d" stroke="#f0883e"/>
+          <text class="node-label" x="900" y="206" text-anchor="middle">human-testing</text>
+          <text class="node-sub"   x="900" y="224" text-anchor="middle">manual verification</text>
+
+          <rect class="node-rect" x="620" y="180" width="160" height="60" fill="#21262d" stroke="#56d364"/>
+          <text class="node-label" x="700" y="206" text-anchor="middle">documentation</text>
+          <text class="node-sub"   x="700" y="224" text-anchor="middle">updating docs</text>
+
+          <rect class="node-rect" x="420" y="180" width="160" height="60" fill="#21262d" stroke="#f778ba"/>
+          <text class="node-label" x="500" y="206" text-anchor="middle">shipping</text>
+          <text class="node-sub"   x="500" y="224" text-anchor="middle">commit, push, release</text>
+
+          <rect class="node-rect" x="220" y="180" width="160" height="60" fill="#21262d" stroke="#238636" stroke-width="2"/>
+          <text class="node-label" x="300" y="206" text-anchor="middle">done</text>
+          <text class="node-sub"   x="300" y="224" text-anchor="middle">shipped, documented</text>
+        </g>
+
+        <path class="arrow" d="M820 210 L780 210" marker-end="url(#arrow)"/>
+        <path class="arrow" d="M620 210 L580 210" marker-end="url(#arrow)"/>
+        <path class="arrow" d="M420 210 L380 210" marker-end="url(#arrowGate)" stroke="#d29922"/>
+        <text class="gate" x="400" y="200" text-anchor="middle">human approval</text>
+      </svg>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-swatch" style="border-color: #d29922;"></span> Human approval gate</div>
+        <div class="legend-item"><span class="legend-swatch" style="border-color: #58a6ff;"></span> Agent-driven status</div>
+        <div class="legend-item"><span class="legend-swatch" style="border-color: #238636; border-width: 2px;"></span> Terminal status</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="anatomy">
+  <div class="container">
+    <div class="section-head">
+      <h2>Anatomy of a transition</h2>
+      <p>Every transition is an ordered list of actions. Validators check preconditions. <code>require_human_approval</code> blocks until a checkbox in the web UI is ticked. Side-effects mutate the issue file or inject prompt context for the next agent.</p>
+    </div>
+    <div class="anatomy">
+<pre class="code"><span class="c"># workflow.yaml</span>
+<span class="k">transitions:</span>
+  <span class="k">- from:</span> <span class="s">"in design"</span>
+    <span class="k">to:</span>   <span class="s">"backlog"</span>
+    <span class="k">actions:</span>
+<span class="hl">      <span class="k">- type:</span> validate
+        <span class="k">rule:</span>  section_min_length
+        <span class="k">section:</span> Design
+        <span class="k">min:</span> 200
+        <span class="k">hint:</span> <span class="s">"flesh out the Design section"</span></span>
+<span class="hl">      <span class="k">- type:</span> validate
+        <span class="k">rule:</span>  section_checkboxes_checked
+        <span class="k">section:</span> Design</span>
+<span class="hl-purple">      <span class="k">- type:</span> require_human_approval
+        <span class="k">status:</span> backlog</span>
+<span class="hl-pink">      <span class="k">- type:</span> append_section
+        <span class="k">title:</span> <span class="s">"Implementation"</span>
+        <span class="k">body:</span> |
+          - [ ] Wire happy path
+          - [ ] Cover edge cases
+          - [ ] Add automated tests</span>
+      <span class="k">- type:</span> inject_prompt
+        <span class="k">prompt:</span> |
+          The design is locked. Treat the Design
+          section as the spec; raise a comment
+          before deviating from it.
+</pre>
+      <div class="callout-list">
+        <div class="callout warn">
+          <h4><code>validate</code> — section_min_length</h4>
+          <p>Blocks the transition unless <code>## Design</code> has at least 200 non-whitespace characters. The <code>hint</code> is appended to the failure message so the agent knows exactly what to do next.</p>
+        </div>
+        <div class="callout warn">
+          <h4><code>validate</code> — section_checkboxes_checked</h4>
+          <p>Every <code>[ ]</code> under <code>## Design</code> must be ticked. The library includes ~15 validators: <code>has_pr_url</code>, <code>linked_issue_in_status</code>, <code>field_in</code>, <code>command_succeeds</code>, and more.</p>
+        </div>
+        <div class="callout purple">
+          <h4><code>require_human_approval</code></h4>
+          <p>The CLI refuses the transition until a human ticks the matching checkbox in the web UI. The CLI's failure message includes a deep link to the exact approval row.</p>
+        </div>
+        <div class="callout pink">
+          <h4><code>append_section</code></h4>
+          <p>Side-effect: drops a checklist scaffold into the issue body so the next stage starts with a known shape. Fence-aware — quoted markdown in the body won't trigger a false "section already exists".</p>
+        </div>
+        <div class="callout">
+          <h4><code>inject_prompt</code></h4>
+          <p>Adds extra guidance for this specific transition. Combines with the destination status's baseline prompt when the next agent picks up the issue.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="examples">
+  <div class="container">
+    <div class="section-head">
+      <h2>Workflow examples</h2>
+      <p>Four patterns from a real workflow. Drop them into <code>workflow.yaml</code> and they take effect on the next CLI invocation.</p>
+    </div>
+    <div class="examples-grid">
+
+      <div class="example approval">
+        <header>
+          <span class="badge">approval gate</span>
+          <h3>Block <code>in progress</code> until a human approves</h3>
+          <p>Agents finish design and stop, instead of plowing into implementation off a half-baked spec.</p>
+        </header>
+<pre class="code"><span class="k">transitions:</span>
+  <span class="k">- from:</span> <span class="s">"backlog"</span>
+    <span class="k">to:</span>   <span class="s">"in progress"</span>
+    <span class="k">actions:</span>
+      <span class="k">- type:</span> require_human_approval
+        <span class="k">status:</span> <span class="s">"in progress"</span>
+
+<span class="c"># Agent runs:    issue-cli start fix-heat</span>
+<span class="c"># CLI answers:   missing approval — open</span>
+<span class="c">#   /p/x/issue/fix-heat#approve-in-progress</span>
+<span class="c">#   to grant it.</span></pre>
+      </div>
+
+      <div class="example shell">
+        <header>
+          <span class="badge">shell validator</span>
+          <h3>Don't ship <code>done</code> without a green test suite</h3>
+          <p>Templated arguments, sandboxed env, opt-in via top-level <code>allow_shell: true</code>.</p>
+        </header>
+<pre class="code"><span class="k">allow_shell:</span> <span class="n">true</span>
+
+<span class="k">transitions:</span>
+  <span class="k">- from:</span> <span class="s">"shipping"</span>
+    <span class="k">to:</span>   <span class="s">"done"</span>
+    <span class="k">actions:</span>
+      <span class="k">- type:</span> validate
+        <span class="k">rule:</span>  command_succeeds
+        <span class="k">command:</span>
+          <span class="s">"gh pr view {{number}} --json state</span>
+<span class="s">           -q .state | grep -q MERGED"</span>
+        <span class="k">timeout_seconds:</span> <span class="n">15</span>
+        <span class="k">hint:</span> <span class="s">"land or close PR #{{number}}"</span></pre>
+      </div>
+
+      <div class="example optional">
+        <header>
+          <span class="badge">optional parking state</span>
+          <h3>Park on another team without breaking the path</h3>
+          <p>Statuses marked <code>optional: true</code> are skippable on forward transitions but reachable as a CTA when needed.</p>
+        </header>
+<pre class="code"><span class="k">statuses:</span>
+  <span class="k">- name:</span> <span class="s">"in progress"</span>
+  <span class="k">- name:</span> <span class="s">"waiting-for-team-input"</span>
+    <span class="k">optional:</span> <span class="n">true</span>
+    <span class="k">description:</span> <span class="s">"blocked on another team"</span>
+  <span class="k">- name:</span> <span class="s">"testing"</span>
+
+<span class="k">transitions:</span>
+  <span class="k">- from:</span> <span class="s">"in progress"</span>
+    <span class="k">to:</span>   <span class="s">"waiting-for-team-input"</span>
+    <span class="k">cta_label:</span> <span class="s">"Block on another team"</span>
+    <span class="k">actions:</span>
+      <span class="k">- type:</span> require_human_approval
+        <span class="k">status:</span> <span class="s">"waiting-for-team-input"</span></pre>
+      </div>
+
+      <div class="example overlay">
+        <header>
+          <span class="badge">system overlay</span>
+          <h3>Per-subsystem rules without forking the workflow</h3>
+          <p>Each system (API, CLI, UI, …) can override status prompts and add transition actions. Overlays merge with the base workflow.</p>
+        </header>
+<pre class="code"><span class="k">systems:</span>
+  <span class="k">API:</span>
+    <span class="k">statuses:</span>
+      <span class="k">- name:</span> <span class="s">"in design"</span>
+        <span class="k">prompt:</span> |
+          API design must include the OpenAPI
+          delta and a backwards-compat note.
+    <span class="k">transitions:</span>
+      <span class="k">- from:</span> <span class="s">"testing"</span>
+        <span class="k">to:</span>   <span class="s">"documentation"</span>
+        <span class="k">actions:</span>
+          <span class="k">- type:</span> validate
+            <span class="k">rule:</span>  has_section
+            <span class="k">section:</span> <span class="s">"API Reference"</span></pre>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="cli">
+  <div class="container">
+    <div class="section-head">
+      <h2>The CLI: <code>issue-cli</code></h2>
+      <p><code>issue-cli</code> is how clients drive the workflow. Bots, humans at a terminal, CI jobs, shell scripts — same interface. The CLI presents the workflow contract as a set of subcommands and refuses to violate it.</p>
+    </div>
+
+    <div class="prose">
+      <p>Where the web UI lets a human bypass the rules with a drag-and-drop, the CLI enforces them. <code>create</code> only allows <code>idea</code> or <code>in design</code>. <code>transition</code> moves one status forward and rejects skips. <code>done</code> is only valid from <code>documentation</code>. There is no <code>--force</code>.</p>
+      <p>Failure messages double as remediation: every gate rejection ends with an <code>issue-cli</code> command the caller can run to fix the gate. The contract is also surfaced <em>before</em> the transition, via the <code>Requires:</code> / <code>Will:</code> block printed underneath every <code>== Next ==</code> hint, so the caller knows what's coming. This works as well for an LLM agent as it does for a developer running commands by hand.</p>
+    </div>
+
+    <div class="cli-grid" style="margin-top: 28px;">
+      <div class="cmd-table">
+        <h3>Discovery</h3>
+        <dl>
+          <dt>process</dt><dd>Print the live workflow: statuses, prompts, transitions, validators, side-effects.</dd>
+          <dt>process schema</dt><dd>Print the <code>workflow.yaml</code> schema with field types and rules.</dd>
+          <dt>next</dt><dd>Find work for a version (backlog + in progress + testing).</dd>
+          <dt>context</dt><dd>Full body, comments, checklist for one issue.</dd>
+          <dt>list / search</dt><dd>Filter or grep across the project.</dd>
+          <dt>stats</dt><dd>Project health overview.</dd>
+        </dl>
+      </div>
+      <div class="cmd-table">
+        <h3>Drive the workflow</h3>
+        <dl>
+          <dt>start</dt><dd>Pick up an issue: claim, transition forward, print next-step contract.</dd>
+          <dt>transition</dt><dd>Move one status forward (strict).</dd>
+          <dt>claim / unclaim</dt><dd>Set or clear the assignee.</dd>
+          <dt>done</dt><dd>Mark done; only valid from <code>documentation</code>.</dd>
+          <dt>append / replace</dt><dd>Body edits, section-aware, fence-safe.</dd>
+          <dt>check / comment</dt><dd>Tick a checkbox or add an inline comment.</dd>
+          <dt>data</dt><dd>Per-issue structured data store (sidecar JSON).</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div style="margin-top: 28px;">
+      <p style="color: var(--text-secondary); margin-bottom: 12px;">A real <code>issue-cli process transitions</code> dump — the contract an agent reads before touching anything:</p>
+<pre class="code"><span class="anno">$ issue-cli process transitions</span>
+
+== Transition Rules ==
+
+  → idea                        Initial state — title only
+  idea → in design              Validate issue body is not empty
+                                  Side-effect: appends ## Idea section
+                                  Side-effect: appends ## Design section
+                                  Side-effect: appends ## Acceptance Criteria section
+  in design → backlog           Validate section Design checkboxes are checked
+                                  Validate section Acceptance Criteria has checkboxes
+                                  Must be human-approved for "backlog" in the issue viewer
+                                  Side-effect: clears assignee
+  backlog → in progress         Must be human-approved for "in progress" in the issue viewer
+                                  Validate issue has assignee
+                                  Side-effect: appends ## Implementation section
+                                  Side-effect: appends ## Test Plan section
+  in progress → testing         Validate section Implementation checkboxes are checked
+                                  Validate test plan is present
+                                  Side-effect: appends ## Testing section
+  testing → human-testing       Validate test plan is present
+                                  Validate section Testing checkboxes are checked
+                                  Validate comment starts with tests:
+                                  Side-effect: appends ## Human Testing section
+  human-testing → documentation  Must be human-approved for "documentation" in the issue viewer
+                                  Side-effect: appends ## Documentation section
+  documentation → shipping      Validate section Documentation checkboxes are checked
+                                  Validate comment starts with docs:
+                                  Side-effect: appends ## Shipping section
+  shipping → done               Validate section Shipping checkboxes are checked
+                                  Must be human-approved for "done" in the issue viewer
+
+Transitions are strict — you cannot skip required statuses.
+</pre>
+    </div>
+  </div>
+</section>
+
+<section id="files">
+  <div class="container">
+    <div class="section-head">
+      <h2>Issues are files that grow</h2>
+      <p>An issue starts almost empty — a title and a few lines of context. As it walks the workflow, each transition appends a new section to its body. By the time the issue reaches <code>done</code>, the file is a self-contained record of every decision and verification that produced the change.</p>
+    </div>
+
+    <div class="prose">
+      <p>This is the opposite of the ticket-system model where an issue is a static description and the work happens elsewhere — in chat, in PR comments, in a wiki, in some tracker's activity log. Here the file <em>is</em> the activity log. Design checklists, implementation notes, the test plan, the docs links, the shipping refs, the inline review comments — they all accrete into the same markdown file, in the same git repo, under the same diff history.</p>
+      <p>The engine drives this directly: <code>append_section</code> side-effects on transitions scaffold the next stage's structure with empty checkboxes. The agent fills the boxes and the prose. Validators on the next transition check that the boxes were ticked. By the time you read the file at <code>done</code>, it tells you what the change was, why, what was considered, what was tested, and how it shipped.</p>
+      <p>Inline comments live at the bottom of each file in an HTML comment block — invisible to <code>grep</code>, <code>cat</code>, and other markdown renderers, but addressable in the web UI per-block. Per-issue structured data (code-review findings, triage rows) lives in a sidecar JSON next to the issue file. Custom frontmatter keys render as a sidebar in the detail view.</p>
+    </div>
+
+    <h3 style="margin: 24px 0 12px; font-size: 15px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">A single issue file at <code>done</code>, annotated with the transition that produced each section</h3>
+
+    <div class="file-evolution">
+      <header>
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        issues/Combat/42-fix-heat-overflow.md
+      </header>
+<pre class="code"><span class="anno"># --- frontmatter ---</span><span class="stage-tag created">create</span>
+<span class="k">---</span>
+<span class="k">title:</span> <span class="s">"Fix heat overflow on burst weapons"</span>
+<span class="k">status:</span> <span class="s">"done"</span>
+<span class="k">system:</span> <span class="s">"Combat"</span>
+<span class="k">version:</span> <span class="s">"0.4"</span>
+<span class="k">priority:</span> <span class="s">"high"</span>
+<span class="k">labels:</span> [bug, combat]
+<span class="k">pr:</span> <span class="s">"https://github.com/me/proj/pull/812"</span>
+<span class="k">---</span>
+
+<span class="anno"># --- body intro ---</span><span class="stage-tag created">create</span>
+Burst weapons accumulate heat across modules and overflow
+the i16 register at sustained fire. Reproducible with the
+"long burn" scenario in tests.
+
+<span class="anno"># --- appended on idea → in design ---</span><span class="stage-tag idea">idea → in design</span>
+<span class="h">## Idea</span>
+- [x] Description with enough context for someone unfamiliar
+- [x] Edge cases identified (overflow, underflow, multi-module)
+- [x] Scope clear (what is NOT included)
+
+<span class="h">## Design</span>
+- [x] Switch heat accumulator to i32, gate at MAX_HEAT
+- [x] Per-module heat decay rate
+- [x] Test strategy: long-burn fixture + property test
+
+<span class="h">## Acceptance Criteria</span>
+- [x] No overflow under 10x sustained fire
+- [x] Existing scenarios pass unchanged
+
+<span class="anno"># --- appended on backlog → in progress ---</span><span class="stage-tag progress">backlog → in progress</span>
+<span class="h">## Implementation</span>
+- [x] Wire i32 accumulator in combat/heat.go
+- [x] Migrate save format (backwards-compatible)
+- [x] Cover edge cases from the Design section
+
+<span class="h">## Test Plan</span>
+- [x] Unit: heat_test.go — long burn, edge cases
+- [x] Property test: random weapon mixes, 10k iterations
+- [x] Manual: smoke through tutorial mission
+
+<span class="anno"># --- appended on in progress → testing ---</span><span class="stage-tag testing">in progress → testing</span>
+<span class="h">## Testing</span>
+- [x] All automated tests green on CI
+- [x] No regression in existing fixtures
+- [x] tests: 10k-iteration property run completed clean
+
+<span class="anno"># --- appended on human-testing → documentation ---</span><span class="stage-tag docs">human-testing → docs</span>
+<span class="h">## Documentation</span>
+- [x] Updated docs/Combat/heat-model.md
+- [x] Added migration note to CHANGELOG
+- [x] docs: heat-model section reviewed
+
+<span class="anno"># --- appended on documentation → shipping ---</span><span class="stage-tag shipping">docs → shipping</span>
+<span class="h">## Shipping</span>
+- [x] Committed with ref #42
+- [x] Pushed; PR #812 merged
+- [x] Tagged v0.4.1, release notes polished
+
+<span class="anno"># --- inline comments accrete throughout ---</span>
+<span class="c">&lt;!-- issue-viewer-comments
+{"id":1,"block":2,"date":"2026-04-12","text":"check legacy save format","status":"done"}
+{"id":2,"block":4,"date":"2026-04-14","text":"property test seed?","status":"done"}
+--&gt;</span>
+</pre>
+    </div>
+  </div>
+</section>
+
+<section id="see-it">
+  <div class="container">
+    <div class="section-head">
+      <h2>Operating the workflow</h2>
+      <p>Three views from the running web UI: authoring the workflow, observing what the engine has done, and feeding lessons back into the workflow itself.</p>
+    </div>
+    <div class="shots">
+      <div class="shot">
+        <img src="/images/ai-workflow/note-1777738123.png" alt="Workflow engine designer" loading="lazy">
+        <div class="caption"><strong>Workflow designer</strong>Visual editor for the lifecycle. Statuses, transitions, validators, and side-effects rendered straight from <code>workflow.yaml</code>.</div>
+      </div>
+      <div class="shot">
+        <img src="/images/ai-workflow/note-1777738152.png" alt="Agent activity timeline" loading="lazy">
+        <div class="caption"><strong>Agent timeline</strong>Chronological log of every command run against the project — dispatch, start, transition, append, retrospective, and more.</div>
+      </div>
+      <div class="shot">
+        <img src="/images/ai-workflow/note-1777738041.png" alt="Retrospectives view" loading="lazy">
+        <div class="caption"><strong>Retrospectives</strong>Workflow feedback that lives next to the work. Each retro is a markdown file; lessons feed back into <code>workflow.yaml</code>.</div>
+      </div>
+      <div class="shot">
+        <img src="/images/ai-workflow/note-1774784286.png" alt="Kanban board view" loading="lazy">
+        <div class="caption"><strong>Board</strong>Drag-and-drop, score badges, agent indicators, version and system filters.</div>
+      </div>
+      <div class="shot">
+        <img src="/images/ai-workflow/note-1774784264.png" alt="List view" loading="lazy">
+        <div class="caption"><strong>List</strong>Filterable, sortable, score column, search across titles and bodies.</div>
+      </div>
+      <div class="shot">
+        <img src="/images/ai-workflow/note-1774784303.png" alt="Docs view" loading="lazy">
+        <div class="caption"><strong>Docs</strong>Per-system documentation rendered straight out of the docs directory.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal" id="imgModal" aria-hidden="true">
+  <button class="modal-close" type="button" aria-label="Close">&times;</button>
+  <img class="modal-img" alt="">
+</div>
+
+<section id="try">
+  <div class="container">
+    <div class="section-head">
+      <h2>Run it locally</h2>
+      <p>The repo ships with a configured demo workflow, sample issues, and docs.</p>
+    </div>
+    <div class="try-grid">
+      <div class="try-step">
+        <h3>1. Clone and run the demo</h3>
+        <p>Boots a sample project at <code>localhost:8080</code>.</p>
+<pre class="code">git clone github.com/michal-franc/
+  ai-native-project-viewer
+cd ai-native-project-viewer
+make demo</pre>
+      </div>
+      <div class="try-step">
+        <h3>2. Install the CLI</h3>
+        <p>Walks agents through the workflow contract.</p>
+<pre class="code">make install
+
+issue-cli process
+issue-cli next --version 0.1
+issue-cli start &lt;slug&gt;</pre>
+      </div>
+      <div class="try-step">
+        <h3>3. Configure your workflow</h3>
+        <p>Edit <code>workflow.yaml</code>. Validators, gates, side-effects, overlays — all hot-reloaded.</p>
+<pre class="code">$EDITOR workflow.yaml
+
+issue-cli process schema
+issue-cli process transitions</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <a href="https://github.com/michal-franc/ai-native-project-viewer" target="_blank" rel="noopener">github.com/michal-franc/ai-native-project-viewer</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/michal-franc/ai-native-project-viewer/tree/main/docs" target="_blank" rel="noopener">documentation</a>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var modal = document.getElementById('imgModal');
+    if (!modal) return;
+    var modalImg = modal.querySelector('.modal-img');
+    var closeBtn = modal.querySelector('.modal-close');
+
+    function open(src, alt) {
+      modalImg.src = src;
+      modalImg.alt = alt || '';
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      modalImg.src = '';
+    }
+
+    document.querySelectorAll('.shot img').forEach(function (img) {
+      img.addEventListener('click', function () {
+        open(img.getAttribute('src'), img.getAttribute('alt'));
+      });
+    });
+
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal || e.target === closeBtn) close();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('open')) close();
+    });
+  })();
+</script>
+</body>
+</html>
