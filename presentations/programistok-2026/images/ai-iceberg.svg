@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+<polygon points="500,92 528,142 512,176 556,195 602,236 668,272 628,324 694,374 650,432 702,490 624,524 586,562 536,530 500,568 462,530 410,560 372,522 300,488 352,432 310,374 374,324 334,272 400,236 444,195 488,176 472,142" fill="#CFE3E8" stroke="#EAF4F7" stroke-width="2" stroke-linejoin="round"/>
+<rect x="0" y="195" width="1000" height="455" fill="#0E2A33" fill-opacity="0.5"/>
+<line x1="30" y1="195" x2="970" y2="195" stroke="#5F9BAA" stroke-width="2.5"/>
+<text x="944" y="187" text-anchor="end" fill="#5F9BAA" font-size="13">surface</text>
+<line x1="352" y1="104" x2="486" y2="120" stroke="#565B61" stroke-width="1.5"/>
+<circle cx="486" cy="120" r="3.5" fill="#565B61"/>
+<text x="196" y="98" fill="#C6CBD1" font-size="19" font-style="italic">"just prompt it"</text>
+<text x="196" y="122" fill="#8A9098" font-size="14">looks simple &amp; shallow</text>
+<text x="500" y="225" text-anchor="middle" fill="#EAF2F4" font-size="16" font-weight="700" letter-spacing="1">WHAT MASTERY ACTUALLY TAKES</text>
+<rect x="350" y="253" width="300" height="34" rx="17" fill="#0B1E24" fill-opacity="0.78" stroke="#7FB2BF" stroke-width="1.2"/>
+<text x="500" y="276" text-anchor="middle" fill="#EAF2F4" font-size="15" font-weight="700">experimentation</text>
+<rect x="350" y="297" width="300" height="34" rx="17" fill="#0B1E24" fill-opacity="0.78" stroke="#7FB2BF" stroke-width="1.2"/>
+<text x="500" y="320" text-anchor="middle" fill="#EAF2F4" font-size="15" font-weight="700">testing &amp; evals</text>
+<rect x="350" y="341" width="300" height="34" rx="17" fill="#0B1E24" fill-opacity="0.78" stroke="#7FB2BF" stroke-width="1.2"/>
+<text x="500" y="364" text-anchor="middle" fill="#EAF2F4" font-size="15" font-weight="700">context &amp; tool design</text>
+<rect x="350" y="385" width="300" height="34" rx="17" fill="#0B1E24" fill-opacity="0.78" stroke="#7FB2BF" stroke-width="1.2"/>
+<text x="500" y="408" text-anchor="middle" fill="#EAF2F4" font-size="15" font-weight="700">knowing where it breaks</text>
+<rect x="350" y="429" width="300" height="34" rx="17" fill="#0B1E24" fill-opacity="0.78" stroke="#7FB2BF" stroke-width="1.2"/>
+<text x="500" y="452" text-anchor="middle" fill="#EAF2F4" font-size="15" font-weight="700">thousands of hours</text>
+<rect x="350" y="473" width="300" height="34" rx="17" fill="#0B1E24" fill-opacity="0.78" stroke="#7FB2BF" stroke-width="1.2"/>
+<text x="500" y="496" text-anchor="middle" fill="#EAF2F4" font-size="15" font-weight="700">taste &amp; judgment</text>
+</svg>

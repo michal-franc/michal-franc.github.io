@@ -1,0 +1,1478 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quo Vadis IT - Programistok 2026</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================================
+           MINIMAL MONO THEME - black ground, monospace, left-aligned.
+           Deliberately stark: white bold headings, grey body, "- " bullets.
+           ============================================================ */
+        :root {
+            --bg:        #000000;
+            --fg:        #F4F4F4;   /* headings, emphasis */
+            --fg-dim:    #9AA0A6;   /* body, bullets */
+            --fg-faint:  #5A5F66;   /* chrome, attributions */
+            --rule:      #2A2E33;
+            --accent:      #E07B39; /* warm orange - the one loud accent */
+            --accent-teal: #57A2B2; /* cool secondary */
+            --r-background-color: #000000;
+            --r-main-color: var(--fg-dim);
+            --r-heading-color: var(--fg);
+            --r-link-color: #FFFFFF;
+            --r-main-font: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+            --r-heading-font: 'JetBrains Mono', ui-monospace, monospace;
+            --r-main-font-size: 25px;
+        }
+
+        .reveal-viewport, .reveal { background: #000; }
+        .reveal { font-family: var(--r-main-font); color: var(--fg-dim); font-weight: 400; }
+
+        /* left-aligned, generous left gutter */
+        .reveal .slides { text-align: left; }
+        .reveal .slides > section, .reveal .slides > section > section { padding: 0 5% 0 7%; }
+
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            font-family: var(--r-heading-font);
+            color: var(--fg);
+            text-transform: none;
+            letter-spacing: 0;
+            font-weight: 700;
+            line-height: 1.15;
+            text-align: left;
+            margin: 0 0 0.6em 0;
+        }
+        .reveal h1 { font-size: 1.9em; }
+        .reveal h2 { font-size: 1.5em; }
+        .reveal h3 { font-size: 1.0em; color: var(--fg-dim); font-weight: 400; margin: -0.2em 0 1.1em; }
+        .reveal h4 { font-size: 0.9em; color: var(--fg-dim); font-weight: 400; }
+
+        .reveal p { line-height: 1.5; color: var(--fg-dim); margin: 0.5em 0; }
+        .reveal strong { color: var(--accent); font-weight: 700; }
+        .reveal em { color: var(--fg-dim); font-style: italic; }
+        .reveal a { color: #fff; text-decoration: underline; }
+        .reveal code, .reveal .mono { font-family: var(--r-main-font); color: #fff; }
+        .reveal blockquote { font-style: normal; }
+
+        /* bullets as "- " dashes */
+        .reveal ul, .reveal ol { list-style: none; margin: 0.4em 0 0 0; padding: 0; display: block; }
+        .reveal ul li, .reveal ol li {
+            position: relative; padding-left: 1.8em; margin: 0.6em 0;
+            color: var(--fg-dim); line-height: 1.45; text-align: left;
+        }
+        .reveal ul li::before { content: "-"; position: absolute; left: 0.2em; color: var(--fg-dim); }
+        .reveal ol { counter-reset: li; }
+        .reveal ol li::before { content: counter(li) "."; counter-increment: li; position: absolute; left: 0; color: var(--fg-dim); }
+        .reveal li strong { color: var(--fg); }
+
+        /* images / svgs: left-aligned to the text edge, no frame */
+        .reveal section img { display: block; margin: 0.4em 0; border: none; background: transparent; box-shadow: none; max-height: 68vh; width: auto; }
+        /* animation hosts: left-align to the text edge too */
+        .reveal .cog-anim, .reveal .merge-anim, .reveal .shift-anim, .reveal .accel-anim, .reveal .spectrum-anim { margin-left: 0 !important; margin-right: auto !important; }
+
+        /* cited quote (Gartner) - minimal */
+        .reveal blockquote.receipt {
+            background: transparent; border-left: 2px solid var(--rule); box-shadow: none;
+            width: 92%; margin: 0.4em 0; padding: 0.3em 1em;
+            font-family: var(--r-main-font); font-style: normal; font-size: 0.92em; color: var(--fg-dim); text-align: left;
+        }
+        .reveal blockquote.receipt p:last-child { margin-top: 0.5em; color: var(--fg-faint); font-size: 0.82em; }
+        .reveal blockquote.receipt p:only-child { font-size: 1em; color: var(--fg-dim); }
+
+        /* small caption / attribution under a plate or chart */
+        .reveal .plate-label {
+            margin-top: 0.4em; font-size: 0.5em; line-height: 1.3;
+            color: var(--fg-faint); font-style: italic; text-align: center;
+        }
+        .reveal .plate-label a { color: var(--accent-teal); }
+
+        /* two-column layout helper (mark 2nd col first element with class col2) */
+        .reveal section.two-col { column-count: 2; column-gap: 3.2em; }
+        .reveal section.two-col > h1:first-child, .reveal section.two-col > h2:first-child { column-span: all; }
+        .reveal section.two-col .col2 { break-before: column; }
+
+        /* chrome */
+        .reveal .slide-number { font-size: 0.5em; color: var(--fg-faint); background: transparent; }
+        .reveal .progress { color: var(--fg-faint); }
+        .reveal .controls { color: var(--fg-faint); }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section data-markdown
+                     data-separator="^\r?\n---\r?\n$"
+                     data-separator-vertical="^\r?\n--\r?\n$"
+                     data-separator-notes="^Note:">
+                <script type="text/template">
+<!-- Programistok 2026 - "Quo Vadis IT" - reveal.js slides (EN draft, translate to PL later)
+     Separators:  ---  horizontal   --  vertical    Notes:  Note:
+     Images:      ![](images/foo.png)
+     TODO markers = new Excalidraw drawing needed (draw in Obsidian, export to images/)
+-->
+
+# Quo Vadis IT
+
+#### Responsibility, ownership & agency
+#### where the engineer role is heading
+
+Michal Franc · **mfranc.com**
+
+Note:
+**Przywitanie + rapport: kim jestem i po co ten temat.**
+- Michał Franc, z Wrocławia (Politechnika Wrocławska), pierwszy raz w Białymstoku; otwieram ścieżkę IT. (mów "z Wrocławia" / "w Białymstoku")
+- Rapport: dobre wspomnienia z Białegostoku, znajomi stąd; słyszałem dużo dobrego o tutejszym IT i Politechnice Białostockiej. (uwaga: TY jesteś z Wrocławskiej - Białostocką tylko chwal jako gospodarza, nie pomyl)
+- Oczekiwania: mało technologii i narzędzi - bardziej o karierze i zmianach w IT.
+- Stąd tytuł: Quo Vadis IT - dokąd zmierzamy.
+(przejście -> 2025/2026)
+
+---
+
+## 2026 -> ??
+
+<!-- .slide: data-spectrum="true" -->
+
+### Intense. Chaotic. Uncertain.
+
+Note:
+**Dwa ekstrema, obie drogi wiodą do pasywności - prawda jest w środku.**
+- 2026: intensywnie, chaotycznie, niepewnie; scenariuszy jest wiele.
+- Negacjoniści: "to bańka, pęknie, wrócimy do tego jak było - nic nie musimy robić".
+- Maksymaliści: "nie ma sensu nic robić, załamać ręce i czekać, bo AI zabierze pracę".
+- PASSIVITY ANGLE: oba ekstrema kończą w tym samym miejscu - w pasywności. Środek to jedyne miejsce, gdzie realnie działasz.
+- Nasze zadanie: ustalić, gdzie jest ten środek i gdzie się zatrzyma - żeby wiedzieć, dokąd zmierzamy i jak się przygotować.
+(haczyk do "it will take effort" na kolejnym slajdzie) (przejście -> pozytywna przyszłość)
+
+---
+
+## 2026 -> 203X
+
+### How will the future look?
+
+The market will change. The roles will change.
+
+We'll read 2026 far more positively than we do now.
+
+**But it will take effort.**
+
+Note:
+**Przyszłość będzie lepsza - ale nie za darmo, będzie wymagać wysiłku.**
+- Rynek się zmieni, role się zmienią - to pewne.
+- Z perspektywy celu spojrzymy na 2026 zupełnie inaczej niż dziś; teraz jest nerwowo, bo jesteśmy w środku wspinaczki, nie na szczycie. (nie naciskaj słowa "pozytywnie" - pokazuj, nie mów)
+- Uczciwie: to nie stanie się samo. Konkretnie: aktywnie WSPÓŁ-istnieć z AI i narzędziami, nie biernie czekać (echo passivity angle).
+(przejście -> About me)
+
+---
+
+![](images/about-hero.svg)
+
+Note:
+**Wiarygodność: cała droga junior -> senior staff, architekt systemów I organizacji.**
+- ~20 lat doświadczenia; firmy produktowe UK/US: JustEat, JustGiving, Form3, Affirm.
+- Rola: architekt systemów rozproszonych ORAZ organizacji - skalowanie systemów i ludzi, praca across teams.
+- Skala jako dowód ownershipu: dziesiątki milionów użytkowników, miliardy dolarów.
+(przejście -> Software keeps getting more complex)
+
+---
+
+## Software keeps getting more complex
+
+<!-- .slide: data-shift="true" -->
+
+### To talk about the future, we need to talk about the evolution that got us here
+
+Note:
+**Sufit rośnie: software, który budujemy, jest coraz bardziej złożony.**
+- Żeby mówić o przyszłości, najpierw ewolucja, która nas tu doprowadziła - o kierunku zmian, nie o przeszłości.
+- Escalator złożoności (animacja od lewej): proste programy (skrypty, Excel) -> desktop -> web -> mobile -> systemy rozproszone (globalna skala).
+- Kontrargument: nie przestaliśmy robić prostych rzeczy - dalej je robimy. Rzecz w tym, że SUFIT się podniósł: złożone staje się normą.
+- I ta rosnąca złożoność napędza kolejne zmiany.
+(przejście -> Complexity forces technology changes)
+
+---
+
+## Complexity forces technology changes
+
+### Democratization - each layer eases complexity, making hard things cheaper and easier for everyone
+
+![](images/complexity-layers.svg)
+
+Note:
+**Każda warstwa robi wczorajszą elitarną robotę tanią i dostępną dla wszystkich.**
+- Rośnie złożoność -> technologia "zawija" ją w coś prostszego, żebyśmy ogarnęli więcej.
+- Assembly / ręczna pamięć -> języki wysokiego poziomu -> frameworki -> chmura -> orkiestracja (K8s). Każda warstwa chowa złożoność tej pod spodem.
+- NOWY KĄT: warstwa nie tylko chowa złożoność - robi trudne rzeczy TAŃSZYMI i ŁATWIEJSZYMI. Własne data center, ręczne zarządzanie pamięcią, skalowanie na miliony - kiedyś elita, dziś out-of-the-box za grosze.
+- Technologia demokratyzuje złożoność: coraz więcej ludzi buduje coraz bardziej skomplikowane rzeczy. To samo zrobi AI na kolejnym poziomie.
+(przejście -> te same przejścia w umiejętnościach)
+
+---
+
+![](images/skills-demand.svg)
+
+Note:
+**Popyt na umiejętności ciągle się przesuwa - nie przywiązuj tożsamości do jednej technologii.**
+- Ta sama ewolucja od strony umiejętności, których szuka rynek (dane ilustracyjne, kierunek zmian; z bloga mfranc.com/blog/ai-2026).
+- Ery: DESKTOP -> WEB -> CLOUD & MOBILE -> AI; w każdej na wierzch wychodzą inne umiejętności.
+- Manual QA spada od lat (rutyna znika). Test Automation, Cloud, DevOps/SRE, Security rosną falami. AI/ML i LLM-assisted startują nisko i eksplodują dopiero teraz.
+(przejście -> jak zmienia się fokus inżyniera)
+
+---
+
+![](images/engineer-focus.svg)
+
+Note:
+**Kod się kurczy, rosną system design i domena - "co i po co", nie "jak".**
+- Skład tego, co znaczy być inżynierem, w czasie (ilustracyjnie, z bloga). Pola od dołu: Algorithms/DS, Coding, Testing, System Design, Domain Expertise.
+- Kiedyś dominowały algorytmy i samo pisanie kodu (wielki niebieski pas). Ten pas się kurczy, rosną System Design i Domain Expertise (pomarańczowy).
+- To ta sama teza całej prelekcji jako wykres: środek ciężkości z "jak napisać kod" ku domenie/wartości. Kod nie znika - przestaje być większością. (seed - wróci na "center of gravity")
+(przejście -> Evolution, not revolution)
+
+---
+
+## Complexity shifts the roles too
+
+<!-- .slide: data-merge="true" data-visibility="hidden" -->
+
+As complexity rises, the roles shift and change too.
+
+Note:
+**Rosnąca złożoność scala role - jeden inżynier bierze na siebie coraz więcej (shift-left).**
+- Przesuwają się nie tylko technologie, ale i role.
+- Scalanie (animacja): Frontend + Backend + QA -> Full-stack Engineer; Backend + IT Ops -> DevOps; DevOps + Security -> DevSecOps.
+- Nowa oś to BIZNES: Full-stack + Business -> PRODUCT ENGINEER (nie DevOps - to biznes dokłada nowy wymiar).
+- A Full-stack + DevOps -> ??? - jeszcze nie wiemy, jak to nazwać. Nie każde scalenie ma już nazwę - dowód, że jesteśmy w ŚRODKU transformacji, nie na końcu.
+- Kiedyś osobne działy podawały pracę dalej; dziś jeden inżynier bierze to wszystko na siebie.
+- Efekt: specjalizacja już nie stoi "sama" - siedzi na szerokiej, wspólnej bazie (trochę wszystkiego + głębia na wierzchu, T-shape). Różni nas to, co budujemy na wierzchu.
+
+---
+
+## Evolution, not revolution
+<!-- .slide: data-accel="true" -->
+
+**complexity + cost + more users** -> we found a way to manage it.
+
+assembler -> high-level -> frameworks -> Kubernetes ... and now AI.
+
+Not a break - AI is the natural next step of the same market pressure, decades in motion.
+
+Note:
+**AI nie zmienia kierunku - tylko przyspiesza ewolucję, która trwa od lat.**
+- To ewolucja, nie rewolucja; ten kierunek trwa od lat.
+- Pętla (od dekad): złożoność + rośnie liczba użytkowników + koszty -> branża buduje narzędzie, żeby to ogarnąć.
+- KLUCZOWY ANGLE: AI to NATURALNA KONSEKWENCJA tych samych sił - presji rynku i rosnącej złożoności - które działają 20+ lat. Nie przypadek, nie rewolucja: nieunikniony kolejny krok tej samej ewolucji.
+- Szybki callback (NIE tłumacz od nowa - to było na slajdzie "complexity forces tech"): asembler -> niski/wysoki poziom -> frameworki -> Kubernetes... i teraz AI. AI to po prostu kolejne takie narzędzie.
+- (animacja data-accel: tempo przyspiesza - "slow, for decades" -> "big speed-up", AI)
+(przejście -> So what does it change for me?)
+
+---
+
+## So how will the evolution look going forward?
+
+<!-- .slide: class="titled" -->
+
+Note:
+**Kierunek ustalony (ewolucja nie rewolucja) - teraz patrzymy W PRZÓD: jak zmieni się samo wytwarzanie software'u (1.0 -> 2.0).**
+- Mamy zgodę co do kierunku; pytanie nie brzmi już "czy", tylko "JAK to rozwinie się dalej i czego się spodziewać".
+- Zmiana narracji: z diagnozy rynku na obraz przyszłości. Zaznacz raz (uczciwie, rozbrajająco): to o czym powiem nie jest tak, że na 100% się spełni, ani "na pewno tak będzie" - ktoś może powiedzieć, że nie mam pojęcia albo "za 10 lat na pewno tak nie będzie". I słusznie - ciężko przewidzieć przyszłość. To predykcje, które prawdopodobnie wejdą - kilka tematów jako jedzenie do przemyślenia i do dyskusji w kuluarach / na backstage'u po prelekcji. Prowokacja/wizja, nie twarda prognoza.
+- To otwiera drugą część: Software 1.0 -> 2.0 wymiar po wymiarze i co to dla nas znaczy.
+(przejście -> The local-optimum trap)
+
+---
+
+## The local-optimum trap
+
+Software 1.0 + agents: a quick boost, then a dead end. Aim for **Software 2.0**.
+
+![](images/local-optimum.svg)
+
+Note:
+**Software 1.0 + AI to lokalne optimum - celuj w Software 2.0.**
+- Software 1.0 + AI (agenty na dzisiejszej pracy) to szybki, kuszący wzrost - ale tylko małe wzgórze. Wygląda produktywnie, jest krótkowzroczne.
+- PERSONALIZACJA (mocne, użyj): 20 lat doświadczenia = głęboko wbudowane "sieci neuronowe" w mojej głowie - myślę o software'ze w trybie 1.0. Kiedy przykładam AI do TEGO myślenia, owszem, dostaję boost wartości i kodu... ale wpadam w pułapkę lokalnego optimum. Mój mózg jest jak model wytrenowany na starych danych.
+- Prawdziwy szczyt wyżej - Software 2.0: celujesz w wartość i wyniki, nie w szybsze taski. Trzeba zejść z lokalnego szczytu, przejść dolinę (przemyśleć, jak budujemy) i wejść na właściwy szczyt.
+- Nie wierz, że "obecna praca szybciej to przyszłość" - inaczej utkniesz w tymczasowym booście. To lokalne optimum jest TYMCZASOWE - prawdziwa przyszłość to kolejna granica (Software 2.0).
+(przejście -> Escaping the local optimum)
+
+---
+
+## Escaping the local optimum
+<!-- .slide: class="new-world" -->
+
+To climb out, we challenge ourselves - and the **thinking of the past**.
+
+Note:
+**Żeby wyjść z lokalnego optimum, trzeba zakwestionować siebie i myślenie z przeszłości.**
+- Nie chodzi o narzędzia - chodzi o podważenie własnych nawyków i sposobu myślenia z ery 1.0.
+- Dolina przed szczytem 2.0: przemyśl od nowa JAK budujemy, nie tylko jak szybciej. To wyzwanie, nie strata.
+- Callback: to ten "it will take effort" z początku - spada na NAS.
+(przejście -> Code)
+
+---
+
+## Code
+
+![](images/nb-code.svg)
+
+Note:
+**Code. 1.0: piszemy dużo kodu ręcznie. 2.0: prawie nie piszemy - ręczny kod to nisza (jak dziś natywny dodatek C++ do biblioteki Javy, robi to garstka).**
+- Rama sekcji (powiedz raz na wejściu): to wizja/prowokacja, nie twarda prognoza; bierzemy każdy wymiar jako 1.0 -> 2.0.
+- TEMPO: to montaż - większość wymiarów SZYBKO, jedno zdanie każdy. Rozwiń tylko Review (hero). Inaczej sekcja puchnie do 8-10 min.
+- Anchor: rok temu za "AI napisze za nas kod" uznano by cię za oderwanego od rzeczywistości; dziś większość moich znajomych już to zaakceptowała. Ręczny kod = specjalizacja do krytycznych sytuacji.
+(przejście -> Review)
+
+---
+
+## Review
+
+### 1.0: read every line. 2.0: review the **system's behavior**, not the diff.
+
+![](images/nb-review.svg)
+
+- Line-by-line review of AI's output just becomes the new bottleneck - it kills velocity
+- 2.0: judge the whole system from above - what it *does*, not each change
+- Define **metrics**: did this change help users, cause a regression, or hurt the business?
+
+Note:
+**Review (HERO - tu rozwiń). 1.0: czytamy każdą linię w PR-ze. 2.0: review idzie w górę stacku - ZACHOWANIE systemu, nie diff.**
+- Pułapka: skoro agenty piszą kod, a my im nie ufamy, kusi, by przeglądać każdą linię JESZCZE dokładniej. Firmy, które tak robią, odkrywają, że review staje się kolejnym bottleneckiem - zabija velocity.
+- 2.0: nie reviewujemy każdej linii ani PR-a; patrzymy na cały system z lotu ptaka i jego ZACHOWANIE.
+- Definiujemy MIARY: czy zmiana (na stagingu / produkcji) daje pozytywny efekt userom, czy powoduje regresję lub problem dla biznesu.
+- Narzędzia 2.0: A/B testy, eksperymenty, obserwacja zachowań użytkowników - regresje łapiemy po ZACHOWANIU systemu, nie po czytaniu diffa.
+(przejście -> Determinism)
+
+---
+
+## Determinism
+
+![](images/nb-determinism.svg)
+
+Note:
+**Determinism. 1.0: systemy w pełni deterministyczne (dane wejście -> ten sam wynik). 2.0: uczymy się budować i radzić sobie z zachowaniami niedeterministycznymi (LLM, agenci) - testy, evals, guardraile zamiast pewności krok po kroku.**
+- Twój anchor: nawet "cztery dziewiątki" (99,99%) to nie 100% - jest szansa, że z danego inputu wyjdzie inny output niż oczekiwany.
+- 2.0: budujemy systemy, które to KOMPENSUJĄ - experience layer, procesy biznesowe łapiące i naprawiające odchylenia, zamiast zakładać pewność krok po kroku.
+(przejście -> Practices)
+
+---
+
+## Practices
+
+![](images/nb-practices.svg)
+
+Note:
+**Practices. 1.0: clean code pod ludzi - KISS, YAGNI, SOLID, OOP. 2.0: piszemy agent-first - i otwarte pytanie: które z tych zasad przetrwają?**
+- WAŻNE (z doświadczenia, chroni "tech dalej ważny"): dobry design i czysty kod NADAL są kluczowe - obecne modele są trenowane na kodzie z tymi praktykami, więc im czystszy kod/design, tym LEPIEJ radzi sobie agent. Sam widziałem spadek jakości/szybkości agenta na zabałaganionym kodzie.
+(przejście -> The biggest change for engineers)
+
+---
+
+## Frontend
+<!-- .slide: data-visibility="hidden" -->
+
+![](images/nb-frontend.svg)
+
+Note:
+**Frontend. 1.0: obsesja na punkcie wojen frameworków UI i piksel-perfect ekranów w "frameworku jutra". 2.0: mniej tego - jako inżynier skupiamy się na doświadczeniu użytkownika (UX).**
+(przejście -> The biggest change for engineers)
+
+---
+
+## The biggest change for engineers
+<!-- .slide: class="new-world" -->
+
+It's not the tech - or how you use AI.
+
+It's how you approach the **job**.
+
+Toward **impact and value** - less on the tech.
+
+It's on you to make sure the value gets created.
+
+Note:
+**Największa zmiana dla inżynierów to NIE technologia ani sposób pracy z AI - to sposób, w jaki podchodzisz do PRACY.**
+- Nie chodzi o narzędzia ani o to, jak używasz AI. Chodzi o nastawienie do zawodu: mniej o technologię, bardziej o dostarczanie impactu i wartości.
+- Kluczowe: to na TOBIE spoczywa odpowiedzialność, żeby wartość faktycznie powstała - technologia jest środkiem, nie celem.
+(przejście -> The center of gravity moves)
+
+---
+
+## A new shift is coming
+<!-- .slide: data-visibility="hidden" -->
+
+Programmer -> developer -> **new engineer** (overtakes by ~2050).
+
+Entered ~**2006**, mid-transition - same gatekeeping then (Java) as now (AI).
+
+![](images/employment-transformation.svg)
+
+*Source: US BLS - [OEWS employment estimates](https://www.bls.gov/oes/) & [Occupational Outlook](https://www.bls.gov/ooh/computer-and-information-technology/); classifications changed over time, so the long-run line is directional. 2026+ is my own prediction.*
+<!-- .element: class="plate-label" -->
+
+Note:
+**Programmer -> developer -> new engineer: historia się rymuje, nadchodzi nowa zmiana.**
+- W liczbach (dane BLS USA, ~25 lat, kierunkowo, z predykcją): "computer programmer" szczyt ~2000, potem spada (rutynowe kodowanie wypierane); od 2000 rośnie "software developer" - rola szersza niż kod.
+- Osobisty anchor: wszedłem ~2006, w momencie przejścia. Na studiach uczyłem się "programisty komputerowego", a rynek wymagał "inżyniera oprogramowania". Świadek, nie z boku.
+- ⚠️ KLUCZOWA ANEGDOTA (koniecznie opowiedz - dowód "historia się rymuje" + śmiech sali): dziś zakładacie, że Java to oczywista, poważna technologia. Gdy wchodziłem na rynek, Java była gatekeepowana - "nie jesteś prawdziwym inżynierem, jeśli używasz Javy; prawdziwi używają C / C++ i sami zarządzają pamięcią". Gatekeeperzy byli po złej stronie historii - Java stała się dominująca. DOKŁADNIE ten sam gatekeeping słyszymy dziś wokół AI.
+- POINTA: wszystko zależy od POZYCJI i od tego, JAK podchodzisz do zmiany. Co dziś wyśmiewane, jutro bywa normą - nastawienie decyduje, czy jedziesz na fali, czy zostajesz z tyłu. (echo passivity angle)
+- Przewidywanie (strefa "AI era"): developer się wypłaszcza i spada; od ~2020 wyłania się NOWY typ inżyniera (wolny start, od 2025 ostry wzrost), a do ~2050 przebija PONAD developerów - AI-native, owner, sprawczy. Powiedz rym na głos.
+(przejście -> The center of gravity moves)
+
+---
+
+## The center of gravity moves
+<!-- .slide: data-cog="true" -->
+
+Human value is where **AI is weak**.
+
+Note:
+**AI jest najmocniejsze w "jak", więc twoja wartość przenosi się w "co i po co".**
+- Nawiązanie do fokusu inżyniera: kod się kurczy, rosną system design i domena/wartość.
+- AI zabiera najwięcej z "jak" (robienia), więc człowiek dokłada najwięcej tam, gdzie AI pomaga najmniej - WHY, domena, wartość. Tam przenosi się środek ciężkości.
+- Animacje: środek ciężkości od maszyny/kodu ku wartości; z IMPLEMENTACJI ku HOW & WHY (decyzje).
+- To nie jest "AI zabiera pracę" - to nierówność augmentacji przesuwa, gdzie leży twoja wartość.
+(przejście -> Soft skills = twój mnożnik / triada)
+
+---
+
+## Hard skills will be not enough
+<!-- .slide: data-visibility="hidden" -->
+
+Used to mean **"knows the framework."**
+
+Now: **"can take a problem and deliver it on a given scope."**
+
+![](images/skills-curve.svg)
+
+Note:
+**Seniority = delivery + odpowiedzialność, nie narzędzia i staż.**
+- Takeaway #2. Zmienia ścieżki wzrostu ORAZ rekrutację: zatrudniaj i awansuj za dowożenie, nie za tenurę.
+- Wykres: hard skills rosną szybko i wypłaszczają się już na seniorze - nie one różnicują wyżej. Soft skills rosną później (senior/staff). Business skills stają się kluczowe dopiero na staff/principal - to one robią różnicę na górze.
+(przejście -> Soft skills = twój mnożnik / triada)
+
+---
+
+## Seniority, redefined - Scope and Impact
+<!-- .slide: data-visibility="hidden" -->
+
+**Scope** - the size of problem you're trusted to own.
+
+**Impact** - how far your decisions reach.
+
+![](images/scope-impact.svg)
+
+Note:
+**Seniority na dwóch osiach: scope (jaki problem) x impact (jak szeroki wpływ).**
+- SCOPE: jaki problem ogarniasz - od "add index" (junior) po "business metrics" (principal).
+- IMPACT: jak daleko sięga twój wpływ - od komponentu po całą firmę/branżę.
+- Oba rosną razem: od tactical (dół) do strategic (góra).
+(przejście -> Responsibility · Ownership · Agency)
+
+---
+
+## Soft skills are your multiplier
+### Ability to deliver value effectively
+### is your way to differentiate on the market
+
+![](images/triad.svg)
+
+Note:
+**Nowy fundament: odpowiedzialność + ownership + sprawczość, spięte osądem.**
+- Nie chodzi o odhaczanie tasków (task = ktoś inny jest właścicielem problemu i wyniku). Potrzebujesz całej triady, wszystkie wymagane:
+- ODPOWIEDZIALNOŚĆ za wynik (jesteś na haku za efekt).
+- OWNERSHIP problemu (bierzesz go end-to-end).
+- SPRAWCZOŚĆ / agency - to TY pchasz zmianę, nie czekasz, aż ktoś powie, co robić.
+- Nad tym OSĄD (kropkowana ramka): ocena, co jest dobrym rozwiązaniem; spina triadę i decyduje, JAK ją zastosować. Wciąż robota inżyniera, tylko wyżej: mniej klepania, więcej decyzji.
+- Razem zamieniają problem w dostarczoną wartość - to one, nie narzędzia, rozdzielą ludzi na rynku.
+- Mnożnik: technologia × ta triada (soft skills + osąd) => dużo więcej wartości. Sama technika bez tego mnoży się przez ~1.
+(przejście -> Your engineering experience and fundamentals still matter)
+
+---
+
+## AI is a tool - build a healthy relationship with it
+<!-- .slide: data-visibility="hidden" -->
+
+Not a **silver bullet**.
+
+<!-- TODO: drawing - engineer + AI as a tool; healthy relationship, not hype, not dismissal -->
+
+Note:
+**AI to narzędzie - potrzebujesz z nim zdrowej relacji, nie hype'u ani lekceważenia.**
+- Samo słowo "AI" niesie balast: dla jednych srebrna kula (zrobi wszystko za mnie), dla innych zabawka/gadżet (nic nie warte). Oba błędne - echo dwóch ekstremów z początku (prawda w środku).
+- Zdrowa relacja: to narzędzie, jak każde wcześniej (asembler -> języki -> frameworki -> chmura -> AI). Uczysz się z nim pracować, znasz jego mocne i słabe strony.
+- Pytanie, które otwiera sekcję: JAK inżynier powinien podejść do AI/LLM? (setup pod następny slajd - to twarda umiejętność do opanowania)
+(przejście -> Using AI is a skill to master)
+
+---
+
+## Using AI is a skill to master
+<!-- .slide: data-visibility="hidden" -->
+
+Looks simple on the surface. Underneath, it's a **hard skill**.
+
+![](images/ai-iceberg.svg)
+
+Note:
+**Praca z AI to twarda umiejętność - mały czubek, reszta pod wodą.**
+- Na powierzchni banał ("wpisz prompt, gotowe") - płytko i prosto.
+- Pod spodem masa złożoności: eksperymenty, testy i evals, projektowanie kontekstu i narzędzi, iterowanie promptów, rozumienie GDZIE AI zawodzi.
+- Wymaga wielu godzin praktyki (myśl: ~10 000 godzin intensywnego używania) - budujesz INTUICJĘ, gdzie AI działa, a gdzie zawodzi; nie da się tego "przeczytać", trzeba wychodzić.
+(przejście -> Bonds erode without you)
+
+---
+
+## Your engineering experience and fundamentals still matter
+
+Left alone, AI drifts to **entropy**. You hold the **cohesion**.
+
+![](images/cohesion-force.svg)
+
+Note:
+**AI samo dryfuje ku entropii - to TY trzymasz spójność.**
+- AI zostawione samo, w dłuższym horyzoncie, prowadzi do chaosu: generuje kawałki, ale wiązania słabną, system pęka. Entropia z czasem rośnie.
+- Rysunek: czerwone siły rozrywają spójność (AI w czasie), ciągną ku rozpadowi.
+- Pomarańczowe siły to TY: dobry design, kontekst, course-correction - trzymasz całość w kupie.
+- Anegdota (z życia): projekty, gdzie pozwoliłem AI zrobić wszystko - nie czytałem, nie pisałem kodu - z czasem się rozjeżdżają, a rozwój staje się coraz trudniejszy. To nie nowość: 20 lat temu zaniedbane projekty wyglądały tak samo - AI tylko PRZYSPIESZA akumulację chaosu.
+- Spójność nie utrzymuje się sama; ktoś musi ją aktywnie trzymać.
+(przejście -> Engineering good practices still matter)
+
+---
+
+## Engineering good practices still matter
+
+Continuous delivery, stability, reliability - still fundamental.
+
+And above all: **system design**.
+
+![](images/good-practices.svg)
+
+Note:
+**Dobre praktyki inżynierskie nie znikają - CD, stabilność, reliability, a nade wszystko system design.**
+- To nie jest anty-tech: rzemiosło dalej obowiązuje. Continuous delivery, stabilność, reliability, observability - fundamenty, które trzymają system.
+- Szczególnie SYSTEM DESIGN: to on decyduje na górze. Im lepszy design, tym lepiej działa i człowiek, i AI (dobrze wytyczona droga = lepsze efekty).
+- AI nie zwalnia z tych zasad - podnosi ich wagę: generuje więcej kodu, który trzeba utrzymać w ryzach.
+(przejście -> Ambiguity & critical thinking)
+
+---
+
+## Ambiguity & critical thinking
+<!-- .slide: class="new-world" -->
+
+A core skill of the future.
+
+AI hands you answers.
+
+**You** judge them - and ask the **right questions**.
+
+Note:
+**Ambiguity + krytyczne myślenie to kluczowa umiejętność przyszłości.**
+- Świat coraz bardziej niejednoznaczny; AI sypie odpowiedziami - wartość jest w tym, by je ocenić i zadać właściwe pytania.
+- Krytyczne myślenie i komfort w niejednoznaczności to coś, czego AI za ciebie nie zrobi - im więcej "odpowiedzi", tym ważniejszy osąd, które są dobre.
+(przejście -> The engineer is the glue)
+
+---
+
+## The engineer is the glue
+
+AI is evolution, not revolution - **you** make the pieces cohesive.
+
+![](images/engineer-glue.svg)
+
+Note:
+**Metafora: inżynier to KLEJ (łączy półsurowe "kawałki", które robi LLM) i WODA (wypełnia szczeliny), żeby system znów był spójny.**
+- Teza: AI/LLM to ewolucja, nie rewolucja. LLM produkuje "rzeczy" - kawałki, które osobno nie trzymają się kupy; TY je sklejasz i wypełniasz luki.
+- Weryfikacja się przesuwa: z czytania każdej linii kodu na TESTY i KONTRAKTY - sprawdzasz, czy całość działa, nie każdy klocek z osobna.
+- Anegdota do opowiedzenia: mod do Quasimorph - AI zrobiło kawałki, człowiek spiął je w działającą całość (klej + woda).
+- Predykcja: ~2036 to domyślny tryb pracy inżyniera.
+(przejście -> We own the long horizon)
+
+---
+
+## We own the long horizon
+
+You set the road - AI is **short-sighted**, so we keep it on track.
+
+![](images/road-judgment.svg)
+
+Note:
+**Długi horyzont jest nasz: AI jest krótkowzroczne, my trzymamy kurs.**
+- TY wytyczasz drogę - cel, kierunek, co znaczy "dobrze".
+- AI jest świetne w "teraz", w pojedynczych zadaniach (może się zmieni - dziś tak jest), więc samo zjeżdża z drogi; my raz za razem sprowadzamy je na tor.
+- Dlaczego: modele są trenowane pod KRÓTKI horyzont - optymalizują "za 5-30 minut", nie "za 2 lata", i głównie chcą zadowolić operatora. Im dłużej działają, tym bardziej dryfują z kursu.
+- Dlatego stare zasady wciąż obowiązują: system design, architektura, clean code. Bonus: im lepszy design (lepiej wytyczona droga), tym lepsze efekty AI.
+(przejście -> We own the judgment)
+
+---
+
+## We own the judgment
+
+**You** define *good enough* - AI can't.
+
+Aim for perfect and the market kills you. Leave it vague and AI ships something random.
+
+![](images/good-enough.svg)
+
+Note:
+**To MY, inżynierowie, definiujemy "good enough" - AI samo tego nie ustali.**
+- Nie może być idealnie: rynek zabija wolnych; przepalasz czas na perfekcję, a konkurencja z "good enough" zjada twój rynek.
+- Nie działa też "zrób coś good enough" rzucone do AI: bez naszej definicji AI dowiezie coś przypadkowego. To MY ustalamy, co "wystarczająco dobrze" znaczy w tym kontekście.
+- AI nie wie, jakie ryzyko biznes akceptuje ani gdzie wolno ciąć zakręty. Nasz osąd to poprzeczka, do której AI buduje.
+(przejście -> Don't give in to the negativism)
+
+---
+
+## How to prepare - Junior
+<!-- .slide: data-visibility="hidden" -->
+
+### Go deep - and learn the new craft
+
+- **Fundamentals** (memory, HTTP, algorithms) - your entropy control, even if the stack hides them
+- Use AI, but always know **what** you build and **why**
+- Take small problems **end-to-end** - start owning outcomes
+- Practice AI as a **hard skill** - experiment, test, put in the hours
+
+Note:
+**Junior: idź w GŁĄB - fundamenty jako kontrola entropii, i ucz się AI jako rzemiosła.**
+- Fundamenty (wskaźniki, pamięć, HTTP, algorytmy) przydadzą się, nawet jeśli stack je ukrywa (JS dev też). Rób leetcode i struktury danych, choćbyś "nie musiał".
+- Używaj AI, ale zawsze wiedz, CO i PO CO budujesz. Bierz małe problemy end-to-end - zacznij brać odpowiedzialność za wynik.
+- Traktuj AI jak twardą umiejętność (góra lodowa): eksperymentuj, testuj, przepracuj godziny.
+
+---
+
+## How to prepare - Mid
+<!-- .slide: data-visibility="hidden" -->
+
+### Own it - problems, not tasks
+
+- Own **features and problems** end-to-end, not tickets
+- Build **agency** - push for change, don't wait to be told
+- Think in **scope & impact**; grow **domain & business** sense (T-shape)
+- Use AI to kill **toil** - reinvest the time in judgment
+
+Note:
+**Mid: przejmij ownership problemów, nie tasków - i buduj sprawczość.**
+- Bierz całe funkcje i problemy end-to-end, nie taski. Pchaj zmianę, nie czekaj aż ktoś powie.
+- Myśl w kategoriach scope & impact. Rozwijaj domenę i biznes; dołóż specjalizację na szeroką bazę (T-shape).
+- Używaj AI, żeby zdjąć toil - odzyskany czas inwestuj w osąd.
+
+---
+
+## How to prepare - Senior
+<!-- .slide: data-visibility="hidden" -->
+
+### Judgment and value - drive outcomes
+
+- Go **broad** - UX, customer interviews, business strategy
+- **Good enough** beats perfect - that call is your judgment, and AI can't make it
+- Own **outcomes**; drive value with AI (**Software 2.0**), not just tickets faster
+- Invest in **judgment** - experience fades, judgment compounds
+
+Note:
+**Senior: idź w SZERZ - osąd i wartość, dowoź outcome (Software 2.0).**
+- Poza sam kod: UX, wywiady z użytkownikami, strategia biznesowa w twojej domenie.
+- "Good enough" bije "perfect" - to twój osąd, którego AI nie zrobi. Odpowiadasz za wynik; prowadź wartość z AI, nie tylko szybciej odhaczaj taski. Mentoruj.
+- Inwestuj w osąd - doświadczenie się deprecjonuje, osąd procentuje.
+
+---
+
+## How to prepare - Senior+
+<!-- .slide: data-visibility="hidden" -->
+
+### Set direction - the intent architect
+
+- Operate across teams at **org-wide** scope & impact
+- **"Lead" and "architect"** are no longer separate roles
+- Be the **intent architect** - set the goals, design the **loops** AI runs in
+- **Managing up**, relationships, past your own bubble
+- Set **direction & accountability**, not just solutions
+
+Note:
+**Senior+: ustawiasz kierunek - intent architect, cele i pętle dla AI.**
+- Działasz across teams, scope i impact na poziomie organizacji. "Lead" i "architekt" przestają być osobnymi rolami - to domyślny tryb.
+- Intent architect: ustalasz cele i projektujesz pętle, w których działa AI.
+- Managing up, relacje, patrzenie poza własną bańkę. Ustawiasz kierunek i odpowiedzialność, nie tylko rozwiązania.
+(przejście -> Don't give in to the negativism)
+
+---
+
+## Don't give in to the negativism
+<!-- .slide: class="new-world" -->
+
+Every generation is told the industry is **ending**.
+
+Post-2008's "end" became the next generation's **eldorado**.
+
+In 2040, they'll call 2026 the **start**.
+
+Note:
+**Mów to od siebie, nie czytaj - to slajd do opowiedzenia.**
+- Rozwiń na głos: post-2008 pisano "agile, proces, managerowie wszędzie - koniec wolności inżyniera". A pokolenie, które weszło w tym narzekaniu, nazwało eldorado dokładnie to, co poprzednicy nazywali końcem.
+- Puenta do powiedzenia: jesteśmy na początku. Zmień sposób myślenia o pracy - i znajdź wyzwanie warte opanowania.
+**Każde pokolenie słyszy, że branża się kończy - a to "kończenie się" bywa cudzym eldorado.**
+- AI-burnout i utrata radości są realne - ale spytaj, skąd: z intensywności czy ze zmiany charakteru pracy i nowych ról? Za kilka lat temat wygaśnie, bo się przyzwyczaimy.
+- Pytanie jest indywidualne: znajdź radość w nowych obszarach; niebezpieczeństwo to negatywizm i bańki, w których praca zaczyna obrzydzać.
+- Historia się rymuje: gdy wchodziłem (depresja po 2008), pisano, że to koniec branży i wolności inżyniera - agile, managerowie, proces wszędzie. A pokolenie, które weszło w tym narzekaniu, zobaczyło jako eldorado dokładnie to, co poprzednicy nazywali końcem.
+- W 2040 napiszą, że eldorado się skończyło, a 2026 nazwą jego początkiem - to samo malkontenctwo, zregenerowane. Nie daj się.
+- Ja: nerd, kochałem assembler i ręczną pamięć, nienawidziłem nudnej pracy po 2008 (frameworki, wysoki poziom) - ale zmieniłem nastawienie i znalazłem nowe specjalizacje do opanowania. Mówię to jako ktoś, kto za miesiąc kończy 40 i "ze stereotypu" powinien narzekać najbardziej.
+
+---
+
+## IT is the front line of the future
+<!-- .slide: class="new-world" -->
+
+We live with AI before anyone - a **glimpse of the future**.
+
+That seat lets IT **prepare better than any other field**.
+
+Note:
+**IT widzi przyszłość pierwsze - i dzięki temu może przygotować się najlepiej na rynku.**
+- Z natury pracy programiści używają AI/LLM/agentów najwięcej i najgłębiej - mają podgląd na to, co dopiero nadejdzie.
+- Ten "front-row seat" to realna przewaga: nie chodzi o dźwignię czy przepaść, tylko o to, że MOŻEMY przygotować się na przyszłość wcześniej i lepiej niż ktokolwiek inny.
+- Użyj tego: patrz, eksperymentuj, ustawiaj się pod to, co widzisz nadchodzące.
+(przejście -> It will stabilize again)
+
+---
+
+## It will stabilize again
+
+![](images/stability.svg)
+
+Note:
+**Turbulencja się ustabilizuje - a ten środek to OKAZJA dla early movers.**
+- Było stabilnie, od ~2024 turbulencja (destabilizacja), potem znów stabilizacja (203?). To ok.
+- Środek to nie tylko chaos - to okazja: kto wchodzi wcześnie, zbiera owoce później (jak w każdej fali). Nad chaosem świeci "opportunity".
+- Chaos się wygładzi, gdy pojawią się nowe wzorce, role, wymagania, praktyki, narzędzia - nowa stabilność.
+- Jesteśmy w środku przejścia, nie na końcu świata.
+(przejście -> Quo Vadis IT?)
+
+---
+
+## Quo Vadis IT?
+
+### Q & A after the talk :)
+
+Note:
+**Domknięcie tezy: baza przesuwa się z kodu ku odpowiedzialności, ownership i sprawczości - AI to przyspiesza.**
+- Zmniejsz niepewność: kierunek jest czytelny, nawet jeśli szczegóły nie.
+- Inwestuj w triadę już teraz. mfranc.com. Dziękuję - otwieram na pytania.
+
+                </script>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+    <script>
+        /* ============================================================
+           Slide loading + edit mode.
+           reveal.js strips data-visibility="hidden" slides at init, so the
+           ONLY difference between modes is the source markdown. We load
+           slides.md ourselves (one path, always cache-busted) so normal and
+           edit mode can never diverge or serve a stale/bfcached version:
+             - normal:  keep the hide directives -> reveal strips them
+             - ?hidden=show / ?edit=1:  rewrite them to a "was-hidden" marker
+           Force a fresh load if the page is restored from the bf-cache, so
+           dropping the ?hidden param always returns to the clean deck.
+           ============================================================ */
+        // Self-contained deploy: slides are inlined. ?hidden=show / ?edit=1 reveals hidden slides.
+        const EDIT_HIDDEN = (function () {
+            const q = new URLSearchParams(location.search);
+            const edit = q.get('hidden') === 'show' || q.get('edit') === '1';
+            if (edit) {
+                const tpl = document.querySelector('section[data-markdown] script[type="text/template"]');
+                if (tpl) tpl.textContent = tpl.textContent.replace(
+                    /^[ \t]*<!--[ \t]*\.slide:[ \t]*data-visibility="hidden"[ \t]*-->[ \t]*$/gm,
+                    '<!-- .slide: class="was-hidden" -->');
+            }
+            return edit;
+        })();
+
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            transition: 'slide',
+            width: 1280,
+            height: 720,
+            margin: 0.04,
+            plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+        });
+
+        if (EDIT_HIDDEN) {
+            const st = document.createElement('style');
+            st.textContent =
+                '.reveal section.was-hidden::after{content:"HIDDEN";position:absolute;top:0;left:0;' +
+                "font:700 12px/1 'JetBrains Mono',monospace;letter-spacing:2px;color:#C0504A;" +
+                'border:1px solid #C0504A;border-radius:6px;padding:3px 7px;opacity:.85;}' +
+                '.hidden-mode-banner{position:fixed;top:8px;left:50%;transform:translateX(-50%);z-index:60;' +
+                "font:700 12px/1 'JetBrains Mono',monospace;letter-spacing:2px;color:#1F2429;" +
+                'background:#E3B341;border-radius:6px;padding:5px 10px;}';
+            document.head.appendChild(st);
+            Reveal.on('ready', () => {
+                const banner = document.createElement('div');
+                banner.className = 'hidden-mode-banner';
+                banner.textContent = 'SHOWING HIDDEN SLIDES';
+                document.body.appendChild(banner);
+            });
+        }
+
+        /* ============================================================
+           "Truth in the middle" spectrum (2026 slide)
+           Slides opt in with: <!-- .slide: data-spectrum="true" -->
+           Two extremes at the ends, a dotted uncertainty band in the
+           middle, and a "truth?" marker drifting back and forth.
+           ============================================================ */
+        (function () {
+            const LINE = '#6A6F76', SEP = '#9AA0A6', DIM = '#7A7F86', LIGHT = '#C6CBD1', WHITE = '#FFFFFF';
+            const MONO = "'JetBrains Mono', ui-monospace, monospace";
+            const x0 = 70, x1 = 1090, Y = 120, xA = 440, xB = 720;
+            function mount(section) {
+                if (section.__spectrum) return section.__spectrum;
+                const host = document.createElement('div');
+                host.className = 'spectrum-anim';
+                host.style.cssText = 'width:82%;max-width:920px;margin:1.4em auto 0;';
+                section.appendChild(host);
+                const svg = d3.select(host).append('svg').attr('viewBox', '0 0 1160 240')
+                    .style('width', '100%').style('display', 'block').style('overflow', 'visible');
+                svg.append('line').attr('x1', x0).attr('y1', Y).attr('x2', xA).attr('y2', Y).attr('stroke', LINE).attr('stroke-width', 3);
+                svg.append('line').attr('x1', xA).attr('y1', Y).attr('x2', xB).attr('y2', Y).attr('stroke', LINE).attr('stroke-width', 3).attr('stroke-dasharray', '2 12').attr('stroke-linecap', 'round');
+                svg.append('line').attr('x1', xB).attr('y1', Y).attr('x2', x1).attr('y2', Y).attr('stroke', LINE).attr('stroke-width', 3);
+                [xA, xB].forEach(x => svg.append('line').attr('x1', x).attr('y1', Y - 16).attr('x2', x).attr('y2', Y + 16).attr('stroke', SEP).attr('stroke-width', 2));
+                [x0, x1].forEach(x => svg.append('line').attr('x1', x).attr('y1', Y - 20).attr('x2', x).attr('y2', Y + 20).attr('stroke', SEP).attr('stroke-width', 3));
+                const cap = (x, anchor, l1, l2) => {
+                    svg.append('text').attr('x', x).attr('y', Y + 52).attr('text-anchor', anchor).attr('fill', DIM).style('font-family', MONO).style('font-size', '15px').text('extreme');
+                    svg.append('text').attr('x', x).attr('y', Y + 80).attr('text-anchor', anchor).attr('fill', LIGHT).style('font-family', MONO).style('font-size', '19px').text(l1);
+                    svg.append('text').attr('x', x).attr('y', Y + 104).attr('text-anchor', anchor).attr('fill', LIGHT).style('font-family', MONO).style('font-size', '19px').text(l2);
+                };
+                cap(x0, 'start', 'AI is a bubble -', 'it will collapse');
+                cap(x1, 'end', 'AI takes', 'all the jobs');
+                svg.append('text').attr('x', (xA + xB) / 2).attr('y', Y + 52).attr('text-anchor', 'middle').attr('fill', DIM).style('font-family', MONO).style('font-size', '14px').text('the truth is somewhere in here');
+                const lbl = svg.append('text').attr('y', Y - 34).attr('text-anchor', 'middle').attr('fill', '#E07B39').style('font-family', MONO).style('font-weight', 700).style('font-size', '18px').text('the truth?');
+                const ring = svg.append('circle').attr('cy', Y).attr('r', 12).attr('fill', 'none').attr('stroke', '#E07B39').attr('stroke-width', 2);
+                const dot = svg.append('circle').attr('cy', Y).attr('r', 6).attr('fill', '#E07B39');
+                const stem = svg.append('line').attr('y1', Y - 22).attr('y2', Y - 12).attr('stroke', '#E07B39').attr('stroke-width', 1.5);
+                const lo = xA + 42, hi = xB - 42;
+                const timer = d3.timer((elapsed) => {
+                    const e = 0.5 + 0.5 * Math.sin(elapsed / 1400);
+                    const x = lo + (hi - lo) * e;
+                    dot.attr('cx', x); ring.attr('cx', x); lbl.attr('x', x); stem.attr('x1', x).attr('x2', x);
+                });
+                section.__spectrum = { timer, host };
+                return section.__spectrum;
+            }
+            function sync() { const c = Reveal.getCurrentSlide(); if (c && c.hasAttribute('data-spectrum')) mount(c); }
+            Reveal.on('ready', sync); Reveal.on('slidechanged', sync);
+        })();
+
+        /* ============================================================
+           Center-of-gravity animation (title slide)
+           Slides opt in with:  <!-- .slide: data-cog="true" -->
+           All markup/JS lives here so slides.md stays pure Markdown.
+           A "band of value" (spectrum bump) drifts right across an
+           abstraction ladder, and the balance point / fulcrum follows -
+           the center of gravity of engineering value moving from code
+           toward ownership & value.
+           ============================================================ */
+        (function () {
+            // Two synced "center of gravity" panels:
+            //  left  - a rosette; the value-band sweeps an abstraction ladder and the
+            //          weighted centroid drifts from the machine toward Domain & Value.
+            //  right - an IMPLEMENTATION -> HOW & WHY axis; the centroid drifts from
+            //          writing the code toward the decisions (how & why).
+            const STOPS = ['Machine','Code','Frameworks','Systems','Domain','Value'];
+            const spectrum = ['#4A4F55','#565B61','#63686E','#6E737A','#7A7F86','#888E95'];
+            const ANG = [210, 150, -90, 90, -30, 30];
+            const CX = 185, CY = 185, R = 46, R0 = 46, SIG = 62;
+            const capStyle = s => s.style('font-family', "'JetBrains Mono', ui-monospace, monospace");
+
+            function buildRosette(parent) {
+                const svg = d3.select(parent).append('svg')
+                    .attr('viewBox', '0 0 370 350')
+                    .style('width', '100%').style('display', 'block').style('overflow', 'visible');
+                const pts = ANG.map(a => { const r = a * Math.PI / 180; return { x: CX + R * Math.cos(r), y: CY + R * Math.sin(r), a: r }; });
+                const rings = svg.selectAll('circle.ring').data(pts).enter().append('circle').attr('class', 'ring')
+                    .attr('cx', d => d.x).attr('cy', d => d.y)
+                    .attr('fill', (d, i) => d3.rgb(spectrum[i]).darker(1.6) + '').attr('fill-opacity', 0.85)
+                    .attr('stroke', (d, i) => spectrum[i]).attr('stroke-width', 3);
+                capStyle(svg.append('text').attr('x', CX).attr('y', 26).attr('text-anchor', 'middle')
+                    .attr('fill', '#FFFFFF').style('letter-spacing', '0.14em').style('font-size', '15px').text('center of gravity'));
+                const link = svg.append('line').attr('x1', CX).attr('y1', 34).attr('stroke', '#8A9098').attr('stroke-width', 1).attr('opacity', 0.5);
+                const dot = svg.append('circle').attr('r', 6).attr('fill', '#FFFFFF');
+                svg.selectAll('text.stop').data(pts).enter().append('text').attr('class', 'stop')
+                    .attr('x', d => CX + (R + R0 + 10) * Math.cos(d.a)).attr('y', d => CY + (R + R0 + 10) * Math.sin(d.a) + 4)
+                    .attr('text-anchor', 'middle').attr('fill', '#C7CED6')
+                    .style('font-family', "'EB Garamond', serif").style('font-variant', 'small-caps')
+                    .style('letter-spacing', '0.06em').style('font-size', '15px').text((d, i) => STOPS[i]);
+                return function (tx) {
+                    let sw = 0, sx = 0, sy = 0;
+                    const w = pts.map(p => { const dx = p.x - tx, dy = p.y - CY; const g = Math.exp(-(dx * dx + dy * dy) / (2 * SIG * SIG)); sw += g; sx += g * p.x; sy += g * p.y; return g; });
+                    rings.attr('r', (d, i) => R0 * (0.5 + 0.55 * w[i])).attr('opacity', (d, i) => 0.3 + 0.6 * w[i]);
+                    const gx = sw ? sx / sw : CX, gy = sw ? sy / sw : CY;
+                    dot.attr('cx', gx).attr('cy', gy); link.attr('x2', gx).attr('y2', gy);
+                };
+            }
+
+            function buildHowWhy(parent) {
+                const svg = d3.select(parent).append('svg')
+                    .attr('viewBox', '0 0 380 350')
+                    .style('width', '100%').style('display', 'block').style('overflow', 'visible');
+                svg.append('line').attr('x1', 100).attr('y1', 190).attr('x2', 295).attr('y2', 190).attr('stroke', '#5B6672').attr('stroke-width', 3);
+                const how = svg.append('circle').attr('cx', 100).attr('cy', 190).attr('fill', d3.rgb('#565B61').darker(1.4) + '').attr('stroke', '#565B61').attr('stroke-width', 3);
+                const why = svg.append('circle').attr('cx', 295).attr('cy', 190).attr('fill', d3.rgb('#C6CBD1').darker(1.3) + '').attr('stroke', '#C6CBD1').attr('stroke-width', 3);
+                capStyle(svg.append('text').attr('x', 197).attr('y', 26).attr('text-anchor', 'middle')
+                    .attr('fill', '#FFFFFF').style('letter-spacing', '0.14em').style('font-size', '15px').text('center of gravity'));
+                const link = svg.append('line').attr('x1', 197).attr('y1', 34).attr('stroke', '#8A9098').attr('stroke-width', 1).attr('opacity', 0.5);
+                const dot = svg.append('circle').attr('r', 6).attr('fill', '#FFFFFF');
+                capStyle(svg.append('text').attr('x', 100).attr('y', 262).attr('text-anchor', 'middle').attr('fill', '#C7CED6').style('letter-spacing', '0.06em').style('font-size', '15px').text('implementation'));
+                capStyle(svg.append('text').attr('x', 295).attr('y', 262).attr('text-anchor', 'middle').attr('fill', '#C7CED6').style('letter-spacing', '0.06em').style('font-size', '18px').text('how & why'));
+                svg.append('text').attr('x', 100).attr('y', 284).attr('text-anchor', 'middle').attr('fill', '#8A92A0').style('font-size', '12px').text('writing the code');
+                svg.append('text').attr('x', 295).attr('y', 284).attr('text-anchor', 'middle').attr('fill', '#8A92A0').style('font-size', '12px').text('decisions & value');
+                return function (e) {
+                    how.attr('r', 34 * (1 - 0.4 * e)).attr('opacity', 0.35 + 0.5 * (1 - e));
+                    why.attr('r', 22 + 22 * e).attr('opacity', 0.5 + 0.5 * e);
+                    const gx = 100 + 195 * e;
+                    dot.attr('cx', gx).attr('cy', 190); link.attr('x2', gx).attr('y2', 190);
+                };
+            }
+
+            function mountCog(section) {
+                if (section.__cog) return section.__cog;
+                const host = document.createElement('div');
+                host.className = 'cog-anim';
+                host.style.cssText = 'width:94%;max-width:880px;margin:0.2em auto 0;display:flex;gap:2%;align-items:center;justify-content:center;';
+                section.appendChild(host);
+                const left = document.createElement('div'); left.style.cssText = 'flex:0 1 300px;';
+                const right = document.createElement('div'); right.style.cssText = 'flex:0 1 360px;';
+                host.appendChild(left); host.appendChild(right);
+                const rFrame = buildRosette(left);
+                const hFrame = buildHowWhy(right);
+                const period = 8000;
+                const timer = d3.timer((elapsed) => {
+                    const t = (elapsed % (period * 2)) / period;
+                    const tri = t < 1 ? t : 2 - t;
+                    const e = tri < 0.5 ? 4 * tri ** 3 : 1 - Math.pow(-2 * tri + 2, 3) / 2;
+                    rFrame((CX - 72) + 144 * e);
+                    hFrame(0.34 + 0.60 * e);
+                });
+                section.__cog = { timer, host };
+                return section.__cog;
+            }
+
+            function syncCog() {
+                const cur = Reveal.getCurrentSlide();
+                if (cur && cur.hasAttribute('data-cog')) mountCog(cur);
+            }
+            Reveal.on('ready', syncCog);
+            Reveal.on('slidechanged', syncCog);
+        })();
+
+        /* ============================================================
+           Roles-merging animation
+           Slides opt in with:  <!-- .slide: data-merge="true" -->
+           Specialization collapses as the org evolves with the tech:
+           Dev + QA -> Engineer, Dev + IT Ops -> DevOps. Each row
+           "breathes" - the two source roles drift together while the
+           merged role pulses and glows, then relax (pendulum-like loop).
+           ============================================================ */
+        (function () {
+            const PILL_H = 44, RX = 10, DW = 124;
+            const EDGE = '#6A6F76', GLOW = '#FFFFFF', TXT = '#DDE2E8';
+            const MONO = "'JetBrains Mono', ui-monospace, monospace";
+            const COLX = [100, 410, 720];
+            const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+            // Tracks build up, then converge:
+            //  1: Frontend+Backend+QA -> Full-stack Engineer ; Backend+IT Ops -> DevOps
+            //  2: Full-stack + Business -> Product Engineer
+            //  3: Full-stack + DevOps   -> ???  (not yet named - merging continues)
+            //  4: DevOps + Security      -> DevSecOps
+            const NODES = [
+                { id: 'fe',   label: 'Frontend',            col: 0, y: 48,  stage: 0, color: '#5A5F66' },
+                { id: 'be1',  label: 'Backend',             col: 0, y: 108, stage: 0, color: '#5A5F66' },
+                { id: 'qa',   label: 'QA',                  col: 0, y: 168, stage: 0, color: '#5A5F66' },
+                { id: 'be2',  label: 'Backend',             col: 0, y: 272, stage: 0, color: '#5A5F66' },
+                { id: 'ops',  label: 'IT Ops',              col: 0, y: 332, stage: 0, color: '#5A5F66' },
+                { id: 'fs',   label: 'Full-stack Engineer', col: 1, y: 108, stage: 1, color: '#8A9098', w: 210 },
+                { id: 'dops', label: 'DevOps',              col: 1, y: 300, stage: 1, color: '#8A9098' },
+                { id: 'biz',  label: 'Business',            col: 1, y: 40,  stage: 2, color: '#6E7379' },
+                { id: 'sec',  label: 'Security',            col: 1, y: 392, stage: 4, color: '#6E7379' },
+                { id: 'eng',  label: 'Product Engineer',    col: 2, y: 74,  stage: 2, color: '#E07B39', w: 210 },
+                { id: 'unk',  label: '???',                 col: 2, y: 204, stage: 3, color: '#9AA0A6', w: 90 },
+                { id: 'dso',  label: 'DevSecOps',           col: 2, y: 352, stage: 4, color: '#E07B39', w: 150 },
+            ];
+            const EDGES = [
+                { from: 'fe',  to: 'fs',   stage: 1 },
+                { from: 'be1', to: 'fs',   stage: 1 },
+                { from: 'qa',  to: 'fs',   stage: 1 },
+                { from: 'be2', to: 'dops', stage: 1 },
+                { from: 'ops', to: 'dops', stage: 1 },
+                { from: 'biz', to: 'eng',  stage: 2 },
+                { from: 'fs',  to: 'eng',  stage: 2 },
+                { from: 'fs',  to: 'unk',  stage: 3 },
+                { from: 'dops', to: 'unk', stage: 3 },
+                { from: 'dops', to: 'dso', stage: 4 },
+                { from: 'sec', to: 'dso',  stage: 4 },
+            ];
+            const N = Object.fromEntries(NODES.map(n => [n.id, n]));
+            const W = n => n.w || DW;
+
+            function pill(g, label, color, w) {
+                g.append('rect')
+                    .attr('x', -w / 2).attr('y', -PILL_H / 2)
+                    .attr('width', w).attr('height', PILL_H).attr('rx', RX)
+                    .attr('fill', d3.rgb(color).darker(1.4) + '')
+                    .attr('stroke', color).attr('stroke-width', 2);
+                g.append('text').attr('text-anchor', 'middle').attr('dy', '0.34em')
+                    .attr('fill', (color === '#FFFFFF' || color === '#D6DADF') ? '#111' : TXT)
+                    .style('font-family', MONO)
+                    .style('font-weight', 700).style('font-size', '14px')
+                    .text(label);
+            }
+
+            function mountMerge(section) {
+                if (section.__merge) return section.__merge;
+                const host = document.createElement('div');
+                host.className = 'merge-anim';
+                host.style.cssText = 'width:64%;max-width:640px;margin:0.2em auto 0;';
+                section.appendChild(host);
+
+                const svg = d3.select(host).append('svg')
+                    .attr('viewBox', '0 0 920 420')
+                    .style('width', '100%').style('display', 'block').style('overflow', 'visible');
+
+                const gE = svg.append('g'), gN = svg.append('g');
+
+                const edgeSel = gE.selectAll('line').data(EDGES).enter().append('line')
+                    .attr('x1', d => COLX[N[d.from].col] + W(N[d.from]) / 2).attr('y1', d => N[d.from].y)
+                    .attr('x2', d => COLX[N[d.to].col] - W(N[d.to]) / 2).attr('y2', d => N[d.to].y)
+                    .attr('stroke', EDGE).attr('stroke-width', 2).attr('opacity', 0);
+
+                const mkHalo = (id) => gN.append('rect')
+                    .attr('x', COLX[N[id].col] - W(N[id]) / 2 - 6).attr('y', N[id].y - PILL_H / 2 - 6)
+                    .attr('width', W(N[id]) + 12).attr('height', PILL_H + 12).attr('rx', RX + 4)
+                    .attr('fill', 'none').attr('stroke', '#E07B39').attr('stroke-width', 3).attr('opacity', 0);
+                const halo = mkHalo('dso');
+                const haloE = mkHalo('eng');
+
+                const nodeSel = gN.selectAll('g.node').data(NODES).enter().append('g').attr('class', 'node')
+                    .attr('transform', d => `translate(${COLX[d.col]},${d.y})`);
+                nodeSel.each(function (d) { pill(d3.select(this), d.label, d.color, W(d)); });
+
+                function frame(elapsed) {
+                    const STAGE_MS = 1400;                          // ~1.4s per stage, holds at the end
+                    const phase = clamp(elapsed / STAGE_MS, 0, 5);  // 0..5, no loop
+                    nodeSel.attr('opacity', d => d.stage === 0 ? 1 : clamp(phase - d.stage, 0, 1));
+                    edgeSel.attr('opacity', d => clamp(phase - d.stage, 0, 1) * 0.55);
+                    const base = clamp(phase - 4, 0, 1);
+                    halo.attr('opacity', base * (0.45 + 0.35 * Math.sin(elapsed / 480)));
+                    const baseE = clamp(phase - 2, 0, 1);
+                    haloE.attr('opacity', baseE * (0.45 + 0.35 * Math.sin(elapsed / 520)));
+                }
+
+                const timer = d3.timer(frame);
+                section.__merge = { timer, host };
+                return section.__merge;
+            }
+
+            function syncMerge() {
+                const cur = Reveal.getCurrentSlide();
+                if (cur && cur.hasAttribute('data-merge')) mountMerge(cur);
+            }
+
+            Reveal.on('ready', syncMerge);
+            Reveal.on('slidechanged', syncMerge);
+        })();
+
+        /* ============================================================
+           Software: efficiency -> revenue driver animation
+           Slides opt in with:  <!-- .slide: data-shift="true" -->
+           Five cards build left -> right: simple programs -> desktop ->
+           web -> mobile -> distributed systems, each bigger and warmer
+           than the last, to show software complexity rising over time.
+           Plays once (~4.5s) and holds with a gentle glow on the last.
+           ============================================================ */
+        (function () {
+            const ACC = '#8A9098', GLOW = '#FFFFFF', MUTED = '#7A7F86';
+            const MONO = "'JetBrains Mono', ui-monospace, monospace";
+            const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+            // rising-complexity flow, builds left -> right and holds:
+            // simple programs -> desktop -> web -> mobile -> distributed systems;
+            // each stage bigger and warmer than the last (complexity rises).
+            const STAGES = [
+                { title: 'Simple programs', sub: 'scripts, Excel', cx: 105, cy: 235, w: 190, h: 110, ts: 15, fill: '#151515', stroke: '#4A4A4A', tc: '#9AA0A6', sc: '#6A6F76', stage: 0 },
+                { title: 'Desktop apps', sub: 'one machine', cx: 355, cy: 225, w: 190, h: 130, ts: 15, fill: '#1A1A1A', stroke: '#585858', tc: '#B0B5BB', sc: '#7A7F86', stage: 1 },
+                { title: 'Web apps', sub: 'reach everyone', cx: 605, cy: 215, w: 190, h: 150, ts: 15, fill: '#1F1F1F', stroke: '#6E6E6E', tc: '#C6CBD1', sc: '#8A9098', stage: 2 },
+                { title: 'Mobile apps', sub: 'in every pocket', cx: 855, cy: 206, w: 190, h: 168, ts: 15, fill: '#262626', stroke: '#9A7A55', tc: '#D6C0A5', sc: '#A08A70', stage: 3 },
+                { title: 'Distributed systems', sub: 'global, always-on', cx: 1105, cy: 196, w: 190, h: 188, ts: 13, fill: '#2C2C2C', stroke: '#E07B39', tc: '#E8955A', sc: '#C6CBD1', stage: 4 },
+            ];
+            const ARROWS = [
+                { x1: 205, x2: 255, y: 232, label: '', stage: 1 },
+                { x1: 455, x2: 505, y: 222, label: '', stage: 2 },
+                { x1: 705, x2: 755, y: 212, label: '', stage: 3 },
+                { x1: 955, x2: 1005, y: 202, label: '', stage: 4 },
+            ];
+
+            function mount(section) {
+                if (section.__shift) return section.__shift;
+                const host = document.createElement('div');
+                host.className = 'shift-anim';
+                host.style.cssText = 'width:94%;max-width:1040px;margin:0.6em auto 0;';
+                section.appendChild(host);
+
+                const svg = d3.select(host).append('svg')
+                    .attr('viewBox', '0 0 1200 470')
+                    .style('width', '100%').style('display', 'block').style('overflow', 'visible');
+
+                // growth chart BELOW the cards: users on the systems and the size of
+                // the digital economy both climb as software complexity rises.
+                // Shares the horizontal axis with the cards; revealed left -> right.
+                svg.append('line').attr('x1', 10).attr('y1', 300).attr('x2', 1190).attr('y2', 300)
+                    .attr('stroke', '#2A2E33').attr('stroke-width', 1.5).attr('stroke-dasharray', '3 7');
+                const bgClip = svg.append('clipPath').attr('id', 'shiftClip')
+                    .append('rect').attr('x', 0).attr('y', 300).attr('width', 0).attr('height', 170);
+                const bg = svg.append('g').attr('clip-path', 'url(#shiftClip)');
+                (function () {
+                    const N = 64, X0 = 10, X1 = 1190, BASE = 452;
+                    const mk = (maxH, pw) => {
+                        const pts = [];
+                        for (let i = 0; i <= N; i++) { const t = i / N; pts.push([X0 + t * (X1 - X0), BASE - maxH * Math.pow(t, pw)]); }
+                        const line = pts.map((q, i) => (i ? 'L' : 'M') + q[0].toFixed(1) + ',' + q[1].toFixed(1)).join(' ');
+                        const area = 'M' + X0 + ',' + BASE + ' ' + pts.map(q => 'L' + q[0].toFixed(1) + ',' + q[1].toFixed(1)).join(' ') + ' L' + X1 + ',' + BASE + ' Z';
+                        return { line, area };
+                    };
+                    const eco = mk(132, 2.6), usr = mk(100, 2.0);
+                    bg.append('path').attr('d', eco.area).attr('fill', '#E07B39').attr('opacity', 0.12);
+                    bg.append('path').attr('d', usr.area).attr('fill', '#57A2B2').attr('opacity', 0.12);
+                    bg.append('path').attr('d', eco.line).attr('fill', 'none').attr('stroke', '#E07B39').attr('stroke-width', 2.5).attr('opacity', 0.6);
+                    bg.append('path').attr('d', usr.line).attr('fill', 'none').attr('stroke', '#57A2B2').attr('stroke-width', 2.5).attr('opacity', 0.6);
+                })();
+                (function () {
+                    const leg = svg.append('g');
+                    const row = (y, col, txt) => {
+                        leg.append('rect').attr('x', 24).attr('y', y - 9).attr('width', 14).attr('height', 6).attr('rx', 3).attr('fill', col);
+                        leg.append('text').attr('x', 46).attr('y', y).attr('fill', '#9AA0A6').style('font-size', '15px').style('font-family', MONO).text(txt);
+                    };
+                    row(330, '#E07B39', 'digital economy $');
+                    row(354, '#57A2B2', 'users on the systems');
+                })();
+
+                const arrowSel = ARROWS.map(a => {
+                    const g = svg.append('g').attr('opacity', 0);
+                    g.append('line').attr('x1', a.x1).attr('y1', a.y).attr('x2', a.x2 - 12).attr('y2', a.y)
+                        .attr('stroke', ACC).attr('stroke-width', 4);
+                    g.append('path').attr('d', `M${a.x2 - 14},${a.y - 9} L${a.x2},${a.y} L${a.x2 - 14},${a.y + 9} Z`).attr('fill', ACC);
+                    g.append('text').attr('x', (a.x1 + a.x2) / 2).attr('y', a.y - 18).attr('text-anchor', 'middle')
+                        .attr('fill', MUTED).style('font-size', '14px').style('font-family', MONO).text(a.label);
+                    return g;
+                });
+
+                const gC = STAGES[4];
+                const glow = svg.append('rect').attr('rx', 20).attr('fill', 'none').attr('stroke', GLOW).attr('stroke-width', 3).attr('opacity', 0)
+                    .attr('x', gC.cx - gC.w / 2 - 6).attr('y', gC.cy - gC.h / 2 - 6).attr('width', gC.w + 12).attr('height', gC.h + 12);
+
+                const cardSel = STAGES.map(s => {
+                    const g = svg.append('g').attr('opacity', 0);
+                    g.append('rect').attr('x', s.cx - s.w / 2).attr('y', s.cy - s.h / 2).attr('width', s.w).attr('height', s.h).attr('rx', 16)
+                        .attr('fill', s.fill).attr('stroke', s.stroke).attr('stroke-width', 2);
+                    g.append('text').attr('x', s.cx).attr('y', s.cy - 4).attr('text-anchor', 'middle')
+                        .attr('fill', s.tc).style('font-weight', 700).style('font-size', s.ts + 'px').style('font-family', MONO).text(s.title);
+                    g.append('text').attr('x', s.cx).attr('y', s.cy + 22).attr('text-anchor', 'middle')
+                        .attr('fill', s.sc).style('font-size', '12px').style('font-family', MONO).text(s.sub);
+                    return { g, s };
+                });
+
+                function frame(elapsed) {
+                    const STAGE_MS = 900;
+                    const phase = clamp(elapsed / STAGE_MS, 0, 5);
+                    bgClip.attr('width', (phase / 5) * 1200);
+                    cardSel.forEach(({ g, s }) => g.attr('opacity', s.stage === 0 ? 1 : clamp(phase - s.stage, 0, 1)));
+                    arrowSel.forEach((g, i) => g.attr('opacity', clamp(phase - ARROWS[i].stage, 0, 1)));
+                    const base = clamp(phase - 4, 0, 1);
+                    glow.attr('opacity', base * (0.3 + 0.3 * Math.sin(elapsed / 500)));
+                }
+
+                const timer = d3.timer(frame);
+                section.__shift = { timer, host };
+                return section.__shift;
+            }
+
+            function syncShift() {
+                const cur = Reveal.getCurrentSlide();
+                if (cur && cur.hasAttribute('data-shift')) mount(cur);
+            }
+            Reveal.on('ready', syncShift);
+            Reveal.on('slidechanged', syncShift);
+        })();
+
+        /* ============================================================
+           "Pace of change accelerates" animation
+           Slides opt in with:  <!-- .slide: data-accel="true" -->
+           A pulse sweeps a timeline, accelerating left -> right and
+           looping; the tick marks bunch toward "now (AI)". Conveys that
+           AI just speeds up a change that was already in motion.
+           ============================================================ */
+        (function () {
+            const ACC = '#FFFFFF', MUTED = '#8A9098', TICK = '#5A6067', GLOW = '#C6CBD1';
+            const X0 = 90, X1 = 1010, Y = 190;
+            const AIf = 0.45, xAI = X0 + (X1 - X0) * AIf;
+            const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+            // ticks: sparse & even before AI (the slow decades), then dense &
+            // compressing after AI (the speed-up).
+            const ticks = d3.range(6).map(i => X0 + (xAI - X0) * (i / 5))
+                .concat(d3.range(1, 12).map(j => xAI + (X1 - xAI) * Math.pow(j / 11, 1.7)));
+            // motion: slow linear crawl up to AI, then explosive acceleration.
+            function motion(p) {
+                if (p < 0.62) return AIf * (p / 0.62);
+                const q = (p - 0.62) / 0.38;
+                return AIf + (1 - AIf) * q * q;
+            }
+
+            function mount(section) {
+                if (section.__accel) return section.__accel;
+                const host = document.createElement('div');
+                host.className = 'accel-anim';
+                host.style.cssText = 'width:92%;max-width:960px;margin:0.6em auto 0;';
+                section.appendChild(host);
+
+                const svg = d3.select(host).append('svg')
+                    .attr('viewBox', '0 0 1100 300')
+                    .style('width', '100%').style('display', 'block').style('overflow', 'visible');
+
+                svg.append('line').attr('x1', X0).attr('y1', Y).attr('x2', X1).attr('y2', Y).attr('stroke', MUTED).attr('stroke-width', 3);
+                svg.append('path').attr('d', `M${X1 - 16},${Y - 10} L${X1},${Y} L${X1 - 16},${Y + 10} Z`).attr('fill', MUTED);
+
+                const tickSel = svg.selectAll('rect.tick').data(ticks).enter().append('rect').attr('class', 'tick')
+                    .attr('x', d => d - 2).attr('y', Y - 14).attr('width', 4).attr('height', 28).attr('rx', 2).attr('fill', TICK);
+
+                // AI marker in the middle
+                const aiGlow = svg.append('circle').attr('cx', xAI).attr('cy', Y).attr('r', 26).attr('fill', 'none').attr('stroke', ACC).attr('stroke-width', 3).attr('opacity', 0);
+                svg.append('line').attr('x1', xAI).attr('y1', Y - 34).attr('x2', xAI).attr('y2', Y + 34).attr('stroke', ACC).attr('stroke-width', 4).attr('stroke-linecap', 'round');
+                svg.append('text').attr('x', xAI).attr('y', Y - 46).attr('text-anchor', 'middle').attr('fill', ACC).style('font-weight', 700).style('font-size', '26px').style('font-family', "'JetBrains Mono', ui-monospace, monospace").text('AI');
+
+                svg.append('text').attr('x', X0).attr('y', Y + 46).attr('fill', MUTED).style('font-size', '16px').style('font-family', "'JetBrains Mono', ui-monospace, monospace").text('slow, for decades');
+                svg.append('text').attr('x', X1).attr('y', Y + 46).attr('text-anchor', 'end').attr('fill', ACC).style('font-weight', 700).style('font-size', '16px').style('font-family', "'JetBrains Mono', ui-monospace, monospace").text('big speed-up');
+                svg.append('text').attr('x', (X0 + X1) / 2).attr('y', Y - 82).attr('text-anchor', 'middle').attr('fill', MUTED).style('font-size', '18px').style('font-family', "'JetBrains Mono', ui-monospace, monospace").text('the pace of change accelerates');
+
+                const trail = svg.append('line').attr('stroke', GLOW).attr('stroke-width', 6).attr('stroke-linecap', 'round').attr('opacity', 0.4);
+                const glow = svg.append('circle').attr('cy', Y).attr('r', 14).attr('fill', 'none').attr('stroke', GLOW).attr('stroke-width', 3).attr('opacity', 0.6);
+                const dot = svg.append('circle').attr('r', 9).attr('cy', Y).attr('fill', ACC);
+
+                function frame(elapsed) {
+                    const period = 4200;
+                    const p = (elapsed % period) / period;   // 0..1
+                    const f = motion(p);
+                    const x = X0 + (X1 - X0) * f;
+                    const fast = clamp((f - AIf) / (1 - AIf), 0, 1);   // 0 before AI, ramps to 1 after
+                    dot.attr('cx', x).attr('r', 8 + 3 * fast);
+                    glow.attr('cx', x).attr('r', 12 + 12 * fast);
+                    trail.attr('x1', Math.max(X0, x - (20 + 150 * fast))).attr('y1', Y).attr('x2', x).attr('y2', Y).attr('opacity', 0.1 + 0.55 * fast);
+                    const near = Math.max(0, 1 - Math.abs(x - xAI) / 60);
+                    aiGlow.attr('opacity', near * 0.9).attr('r', 22 + 12 * near);
+                    tickSel
+                        .attr('fill', d => Math.abs(d - x) < 20 ? GLOW : TICK)
+                        .attr('height', d => { const dd = Math.abs(d - x); return dd < 20 ? 40 - dd : 28; })
+                        .attr('y', d => { const dd = Math.abs(d - x); const h = dd < 20 ? 40 - dd : 28; return Y - h / 2; });
+                }
+
+                const timer = d3.timer(frame);
+                section.__accel = { timer, host };
+                return section.__accel;
+            }
+
+            function syncAccel() {
+                const cur = Reveal.getCurrentSlide();
+                if (cur && cur.hasAttribute('data-accel')) mount(cur);
+            }
+            Reveal.on('ready', syncAccel);
+            Reveal.on('slidechanged', syncAccel);
+        })();
+
+        /* ============================================================
+           "Long horizon" (data-horizon): a path advances toward a far
+           goal, sagging (entropy) between periodic human course-
+           corrections; AI only covers the short "now" segment at front.
+           ============================================================ */
+        (function () {
+            const x0 = 110, x1 = 1055, yNow = 300, yGoal = 120, DRIFT = 46;
+            const CORR = [0.25, 0.5, 0.75], B = [0, 0.25, 0.5, 0.75, 1];
+            const xt = t => x0 + (x1 - x0) * t;
+            const target = t => yNow + (yGoal - yNow) * t;
+            const localFrac = t => { for (let k = 0; k < 4; k++) if (t <= B[k + 1] + 1e-9) return (t - B[k]) / (B[k + 1] - B[k]); return 0; };
+            const actualY = t => target(t) + DRIFT * localFrac(t);
+            const STEPS = d3.range(0, 1.0001, 0.01);
+            const pathUpTo = p => 'M' + STEPS.filter(t => t <= p + 1e-9).map(t => `${xt(t).toFixed(1)},${actualY(t).toFixed(1)}`).join(' L');
+
+            function mount(section) {
+                if (section.__horizon) return section.__horizon;
+                const host = document.createElement('div');
+                host.className = 'horizon-anim';
+                host.style.cssText = 'width:92%;max-width:1000px;margin:0.6em auto 0;';
+                section.appendChild(host);
+                const svg = d3.select(host).append('svg').attr('viewBox', '0 0 1160 380')
+                    .style('width', '100%').style('display', 'block').style('overflow', 'visible');
+                const MONO = "'JetBrains Mono', ui-monospace, monospace";
+                // ground + intended line to the horizon
+                svg.append('line').attr('x1', x0).attr('y1', yNow).attr('x2', x1).attr('y2', yNow).attr('stroke', '#2A2E33').attr('stroke-width', 2);
+                svg.append('line').attr('x1', x0).attr('y1', yNow).attr('x2', x1).attr('y2', yGoal).attr('stroke', '#57A2B2').attr('stroke-opacity', 0.35).attr('stroke-width', 2).attr('stroke-dasharray', '6 8');
+                // goal / horizon
+                svg.append('circle').attr('cx', x1).attr('cy', yGoal).attr('r', 9).attr('fill', '#57A2B2');
+                svg.append('text').attr('x', x1).attr('y', yGoal - 20).attr('text-anchor', 'end').attr('fill', '#8FC6D3').style('font-family', MONO).style('font-weight', 700).style('font-size', '17px').text('the long horizon');
+                svg.append('text').attr('x', x1).attr('y', yGoal + 2).attr('text-anchor', 'end').attr('fill', '#8FC6D3').style('font-family', MONO).style('font-size', '13px').text('direction, design - ours');
+                svg.append('text').attr('x', x0).attr('y', yNow + 30).attr('text-anchor', 'middle').attr('fill', '#8A9098').style('font-family', MONO).style('font-size', '15px').text('now');
+                // faint full road
+                svg.append('path').attr('d', pathUpTo(1)).attr('fill', 'none').attr('stroke', '#454A50').attr('stroke-opacity', 0.5).attr('stroke-width', 2).attr('stroke-dasharray', '3 7');
+                // correction markers (human nudges the course back up)
+                const corr = CORR.map(c => {
+                    const g = svg.append('g');
+                    g.append('path').attr('d', `M${xt(c)},${target(c) + 8} L${xt(c) - 8},${target(c) + 22} L${xt(c) + 8},${target(c) + 22} Z`).attr('fill', '#E07B39');
+                    return g;
+                });
+                const done = svg.append('path').attr('fill', 'none').attr('stroke', '#57A2B2').attr('stroke-width', 4).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
+                const ai = svg.append('line').attr('stroke', '#E07B39').attr('stroke-width', 6).attr('stroke-linecap', 'round');
+                const dot = svg.append('circle').attr('r', 6).attr('fill', '#F4F4F4');
+                const aiLbl = svg.append('text').attr('fill', '#E07B39').style('font-family', MONO).style('font-weight', 700).style('font-size', '13px').attr('text-anchor', 'middle').text('AI: now');
+
+                const period = 7200, draw = 5600;
+                const timer = d3.timer((elapsed) => {
+                    const cyc = elapsed % period;
+                    const p = Math.max(0, Math.min(1, cyc / draw));
+                    done.attr('d', pathUpTo(p));
+                    const fx = xt(p), fy = actualY(p);
+                    dot.attr('cx', fx).attr('cy', fy);
+                    const q = Math.max(0, p - 0.05);
+                    ai.attr('x1', xt(q)).attr('y1', actualY(q)).attr('x2', fx).attr('y2', fy);
+                    aiLbl.attr('x', fx).attr('y', fy - 16);
+                    corr.forEach((g, i) => { const d = (p - CORR[i]) / 0.055; g.attr('opacity', 0.28 + 0.72 * Math.exp(-d * d)); });
+                });
+                section.__horizon = { timer, host };
+                return section.__horizon;
+            }
+            function sync() { const c = Reveal.getCurrentSlide(); if (c && c.hasAttribute('data-horizon')) mount(c); }
+            Reveal.on('ready', sync);
+            Reveal.on('slidechanged', sync);
+        })();
+
+        /* ============================================================
+           Speaker-notes editor (dev only) - enabled with ?edit=1
+           Needs the node dev server (make serve-edit / node server.js),
+           which serves the deck and persists edits back into slides.md.
+           Notes live in slides.md as `Note:` blocks; the server rewrites
+           the matching block in place, keeping slides.md pure Markdown.
+           The editor keys notes by the DOM order of <aside class="notes">,
+           which matches the order of `Note:` blocks in slides.md.
+           ============================================================ */
+        (function notesEditor() {
+            if (!new URLSearchParams(location.search).has('edit')) return;
+
+            if (location.protocol === 'file:') {
+                const warn = document.createElement('div');
+                warn.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:var(--warn);color:#fff;padding:0.8em 1em;font-family:var(--r-main-font),system-ui,sans-serif;font-size:14px;z-index:9999;text-align:center;';
+                warn.innerHTML = 'Notes editor needs the dev server. Run <code>node server.js</code> (or <code>make serve-edit</code>) and open <code>http://localhost:3000/?edit=1</code>';
+                document.body.appendChild(warn);
+                return;
+            }
+
+            let notes = [];   // note source text, index-aligned with the asides
+            async function loadNotes() {
+                try { const r = await fetch('/notes'); if (r.ok) notes = await r.json(); }
+                catch (e) { console.error('[notes-editor] load failed', e); }
+            }
+
+            // Which aside (by DOM order) belongs to a slide; -1 if the slide has none.
+            function asideIndexForSlide(slide) {
+                if (!slide) return -1;
+                const aside = slide.querySelector('aside.notes');
+                if (!aside) return -1;
+                return Array.from(document.querySelectorAll('aside.notes')).indexOf(aside);
+            }
+
+            const panel = document.createElement('div');
+            panel.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:var(--bg-elev);border-top:2px solid var(--accent-teal);color:var(--fg);font-family:var(--r-main-font),system-ui,sans-serif;padding:0.6em 1em 0.8em;z-index:9999;box-shadow:0 -8px 24px rgba(0,0,0,0.6);';
+            panel.innerHTML = `
+                <div style="display:flex;align-items:center;gap:0.8em;margin-bottom:0.4em;font-size:0.85em;">
+                    <span style="color:var(--accent-teal);font-weight:700;">Notes</span>
+                    <span id="notes-slide-label" style="color:var(--fg-muted);font-family:'JetBrains Mono',monospace;font-size:0.85em;"></span>
+                    <span id="notes-status" style="color:var(--fg-muted);font-style:italic;font-size:0.85em;margin-left:auto;"></span>
+                    <button id="notes-save" style="background:var(--accent);color:var(--bg);border:0;font-weight:700;padding:0.35em 0.9em;border-radius:4px;cursor:pointer;">save (Ctrl/Cmd+S)</button>
+                    <button id="notes-hide" title="hide panel (Shift+N to toggle)" style="background:transparent;color:var(--fg-muted);border:1px solid var(--fg-muted);padding:0.35em 0.6em;border-radius:4px;cursor:pointer;">hide</button>
+                </div>
+                <textarea id="notes-textarea" spellcheck="false" style="width:100%;height:170px;background:var(--bg);color:var(--fg);border:1px solid var(--fg-muted);border-radius:6px;padding:0.7em 0.9em;font-family:'JetBrains Mono',monospace;font-size:16px;line-height:1.5;resize:vertical;box-sizing:border-box;"></textarea>
+            `;
+            document.body.appendChild(panel);
+
+            const ta = panel.querySelector('#notes-textarea');
+            const label = panel.querySelector('#notes-slide-label');
+            const status = panel.querySelector('#notes-status');
+            const saveBtn = panel.querySelector('#notes-save');
+            const hideBtn = panel.querySelector('#notes-hide');
+
+            let currentIndex = -1, dirty = false, saveTimer = null;
+            const setStatus = (t, c) => { status.textContent = t; status.style.color = c || 'var(--fg-muted)'; };
+
+            function loadCurrent() {
+                currentIndex = asideIndexForSlide(Reveal.getCurrentSlide());
+                ta.value = currentIndex >= 0 ? (notes[currentIndex] || '') : '';
+                ta.disabled = currentIndex < 0;
+                label.textContent = currentIndex >= 0 ? `note ${currentIndex + 1} / ${notes.length}` : 'no note on this slide';
+                dirty = false; setStatus('');
+            }
+
+            async function save() {
+                if (currentIndex < 0 || !dirty) return;
+                const note = ta.value;
+                setStatus('saving...');
+                try {
+                    const r = await fetch('/notes', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ index: currentIndex, note })
+                    });
+                    if (!r.ok) throw new Error(await r.text());
+                    notes[currentIndex] = note;
+                    dirty = false;
+                    setStatus('saved', 'var(--ok)');
+                    setTimeout(() => { if (!dirty) setStatus(''); }, 1500);
+                } catch (e) { setStatus('error: ' + e.message, 'var(--warn)'); }
+            }
+
+            ta.addEventListener('input', () => {
+                dirty = true; setStatus('unsaved');
+                clearTimeout(saveTimer); saveTimer = setTimeout(save, 1200);
+            });
+            saveBtn.addEventListener('click', save);
+
+            const showChip = document.createElement('button');
+            showChip.textContent = 'notes';
+            showChip.title = 'show notes editor (Shift+N)';
+            showChip.style.cssText = 'position:fixed;bottom:12px;right:12px;background:var(--accent-teal);color:var(--bg);border:0;font-family:var(--r-main-font),system-ui,sans-serif;font-weight:700;font-size:14px;padding:0.5em 0.9em;border-radius:999px;cursor:pointer;z-index:9999;box-shadow:0 4px 14px rgba(0,0,0,0.5);display:none;';
+            document.body.appendChild(showChip);
+
+            let hidden = false;
+            const setHidden = (v) => { hidden = v; panel.style.display = v ? 'none' : 'block'; showChip.style.display = v ? 'block' : 'none'; };
+            hideBtn.addEventListener('click', () => setHidden(true));
+            showChip.addEventListener('click', () => setHidden(false));
+
+            window.addEventListener('keydown', (e) => {
+                if ((e.metaKey || e.ctrlKey) && (e.key === 's' || e.key === 'S')) { e.preventDefault(); save(); return; }
+                if (e.shiftKey && (e.key === 'N' || e.key === 'n')) {
+                    if (document.activeElement === ta) return;
+                    e.preventDefault(); e.stopPropagation(); setHidden(!hidden);
+                }
+            }, true);
+
+            loadNotes().then(() => {
+                Reveal.on('slidechanged', () => { if (dirty) save(); loadCurrent(); });
+                loadCurrent();
+            });
+        })();
+    </script>
+</body>
+</html>

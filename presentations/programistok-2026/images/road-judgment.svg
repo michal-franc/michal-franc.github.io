@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+  <defs>
+    <marker id="rj-red" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#C0504A"/></marker>
+    <marker id="rj-org" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#E07B39"/></marker>
+    <marker id="rj-grey" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8A9098"/></marker>
+  </defs>
+
+  <!-- the road: defined by the engineer -->
+  <rect x="80" y="126" width="1050" height="48" rx="4" fill="#191D22" stroke="#3A3F45" stroke-width="1.5"/>
+  <line x1="100" y1="150" x2="1085" y2="150" stroke="#565B61" stroke-width="2" stroke-dasharray="18 16"/>
+  <text x="235" y="112" fill="#8A9098" font-size="14">the road you set - goals &amp; direction</text>
+  <text x="100" y="200" text-anchor="middle" fill="#8A9098" font-size="14">now</text>
+
+  <!-- goal: the long horizon -->
+  <circle cx="1105" cy="150" r="10" fill="#57A2B2"/>
+  <circle cx="1105" cy="150" r="18" fill="none" stroke="#57A2B2" stroke-width="1.5" stroke-opacity="0.5"/>
+  <text x="1105" y="102" text-anchor="middle" fill="#8FC6D3" font-size="15" font-weight="700">the long horizon</text>
+
+  <!-- trajectory: on road -> drift -> correct, x3 (small, big, medium) -->
+  <path d="M 100 150 L 240 150" fill="none" stroke="#8A9098" stroke-width="4"/>
+
+  <path d="M 240 150 Q 272 163 302 192" fill="none" stroke="#C0504A" stroke-width="3.5" stroke-dasharray="8 7" marker-end="url(#rj-red)"/>
+  <circle cx="302" cy="192" r="6" fill="#E07B39"/>
+  <path d="M 302 192 Q 332 190 362 150" fill="none" stroke="#E07B39" stroke-width="4.5" marker-end="url(#rj-org)"/>
+
+  <path d="M 362 150 L 500 150" fill="none" stroke="#8A9098" stroke-width="4"/>
+
+  <path d="M 500 150 Q 568 174 636 252" fill="none" stroke="#C0504A" stroke-width="3.5" stroke-dasharray="8 7" marker-end="url(#rj-red)"/>
+  <circle cx="636" cy="252" r="6" fill="#E07B39"/>
+  <path d="M 636 252 Q 706 250 768 150" fill="none" stroke="#E07B39" stroke-width="4.5" marker-end="url(#rj-org)"/>
+
+  <path d="M 768 150 L 872 150" fill="none" stroke="#8A9098" stroke-width="4"/>
+
+  <path d="M 872 150 Q 906 128 936 86" fill="none" stroke="#C0504A" stroke-width="3.5" stroke-dasharray="8 7" marker-end="url(#rj-red)"/>
+  <circle cx="936" cy="86" r="6" fill="#E07B39"/>
+  <path d="M 936 86 Q 966 88 996 150" fill="none" stroke="#E07B39" stroke-width="4.5" marker-end="url(#rj-org)"/>
+
+  <path d="M 996 150 L 1083 150" fill="none" stroke="#8A9098" stroke-width="4" marker-end="url(#rj-grey)"/>
+
+  <!-- legend -->
+  <line x1="270" y1="350" x2="304" y2="350" stroke="#C0504A" stroke-width="3.5" stroke-dasharray="8 7"/>
+  <text x="316" y="355" fill="#C0504A" font-size="15" font-weight="700">AI drifts off - short horizon</text>
+  <line x1="720" y1="350" x2="754" y2="350" stroke="#E07B39" stroke-width="4.5"/>
+  <text x="766" y="355" fill="#E8955A" font-size="15" font-weight="700">you steer it back on track</text>
+</svg>

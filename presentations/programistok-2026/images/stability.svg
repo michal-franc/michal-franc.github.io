@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+  <line x1="90" y1="160" x2="400" y2="160" stroke="#6A6F76" stroke-width="4" stroke-linecap="round"/>
+  <path d="M400,160 L426,122 L452,196 L478,127 L504,190 L530,134 L556,182 L582,142 L608,174 L634,149 L660,168 L686,155 L712,163 L738,159 L760,160" fill="none" stroke="#F4F4F4" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <line x1="760" y1="160" x2="1110" y2="160" stroke="#9AA0A6" stroke-width="4" stroke-linecap="round"/>
+  <line x1="400" y1="86" x2="400" y2="234" stroke="#8A9098" stroke-width="1.5" stroke-dasharray="5 5"/>
+  <line x1="760" y1="86" x2="760" y2="234" stroke="#8A9098" stroke-width="1.5" stroke-dasharray="5 5"/>
+  <text x="400" y="74" text-anchor="middle" fill="#F4F4F4" font-size="20" font-weight="700">[ 2024 ]</text>
+  <text x="760" y="74" text-anchor="middle" fill="#C6CBD1" font-size="20" font-weight="700">[ 203? ]</text>
+  <line x1="456" y1="68" x2="508" y2="68" stroke="#A5703C" stroke-width="2.5"/>
+  <text x="580" y="74" text-anchor="middle" fill="#E07B39" font-size="20" font-weight="700">opportunity</text>
+  <line x1="652" y1="68" x2="704" y2="68" stroke="#A5703C" stroke-width="2.5"/>
+  <text x="245" y="210" text-anchor="middle" fill="#8A9098" font-size="16">stable</text>
+  <text x="580" y="255" text-anchor="middle" fill="#E4E7EB" font-size="16" font-weight="700">turbulent · chaotic</text>
+  <text x="935" y="210" text-anchor="middle" fill="#B4BAC0" font-size="16">stable again</text>
+  <text x="600" y="316" text-anchor="middle" fill="#8A9098" font-size="16">what turns the chaos back into order</text>
+  <rect x="145" y="340" width="150" height="56" rx="12" fill="#33373C" stroke="#6A6F76" stroke-width="2"/>
+  <rect x="310" y="340" width="150" height="56" rx="12" fill="#3C4147" stroke="#6A6F76" stroke-width="2"/>
+  <rect x="475" y="340" width="150" height="56" rx="12" fill="#454A50" stroke="#6A6F76" stroke-width="2"/>
+  <rect x="640" y="340" width="150" height="56" rx="12" fill="#4E545A" stroke="#6A6F76" stroke-width="2"/>
+  <rect x="805" y="340" width="150" height="56" rx="12" fill="#565B61" stroke="#6A6F76" stroke-width="2"/>
+  <text x="220" y="373" text-anchor="middle" font-size="15" font-weight="700" fill="#D7DCE3" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">new patterns</text>
+  <text x="385" y="373" text-anchor="middle" font-size="15" font-weight="700" fill="#D7DCE3" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">new roles</text>
+  <text x="550" y="373" text-anchor="middle" font-size="15" font-weight="700" fill="#D7DCE3" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">new requirements</text>
+  <text x="715" y="373" text-anchor="middle" font-size="15" font-weight="700" fill="#D7DCE3" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">good practices</text>
+  <text x="880" y="373" text-anchor="middle" font-size="15" font-weight="700" fill="#D7DCE3" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">new tools</text>
+  <line x1="220" y1="396" x2="600" y2="480" stroke="#565B61" stroke-width="1.6"/>
+  <line x1="385" y1="396" x2="600" y2="480" stroke="#565B61" stroke-width="1.6"/>
+  <line x1="550" y1="396" x2="600" y2="480" stroke="#565B61" stroke-width="1.6"/>
+  <line x1="715" y1="396" x2="600" y2="480" stroke="#565B61" stroke-width="1.6"/>
+  <line x1="880" y1="396" x2="600" y2="480" stroke="#565B61" stroke-width="1.6"/>
+  <rect x="440" y="480" width="320" height="66" rx="16" fill="#E07B39" stroke="#F0C29A" stroke-width="2"/>
+  <text x="600" y="521" text-anchor="middle" font-size="22" font-weight="700" fill="#241206" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">stability again</text>
+</svg>

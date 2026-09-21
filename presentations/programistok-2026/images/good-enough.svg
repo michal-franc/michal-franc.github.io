@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 220" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+  <!-- needle pointing at the sweet spot -->
+  <text x="580" y="40" text-anchor="middle" fill="#F4F4F4" font-size="14" font-weight="700">aim here</text>
+  <path d="M580,78 L563,50 L597,50 Z" fill="#F4F4F4"/>
+
+  <!-- the spectrum: too cheap | good enough | perfect -->
+  <rect x="100" y="88" width="272" height="46" rx="10" fill="#33232A" stroke="#C0504A" stroke-width="2"/>
+  <rect x="376" y="88" width="408" height="46" rx="10" fill="#E07B39" stroke="#F0C29A" stroke-width="2.5"/>
+  <rect x="788" y="88" width="272" height="46" rx="10" fill="#33232A" stroke="#C0504A" stroke-width="2"/>
+
+  <text x="236" y="118" text-anchor="middle" fill="#D08A84" font-size="16" font-weight="700">TOO CHEAP</text>
+  <text x="580" y="118" text-anchor="middle" fill="#241206" font-size="19" font-weight="700">GOOD ENOUGH</text>
+  <text x="924" y="118" text-anchor="middle" fill="#D08A84" font-size="16" font-weight="700">PERFECT</text>
+
+  <text x="236" y="168" text-anchor="middle" fill="#9AA0A6" font-size="14">cut too many corners</text>
+  <text x="236" y="188" text-anchor="middle" fill="#8A9098" font-size="13">fragile, it breaks</text>
+  <text x="580" y="168" text-anchor="middle" fill="#C9CED4" font-size="14">cut the right corners</text>
+  <text x="580" y="188" text-anchor="middle" fill="#B4BAC0" font-size="13">ship value, keep moving</text>
+  <text x="924" y="168" text-anchor="middle" fill="#9AA0A6" font-size="14">cut none - too slow</text>
+  <text x="924" y="188" text-anchor="middle" fill="#8A9098" font-size="13">wasteful, competition wins</text>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 530" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+  <!-- eyebrow -->
+  <text x="600" y="58" text-anchor="middle" fill="#E07B39" font-size="16" font-weight="700" letter-spacing="3">STILL FUNDAMENTAL</text>
+
+  <!-- roof: what the practices hold up -->
+  <rect x="300" y="84" width="600" height="60" rx="8" fill="#2B313B" stroke="#9AA0A6" stroke-width="2"/>
+  <text x="600" y="121" text-anchor="middle" fill="#EAF2F4" font-size="22" font-weight="700" letter-spacing="1">SOFTWARE THAT LASTS</text>
+
+  <!-- four load-bearing pillars: the good practices -->
+  <g fill="#2A2E33" stroke="#57A2B2" stroke-width="2.5">
+    <rect x="305" y="150" width="110" height="230" rx="6"/>
+    <rect x="465" y="150" width="110" height="230" rx="6"/>
+    <rect x="625" y="150" width="110" height="230" rx="6"/>
+    <rect x="785" y="150" width="110" height="230" rx="6"/>
+  </g>
+  <text x="360" y="265" text-anchor="middle" fill="#CFE6EC" font-size="17" font-weight="700" transform="rotate(-90 360 265)">CONTINUOUS DELIVERY</text>
+  <text x="520" y="265" text-anchor="middle" fill="#CFE6EC" font-size="17" font-weight="700" transform="rotate(-90 520 265)">STABILITY</text>
+  <text x="680" y="265" text-anchor="middle" fill="#CFE6EC" font-size="17" font-weight="700" transform="rotate(-90 680 265)">RELIABILITY</text>
+  <text x="840" y="265" text-anchor="middle" fill="#CFE6EC" font-size="17" font-weight="700" transform="rotate(-90 840 265)">OBSERVABILITY</text>
+
+  <!-- the foundation: system design (the one loud orange element) -->
+  <rect x="270" y="380" width="660" height="70" rx="10" fill="#E07B39" stroke="#F4CBA2" stroke-width="2.5"/>
+  <text x="600" y="414" text-anchor="middle" fill="#241206" font-size="23" font-weight="700" letter-spacing="1">SYSTEM DESIGN</text>
+  <text x="600" y="436" text-anchor="middle" fill="#3A2C1C" font-size="13">the foundation everything rests on</text>
+
+  <!-- caption -->
+  <text x="600" y="498" text-anchor="middle" fill="#8A9098" font-size="15" font-style="italic">AI writes more code - the foundation must hold more, not less.</text>
+</svg>

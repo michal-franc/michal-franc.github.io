@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 520" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+<text x="54" y="120" fill="#E07B39" font-size="20" font-weight="700" letter-spacing="1">STILL MATTERS</text>
+<circle cx="61" cy="157" r="5" fill="#E07B39"/>
+<text x="78" y="162" fill="#EAF2F4" font-size="18">fundamentals</text>
+<circle cx="61" cy="195" r="5" fill="#E07B39"/>
+<text x="78" y="200" fill="#EAF2F4" font-size="18">good design</text>
+<circle cx="61" cy="233" r="5" fill="#E07B39"/>
+<text x="78" y="238" fill="#EAF2F4" font-size="18">clean code</text>
+<circle cx="61" cy="271" r="5" fill="#E07B39"/>
+<text x="78" y="276" fill="#EAF2F4" font-size="18">human experience</text>
+<text x="54" y="360" fill="#8A9098" font-size="14" font-style="italic">- what keeps entropy in check</text>
+<line x1="300.0" y1="250.0" x2="567.0" y2="250.0" stroke="#E07B39" stroke-width="4" stroke-linecap="round"/><path d="M585.0,250.0 L568.6,257.3 L568.6,242.7 Z" fill="#E07B39"/>
+<line x1="812" y1="250" x2="884.0" y2="250.0" stroke="#57A2B2" stroke-width="3" opacity="0.7"/>
+<line x1="812" y1="250" x2="848.0" y2="312.4" stroke="#57A2B2" stroke-width="3" opacity="0.7"/>
+<line x1="812" y1="250" x2="776.0" y2="312.4" stroke="#57A2B2" stroke-width="3" opacity="0.7"/>
+<line x1="812" y1="250" x2="740.0" y2="250.0" stroke="#57A2B2" stroke-width="3" opacity="0.7"/>
+<line x1="812" y1="250" x2="776.0" y2="187.6" stroke="#57A2B2" stroke-width="3" opacity="0.7"/>
+<line x1="812" y1="250" x2="848.0" y2="187.6" stroke="#57A2B2" stroke-width="3" opacity="0.7"/>
+<line x1="884.0" y1="250.0" x2="848.0" y2="312.4" stroke="#57A2B2" stroke-width="3" opacity="0.85"/>
+<line x1="848.0" y1="312.4" x2="834.3" y2="312.4" stroke="#C0504A" stroke-width="3" stroke-dasharray="2 5"/>
+<line x1="776.0" y1="312.4" x2="789.7" y2="312.4" stroke="#C0504A" stroke-width="3" stroke-dasharray="2 5"/>
+<line x1="776.0" y1="312.4" x2="740.0" y2="250.0" stroke="#57A2B2" stroke-width="3" opacity="0.85"/>
+<line x1="740.0" y1="250.0" x2="776.0" y2="187.6" stroke="#57A2B2" stroke-width="3" opacity="0.85"/>
+<line x1="776.0" y1="187.6" x2="789.7" y2="187.6" stroke="#C0504A" stroke-width="3" stroke-dasharray="2 5"/>
+<line x1="848.0" y1="187.6" x2="834.3" y2="187.6" stroke="#C0504A" stroke-width="3" stroke-dasharray="2 5"/>
+<line x1="848.0" y1="187.6" x2="884.0" y2="250.0" stroke="#57A2B2" stroke-width="3" opacity="0.85"/>
+<circle cx="812" cy="250" r="15" fill="#2A2E33" stroke="#57A2B2" stroke-width="3"/>
+<circle cx="884.0" cy="250.0" r="21" fill="#2A2E33" stroke="#57A2B2" stroke-width="3"/>
+<circle cx="848.0" cy="312.4" r="21" fill="#2A2E33" stroke="#57A2B2" stroke-width="3"/>
+<circle cx="776.0" cy="312.4" r="21" fill="#2A2E33" stroke="#57A2B2" stroke-width="3"/>
+<circle cx="740.0" cy="250.0" r="21" fill="#2A2E33" stroke="#57A2B2" stroke-width="3"/>
+<circle cx="776.0" cy="187.6" r="21" fill="#2A2E33" stroke="#57A2B2" stroke-width="3"/>
+<circle cx="848.0" cy="187.6" r="21" fill="#2A2E33" stroke="#57A2B2" stroke-width="3"/>
+<line x1="916.0" y1="250.0" x2="970.0" y2="250.0" stroke="#C0504A" stroke-width="5" stroke-linecap="round"/><path d="M990.0,250.0 L971.7,258.2 L971.7,241.8 Z" fill="#C0504A"/>
+<line x1="864.0" y1="340.1" x2="891.0" y2="386.8" stroke="#C0504A" stroke-width="5" stroke-linecap="round"/><path d="M901.0,404.2 L884.8,392.4 L898.9,384.3 Z" fill="#C0504A"/>
+<line x1="760.0" y1="340.1" x2="733.0" y2="386.8" stroke="#C0504A" stroke-width="5" stroke-linecap="round"/><path d="M723.0,404.2 L725.1,384.3 L739.2,392.4 Z" fill="#C0504A"/>
+<line x1="708.0" y1="250.0" x2="654.0" y2="250.0" stroke="#C0504A" stroke-width="5" stroke-linecap="round"/><path d="M634.0,250.0 L652.3,241.8 L652.3,258.2 Z" fill="#C0504A"/>
+<line x1="760.0" y1="159.9" x2="733.0" y2="113.2" stroke="#C0504A" stroke-width="5" stroke-linecap="round"/><path d="M723.0,95.8 L739.2,107.6 L725.1,115.7 Z" fill="#C0504A"/>
+<line x1="864.0" y1="159.9" x2="891.0" y2="113.2" stroke="#C0504A" stroke-width="5" stroke-linecap="round"/><path d="M901.0,95.8 L898.9,115.7 L884.8,107.6 Z" fill="#C0504A"/>
+<line x1="993.9" y1="355.0" x2="935.0" y2="321.0" stroke="#E07B39" stroke-width="6" stroke-linecap="round"/><path d="M915.9,310.0 L937.8,312.3 L928.8,327.8 Z" fill="#E07B39"/>
+<line x1="630.1" y1="355.0" x2="689.0" y2="321.0" stroke="#E07B39" stroke-width="6" stroke-linecap="round"/><path d="M708.1,310.0 L695.2,327.8 L686.2,312.3 Z" fill="#E07B39"/>
+<line x1="630.1" y1="145.0" x2="689.0" y2="179.0" stroke="#E07B39" stroke-width="6" stroke-linecap="round"/><path d="M708.1,190.0 L686.2,187.7 L695.2,172.2 Z" fill="#E07B39"/>
+<line x1="993.9" y1="145.0" x2="935.0" y2="179.0" stroke="#E07B39" stroke-width="6" stroke-linecap="round"/><path d="M915.9,190.0 L928.8,172.2 L937.8,187.7 Z" fill="#E07B39"/>
+<text x="812" y="42" text-anchor="middle" font-size="23" font-weight="700" fill="#C0504A" letter-spacing="1">ENTROPY · CHAOS</text>
+<text x="812" y="64" text-anchor="middle" font-size="14" fill="#8A9098">AI over time, left alone, drifts apart</text>
+<text x="812" y="476" text-anchor="middle" font-size="23" font-weight="700" fill="#E07B39" letter-spacing="1">YOU · HOLD COHESION</text>
+<text x="812" y="498" text-anchor="middle" font-size="14" fill="#8A9098">design · context · course-correction - the counter-force</text>
+</svg>

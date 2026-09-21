@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 460" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+  <defs>
+    <marker id="ax" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8A9098"/></marker>
+  </defs>
+  <line x1="100" y1="412" x2="1150" y2="412" stroke="#8A9098" stroke-width="2.5" marker-end="url(#ax)"/>
+  <line x1="100" y1="412" x2="100" y2="80" stroke="#8A9098" stroke-width="2.5" marker-end="url(#ax)"/>
+  <text x="1150" y="440" text-anchor="end" fill="#B4BAC0" font-size="18" font-weight="700" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">complexity -&gt;</text>
+  <text x="70" y="250" text-anchor="middle" fill="#B4BAC0" font-size="18" font-weight="700" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace" transform="rotate(-90 70 250)">abstraction</text>
+  <polyline points="200,370 369,322 538,274 707,226 876,178 1045,130" fill="none" stroke="#565B61" stroke-width="2" stroke-dasharray="3 7"/>
+
+  <rect x="107" y="347" width="186" height="46" rx="7" fill="#1C2024" stroke="#4A4F55" stroke-width="2"/>
+  <text x="200" y="366" text-anchor="middle" font-size="13" font-weight="400" fill="#B4BAC0" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">assembly</text>
+  <text x="200" y="383" text-anchor="middle" font-size="11" fill="#8A9098" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">machine code</text>
+
+  <rect x="269" y="299" width="200" height="46" rx="7" fill="#22262B" stroke="#565B61" stroke-width="2"/>
+  <text x="369" y="318" text-anchor="middle" font-size="12" font-weight="400" fill="#B4BAC0" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">low-level languages</text>
+  <text x="369" y="335" text-anchor="middle" font-size="11" fill="#8A9098" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">manual memory</text>
+
+  <rect x="433" y="251" width="210" height="46" rx="7" fill="#2A2E33" stroke="#63686E" stroke-width="2"/>
+  <text x="538" y="270" text-anchor="middle" font-size="12" font-weight="400" fill="#C4CAD0" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">high-level languages</text>
+  <text x="538" y="287" text-anchor="middle" font-size="11" fill="#8A9098" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">garbage collection</text>
+
+  <rect x="627" y="203" width="160" height="46" rx="7" fill="#33373C" stroke="#6E737A" stroke-width="2"/>
+  <text x="707" y="231" text-anchor="middle" font-size="13" font-weight="400" fill="#CAD0D6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">frameworks</text>
+
+  <rect x="806" y="155" width="140" height="46" rx="7" fill="#454A50" stroke="#828891" stroke-width="2"/>
+  <text x="876" y="183" text-anchor="middle" font-size="13" font-weight="400" fill="#E0E4E8" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">cloud</text>
+
+  <rect x="945" y="107" width="200" height="46" rx="7" fill="#C6CBD1" stroke="#FFFFFF" stroke-width="2"/>
+  <text x="1045" y="135" text-anchor="middle" font-size="13" font-weight="700" fill="#14161A" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">orchestration (K8s)</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 600" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+  <text x="290" y="84" text-anchor="middle" fill="#F4F4F4" font-size="26" font-weight="700">SCOPE</text>
+  <text x="290" y="108" text-anchor="middle" fill="#8A9098" font-size="15">the problem you reason about</text>
+  <text x="1150" y="84" text-anchor="middle" fill="#F4F4F4" font-size="26" font-weight="700">IMPACT</text>
+  <text x="1150" y="108" text-anchor="middle" fill="#8A9098" font-size="15">how wide your influence</text>
+  <text x="720" y="150" text-anchor="middle" fill="#9AA0A6" font-size="15" font-weight="700">STRATEGIC</text>
+  <text x="720" y="560" text-anchor="middle" fill="#9AA0A6" font-size="15" font-weight="700">TACTICAL</text>
+    <circle cx="720" cy="343" r="172" fill="#2A2E33" stroke="#E07B39" stroke-width="2.5"/>
+    <circle cx="720" cy="377" r="138" fill="#363B41" stroke="#63686E" stroke-width="2.5"/>
+    <circle cx="720" cy="408" r="107" fill="#42474D" stroke="#7A7F86" stroke-width="2.5"/>
+    <circle cx="720" cy="435" r="80" fill="#4E545A" stroke="#888E95" stroke-width="2.5"/>
+    <circle cx="720" cy="463" r="52" fill="#5E646C" stroke="#9AA0A6" stroke-width="2.5"/>
+  <text x="720" y="208" text-anchor="middle" font-size="24" font-weight="700" fill="#E8955A">Principal</text>
+  <text x="720" y="275" text-anchor="middle" font-size="22" font-weight="700" fill="#E0E4E8">Staff</text>
+  <text x="720" y="333" text-anchor="middle" font-size="20" font-weight="700" fill="#E4E7EB">Senior</text>
+  <text x="720" y="384" text-anchor="middle" font-size="18" font-weight="700" fill="#EAEDF0">Mid</text>
+  <text x="720" y="467" text-anchor="middle" font-size="15" font-weight="700" fill="#EDF0F3">Junior</text>
+  <line x1="486" y1="200" x2="641" y2="200" stroke="#5B6672" stroke-width="1.5"/><path d="M652,200 L641,194 L641,206 Z" fill="#5B6672"/>
+  <line x1="486" y1="268" x2="641" y2="268" stroke="#5B6672" stroke-width="1.5"/><path d="M652,268 L641,262 L641,274 Z" fill="#5B6672"/>
+  <line x1="486" y1="326" x2="641" y2="326" stroke="#5B6672" stroke-width="1.5"/><path d="M652,326 L641,320 L641,332 Z" fill="#5B6672"/>
+  <line x1="486" y1="378" x2="641" y2="378" stroke="#5B6672" stroke-width="1.5"/><path d="M652,378 L641,372 L641,384 Z" fill="#5B6672"/>
+  <line x1="486" y1="462" x2="641" y2="462" stroke="#5B6672" stroke-width="1.5"/><path d="M652,462 L641,456 L641,468 Z" fill="#5B6672"/>
+  <line x1="799" y1="200" x2="968" y2="200" stroke="#5B6672" stroke-width="1.5"/><path d="M788,200 L799,194 L799,206 Z" fill="#5B6672"/>
+  <line x1="799" y1="268" x2="968" y2="268" stroke="#5B6672" stroke-width="1.5"/><path d="M788,268 L799,262 L799,274 Z" fill="#5B6672"/>
+  <line x1="799" y1="326" x2="968" y2="326" stroke="#5B6672" stroke-width="1.5"/><path d="M788,326 L799,320 L799,332 Z" fill="#5B6672"/>
+  <line x1="799" y1="378" x2="968" y2="378" stroke="#5B6672" stroke-width="1.5"/><path d="M788,378 L799,372 L799,384 Z" fill="#5B6672"/>
+  <line x1="799" y1="462" x2="968" y2="462" stroke="#5B6672" stroke-width="1.5"/><path d="M788,462 L799,456 L799,468 Z" fill="#5B6672"/>
+  <text x="474" y="205" text-anchor="end" font-size="16" font-style="italic" fill="#B4BAC0">Hey, our business metrics are going down</text>
+  <text x="474" y="273" text-anchor="end" font-size="16" font-style="italic" fill="#B4BAC0">...because our bounce rate is increasing</text>
+  <text x="474" y="331" text-anchor="end" font-size="16" font-style="italic" fill="#B4BAC0">...because page load time is increasing</text>
+  <text x="474" y="383" text-anchor="end" font-size="16" font-style="italic" fill="#B4BAC0">...because this API p99 is not great</text>
+  <text x="474" y="467" text-anchor="end" font-size="16" font-style="italic" fill="#B4BAC0">...so just add an index to this DB</text>
+  <text x="980" y="205" font-size="18" fill="#B4BAC0">company / industry-wide</text>
+  <text x="980" y="273" font-size="18" fill="#B4BAC0">department / team-wide</text>
+  <text x="980" y="331" font-size="18" fill="#B4BAC0">product-wide</text>
+  <text x="980" y="383" font-size="18" fill="#B4BAC0">service-wide</text>
+  <text x="980" y="467" font-size="18" fill="#B4BAC0">component-wide</text>
+</svg>

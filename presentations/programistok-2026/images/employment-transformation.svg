@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+<line x1="118" y1="428" x2="1075" y2="428" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
+<text x="106" y="433" text-anchor="end" font-size="13" fill="#8A9098">0</text>
+<line x1="118" y1="354" x2="1075" y2="354" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
+<text x="106" y="359" text-anchor="end" font-size="13" fill="#8A9098">500K</text>
+<line x1="118" y1="281" x2="1075" y2="281" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
+<text x="106" y="286" text-anchor="end" font-size="13" fill="#8A9098">1M</text>
+<line x1="118" y1="207" x2="1075" y2="207" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
+<text x="106" y="212" text-anchor="end" font-size="13" fill="#8A9098">1.5M</text>
+<line x1="118" y1="134" x2="1075" y2="134" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
+<text x="106" y="139" text-anchor="end" font-size="13" fill="#8A9098">2M</text>
+<line x1="118" y1="60" x2="1075" y2="60" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
+<text x="106" y="65" text-anchor="end" font-size="13" fill="#8A9098">2.5M</text>
+<text x="118" y="454" text-anchor="middle" font-size="14" fill="#9AA0A6">1980</text>
+<text x="255" y="454" text-anchor="middle" font-size="14" fill="#9AA0A6">1990</text>
+<text x="391" y="454" text-anchor="middle" font-size="14" fill="#9AA0A6">2000</text>
+<text x="528" y="454" text-anchor="middle" font-size="14" fill="#9AA0A6">2010</text>
+<text x="665" y="454" text-anchor="middle" font-size="14" fill="#9AA0A6">2020</text>
+<text x="802" y="454" text-anchor="middle" font-size="14" fill="#9AA0A6">2030</text>
+<text x="938" y="454" text-anchor="middle" font-size="14" fill="#9AA0A6">2040</text>
+<text x="1075" y="454" text-anchor="middle" font-size="14" fill="#9AA0A6">2050</text>
+<rect x="740" y="60" width="335" height="368" fill="#4A90C2" fill-opacity="0.04"/>
+<line x1="740" y1="54" x2="740" y2="428" stroke="#565B61" stroke-width="1.5" stroke-dasharray="4 6"/>
+<text x="748" y="72" font-size="13" fill="#8A9098">AI era / prediction &#8594;</text>
+<polyline points="118.0,383.8 254.7,364.7 391.4,345.6 528.1,374.6 623.8,391.5 733.2,410.3" fill="none" stroke="#8A9098" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="118.0" cy="383.8" r="5" fill="#8A9098"/>
+<circle cx="254.7" cy="364.7" r="5" fill="#8A9098"/>
+<circle cx="391.4" cy="345.6" r="5" fill="#8A9098"/>
+<circle cx="528.1" cy="374.6" r="5" fill="#8A9098"/>
+<circle cx="623.8" cy="391.5" r="5" fill="#8A9098"/>
+<circle cx="733.2" cy="410.3" r="5" fill="#8A9098"/>
+<polyline points="733.2,410.3 869.9,417.0 1075.0,421.4" fill="none" stroke="#8A9098" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 7"/>
+<polyline points="391.4,333.8 528.1,293.6 623.8,244.0 733.2,180.7" fill="none" stroke="#E07B39" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="391.4" cy="333.8" r="5" fill="#E07B39"/>
+<circle cx="528.1" cy="293.6" r="5" fill="#E07B39"/>
+<circle cx="623.8" cy="244.0" r="5" fill="#E07B39"/>
+<circle cx="733.2" cy="180.7" r="5" fill="#E07B39"/>
+<polyline points="733.2,180.7 787.9,171.9 869.9,232.2 965.6,280.8 1075.0,332.3" fill="none" stroke="#E07B39" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 7"/>
+<circle cx="733.2" cy="180.7" r="5" fill="#E07B39"/>
+<circle cx="787.9" cy="171.9" r="5" fill="#E07B39"/>
+<circle cx="869.9" cy="232.2" r="5" fill="#E07B39"/>
+<circle cx="965.6" cy="280.8" r="5" fill="#E07B39"/>
+<circle cx="1075.0" cy="332.3" r="5" fill="#E07B39"/>
+<polyline points="664.9,425.1 705.9,419.9 733.2,410.3" fill="none" stroke="#4A90C2" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="664.9" cy="425.1" r="5" fill="#4A90C2"/>
+<circle cx="705.9" cy="419.9" r="5" fill="#4A90C2"/>
+<circle cx="733.2" cy="410.3" r="5" fill="#4A90C2"/>
+<polyline points="733.2,410.3 801.6,348.5 869.9,266.1 965.6,163.0 1075.0,96.8" fill="none" stroke="#4A90C2" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 7"/>
+<circle cx="733.2" cy="410.3" r="5" fill="#4A90C2"/>
+<circle cx="801.6" cy="348.5" r="5" fill="#4A90C2"/>
+<circle cx="869.9" cy="266.1" r="5" fill="#4A90C2"/>
+<circle cx="965.6" cy="163.0" r="5" fill="#4A90C2"/>
+<circle cx="1075.0" cy="96.8" r="5" fill="#4A90C2"/>
+<line x1="473.5" y1="309.7" x2="473.5" y2="428" stroke="#8FC6D3" stroke-width="1.5" stroke-dasharray="2 6" opacity="0.75"/>
+<circle cx="473.5" cy="309.7" r="6.5" fill="#F4F4F4" stroke="#57A2B2" stroke-width="2.5"/>
+<text x="473.5" y="281.7" text-anchor="middle" fill="#8FC6D3" font-size="13" font-weight="700">2006 - I enter</text>
+<text x="966" y="165" text-anchor="middle" font-size="14" font-weight="700" fill="#8FC0E8">new type of</text>
+<text x="966" y="183" text-anchor="middle" font-size="14" font-weight="700" fill="#8FC0E8">engineer</text>
+<circle cx="120" cy="500" r="7" fill="#8A9098"/><text x="136" y="505" font-size="15" fill="#C7CED6">Computer programmers</text>
+<circle cx="430" cy="500" r="7" fill="#E07B39"/><text x="446" y="505" font-size="15" fill="#C7CED6">Software developers</text>
+<line x1="720" y1="500" x2="750" y2="500" stroke="#4A90C2" stroke-width="3.5" stroke-dasharray="7 7"/><text x="760" y="505" font-size="15" fill="#C7CED6">New engineer (2020+)</text>
+</svg>

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 560" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+<rect x="40" y="30" width="6" height="26" rx="2" fill="#E07B39"/>
+<text x="58" y="50" font-size="22" font-weight="700" fill="#D7DCE3">Emerging Skills Demand: Testing, DevOps, Cloud &amp; AI (relative %)</text>
+<text x="262.9" y="98" text-anchor="middle" font-size="13" letter-spacing="1.5" fill="#8A9098">DESKTOP</text>
+<line x1="385.7" y1="104" x2="385.7" y2="430" stroke="#565B61" stroke-width="1.5" stroke-dasharray="4 6"/>
+<text x="508.6" y="98" text-anchor="middle" font-size="13" letter-spacing="1.5" fill="#8A9098">WEB</text>
+<line x1="631.4" y1="104" x2="631.4" y2="430" stroke="#565B61" stroke-width="1.5" stroke-dasharray="4 6"/>
+<text x="791.1" y="98" text-anchor="middle" font-size="13" letter-spacing="1.5" fill="#8A9098">CLOUD &amp; MOBILE</text>
+<line x1="950.9" y1="104" x2="950.9" y2="430" stroke="#565B61" stroke-width="1.5" stroke-dasharray="4 6"/>
+<rect x="950.9" y="118" width="49.1" height="312" fill="#E07B39" fill-opacity="0.05"/>
+<text x="975.4" y="98" text-anchor="middle" font-size="13" letter-spacing="1.5" fill="#8A9098">AI</text>
+<line x1="140" y1="430.0" x2="1000" y2="430.0" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
+<text x="128" y="435.0" text-anchor="end" font-size="13" fill="#8A9098">0%</text>
+<line x1="140" y1="367.6" x2="1000" y2="367.6" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
+<text x="128" y="372.6" text-anchor="end" font-size="13" fill="#8A9098">20%</text>
+<line x1="140" y1="305.2" x2="1000" y2="305.2" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
+<text x="128" y="310.2" text-anchor="end" font-size="13" fill="#8A9098">40%</text>
+<line x1="140" y1="242.8" x2="1000" y2="242.8" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
+<text x="128" y="247.8" text-anchor="end" font-size="13" fill="#8A9098">60%</text>
+<line x1="140" y1="180.4" x2="1000" y2="180.4" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
+<text x="128" y="185.4" text-anchor="end" font-size="13" fill="#8A9098">80%</text>
+<line x1="140" y1="118.0" x2="1000" y2="118.0" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
+<text x="128" y="123.0" text-anchor="end" font-size="13" fill="#8A9098">100%</text>
+<text x="140.0" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">1990</text>
+<text x="262.9" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">1995</text>
+<text x="385.7" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">2000</text>
+<text x="508.6" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">2005</text>
+<text x="631.4" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">2010</text>
+<text x="754.3" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">2015</text>
+<text x="877.1" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">2020</text>
+<text x="1000.0" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">2025</text>
+<polyline points="140.0,133.6 262.9,133.6 385.7,149.2 508.6,164.8 631.4,180.4 754.3,211.6 877.1,230.3 1000.0,242.8" fill="none" stroke="#8A9098" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="1000.0" cy="242.8" r="5" fill="#8A9098"/>
+<polyline points="140.0,414.4 262.9,405.0 385.7,383.2 508.6,352.0 631.4,305.2 754.3,258.4 877.1,227.2 1000.0,196.0" fill="none" stroke="#4A90C2" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="1000.0" cy="196.0" r="5" fill="#4A90C2"/>
+<polyline points="140.0,423.8 262.9,423.8 385.7,420.6 508.6,411.3 631.4,383.2 754.3,336.4 877.1,258.4 1000.0,211.6" fill="none" stroke="#9B7EDD" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="1000.0" cy="211.6" r="5" fill="#9B7EDD"/>
+<polyline points="140.0,423.8 262.9,420.6 385.7,417.5 508.6,401.9 631.4,373.8 754.3,320.8 877.1,242.8 1000.0,180.4" fill="none" stroke="#C0504A" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="1000.0" cy="180.4" r="5" fill="#C0504A"/>
+<polyline points="140.0,423.8 262.9,423.8 385.7,423.8 508.6,420.6 631.4,411.3 754.3,386.3 877.1,320.8 1000.0,211.6" fill="none" stroke="#57A2B2" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="1000.0" cy="211.6" r="5" fill="#57A2B2"/>
+<polyline points="140.0,423.8 262.9,423.8 385.7,423.8 508.6,423.8 631.4,420.6 754.3,411.3 877.1,383.2 1000.0,249.0" fill="none" stroke="#6AA84F" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="1000.0" cy="249.0" r="5" fill="#6AA84F"/>
+<polyline points="140.0,414.4 262.9,405.0 385.7,398.8 508.6,392.6 631.4,373.8 754.3,336.4 877.1,274.0 1000.0,217.8" fill="none" stroke="#E3B341" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="1000.0" cy="217.8" r="5" fill="#E3B341"/>
+<rect x="140" y="461" width="16" height="6" rx="3" fill="#8A9098"/>
+<text x="164" y="468" font-size="15" fill="#9AA0A6">Manual QA</text>
+<rect x="269" y="461" width="16" height="6" rx="3" fill="#4A90C2"/>
+<text x="293" y="468" font-size="15" fill="#9AA0A6">Test Automation</text>
+<rect x="450" y="461" width="16" height="6" rx="3" fill="#9B7EDD"/>
+<text x="474" y="468" font-size="15" fill="#9AA0A6">DevOps/SRE</text>
+<rect x="588" y="461" width="16" height="6" rx="3" fill="#C0504A"/>
+<text x="612" y="468" font-size="15" fill="#9AA0A6">Cloud (AWS/Azure/GCP)</text>
+<rect x="821" y="461" width="16" height="6" rx="3" fill="#57A2B2"/>
+<text x="845" y="468" font-size="15" fill="#9AA0A6">AI/ML Engineering</text>
+<rect x="140" y="487" width="16" height="6" rx="3" fill="#6AA84F"/>
+<text x="164" y="494" font-size="15" fill="#9AA0A6">LLM-assisted Development</text>
+<rect x="398" y="487" width="16" height="6" rx="3" fill="#E3B341"/>
+<text x="422" y="494" font-size="15" fill="#9AA0A6">Security/DevSecOps</text>
+<text x="140" y="528" font-size="13" font-style="italic" fill="#B98A5E">* Non-authoritative sources - data to visualize transitions   ·   mfranc.com/blog/ai-2026</text>
+</svg>
