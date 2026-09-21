@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+  <!-- ===================== KEEP ===================== -->
+  <rect x="30" y="36" width="356" height="372" rx="12" fill="#171C22" stroke="#57A2B2" stroke-width="2.5"/>
+  <text x="56" y="80" fill="#7FC1CE" font-size="24" font-weight="700">KEEP</text>
+  <text x="56" y="102" fill="#8A9098" font-size="13">much of the craft still holds</text>
+  <line x1="52" y1="118" x2="364" y2="118" stroke="#2E3742" stroke-width="1.5"/>
+  <g fill="#EDF0F3" font-size="18" font-weight="600">
+    <text x="84" y="158">12-Factor App</text>
+    <text x="84" y="196">CI/CD</text>
+    <text x="84" y="234">Observability</text>
+    <text x="84" y="272">Reliability · SRE</text>
+    <text x="84" y="310">Continuous Delivery</text>
+  </g>
+  <g stroke="#6FB86F" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M54 155 l5 6 l12 -14"/><path d="M54 193 l5 6 l12 -14"/><path d="M54 231 l5 6 l12 -14"/><path d="M54 269 l5 6 l12 -14"/><path d="M54 307 l5 6 l12 -14"/>
+  </g>
+  <text x="56" y="358" fill="#8A9098" font-size="12.5">SLOs, error budgets, blast radius -</text>
+  <text x="56" y="376" fill="#8A9098" font-size="12.5">independent of who writes the code.</text>
+
+  <!-- ===================== RETHINK ===================== -->
+  <rect x="422" y="36" width="356" height="372" rx="12" fill="#171C22" stroke="#C9A24E" stroke-width="2.5"/>
+  <text x="448" y="80" fill="#E0A84E" font-size="24" font-weight="700">RETHINK</text>
+  <text x="448" y="102" fill="#8A9098" font-size="13">built for humans reading code</text>
+  <line x1="444" y1="118" x2="756" y2="118" stroke="#2E3742" stroke-width="1.5"/>
+  <g fill="#EDF0F3" font-size="18" font-weight="600">
+    <text x="480" y="158">Clean Code</text>
+    <text x="480" y="196">KISS</text>
+    <text x="480" y="234">YAGNI</text>
+    <text x="480" y="272">SOLID</text>
+    <text x="480" y="310">OOP</text>
+  </g>
+  <g fill="none" stroke="#E0A84E" stroke-width="2">
+    <circle cx="456" cy="152" r="8"/><circle cx="456" cy="190" r="8"/><circle cx="456" cy="228" r="8"/><circle cx="456" cy="266" r="8"/><circle cx="456" cy="304" r="8"/>
+  </g>
+  <text x="448" y="358" fill="#8A9098" font-size="12.5">cleaner still helps the model -</text>
+  <text x="448" y="376" fill="#8A9098" font-size="12.5">some stay, some get redesigned.</text>
+
+  <!-- ===================== NEW ===================== -->
+  <rect x="814" y="36" width="356" height="372" rx="12" fill="#171C22" stroke="#E07B39" stroke-width="2.5" stroke-dasharray="7 5"/>
+  <text x="840" y="80" fill="#E8955A" font-size="24" font-weight="700">NEW</text>
+  <text x="840" y="102" fill="#8A9098" font-size="13">agent-first · still forming</text>
+  <line x1="836" y1="118" x2="1148" y2="118" stroke="#2E3742" stroke-width="1.5"/>
+  <g fill="#EDF0F3" font-size="18" font-weight="600">
+    <text x="874" y="158">Context engineering</text>
+    <text x="874" y="196">Harness engineering</text>
+    <text x="874" y="234">Spec-driven dev</text>
+  </g>
+  <g fill="#6E7A88" font-size="18" font-weight="700">
+    <text x="874" y="272">?</text>
+    <text x="874" y="310">?</text>
+  </g>
+  <g fill="none" stroke="#E07B39" stroke-width="2" stroke-dasharray="3 3">
+    <rect x="846" y="145" width="17" height="17" rx="4"/><rect x="846" y="183" width="17" height="17" rx="4"/><rect x="846" y="221" width="17" height="17" rx="4"/><rect x="846" y="259" width="17" height="17" rx="4"/><rect x="846" y="297" width="17" height="17" rx="4"/>
+  </g>
+  <text x="840" y="358" fill="#8A9098" font-size="12.5">a new discipline -</text>
+  <text x="840" y="376" fill="#8A9098" font-size="12.5">we are still working it out.</text>
+</svg>

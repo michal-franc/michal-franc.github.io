@@ -1,13 +1,60 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
   <defs>
     <marker id="nb-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#E07B39"/></marker>
+    <marker id="nb-sys" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#E07B39"/></marker>
   </defs>
-  <text x="230" y="90" text-anchor="middle" fill="#EDF0F3" font-size="26" font-weight="700">Software 1.0</text>
-  <line x1="350" y1="83" x2="848" y2="83" stroke="#8A9098" stroke-width="3" marker-end="url(#nb-ar)"/>
-  <text x="970" y="90" text-anchor="middle" fill="#E8955A" font-size="26" font-weight="700">Software 2.0</text>
-  <text x="230" y="163" text-anchor="middle" fill="#C7CED6" font-size="22">We read every line</text>
-  <text x="230" y="197" text-anchor="middle" fill="#C7CED6" font-size="22">in the PR.</text>
-  <text x="970" y="146" text-anchor="middle" fill="#C7CED6" font-size="22">We review the</text>
-  <text x="970" y="180" text-anchor="middle" fill="#E8955A" font-size="22" font-weight="700">system,</text>
-  <text x="970" y="214" text-anchor="middle" fill="#C7CED6" font-size="22">not the diff.</text>
+
+  <!-- ===== Software 1.0 : review every line of the diff ===== -->
+  <text x="310" y="44" text-anchor="middle" fill="#EDF0F3" font-size="22" font-weight="700">Software 1.0</text>
+  <rect x="90" y="60" width="440" height="215" rx="12" fill="#171C22" stroke="#2E3742" stroke-width="2"/>
+  <circle cx="116" cy="86" r="5.5" fill="#E0685C" opacity="0.85"/>
+  <circle cx="136" cy="86" r="5.5" fill="#E0A84E" opacity="0.85"/>
+  <circle cx="156" cy="86" r="5.5" fill="#6FB86F" opacity="0.85"/>
+  <line x1="90" y1="104" x2="530" y2="104" stroke="#2E3742" stroke-width="2"/>
+  <!-- diff lines, each one reviewed by hand (orange check) -->
+  <g font-size="22" font-weight="700">
+    <text x="120" y="133" fill="#6FB86F">+</text><rect x="150" y="121" width="250" height="12" rx="4" fill="#5C6772"/>
+    <text x="120" y="161" fill="#E0685C">-</text><rect x="150" y="149" width="200" height="12" rx="4" fill="#5C6772"/>
+    <text x="120" y="189" fill="#6FB86F">+</text><rect x="150" y="177" width="288" height="12" rx="4" fill="#5C6772"/>
+    <text x="120" y="217" fill="#6FB86F">+</text><rect x="150" y="205" width="228" height="12" rx="4" fill="#5C6772"/>
+    <text x="120" y="245" fill="#E0685C">-</text><rect x="150" y="233" width="180" height="12" rx="4" fill="#5C6772"/>
+  </g>
+  <g stroke="#E38A4E" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M486 127 L491 133 L501 120"/>
+    <path d="M486 155 L491 161 L501 148"/>
+    <path d="M486 183 L491 189 L501 176"/>
+    <path d="M486 211 L491 217 L501 204"/>
+    <path d="M486 239 L491 245 L501 232"/>
+  </g>
+  <text x="310" y="300" text-anchor="middle" fill="#C7CED6" font-size="18">read every line of the diff</text>
+
+  <!-- arrow -->
+  <line x1="558" y1="167" x2="642" y2="167" stroke="#E07B39" stroke-width="3.5" marker-end="url(#nb-ar)"/>
+
+  <!-- ===== Software 2.0 : review the system's behaviour via metrics ===== -->
+  <text x="890" y="44" text-anchor="middle" fill="#E8955A" font-size="22" font-weight="700">Software 2.0</text>
+  <rect x="670" y="60" width="440" height="215" rx="12" fill="#171C22" stroke="#2E3742" stroke-width="2"/>
+  <circle cx="696" cy="86" r="5.5" fill="#E0685C" opacity="0.85"/>
+  <circle cx="716" cy="86" r="5.5" fill="#E0A84E" opacity="0.85"/>
+  <circle cx="736" cy="86" r="5.5" fill="#6FB86F" opacity="0.85"/>
+  <line x1="670" y1="104" x2="1110" y2="104" stroke="#2E3742" stroke-width="2"/>
+
+  <!-- the system: 3 connected services -->
+  <g>
+    <rect x="708" y="118" width="78" height="34" rx="8" fill="#1E242A" stroke="#8A9098" stroke-width="2"/>
+    <rect x="831" y="118" width="78" height="34" rx="8" fill="#1E242A" stroke="#8A9098" stroke-width="2"/>
+    <rect x="954" y="118" width="78" height="34" rx="8" fill="#1E242A" stroke="#8A9098" stroke-width="2"/>
+    <line x1="790" y1="135" x2="827" y2="135" stroke="#E07B39" stroke-width="2.5" marker-end="url(#nb-sys)"/>
+    <line x1="913" y1="135" x2="950" y2="135" stroke="#E07B39" stroke-width="2.5" marker-end="url(#nb-sys)"/>
+  </g>
+
+  <!-- metrics chart: watch behaviour over time -->
+  <line x1="708" y1="176" x2="708" y2="252" stroke="#8A9098" stroke-width="1.5"/>
+  <line x1="708" y1="252" x2="1040" y2="252" stroke="#8A9098" stroke-width="1.5"/>
+  <polyline points="716,242 758,232 800,236 844,212 888,218 932,190 984,178 1032,166" fill="none" stroke="#E38A4E" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <g fill="#E38A4E">
+    <circle cx="716" cy="242" r="3.2"/><circle cx="800" cy="236" r="3.2"/><circle cx="888" cy="218" r="3.2"/><circle cx="984" cy="178" r="3.2"/><circle cx="1032" cy="166" r="3.2"/>
+  </g>
+  <text x="1052" y="171" fill="#8A9098" font-size="13">metrics</text>
+  <text x="890" y="300" text-anchor="middle" fill="#C7CED6" font-size="18">watch the whole system - by <tspan fill="#E8955A" font-weight="700">metrics</tspan></text>
 </svg>

@@ -278,10 +278,11 @@ Note:
 <!-- .slide: class="titled" -->
 
 Note:
-**Kierunek ustalony (ewolucja nie rewolucja) - teraz patrzymy W PRZÓD: jak zmieni się samo wytwarzanie software'u (1.0 -> 2.0).**
-- Mamy zgodę co do kierunku; pytanie nie brzmi już "czy", tylko "JAK to rozwinie się dalej i czego się spodziewać".
-- Zmiana narracji: z diagnozy rynku na obraz przyszłości. Zaznacz raz (uczciwie, rozbrajająco): to o czym powiem nie jest tak, że na 100% się spełni, ani "na pewno tak będzie" - ktoś może powiedzieć, że nie mam pojęcia albo "za 10 lat na pewno tak nie będzie". I słusznie - ciężko przewidzieć przyszłość. To predykcje, które prawdopodobnie wejdą - kilka tematów jako jedzenie do przemyślenia i do dyskusji w kuluarach / na backstage'u po prelekcji. Prowokacja/wizja, nie twarda prognoza.
-- To otwiera drugą część: Software 1.0 -> 2.0 wymiar po wymiarze i co to dla nas znaczy.
+**Kierunek mamy ustalony (ewolucja, nie rewolucja) - teraz patrzymy W PRZÓD: jak ta ewolucja będzie wyglądać dalej.**
+- Hinge (powiedz na wejściu): pytanie już nie brzmi "czy", tylko "JAK to rozwinie się dalej i czego się spodziewać". Zmiana narracji - z diagnozy rynku na obraz przyszłości.
+- Rozbrajający disclaimer (KLUCZOWE, zaznacz raz): to o czym powiem nie jest tak, że na 100% się spełni ani "na pewno tak będzie". Ktoś może powiedzieć, że nie mam pojęcia albo "za 10 lat na pewno tak nie będzie" - i słusznie, ciężko przewidzieć przyszłość. To predykcje, które moim zdaniem prawdopodobnie wejdą - kilka tematów jako jedzenie do przemyślenia i do dyskusji w kuluarach / na backstage'u po prelekcji. Prowokacja i wizja, nie twarda prognoza. (Ten jeden uczciwy oddech kupuje prawo do śmiałych tez przez resztę części 2.)
+- Handoff: to otwiera drugą część - Software 1.0 -> 2.0, wymiar po wymiarze, i co to dla nas znaczy.
+- (Delivery: nie zaczynaj od "myśląc myślami do przodu" - wejdź czysto: "patrząc do przodu". To slajd ~30 s, cały czas zejdź na hinge + disclaimer, nie na powtarzanie pytania.)
 (przejście -> The local-optimum trap)
 
 ---
@@ -318,6 +319,8 @@ Note:
 
 ## Code
 
+### To go **faster**, we stop hand-writing every line
+
 ![](images/nb-code.svg)
 
 Note:
@@ -331,13 +334,9 @@ Note:
 
 ## Review
 
-### 1.0: read every line. 2.0: review the **system's behavior**, not the diff.
+### To go **faster**, we stop reviewing every line
 
 ![](images/nb-review.svg)
-
-- Line-by-line review of AI's output just becomes the new bottleneck - it kills velocity
-- 2.0: judge the whole system from above - what it *does*, not each change
-- Define **metrics**: did this change help users, cause a regression, or hurt the business?
 
 Note:
 **Review (HERO - tu rozwiń). 1.0: czytamy każdą linię w PR-ze. 2.0: review idzie w górę stacku - ZACHOWANIE systemu, nie diff.**
@@ -351,24 +350,33 @@ Note:
 
 ## Determinism
 
+### To go **faster**, we accept non-determinism and design around it
+
 ![](images/nb-determinism.svg)
 
 Note:
-**Determinism. 1.0: systemy w pełni deterministyczne (dane wejście -> ten sam wynik). 2.0: uczymy się budować i radzić sobie z zachowaniami niedeterministycznymi (LLM, agenci) - testy, evals, guardraile zamiast pewności krok po kroku.**
-- Twój anchor: nawet "cztery dziewiątki" (99,99%) to nie 100% - jest szansa, że z danego inputu wyjdzie inny output niż oczekiwany.
-- 2.0: budujemy systemy, które to KOMPENSUJĄ - experience layer, procesy biznesowe łapiące i naprawiające odchylenia, zamiast zakładać pewność krok po kroku.
-(przejście -> Practices)
+**Determinism. 1.0: system STEROWANY LOGIKĄ - ten sam input zawsze daje ten sam output; robota polega na wymyśleniu, jaki output ma być dla danego inputu. 2.0: inny świat - modelu nie "rozumujemy" logicznie; tworzymy INCENTYW, żeby model dał nam konkretną odpowiedź (steruje nim bodziec, nie logika).**
+- Runs na slajdzie: 1.0 zawsze 5->42 (100% identyczne). 2.0 najczęściej 5->42 (też się zgadza), ale rzadko 5->43 (źle). Model bywa zgodny, ale nie zawsze - i o to chodzi.
+- LICZBY (kluczowy kadr): 1.0 = 100.00% deterministyczne. 2.0 = 99.99% - pytanie do sali: czy jesteśmy OK z tym 0.01%, że nie jest w pełni deterministyczne? Odpowiedź: TAK, jeśli te 0.01% obsłuży warstwa wokół - ARCHITEKTURA, SYSTEM DESIGN, UX. To one łapią odchylenie i dają stabilny PRODUKT. Stabilizujemy CAŁY system, nie każdą pojedynczą odpowiedź.
+- PRECEDENS (mocny, opowiedz): już to przerabialiśmy w systemach rozproszonych. Żeby przyspieszyć i skalować, ŚWIADOMIE zrezygnowaliśmy z gwarancji i zbudowaliśmy rzeczy wokół tego. Najlepszy przykład to NoSQL: oddaliśmy ACID (i inne gwarancje), przeszliśmy na eventual consistency - i nauczyliśmy się to obudowywać. Ta sama wymiana: mniej gwarancji za większą szybkość, potem inżynieria wokół. Teraz robimy to na warstwie modelu.
+- Predykcja: tak jak nauczyliśmy się budować niezawodne produkty na zawodnej infrastrukturze rozproszonej, tak nauczymy się budować stabilne produkty na niedeterministycznych modelach.
+(przejście -> Determinism is actually a lie)
 
 ---
 
-## Practices
+## Determinism is actually a lie
 
-![](images/nb-practices.svg)
+### Even one CPU never runs your program in order
+
+![](images/determinism-lie.svg)
 
 Note:
-**Practices. 1.0: clean code pod ludzi - KISS, YAGNI, SOLID, OOP. 2.0: piszemy agent-first - i otwarte pytanie: które z tych zasad przetrwają?**
-- WAŻNE (z doświadczenia, chroni "tech dalej ważny"): dobry design i czysty kod NADAL są kluczowe - obecne modele są trenowane na kodzie z tymi praktykami, więc im czystszy kod/design, tym LEPIEJ radzi sobie agent. Sam widziałem spadek jakości/szybkości agenta na zabałaganionym kodzie.
-(przejście -> The biggest change for engineers)
+**HERO = CPU (feedback od kolegi: "daj samo CPU, dowozi tezę"). Piszesz sekwencję instrukcji (1..5). x86 dekoduje je na µops i wykonuje POZA KOLEJNOŚCIĄ i spekulatywnie - realnie leci np. 5,1,2,(4*),3. Wynik dla jednego wątku i tak się zgadza (retirement w kolejności programu), ale to znaczy, że "determinizm" to KONTRAKT utrzymywany na wierzchu chaosu, nie fakt fizyczny.**
+- Puenta (spina z poprzednim slajdem): niedeterminizm nie jest nowy - ZAWSZE był, tylko WARSTWĘ NIŻEJ i obudowany (ISA trzyma wynik dla wątku; my dokładamy memory model, locki). AI nie wprowadza niedeterminizmu do idealnego świata - przesuwa go W GÓRĘ, do logiki aplikacji, gdzie teraz potrzebna ta sama dyscyplina.
+- Uczciwe doprecyzowanie do poprzedniego slajdu: te "100%" dla 1.0 to "100% na kontrakcie logiki, dla programu deterministycznego" - nie na każdej warstwie.
+- Dodatkowe przykłady (na głos, jeśli ktoś dopytuje - NIE na slajdzie): WĄTKI/JMM (bez synchronizacji brak linearyzacji, kolejność od schedulera - dwa wyniki); JIT C2 (optymalizacje zależą od RUNTIME i WĄTKÓW - ten sam bytecode to za każdym razem inny kod natywny); REPRODUCIBLE BUILDS (ten sam source → różna binarka: timestampy, kolejność, ścieżki).
+- (Inspiracja + feedback: rozmowa na Discordzie. Dobra amunicja na "mądralę z trzeciego rzędu".)
+(przejście -> So many potential changes / Engineering practices)
 
 ---
 
@@ -383,21 +391,22 @@ Note:
 
 ---
 
-## The biggest change for engineers
+## So many potential changes
 <!-- .slide: class="new-world" -->
 
-It's not the tech - or how you use AI.
+### What does it mean for you as an engineer?
 
-It's how you approach the **job**.
+The **role** changes - not only the tech, or how you use AI and tools.
 
-Toward **impact and value** - less on the tech.
+You shift how you approach the job - toward **impact and value**.
 
-It's on you to make sure the value gets created.
+You understand and become **part of the decision process** - not just execution.
 
 Note:
-**Największa zmiana dla inżynierów to NIE technologia ani sposób pracy z AI - to sposób, w jaki podchodzisz do PRACY.**
-- Nie chodzi o narzędzia ani o to, jak używasz AI. Chodzi o nastawienie do zawodu: mniej o technologię, bardziej o dostarczanie impactu i wartości.
-- Kluczowe: to na TOBIE spoczywa odpowiedzialność, żeby wartość faktycznie powstała - technologia jest środkiem, nie celem.
+**Tyle potencjalnych zmian - co to znaczy dla CIEBIE jako inżyniera? Zmienia się sama rola/praca, nie tylko technologia i sposób używania AI.**
+- To już nie jest tylko o tech ani o tym, JAK używasz AI i narzędzi. Musisz zmienić sposób, w jaki podchodzisz do zawodu - w stronę większego IMPACTU i WARTOŚCI.
+- Nowy wymiar: rozumieć i BYĆ CZĘŚCIĄ procesu decyzyjnego (co i po co budujemy), a nie tylko wykonywać zadania. Współdecydujesz o wartości, nie tylko ją dowozisz.
+- Technologia jest środkiem, nie celem - to na TOBIE spoczywa odpowiedzialność, żeby wartość faktycznie powstała.
 (przejście -> The center of gravity moves)
 
 ---
@@ -522,28 +531,12 @@ Note:
 - Na powierzchni banał ("wpisz prompt, gotowe") - płytko i prosto.
 - Pod spodem masa złożoności: eksperymenty, testy i evals, projektowanie kontekstu i narzędzi, iterowanie promptów, rozumienie GDZIE AI zawodzi.
 - Wymaga wielu godzin praktyki (myśl: ~10 000 godzin intensywnego używania) - budujesz INTUICJĘ, gdzie AI działa, a gdzie zawodzi; nie da się tego "przeczytać", trzeba wychodzić.
-(przejście -> Bonds erode without you)
-
----
-
-## Your engineering experience and fundamentals still matter
-
-Left alone, AI drifts to **entropy**. You hold the **cohesion**.
-
-![](images/cohesion-force.svg)
-
-Note:
-**AI samo dryfuje ku entropii - to TY trzymasz spójność.**
-- AI zostawione samo, w dłuższym horyzoncie, prowadzi do chaosu: generuje kawałki, ale wiązania słabną, system pęka. Entropia z czasem rośnie.
-- Rysunek: czerwone siły rozrywają spójność (AI w czasie), ciągną ku rozpadowi.
-- Pomarańczowe siły to TY: dobry design, kontekst, course-correction - trzymasz całość w kupie.
-- Anegdota (z życia): projekty, gdzie pozwoliłem AI zrobić wszystko - nie czytałem, nie pisałem kodu - z czasem się rozjeżdżają, a rozwój staje się coraz trudniejszy. To nie nowość: 20 lat temu zaniedbane projekty wyglądały tak samo - AI tylko PRZYSPIESZA akumulację chaosu.
-- Spójność nie utrzymuje się sama; ktoś musi ją aktywnie trzymać.
 (przejście -> Engineering good practices still matter)
 
 ---
 
 ## Engineering good practices still matter
+<!-- .slide: data-visibility="hidden" -->
 
 Continuous delivery, stability, reliability - still fundamental.
 
@@ -556,23 +549,24 @@ Note:
 - To nie jest anty-tech: rzemiosło dalej obowiązuje. Continuous delivery, stabilność, reliability, observability - fundamenty, które trzymają system.
 - Szczególnie SYSTEM DESIGN: to on decyduje na górze. Im lepszy design, tym lepiej działa i człowiek, i AI (dobrze wytyczona droga = lepsze efekty).
 - AI nie zwalnia z tych zasad - podnosi ich wagę: generuje więcej kodu, który trzeba utrzymać w ryzach.
-(przejście -> Ambiguity & critical thinking)
+(przejście -> The engineer is the glue)
 
 ---
 
-## Ambiguity & critical thinking
-<!-- .slide: class="new-world" -->
+## Engineering good practices still matter
 
-A core skill of the future.
+### Keep the good · rethink what was built for humans · add what's **agent-first**
 
-AI hands you answers.
-
-**You** judge them - and ask the **right questions**.
+![](images/good-practices-alt.svg)
 
 Note:
-**Ambiguity + krytyczne myślenie to kluczowa umiejętność przyszłości.**
-- Świat coraz bardziej niejednoznaczny; AI sypie odpowiedziami - wartość jest w tym, by je ocenić i zadać właściwe pytania.
-- Krytyczne myślenie i komfort w niejednoznaczności to coś, czego AI za ciebie nie zrobi - im więcej "odpowiedzi", tym ważniejszy osąd, które są dobre.
+**(Ten slajd wchłonął dawny slajd "Practices" - jeden spójny obraz zamiast dwóch podobnych. Trzy kubełki: KEEP / RETHINK / NEW.)**
+**Teza: mnóstwo dobrych praktyk inżynierskich zostaje - ale część była zbudowana POD LUDZI i trzeba je przeprojektować, a do tego dochodzą nowe, agent-first.**
+- KEEP (zostaje, zielone ✓): kanon operacyjny - 12-Factor, CI/CD, Observability, Reliability/SRE, Continuous Delivery. To praktyki w dużej mierze NIEZALEŻNE od tego, kto pisze kod (człowiek czy agent) - dlatego trzymają. Serce tej kolumny to SRE: SLO, error budgets, blast radius, graceful degradation - język o niedoskonałych systemach (spina się z poprzednim slajdem: determinizm, NoSQL/ACID).
+- RETHINK (do przemyślenia, bursztynowe kółka): Clean Code, KISS, YAGNI, SOLID, OOP - to były zasady pisane POD CZŁOWIEKA czytającego kod. Część zostanie, część przeprojektujemy. Ważne: czystszy kod NADAL pomaga modelowi (modele trenowane na takim kodzie) - ale "po co" się przesuwa.
+- NEW (nowe, kropkowane, agent-first): Context engineering, Harness engineering, Spec-driven development - plus znaki zapytania, bo dyscyplina dopiero się wyłania. To propozycje, nie pewniki.
+- Puenta: to nie "zasady znikają" - to KEEP + RETHINK + NEW naraz. Rzemiosło dalej ważne, tylko zmienia kształt.
+- [Wariant "świątynia" (good-practices.svg) pozostaje UKRYTY. Dawny slajd "Practices" (nb-practices.svg) został usunięty i wchłonięty tutaj.]
 (przejście -> The engineer is the glue)
 
 ---
@@ -589,6 +583,22 @@ Note:
 - Weryfikacja się przesuwa: z czytania każdej linii kodu na TESTY i KONTRAKTY - sprawdzasz, czy całość działa, nie każdy klocek z osobna.
 - Anegdota do opowiedzenia: mod do Quasimorph - AI zrobiło kawałki, człowiek spiął je w działającą całość (klej + woda).
 - Predykcja: ~2036 to domyślny tryb pracy inżyniera.
+(przejście -> ...and it holds against entropy)
+
+---
+
+## ...and it holds against entropy
+
+Left alone, AI drifts to **entropy** - you're the **counter-force**.
+
+![](images/entropy-cohesion.svg)
+
+Note:
+**(Kolejny slajd po "engineer is the glue" - druga strona tej samej monety: klejenie kawałków = trzymanie spójności PRZECIW entropii. Tu wchłonąłem dawny slajd o doświadczeniu/fundamentach - żeby nie powtarzać "still matters".)**
+**AI samo, w dłuższym horyzoncie, dryfuje ku ENTROPII - to TY trzymasz spójność.**
+- Czerwone siły rozrywają system (AI zostawione samo, w czasie). Pomarańczowe to TY: dobry design, kontekst, doświadczenie, course-correction - siła przeciwna.
+- Anegdota (z życia): projekty, gdzie pozwoliłem AI zrobić wszystko - nie czytałem, nie pisałem kodu - z czasem się rozjeżdżają, a rozwój robi się coraz trudniejszy. To nie nowość: 20 lat temu zaniedbane projekty wyglądały tak samo - AI tylko PRZYSPIESZA akumulację chaosu.
+- Fundamenty i doświadczenie inżynierskie to właśnie ten counter-force. Spójność nie utrzymuje się sama; ktoś musi ją aktywnie trzymać.
 (przejście -> We own the long horizon)
 
 ---
@@ -611,17 +621,18 @@ Note:
 
 ## We own the judgment
 
-**You** define *good enough* - AI can't.
+**You** define *good enough* - AI can't. And **you** judge the answers it hands you.
 
-Aim for perfect and the market kills you. Leave it vague and AI ships something random.
+The core skill: comfort with **ambiguity** and asking the **right questions**.
 
 ![](images/good-enough.svg)
 
 Note:
-**To MY, inżynierowie, definiujemy "good enough" - AI samo tego nie ustali.**
+**To MY, inżynierowie, definiujemy "good enough" i oceniamy odpowiedzi AI - to osąd, którego AI za nas nie zrobi. (Wchłonąłem tu dawny slajd "Ambiguity & critical thinking".)**
 - Nie może być idealnie: rynek zabija wolnych; przepalasz czas na perfekcję, a konkurencja z "good enough" zjada twój rynek.
 - Nie działa też "zrób coś good enough" rzucone do AI: bez naszej definicji AI dowiezie coś przypadkowego. To MY ustalamy, co "wystarczająco dobrze" znaczy w tym kontekście.
 - AI nie wie, jakie ryzyko biznes akceptuje ani gdzie wolno ciąć zakręty. Nasz osąd to poprzeczka, do której AI buduje.
+- KRYTYCZNE MYŚLENIE + AMBIGUITY (z wchłoniętego slajdu): świat coraz bardziej niejednoznaczny, AI sypie odpowiedziami - wartość jest w tym, żeby je OCENIĆ i zadać właściwe pytania. Im więcej "odpowiedzi", tym ważniejszy osąd, które są dobre. Komfort w niejednoznaczności to kluczowa umiejętność przyszłości.
 (przejście -> Don't give in to the negativism)
 
 ---
@@ -748,6 +759,27 @@ Note:
 - Środek to nie tylko chaos - to okazja: kto wchodzi wcześnie, zbiera owoce później (jak w każdej fali). Nad chaosem świeci "opportunity".
 - Chaos się wygładzi, gdy pojawią się nowe wzorce, role, wymagania, praktyki, narzędzia - nowa stabilność.
 - Jesteśmy w środku przejścia, nie na końcu świata.
+(przejście -> Quo Vadis IT?)
+
+---
+
+## Beyond Software 2.0?
+
+### From logic-driven to **incentive-driven** systems
+
+![](images/local-optimum-future.svg)
+
+*"Software 3.0" term: Andrej Karpathy - [Software Is Changing (Again)](https://www.youtube.com/watch?v=LCEmiRjPEtQ)*
+<!-- .element: class="plate-label" -->
+
+Note:
+**Callback do "local-optimum trap" - powtarzamy TEN slajd i dorysowujemy trzeci szczyt. To domknięcie na pokorę: mapa na najbliższe lata jest, ale daleki horyzont jest otwarty.**
+- Rozpoznanie: "pamiętacie ten wykres?" - ten sam krajobraz co wcześniej (Software 1.0 + AI -> dolina -> Software 2.0). Wracamy do niego na koniec.
+- Dwustopniowy reveal (opowiedz na głos): (1) zakładamy, że drabina wspina się dalej - kolejny szczyt, "Software 3.0", następny poziom dźwigni i wartości. (2) A potem: skreśl to. W naprawdę długim horyzoncie to może w ogóle nie być "software". Może to "Model 1.0?" - RESET do 1.0, nowa krzywa S, inny rodzaj rzeczy.
+- Pointa (klucz): za horyzontem mapa się kończy - świat za 10-20 lat może wyglądać zupełnie inaczej niż dziś. Nie wiem, jak. I to jest uczciwa odpowiedź.
+- Podtytuł (o co chodzi): być może przejdziemy z systemów STEROWANYCH LOGIKĄ (piszemy deterministyczne reguły, krok po kroku) do systemów STEROWANYCH BODŹCAMI/CELAMI (ustawiasz cele i nagrody, a model sam dochodzi do zachowania). To właśnie sens "Model 1.0" - nie programujesz logiki, kształtujesz incentywy. Stąd skreślone "Software" - to już nie byłoby pisanie software'u w dzisiejszym sensie.
+- To nie podważa reszty prelekcji: na najbliższe lata kierunek jest czytelny (triada, wartość, sprawczość). Ale daleki horyzont zostawiamy otwarty - i dokładnie dlatego następne pytanie brzmi "Quo Vadis IT?".
+- Źródło terminu "Software 3.0": Andrej Karpathy, "Software Is Changing (Again)" (link na slajdzie). Uczciwie: moje 1.0/2.0 to nie dokładnie jego definicje (u niego 2.0 = sieci/wagi, 3.0 = LLM/prompting) - pożyczam nazewnictwo i skręcam je po swojemu (dlatego skreślam 3.0 i pytam "Model 1.0?"). Gdyby ktoś dopytał na backstage'u - to jest ten trop.
 (przejście -> Quo Vadis IT?)
 
 ---

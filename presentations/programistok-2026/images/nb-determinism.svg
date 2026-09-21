@@ -1,13 +1,86 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
   <defs>
     <marker id="nb-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#E07B39"/></marker>
+    <marker id="nb-arg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8A9098"/></marker>
   </defs>
-  <text x="230" y="90" text-anchor="middle" fill="#EDF0F3" font-size="26" font-weight="700">Software 1.0</text>
-  <line x1="350" y1="83" x2="848" y2="83" stroke="#8A9098" stroke-width="3" marker-end="url(#nb-ar)"/>
-  <text x="970" y="90" text-anchor="middle" fill="#E8955A" font-size="26" font-weight="700">Software 2.0</text>
-  <text x="230" y="163" text-anchor="middle" fill="#C7CED6" font-size="22">Fully deterministic</text>
-  <text x="230" y="197" text-anchor="middle" fill="#C7CED6" font-size="22">systems.</text>
-  <text x="970" y="146" text-anchor="middle" fill="#C7CED6" font-size="22">Systems that cope with</text>
-  <text x="970" y="180" text-anchor="middle" fill="#E8955A" font-size="22" font-weight="700">non-deterministic</text>
-  <text x="970" y="214" text-anchor="middle" fill="#C7CED6" font-size="22">behaviour.</text>
+
+  <!-- ============ TOP: the two worlds ============ -->
+  <text x="310" y="38" text-anchor="middle" fill="#EDF0F3" font-size="22" font-weight="700">Software 1.0</text>
+  <text x="890" y="38" text-anchor="middle" fill="#E8955A" font-size="22" font-weight="700">Software 2.0</text>
+
+  <!-- left panel : logic, 100% identical -->
+  <rect x="90" y="54" width="440" height="236" rx="12" fill="#171C22" stroke="#2E3742" stroke-width="2"/>
+  <circle cx="116" cy="80" r="5.5" fill="#E0685C" opacity="0.85"/><circle cx="136" cy="80" r="5.5" fill="#E0A84E" opacity="0.85"/><circle cx="156" cy="80" r="5.5" fill="#6FB86F" opacity="0.85"/>
+  <rect x="438" y="64" width="80" height="26" rx="13" fill="#18271F" stroke="#6FB86F"/>
+  <text x="478" y="82" text-anchor="middle" fill="#6FB86F" font-size="15" font-weight="700">100%</text>
+  <line x1="90" y1="98" x2="530" y2="98" stroke="#2E3742" stroke-width="2"/>
+  <!-- flow x -> LOGIC -> y -->
+  <rect x="112" y="110" width="38" height="28" rx="7" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="131" y="130" text-anchor="middle" fill="#EDF0F3" font-size="17">x</text>
+  <line x1="152" y1="124" x2="192" y2="124" stroke="#8A9098" stroke-width="2" marker-end="url(#nb-arg)"/>
+  <rect x="196" y="108" width="110" height="32" rx="7" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="251" y="129" text-anchor="middle" fill="#C7CED6" font-size="15" font-weight="700">LOGIC</text>
+  <line x1="308" y1="124" x2="348" y2="124" stroke="#8A9098" stroke-width="2" marker-end="url(#nb-arg)"/>
+  <rect x="352" y="110" width="38" height="28" rx="7" fill="#1E242A" stroke="#6FB86F" stroke-width="2"/><text x="371" y="130" text-anchor="middle" fill="#EDF0F3" font-size="17">y</text>
+  <!-- runs: identical -->
+  <text x="118" y="168" fill="#8A9098" font-size="13">runs</text>
+  <g font-size="20" fill="#C7CED6">
+    <text x="155" y="182">5 -&gt; 42</text><text x="155" y="212">5 -&gt; 42</text><text x="155" y="242">5 -&gt; 42</text><text x="155" y="272">5 -&gt; 42</text>
+  </g>
+  <g stroke="#6FB86F" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M305 177 l5 6 l11 -14"/><path d="M305 207 l5 6 l11 -14"/><path d="M305 237 l5 6 l11 -14"/><path d="M305 267 l5 6 l11 -14"/>
+  </g>
+  <text x="410" y="228" fill="#8A9098" font-size="13">always</text><text x="410" y="245" fill="#8A9098" font-size="13">identical</text>
+
+  <!-- right panel : model, 99.99% -->
+  <rect x="670" y="54" width="440" height="236" rx="12" fill="#171C22" stroke="#2E3742" stroke-width="2"/>
+  <circle cx="696" cy="80" r="5.5" fill="#E0685C" opacity="0.85"/><circle cx="716" cy="80" r="5.5" fill="#E0A84E" opacity="0.85"/><circle cx="736" cy="80" r="5.5" fill="#6FB86F" opacity="0.85"/>
+  <rect x="1012" y="64" width="90" height="26" rx="13" fill="#2A2620" stroke="#E07B39"/>
+  <text x="1057" y="82" text-anchor="middle" fill="#E8955A" font-size="15" font-weight="700">99.99%</text>
+  <line x1="670" y1="98" x2="1110" y2="98" stroke="#2E3742" stroke-width="2"/>
+  <!-- flow x -> MODEL -> ? -->
+  <rect x="692" y="110" width="38" height="28" rx="7" fill="#241F1A" stroke="#E07B39" stroke-width="2"/><text x="711" y="130" text-anchor="middle" fill="#EDF0F3" font-size="17">x</text>
+  <line x1="732" y1="124" x2="772" y2="124" stroke="#E07B39" stroke-width="2" marker-end="url(#nb-ar)"/>
+  <rect x="776" y="108" width="116" height="32" rx="7" fill="#241F1A" stroke="#E07B39" stroke-width="2"/><text x="834" y="129" text-anchor="middle" fill="#E8955A" font-size="15" font-weight="700">MODEL</text>
+  <line x1="894" y1="124" x2="934" y2="124" stroke="#E07B39" stroke-width="2" marker-end="url(#nb-ar)"/>
+  <rect x="938" y="110" width="38" height="28" rx="7" fill="none" stroke="#E07B39" stroke-width="2" stroke-dasharray="3 4"/><text x="957" y="130" text-anchor="middle" fill="#E8955A" font-size="17">?</text>
+  <!-- runs: mostly 42, sometimes 41 (ok), rarely 43 (bad) -->
+  <text x="698" y="168" fill="#8A9098" font-size="13">runs</text>
+  <g font-size="20" fill="#C7CED6">
+    <text x="735" y="182">5 -&gt; 42</text><text x="735" y="212">5 -&gt; 42</text><text x="735" y="242">5 -&gt; 42</text><text x="735" y="272">5 -&gt; 43</text>
+  </g>
+  <g stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M885 177 l5 6 l11 -14" stroke="#6FB86F"/>
+    <path d="M885 207 l5 6 l11 -14" stroke="#6FB86F"/>
+    <path d="M885 237 l5 6 l11 -14" stroke="#6FB86F"/>
+    <path d="M885 261 l14 14 M899 261 l-14 14" stroke="#E0685C"/>
+  </g>
+  <text x="935" y="277" fill="#E0685C" font-size="13">bad</text>
+
+  <!-- arrow between -->
+  <line x1="558" y1="172" x2="642" y2="172" stroke="#E07B39" stroke-width="3.5" marker-end="url(#nb-ar)"/>
+
+  <!-- ============ BOTTOM: the trade ============ -->
+  <line x1="120" y1="322" x2="1080" y2="322" stroke="#2E3742" stroke-width="1.5"/>
+  <text x="600" y="356" text-anchor="middle" fill="#E07B39" font-size="18" font-weight="700">The trade: give up the last 0.01% - and design around it</text>
+
+  <!-- determinism chips -->
+  <rect x="175" y="378" width="380" height="44" rx="10" fill="#171C22" stroke="#2E3742" stroke-width="1.5"/>
+  <text x="365" y="405" text-anchor="middle" font-size="16" fill="#C7CED6">1.0: <tspan fill="#6FB86F" font-weight="700">100.00%</tspan> deterministic</text>
+  <rect x="645" y="378" width="380" height="44" rx="10" fill="#171C22" stroke="#2E3742" stroke-width="1.5"/>
+  <text x="835" y="405" text-anchor="middle" font-size="16" fill="#C7CED6">2.0: <tspan fill="#E8955A" font-weight="700">99.99%</tspan> - OK with the 0.01%?</text>
+
+  <!-- how the 0.01% is absorbed -->
+  <text x="238" y="470" text-anchor="middle" fill="#E0685C" font-size="16" font-weight="700">the 0.01%</text>
+  <line x1="298" y1="464" x2="352" y2="464" stroke="#E07B39" stroke-width="2.5" marker-end="url(#nb-ar)"/>
+  <rect x="358" y="444" width="356" height="40" rx="10" fill="#241F1A" stroke="#E07B39" stroke-width="2"/>
+  <text x="536" y="469" text-anchor="middle" fill="#E8955A" font-size="15" font-weight="700">architecture · system design · UX</text>
+  <line x1="720" y1="464" x2="774" y2="464" stroke="#E07B39" stroke-width="2.5" marker-end="url(#nb-ar)"/>
+  <circle cx="800" cy="464" r="14" fill="#6FB86F"/><path d="M792 464 l5 6 l11 -13" stroke="#171C22" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="850" y="469" fill="#C7CED6" font-size="15">stable product</text>
+
+  <!-- precedent: NoSQL / distributed systems -->
+  <rect x="175" y="502" width="850" height="82" rx="12" fill="#14181D" stroke="#57A2B2" stroke-width="1.8"/>
+  <rect x="175" y="502" width="6" height="82" rx="3" fill="#57A2B2"/>
+  <text x="202" y="528" fill="#57A2B2" font-size="16" font-weight="700">We have done this before.</text>
+  <text x="202" y="552" fill="#C7CED6" font-size="14">Distributed systems &amp; NoSQL gave up guarantees - dropped ACID - to scale and go faster,</text>
+  <text x="202" y="573" fill="#C7CED6" font-size="14">then engineered around it (eventual consistency). Same trade - now at the model layer.</text>
 </svg>

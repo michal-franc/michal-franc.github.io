@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 470" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+  <defs>
+    <marker id="dl-aro" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#E07B39"/></marker>
+  </defs>
+
+  <!-- WHAT YOU WROTE -->
+  <text x="206" y="44" fill="#8A9098" font-size="14" font-weight="700" letter-spacing="1">WHAT YOU WROTE  ·  program order</text>
+  <g font-size="16">
+    <rect x="206" y="56" width="140" height="42" rx="7" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="276" y="83" text-anchor="middle" fill="#C7CED6">1  mov</text>
+    <rect x="368" y="56" width="140" height="42" rx="7" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="438" y="83" text-anchor="middle" fill="#C7CED6">2  add</text>
+    <rect x="530" y="56" width="140" height="42" rx="7" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="600" y="83" text-anchor="middle" fill="#C7CED6">3  cmp</text>
+    <rect x="692" y="56" width="140" height="42" rx="7" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="762" y="83" text-anchor="middle" fill="#C7CED6">4  jne</text>
+    <rect x="854" y="56" width="140" height="42" rx="7" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="924" y="83" text-anchor="middle" fill="#C7CED6">5  mul</text>
+  </g>
+
+  <!-- into the core -->
+  <line x1="600" y1="102" x2="600" y2="146" stroke="#E07B39" stroke-width="2.5" marker-end="url(#dl-aro)"/>
+
+  <!-- the core -->
+  <rect x="250" y="150" width="700" height="86" rx="14" fill="#241F1A" stroke="#E07B39" stroke-width="2.5"/>
+  <text x="600" y="184" text-anchor="middle" fill="#E8955A" font-size="20" font-weight="700">x86 CORE</text>
+  <text x="600" y="214" text-anchor="middle" fill="#C7CED6" font-size="15">decode → µops → out-of-order + speculative execution</text>
+
+  <!-- out to execution -->
+  <line x1="600" y1="238" x2="600" y2="286" stroke="#E07B39" stroke-width="2.5" marker-end="url(#dl-aro)"/>
+
+  <!-- WHAT ACTUALLY RUNS -->
+  <text x="206" y="304" fill="#E8955A" font-size="14" font-weight="700" letter-spacing="1">WHAT ACTUALLY RUNS  ·  out-of-order + speculative</text>
+  <g font-size="16">
+    <rect x="206" y="316" width="140" height="42" rx="7" fill="#241F1A" stroke="#E07B39" stroke-width="2"/><text x="276" y="343" text-anchor="middle" fill="#EDF0F3">5  mul</text>
+    <rect x="368" y="316" width="140" height="42" rx="7" fill="#241F1A" stroke="#E07B39" stroke-width="2"/><text x="438" y="343" text-anchor="middle" fill="#EDF0F3">1  mov</text>
+    <rect x="530" y="316" width="140" height="42" rx="7" fill="#241F1A" stroke="#E07B39" stroke-width="2"/><text x="600" y="343" text-anchor="middle" fill="#EDF0F3">2  add</text>
+    <rect x="692" y="316" width="140" height="42" rx="7" fill="#241F1A" stroke="#E07B39" stroke-width="2" stroke-dasharray="5 4"/><text x="762" y="343" text-anchor="middle" fill="#EDF0F3">4  jne*</text>
+    <rect x="854" y="316" width="140" height="42" rx="7" fill="#241F1A" stroke="#E07B39" stroke-width="2"/><text x="924" y="343" text-anchor="middle" fill="#EDF0F3">3  cmp</text>
+  </g>
+  <text x="762" y="378" text-anchor="middle" fill="#8A9098" font-size="11.5">* speculative - discarded on mispredict</text>
+
+  <!-- the honest nuance + punch -->
+  <text x="600" y="416" text-anchor="middle" fill="#8A9098" font-size="13">retires in program order → the single-thread result still matches.</text>
+  <text x="600" y="452" text-anchor="middle" fill="#C7CED6" font-size="15.5">You never run your program in order - "deterministic" is a contract upheld on top of chaos.</text>
+</svg>
