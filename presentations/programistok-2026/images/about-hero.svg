@@ -11,6 +11,7 @@
 
   <text x="400" y="120" font-size="40" font-weight="700" fill="#E07B39">Michal Franc</text>
   <text x="400" y="160" font-size="34" fill="#9AA0A6" letter-spacing="1">SENIOR STAFF ENGINEER</text>
+  <!-- theme:keep - Affirm brand logo: never recolored (white badge in both themes) -->
   <rect x="848" y="118" width="116" height="52" rx="8" fill="#FFFFFF"/>
   <svg x="854" y="116" width="99" height="56" viewBox="0 0 560 400">
     <g transform="matrix(.860215 0 0 .860215 100 128.172)">
@@ -18,14 +19,16 @@
       <path d="m297.7 0c-53.2 0-100.6 36.9-114 84.4h19.3c11.2-35.4 49.3-66.4 94.7-66.4 55.2 0 102.8 42 102.8 107.4 0 14.7-1.9 27.9-5.5 39.6h18.7l.2-.6c3.1-12.1 4.6-25.2 4.6-39 0-72.9-53.1-125.4-120.8-125.4" fill="#4a4af4"/>
     </g>
   </svg>
+  <!-- /theme:keep -->
   <line x1="400" y1="180" x2="950" y2="180" stroke="#333333" stroke-width="1.5"/>
-  <text x="400" y="228" font-size="19" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
-  <text x="426" y="228" font-size="15" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">20-something years in IT</text>
-  <text x="400" y="274" font-size="19" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
-  <text x="426" y="274" font-size="15" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">JustEat · JustGiving · Form3 · <tspan fill="#E07B39" font-weight="700">Affirm</tspan></text>
-  <text x="426" y="274" font-size="15" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace" filter="url(#glow)"><tspan fill="transparent">JustEat · JustGiving · Form3 · </tspan><tspan fill="#E07B39" font-weight="700">Affirm</tspan></text>
-  <text x="400" y="320" font-size="19" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
-  <text x="426" y="320" font-size="15" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">Backend · frontend · DevOps/SRE · tech manager</text>
-  <text x="400" y="366" font-size="19" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
-  <text x="426" y="366" font-size="15" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">Global scale: tens of millions of users</text>
+  <text x="400" y="228" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
+  <text x="426" y="228" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">20-something years in IT</text>
+  <text x="400" y="274" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
+  <text x="426" y="274" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">JustEat · JustGiving · Form3 · Affirm</text>
+  <text x="400" y="320" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
+  <text x="426" y="320" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">Backend · Frontend · DevOps/SRE</text>
+  <text x="400" y="366" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
+  <text x="426" y="366" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">Tens of millions of users · billions of $</text>
+  <text x="400" y="412" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
+  <text x="426" y="412" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">Now: <tspan fill="#D7DCE3" font-weight="700">System &amp; Organization Architect</tspan></text>
 </svg>

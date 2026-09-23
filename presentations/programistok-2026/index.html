@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        /* Theme select: ?theme=light for bright rooms / washed-out projectors.
+           Default (no param) is the dark theme. Set before first paint. */
+        if (new URLSearchParams(location.search).get('theme') === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+    </script>
 
     <style>
         /* ============================================================
@@ -29,15 +36,32 @@
             --r-link-color: #FFFFFF;
             --r-main-font: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
             --r-heading-font: 'JetBrains Mono', ui-monospace, monospace;
-            --r-main-font-size: 25px;
+            --r-main-font-size: 30px;
         }
 
-        .reveal-viewport, .reveal { background: #000; }
+        /* LIGHT THEME (?theme=light) - same layout, white ground.
+           Diagrams (SVG images + d3 animations) are recolored at runtime by
+           the themeColor() map in the script below - no second set of SVGs. */
+        html[data-theme="light"] {
+            --bg:        #FFFFFF;
+            --fg:        #15181C;
+            --fg-dim:    #454B53;
+            --fg-faint:  #8A9098;
+            --rule:      #D5D9DE;
+            --accent:      #C8601F;
+            --accent-teal: #2F7F8F;
+            --r-background-color: #FFFFFF;
+            --r-link-color: #15181C;
+        }
+        /* hide SVG images until they are swapped for the recolored version */
+        html[data-theme="light"] .reveal section img[src$=".svg"] { visibility: hidden; }
+
+        .reveal-viewport, .reveal { background: var(--bg); }
         .reveal { font-family: var(--r-main-font); color: var(--fg-dim); font-weight: 400; }
 
         /* left-aligned, generous left gutter */
         .reveal .slides { text-align: left; }
-        .reveal .slides > section, .reveal .slides > section > section { padding: 0 5% 0 7%; }
+        .reveal .slides > section, .reveal .slides > section > section { padding: 0 5% 0 7%; box-sizing: border-box; }  /* padding inside the 1280px slide, not added to it */
 
         .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
             font-family: var(--r-heading-font);
@@ -57,8 +81,8 @@
         .reveal p { line-height: 1.5; color: var(--fg-dim); margin: 0.5em 0; }
         .reveal strong { color: var(--accent); font-weight: 700; }
         .reveal em { color: var(--fg-dim); font-style: italic; }
-        .reveal a { color: #fff; text-decoration: underline; }
-        .reveal code, .reveal .mono { font-family: var(--r-main-font); color: #fff; }
+        .reveal a { color: var(--fg); text-decoration: underline; }
+        .reveal code, .reveal .mono { font-family: var(--r-main-font); color: var(--fg); }
         .reveal blockquote { font-style: normal; }
 
         /* bullets as "- " dashes */
@@ -74,8 +98,11 @@
 
         /* images / svgs: left-aligned to the text edge, no frame */
         .reveal section img { display: block; margin: 0.4em 0; border: none; background: transparent; box-shadow: none; max-height: 68vh; width: auto; }
+        .reveal section img.r-stretch { max-height: none; max-width: 100%; margin: 0.3em 0 0; object-fit: contain; object-position: left top; }
         /* animation hosts: left-align to the text edge too */
-        .reveal .cog-anim, .reveal .merge-anim, .reveal .shift-anim, .reveal .accel-anim, .reveal .spectrum-anim { margin-left: 0 !important; margin-right: auto !important; }
+        .reveal .merge-anim, .reveal .shift-anim, .reveal .accel-anim, .reveal .spectrum-anim { margin-left: 0 !important; margin-right: auto !important; }
+        /* the center-of-gravity panel is a single centered figure */
+        .reveal .cog-anim { margin-left: auto !important; margin-right: auto !important; }
 
         /* cited quote (Gartner) - minimal */
         .reveal blockquote.receipt {
@@ -89,9 +116,13 @@
         /* small caption / attribution under a plate or chart */
         .reveal .plate-label {
             margin-top: 0.4em; font-size: 0.5em; line-height: 1.3;
-            color: var(--fg-faint); font-style: italic; text-align: center;
+            color: var(--fg-faint); font-style: italic; text-align: left;
         }
         .reveal .plate-label a { color: var(--accent-teal); }
+
+        /* section divider: <!-- .slide: class="title-only" --> - big title + subtitle */
+        .reveal section.title-only h2 { font-size: 2.3em; margin-bottom: 0.3em; }
+        .reveal section.title-only h3 { font-size: 1.25em; margin-top: 0; }
 
         /* two-column layout helper (mark 2nd col first element with class col2) */
         .reveal section.two-col { column-count: 2; column-gap: 3.2em; }
@@ -120,8 +151,8 @@
 
 # Quo Vadis IT
 
-#### Responsibility, ownership & agency
-#### where the roles & software engineering are heading, in the face of ~~AI~~ **SI**
+#### Responsibility · Ownership · Agency
+#### where engineering is heading, in the face of ~~AI~~ **SI**
 
 Michal Franc · **mfranc.com**
 
@@ -152,7 +183,7 @@ Note:
 - 2026: intensywnie, chaotycznie, niepewnie; scenariuszy jest wiele.
 - Negacjoniści: "to bańka, pęknie, wrócimy do tego jak było - nic nie musimy robić".
 - Maksymaliści: "nie ma sensu nic robić, załamać ręce i czekać, bo AI zabierze pracę".
-- PASSIVITY ANGLE: oba ekstrema kończą w tym samym miejscu - w pasywności. Środek to jedyne miejsce, gdzie realnie działasz.
+- PASSIVITY ANGLE: oba ekstrema kończą w tym samym miejscu - w pasywności (na slajdzie: "-> do nothing" pod oboma ekstremami). Środek to jedyne miejsce, gdzie realnie działasz.
 - Nasze zadanie: ustalić, gdzie jest ten środek i gdzie się zatrzyma - żeby wiedzieć, dokąd zmierzamy i jak się przygotować.
 (haczyk do "it will take effort" na kolejnym slajdzie) (przejście -> 2026 -> 203X)
 
@@ -160,18 +191,18 @@ Note:
 
 ## 2026 -> 203X
 
-### How will the future look?
-
 The market will change. The roles will change.
 
-We'll read 2026 far more positively than we do now.
+In 5-10 years, we'll read 2026 very differently.
+
+We are at the beginning of a journey.
 
 **But it will take effort.**
 
 Note:
 **Przyszłość będzie lepsza - ale nie za darmo, będzie wymagać wysiłku.**
 - Rynek się zmieni, role się zmienią - to pewne.
-- Z perspektywy celu spojrzymy na 2026 zupełnie inaczej niż dziś; teraz jest nerwowo, bo jesteśmy w środku wspinaczki, nie na szczycie. (nie naciskaj słowa "pozytywnie" - pokazuj, nie mów)
+- Z perspektywy celu spojrzymy na 2026 zupełnie inaczej niż dziś; teraz jest nerwowo, bo jesteśmy na POCZĄTKU drogi (slajd: "We are at the beginning of a journey"). (nie naciskaj słowa "pozytywnie" - pokazuj, nie mów)
 - Uczciwie: to nie stanie się samo. Konkretnie: aktywnie WSPÓŁ-istnieć z AI i narzędziami, nie biernie czekać (echo passivity angle).
 (przejście -> About me)
 
@@ -184,6 +215,7 @@ Note:
 - ~20 lat doświadczenia; firmy produktowe UK/US: JustEat, JustGiving, Form3, Affirm.
 - Rola: architekt systemów rozproszonych ORAZ organizacji - skalowanie systemów i ludzi, praca across teams.
 - Skala jako dowód ownershipu: dziesiątki milionów użytkowników, miliardy dolarów.
+- Ostatni punkt na slajdzie: "Now: System & Organization Architect" - tak dziś pracuję; to zapowiedź całej tezy.
 (przejście -> Software keeps getting more complex)
 
 ---
@@ -192,7 +224,7 @@ Note:
 
 <!-- .slide: data-shift="true" -->
 
-### To talk about the future, we need to talk about the evolution that got us here
+### The evolution that got us here
 
 Note:
 **Sufit rośnie: software, który budujemy, jest coraz bardziej złożony.**
@@ -206,7 +238,7 @@ Note:
 
 ## Complexity forces technology changes
 
-### Democratization - each layer eases complexity, making hard things cheaper and easier for everyone
+### Each layer makes yesterday's hard things cheap for everyone
 
 ![](images/complexity-layers.svg)
 
@@ -216,9 +248,14 @@ Note:
 - Assembly / ręczna pamięć -> języki wysokiego poziomu -> frameworki -> chmura -> orkiestracja (K8s). Każda warstwa chowa złożoność tej pod spodem.
 - NOWY KĄT: warstwa nie tylko chowa złożoność - robi trudne rzeczy TAŃSZYMI i ŁATWIEJSZYMI. Własne data center, ręczne zarządzanie pamięcią, skalowanie na miliony - kiedyś elita, dziś out-of-the-box za grosze.
 - Technologia demokratyzuje złożoność: coraz więcej ludzi buduje coraz bardziej skomplikowane rzeczy. To samo zrobi AI na kolejnym poziomie.
+- NA SLAJDZIE: ostatni stopień to przerywane, pomarańczowe "AI - next?" - wskaż go: kolejna warstwa, ta sama logika.
 (przejście -> te same przejścia w umiejętnościach)
 
 ---
+
+## Skills demand keeps shifting
+
+### Don't tie your identity to one technology
 
 ![](images/skills-demand.svg)
 
@@ -226,10 +263,16 @@ Note:
 **Popyt na umiejętności ciągle się przesuwa - nie przywiązuj tożsamości do jednej technologii.**
 - Ta sama ewolucja od strony umiejętności, których szuka rynek (dane ilustracyjne, kierunek zmian; z bloga mfranc.com/blog/ai-2026).
 - Ery: DESKTOP -> WEB -> CLOUD & MOBILE -> AI; w każdej na wierzch wychodzą inne umiejętności.
-- Manual QA spada od lat (rutyna znika). Test Automation, Cloud, DevOps/SRE, Security rosną falami. AI/ML i LLM-assisted startują nisko i eksplodują dopiero teraz.
+- SZARE = stary świat: Manual QA (kropkowana) i DBA / Sysadmin (przerywana). Specjaliści wchłonięci przez automatyzację i chmurę - zobacz, jak linia DBA spada dokładnie wtedy, gdy rośnie Cloud (~2012-2015).
+- OOP: rośnie od 1995, szczyt ~2010, potem spada - nie znika, staje się bazą. Powiedz: "kiedy zaczynałem, OOP było TĄ umiejętnością - dziś to po prostu standard".
+- KOLOROWE linie startują w roku, w którym umiejętność się pojawiła: Test Automation i DevOps/SRE ~2005, Cloud ~2010, AI/ML ~2012, LLM-assisted ~2023 - i od razu eksploduje.
 (przejście -> jak zmienia się fokus inżyniera)
 
 ---
+
+## The engineer's focus shifts
+
+### Less *how* - more *what* & *why*
 
 ![](images/engineer-focus.svg)
 
@@ -237,7 +280,7 @@ Note:
 **Kod się kurczy, rosną system design i domena - "co i po co", nie "jak".**
 - Skład tego, co znaczy być inżynierem, w czasie (ilustracyjnie, z bloga). Pola od dołu: Algorithms/DS, Coding, Testing, System Design, Domain Expertise.
 - Kiedyś dominowały algorytmy i samo pisanie kodu (wielki niebieski pas). Ten pas się kurczy, rosną System Design i Domain Expertise (pomarańczowy).
-- To ta sama teza całej prelekcji jako wykres: środek ciężkości z "jak napisać kod" ku domenie/wartości. Kod nie znika - przestaje być większością. (seed - wróci na "center of gravity")
+- To ta sama teza całej prelekcji jako wykres: środek ciężkości z "jak napisać kod" ku domenie/wartości. Kod nie znika - przestaje być większością. (seed - wróci na "center of attention")
 (przejście -> From skill silos to domain silos)
 
 ---
@@ -261,7 +304,7 @@ Note:
 
 ## From skill silos to domain silos
 
-### Rising software **complexity** regroups teams around the domain, not the discipline
+### **Complexity** regroups teams by domain, not discipline
 
 ![](images/skills-to-domain.svg)
 
@@ -270,6 +313,7 @@ Note:
 - Lewo (siloed by skill): jedna dyscyplina na zespół - osobny team QA, osobny Dev, osobny DevOps. Przy prostych systemach działało; przy złożonych handoffy między silosami stają się wąskim gardłem.
 - Prawo (grouped by domain): zespół domenowy (Payments, Checkout, Search) trzyma CAŁĄ wartość end-to-end - ma w środku QA, Dev i Ops. To Team Topologies / stream-aligned teams / DDD bounded contexts - odpowiedź właśnie na złożoność.
 - Puenta (spina z tezą): to nie moda organizacyjna - to złożoność software'u wymusza przegrupowanie wokół WARTOŚCI i DOMENY, nie wokół umiejętności. Ta sama ewolucja co przez całą prelekcję, tylko widziana od strony struktury organizacji.
+- Dół slajdu, "specialists absorbed: DBA · manual QA · sysadmin": wzorzec się powtarza - specjaliści mówili "tego nie da się zautomatyzować", potem przyszła chmura/automatyzacja. Rola nie znika - kurczy się i wchodzi do zespołu (callback do linii DBA na wykresie). Następne w kolejce: ręczne pisanie i czytanie kodu.
 (przejście -> Evolution, not revolution)
 
 ---
@@ -279,29 +323,30 @@ Note:
 
 **complexity + cost + more users** -> we found a way to manage it.
 
-assembler -> high-level -> frameworks -> Kubernetes ... and now AI.
-
-Not a break - AI is the natural next step of the same market pressure, decades in motion.
+AI is just the **natural next step** in this evolution.
 
 Note:
 **AI nie zmienia kierunku - tylko przyspiesza ewolucję, która trwa od lat.**
 - To ewolucja, nie rewolucja; ten kierunek trwa od lat.
 - Pętla (od dekad): złożoność + rośnie liczba użytkowników + koszty -> branża buduje narzędzie, żeby to ogarnąć.
 - KLUCZOWY ANGLE: AI to NATURALNA KONSEKWENCJA tych samych sił - presji rynku i rosnącej złożoności - które działają 20+ lat. Nie przypadek, nie rewolucja: nieunikniony kolejny krok tej samej ewolucji.
-- Szybki callback (NIE tłumacz od nowa - to było na slajdzie "complexity forces tech"): asembler -> niski/wysoki poziom -> frameworki -> Kubernetes... i teraz AI. AI to po prostu kolejne takie narzędzie.
+- Szybki callback TYLKO ustnie (linii nie ma już na slajdzie): "pamiętacie schody" - asembler -> wysoki poziom -> frameworki -> Kubernetes... i teraz AI. Slajd mówi wprost: "AI is just the natural next step in this evolution".
 - (animacja data-accel: tempo przyspiesza - "slow, for decades" -> "big speed-up", AI)
-(przejście -> So how will the evolution look going forward?)
+(przejście -> What comes next?)
 
 ---
 
-## So how will the evolution look going forward?
+## What comes next?
 
-<!-- .slide: class="titled" -->
+<!-- .slide: class="title-only" -->
+
+### Predictions, not promises
 
 Note:
 **Kierunek mamy ustalony (ewolucja, nie rewolucja) - teraz patrzymy W PRZÓD: jak ta ewolucja będzie wyglądać dalej.**
 - Hinge (powiedz na wejściu): pytanie już nie brzmi "czy", tylko "JAK to rozwinie się dalej i czego się spodziewać". Zmiana narracji - z diagnozy rynku na obraz przyszłości.
 - Rozbrajający disclaimer (KLUCZOWE, zaznacz raz): to o czym powiem nie jest tak, że na 100% się spełni ani "na pewno tak będzie". Ktoś może powiedzieć, że nie mam pojęcia albo "za 10 lat na pewno tak nie będzie" - i słusznie, ciężko przewidzieć przyszłość. To predykcje, które moim zdaniem prawdopodobnie wejdą - kilka tematów jako jedzenie do przemyślenia i do dyskusji w kuluarach / na backstage'u po prelekcji. Prowokacja i wizja, nie twarda prognoza. (Ten jeden uczciwy oddech kupuje prawo do śmiałych tez przez resztę części 2.)
+- NA SLAJDZIE: "What comes next? / Predictions, not promises" - disclaimer jest teraz na ekranie, więc powiedz go krótko i własnymi słowami, nie czytaj.
 - Handoff: to otwiera drugą część - Software 1.0 -> 2.0, wymiar po wymiarze, i co to dla nas znaczy.
 - (Delivery: nie zaczynaj od "myśląc myślami do przodu" - wejdź czysto: "patrząc do przodu". To slajd ~30 s, cały czas zejdź na hinge + disclaimer, nie na powtarzanie pytania.)
 (przejście -> The local-optimum trap)
@@ -310,7 +355,8 @@ Note:
 
 ## The local-optimum trap
 
-Software 1.0 + agents: a quick boost, then a dead end. Aim for **Software 2.0**.
+### 1.0 + agents: quick boost, then a dead end.
+### Aim for **Software 2.0**.
 
 ![](images/local-optimum.svg)
 
@@ -319,21 +365,24 @@ Note:
 - Software 1.0 + AI (agenty na dzisiejszej pracy) to szybki, kuszący wzrost - ale tylko małe wzgórze. Wygląda produktywnie, jest krótkowzroczne.
 - PERSONALIZACJA (mocne, użyj): 20 lat doświadczenia = głęboko wbudowane "sieci neuronowe" w mojej głowie - myślę o software'ze w trybie 1.0. Kiedy przykładam AI do TEGO myślenia, owszem, dostaję boost wartości i kodu... ale wpadam w pułapkę lokalnego optimum. Mój mózg jest jak model wytrenowany na starych danych.
 - Prawdziwy szczyt wyżej - Software 2.0: celujesz w wartość i wyniki, nie w szybsze taski. Trzeba zejść z lokalnego szczytu, przejść dolinę (przemyśleć, jak budujemy) i wejść na właściwy szczyt.
+- MARKER "we are ~here": stoi PRZED czerwonym szczytem, na zboczu - większość branży dopiero goni szybki boost. Pułapka jest PRZED nami, więc to okno, żeby od razu celować w 2.0, zamiast wspinać się na małe wzgórze.
 - Nie wierz, że "obecna praca szybciej to przyszłość" - inaczej utkniesz w tymczasowym booście. To lokalne optimum jest TYMCZASOWE - prawdziwa przyszłość to kolejna granica (Software 2.0).
 (przejście -> Escaping the local optimum)
 
 ---
 
 ## Escaping the local optimum
-<!-- .slide: class="new-world" -->
 
-To climb out, we challenge ourselves - and the **thinking of the past**.
+### Question every 1.0 habit:
+
+**Code** · **Review** · **Determinism** · **Practices**
 
 Note:
 **Żeby wyjść z lokalnego optimum, trzeba zakwestionować siebie i myślenie z przeszłości.**
 - Nie chodzi o narzędzia - chodzi o podważenie własnych nawyków i sposobu myślenia z ery 1.0.
 - Dolina przed szczytem 2.0: przemyśl od nowa JAK budujemy, nie tylko jak szybciej. To wyzwanie, nie strata.
 - Callback: to ten "it will take effort" z początku - spada na NAS.
+- NA SLAJDZIE: mapa kolejnych czterech slajdów (Code · Review · Determinism · Practices). Zapowiedz: "przejdę przez nie szybko, każdy z pytaniem: żeby iść szybciej, czy musimy...?" - sala wie, gdzie jest i kiedy montaż się kończy.
 (przejście -> Code)
 
 ---
@@ -355,7 +404,7 @@ Note:
 
 ## Review
 
-### To go **faster**, do we stop reviewing every line of code and focus on system health?
+### To go **faster**, do we review system health instead of code?
 
 ![](images/nb-review.svg)
 
@@ -365,13 +414,15 @@ Note:
 - 2.0: nie reviewujemy każdej linii ani PR-a; patrzymy na cały system z lotu ptaka i jego ZACHOWANIE.
 - Definiujemy MIARY: czy zmiana (na stagingu / produkcji) daje pozytywny efekt userom, czy powoduje regresję lub problem dla biznesu.
 - Narzędzia 2.0: A/B testy, eksperymenty, obserwacja zachowań użytkowników - regresje łapiemy po ZACHOWANIU systemu, nie po czytaniu diffa.
+- NA SLAJDZIE: deploy -> canary -> A/B nad wykresem metryk - pokaż palcem: tak wygląda review w 2.0.
+- UCZCIWIE (jedno zdanie, żeby nie zabrzmiało jak "przestańcie weryfikować"): 2.0 nie znaczy "przestajemy weryfikować" - PRZENOSIMY weryfikację wyżej, na zachowanie systemu. Ownership zostaje przy nas.
 (przejście -> Determinism)
 
 ---
 
 ## Determinism
 
-### To go **faster**, do we accept non-determinism and design around it?
+### To go **faster**, do we accept non-determinism?
 
 ![](images/nb-determinism.svg)
 
@@ -381,8 +432,11 @@ Note:
 - LICZBY (kluczowy kadr): 1.0 = 100.00% deterministyczne. 2.0 = 99.99% - pytanie do sali: czy jesteśmy OK z tym 0.01%, że nie jest w pełni deterministyczne? Odpowiedź: TAK, jeśli te 0.01% obsłuży warstwa wokół - ARCHITEKTURA, SYSTEM DESIGN, UX. To one łapią odchylenie i dają stabilny PRODUKT. Stabilizujemy CAŁY system, nie każdą pojedynczą odpowiedź.
 - PRECEDENS (mocny, opowiedz): już to przerabialiśmy w systemach rozproszonych. Żeby przyspieszyć i skalować, ŚWIADOMIE zrezygnowaliśmy z gwarancji i zbudowaliśmy rzeczy wokół tego. Najlepszy przykład to NoSQL: oddaliśmy ACID (i inne gwarancje), przeszliśmy na eventual consistency - i nauczyliśmy się to obudowywać. Ta sama wymiana: mniej gwarancji za większą szybkość, potem inżynieria wokół. Teraz robimy to na warstwie modelu.
 - CPU / SCHEDULER (dorzuć w tym samym duchu co NoSQL - "to już robiliśmy"): nawet 1.0 nie jest w pełni deterministyczne. Wielowątkowość bez synchronizacji - kolejność ustala scheduler: A: x+=1, B: x*=2 daje 2 albo 1. Ten sam kod, ten sam CPU, dwa wyniki (do tego CPU wykonuje instrukcje out-of-order, µops, spekulatywnie). Determinizm ZAWSZE był inżynierowany na wierzchu chaosu, tylko warstwę niżej (memory model, locki). AI nie wprowadza niedeterminizmu do idealnego świata - przesuwa go W GÓRĘ, do logiki aplikacji, gdzie teraz potrzebna ta sama dyscyplina. (Te "100%" dla 1.0 to "100% na kontrakcie logiki, dla programu deterministycznego" - nie na każdej warstwie.)
+- NA SLAJDZIE (dół): "the 0.01% -> architecture · system design · UX -> stable product" - to jest ODPOWIEDŹ na pytanie z tytułu. Pod spodem jedna szara linijka: "we've done this before: NoSQL dropped ACID · CPUs were never deterministic" - to sygnał, żeby opowiedzieć dwie historie poniżej (ramki zeszły ze slajdu do notatek).
+- RAMKA 1 (dawniej na slajdzie) - "We have done this before.": Distributed systems & NoSQL gave up guarantees - dropped ACID - to scale and go faster, then engineered around it (eventual consistency). Same trade - now at the model layer.
+- RAMKA 2 (dawniej na slajdzie) - "Determinism was already a lie.": Threads, schedulers, out-of-order CPUs - same code, same CPU, two results. We always tamed it a layer down (memory model, locks). AI just moves it up into the app.
 - Predykcja: tak jak nauczyliśmy się budować niezawodne produkty na zawodnej infrastrukturze rozproszonej, tak nauczymy się budować stabilne produkty na niedeterministycznych modelach.
-(przejście -> Engineering good practices still matter)
+(przejście -> Practices)
 
 ---
 
@@ -402,25 +456,25 @@ Note:
 - PUENTA (spina z poprzednim slajdem): determinizm ZAWSZE był inżynierowany na wierzchu chaosu - tylko radziliśmy sobie z nim WARSTWĘ NIŻEJ (memory model, locki, strictfp, pinowanie toolchaina). AI nie wprowadza niedeterminizmu do idealnego świata - przesuwa go W GÓRĘ, do logiki aplikacji, gdzie teraz potrzebna ta sama dyscyplina.
 - Uczciwe doprecyzowanie do poprzedniego slajdu: te "100%" dla 1.0 to "100% na kontrakcie logiki, dla programu deterministycznego" - nie na każdej warstwie.
 - (Inspiracja + feedback: rozmowa na Discordzie - wątki/JMM, C2 (runtime+wątki), µops, reproducible builds. Dobra amunicja na "mądralę z trzeciego rzędu".)
-(przejście -> Engineering good practices still matter)
+(przejście -> Practices)
 
 ---
 
-## Engineering good practices still matter
+## Practices
 
 ### To go **faster**, which practices do we keep, rethink, add?
 
 ![](images/good-practices-alt.svg)
 
 Note:
-**(Ten slajd wchłonął dawny slajd "Practices" - jeden spójny obraz zamiast dwóch podobnych. Trzy kubełki: KEEP / RETHINK / NEW.)**
+**(Czwarty i ostatni punkt montażu - "Practices" z mapy na slajdzie 13. Trzy kubełki: KEEP / RETHINK / NEW.)**
 **Teza: mnóstwo dobrych praktyk inżynierskich zostaje - ale część była zbudowana POD LUDZI i trzeba je przeprojektować, a do tego dochodzą nowe, agent-first.**
-- KEEP (zostaje, zielone ✓): kanon operacyjny - 12-Factor, CI/CD, Observability, Reliability/SRE, Continuous Delivery. To praktyki w dużej mierze NIEZALEŻNE od tego, kto pisze kod (człowiek czy agent) - dlatego trzymają. Serce tej kolumny to SRE: SLO, error budgets, blast radius, graceful degradation - język o niedoskonałych systemach (spina się BEZPOŚREDNIO z poprzednim slajdem: determinizm, NoSQL/ACID - dlatego ten slajd stoi tuż po "determinism is a lie").
+- KEEP (zostaje, zielone ✓): kanon operacyjny - 12-Factor, CI/CD, Observability, Reliability/SRE, Continuous Delivery. To praktyki w dużej mierze NIEZALEŻNE od tego, kto pisze kod (człowiek czy agent) - dlatego trzymają. Serce tej kolumny to SRE: SLO, error budgets, blast radius, graceful degradation - język o niedoskonałych systemach (spina się BEZPOŚREDNIO z poprzednim slajdem Determinism: NoSQL/ACID, 0.01% - dlatego stoi tuż po nim).
 - RETHINK (do przemyślenia, bursztynowe kółka): Clean Code, KISS, YAGNI, SOLID, OOP - to były zasady pisane POD CZŁOWIEKA czytającego kod. Część zostanie, część przeprojektujemy. Ważne: czystszy kod NADAL pomaga modelowi (modele trenowane na takim kodzie) - ale "po co" się przesuwa.
 - NEW (nowe, kropkowane, agent-first): Context engineering, Harness engineering, Spec-driven development - plus znaki zapytania, bo dyscyplina dopiero się wyłania. To propozycje, nie pewniki.
 - Puenta: to nie "zasady znikają" - to KEEP + RETHINK + NEW naraz. Rzemiosło dalej ważne, tylko zmienia kształt.
 - [Wariant "świątynia" (good-practices.svg) pozostaje UKRYTY. Dawny slajd "Practices" (nb-practices.svg) został usunięty i wchłonięty tutaj.]
-(przejście -> So many potential changes)
+(przejście -> What does it mean for you?)
 
 ---
 
@@ -431,27 +485,26 @@ Note:
 
 Note:
 **Frontend. 1.0: obsesja na punkcie wojen frameworków UI i piksel-perfect ekranów w "frameworku jutra". 2.0: mniej tego - jako inżynier skupiamy się na doświadczeniu użytkownika (UX).**
-(przejście -> So many potential changes)
+(przejście -> What does it mean for you?)
 
 ---
 
-## So many potential changes
-<!-- .slide: class="new-world" -->
+## What does it mean for you?
 
-### What does it mean for you as an engineer?
+<!-- .slide: class="title-only" -->
 
-The **role** changes - not only the tech, or how you use AI and tools.
+### The role changes - not just the tools
 
-You shift how you approach the job - toward **impact and value**.
-
-You understand and become **part of the decision process** - not just execution.
+**Value** · **Ownership** · **Seniority** · **The glue** · **How to prepare**
 
 Note:
-**Tyle potencjalnych zmian - co to znaczy dla CIEBIE jako inżyniera? Zmienia się sama rola/praca, nie tylko technologia i sposób używania AI.**
+**Co to znaczy dla CIEBIE? Zmienia się sama rola, nie tylko narzędzia i sposób używania AI.**
+- NA SLAJDZIE: mapa części 4 (jak mapa montażu na slajdzie 13). Value = center of gravity (19) · Ownership = ticket machine + triada (20-21) · Seniority = scope x impact (22) · The glue = glue / entropy / long horizon (23-25) · How to prepare = schody (26). Zapowiedz jednym zdaniem, sala wie, dokąd idziemy.
+- (Te trzy zdania były wcześniej na slajdzie - teraz mówisz je, a slajdy 19-20 pokazują je wizualnie.) The role changes - not only the tech, or how you use AI and tools. / You shift how you approach the job - toward impact and value. / You understand and become part of the decision process - not just execution.
 - To już nie jest tylko o tech ani o tym, JAK używasz AI i narzędzi. Musisz zmienić sposób, w jaki podchodzisz do zawodu - w stronę większego IMPACTU i WARTOŚCI.
 - Nowy wymiar: rozumieć i BYĆ CZĘŚCIĄ procesu decyzyjnego (co i po co budujemy), a nie tylko wykonywać zadania. Współdecydujesz o wartości, nie tylko ją dowozisz.
 - Technologia jest środkiem, nie celem - to na TOBIE spoczywa odpowiedzialność, żeby wartość faktycznie powstała.
-(przejście -> The center of gravity moves)
+(przejście -> The center of attention moves)
 
 ---
 
@@ -474,11 +527,11 @@ Note:
 - ⚠️ KLUCZOWA ANEGDOTA (koniecznie opowiedz - dowód "historia się rymuje" + śmiech sali): dziś zakładacie, że Java to oczywista, poważna technologia. Gdy wchodziłem na rynek, Java była gatekeepowana - "nie jesteś prawdziwym inżynierem, jeśli używasz Javy; prawdziwi używają C / C++ i sami zarządzają pamięcią". Gatekeeperzy byli po złej stronie historii - Java stała się dominująca. DOKŁADNIE ten sam gatekeeping słyszymy dziś wokół AI.
 - POINTA: wszystko zależy od POZYCJI i od tego, JAK podchodzisz do zmiany. Co dziś wyśmiewane, jutro bywa normą - nastawienie decyduje, czy jedziesz na fali, czy zostajesz z tyłu. (echo passivity angle)
 - Przewidywanie (strefa "AI era"): developer się wypłaszcza i spada; od ~2020 wyłania się NOWY typ inżyniera (wolny start, od 2025 ostry wzrost), a do ~2050 przebija PONAD developerów - AI-native, owner, sprawczy. Powiedz rym na głos.
-(przejście -> The center of gravity moves)
+(przejście -> The center of attention moves)
 
 ---
 
-## The center of gravity moves
+## The center of attention moves
 <!-- .slide: data-cog="true" -->
 
 Human value is where **AI is weak**.
@@ -486,8 +539,8 @@ Human value is where **AI is weak**.
 Note:
 **AI jest najmocniejsze w "jak", więc twoja wartość przenosi się w "co i po co".**
 - Nawiązanie do fokusu inżyniera: kod się kurczy, rosną system design i domena/wartość.
-- AI zabiera najwięcej z "jak" (robienia), więc człowiek dokłada najwięcej tam, gdzie AI pomaga najmniej - WHY, domena, wartość. Tam przenosi się środek ciężkości.
-- Animacje: środek ciężkości od maszyny/kodu ku wartości; z IMPLEMENTACJI ku HOW & WHY (decyzje).
+- AI zabiera najwięcej z "jak" (robienia), więc człowiek dokłada najwięcej tam, gdzie AI pomaga najmniej - WHY, domena, wartość. Tam przenosi się środek uwagi.
+- Animacja (jeden panel): pomarańczowy znacznik "attention" przesuwa się z IMPLEMENTATION (kod, frameworki, detale języka) ku HOW & WHY (decyzje i wartość).
 - To nie jest "AI zabiera pracę" - to nierówność augmentacji przesuwa, gdzie leży twoja wartość.
 (przejście -> From ticket machine to owner)
 
@@ -495,7 +548,7 @@ Note:
 
 ## From ticket machine to owner
 
-### Not a station on someone else's line - part of the **product decisions**
+### Creator of **value**
 
 ![](images/ticket-to-owner.svg)
 
@@ -503,14 +556,14 @@ Note:
 **Z maszyny do ticketów w ownera: przestajesz być stanowiskiem na cudzej linii montażowej - stajesz w środku decyzji produktowych.**
 - Lewo (stary świat): ktoś inny decyduje CO i PO CO, ktoś inny jest właścicielem wyniku. Ty w środku taśmy: ticket wchodzi, kod wychodzi. Wartość składa ktoś inny.
 - Prawo (nowy świat): TY w środku pętli - problem -> decyzja -> budowa -> wynik -> i znowu. Budowę coraz częściej robi AI; twoja robota to decyzje i wynik.
+- Podtytuł: "Creator of value" - z wykonawcy ticketów w twórcę wartości.
 - Puenta: to jest różnica między "robieniem tasków" a sprawczością. Task = ktoś inny jest właścicielem problemu. Sprawczość = bierzesz problem na siebie i dowozisz wartość.
 (przejście -> Soft skills are your multiplier)
 
 ---
 
 ## Soft skills are your multiplier
-### Ability to deliver value effectively
-### is your way to differentiate on the market
+### How you deliver value is what sets you apart
 
 ![](images/triad.svg)
 
@@ -529,8 +582,7 @@ Note:
 
 ## Seniority, redefined
 
-### Used to mean *"knows the framework"*
-### Now: **can take a problem and deliver it on a given scope**
+### ~~knows the framework~~ -> **delivers on a given scope**
 
 ![](images/seniority-merged.svg)
 
@@ -607,7 +659,7 @@ Note:
 - Na powierzchni banał ("wpisz prompt, gotowe") - płytko i prosto.
 - Pod spodem masa złożoności: eksperymenty, testy i evals, projektowanie kontekstu i narzędzi, iterowanie promptów, rozumienie GDZIE AI zawodzi.
 - Wymaga wielu godzin praktyki (myśl: ~10 000 godzin intensywnego używania) - budujesz INTUICJĘ, gdzie AI działa, a gdzie zawodzi; nie da się tego "przeczytać", trzeba wychodzić.
-(przejście -> Engineering good practices still matter)
+(przejście -> Practices)
 
 ---
 
@@ -631,13 +683,13 @@ Note:
 
 ## The engineer is the glue
 
-AI is evolution, not revolution - **you** make the pieces cohesive.
+### AI makes the pieces - **you** make them hold
 
 ![](images/engineer-glue.svg)
 
 Note:
 **Metafora: inżynier to KLEJ (łączy półsurowe "kawałki", które robi LLM) i WODA (wypełnia szczeliny), żeby system znów był spójny.**
-- Teza: AI/LLM to ewolucja, nie rewolucja. LLM produkuje "rzeczy" - kawałki, które osobno nie trzymają się kupy; TY je sklejasz i wypełniasz luki.
+- Podtytuł: "AI makes the pieces - you make them hold". LLM produkuje "rzeczy" - kawałki, które osobno nie trzymają się kupy; TY je sklejasz i wypełniasz luki.
 - Weryfikacja się przesuwa: z czytania każdej linii kodu na TESTY i KONTRAKTY - sprawdzasz, czy całość działa, nie każdy klocek z osobna.
 - Anegdota do opowiedzenia: mod do Quasimorph - AI zrobiło kawałki, człowiek spiął je w działającą całość (klej + woda).
 - Predykcja: ~2036 to domyślny tryb pracy inżyniera.
@@ -647,13 +699,13 @@ Note:
 
 ## ...and it holds against entropy
 
-Left alone, AI drifts to **entropy** - you're the **counter-force**.
+### AI adds entropy - you're the **counter-force**.
 
 ![](images/entropy-cohesion.svg)
 
 Note:
 **(Kolejny slajd po "engineer is the glue" - druga strona tej samej monety: klejenie kawałków = trzymanie spójności PRZECIW entropii. Tu wchłonąłem dawny slajd o doświadczeniu/fundamentach - żeby nie powtarzać "still matters".)**
-**AI samo, w dłuższym horyzoncie, dryfuje ku ENTROPII - to TY trzymasz spójność.**
+**AI DODAJE entropię (podtytuł: "AI adds entropy") - to TY jesteś siłą przeciwną i trzymasz spójność.**
 - Czerwone siły rozrywają system (AI zostawione samo, w czasie). Pomarańczowe to TY: dobry design, kontekst, doświadczenie, course-correction - siła przeciwna.
 - Anegdota (z życia): projekty, gdzie pozwoliłem AI zrobić wszystko - nie czytałem, nie pisałem kodu - z czasem się rozjeżdżają, a rozwój robi się coraz trudniejszy. To nie nowość: 20 lat temu zaniedbane projekty wyglądały tak samo - AI tylko PRZYSPIESZA akumulację chaosu.
 - Fundamenty i doświadczenie inżynierskie to właśnie ten counter-force. Spójność nie utrzymuje się sama; ktoś musi ją aktywnie trzymać.
@@ -663,7 +715,7 @@ Note:
 
 ## We own the long horizon
 
-You set the road - AI is **short-sighted**, so we keep it on track.
+### AI is short-sighted - **you keep it on track**
 
 ![](images/road-judgment.svg)
 
@@ -698,12 +750,12 @@ Note:
 
 ## How to prepare
 
-### Seniority = the **scope** you can own, not the tools you know
+### Grow your ability to own more **scope**
 
 ![](images/prepare-stairs.svg)
 
 Note:
-**Jak się przygotować - po jednym zdaniu na poziom. Schody = nowa definicja seniority: rośnie scope i impact, nie znajomość narzędzi.**
+**Jak się przygotować - po jednym zdaniu na poziom. Podtytuł: "Grow your ability to own more scope" - schody to wzrost scope i impactu, nie znajomości narzędzi.**
 - JUNIOR - idź w głąb: fundamenty (pamięć, HTTP, algorytmy) to twoja kontrola entropii, nawet jeśli stack je ukrywa. Traktuj AI jak rzemiosło do opanowania. Bierz małe problemy end-to-end.
 - MID - problemy, nie tickety: sprawczość, pchaj zmianę, nie czekaj aż ktoś powie. Buduj wyczucie domeny i biznesu (T-shape).
 - SENIOR - osąd i wynik: to ty definiujesz "good enough", AI tego nie zrobi. Prowadź wartość z AI (Software 2.0), nie tylko szybciej odhaczaj taski.
@@ -790,9 +842,9 @@ Note:
 ## Don't give in to the negativism
 <!-- .slide: class="new-world" -->
 
-Every generation is told the industry is **ending**.
+Every generation is told the industry is ending.
 
-Post-2008's "end" became the next generation's **eldorado**.
+Post-2008's "end" became the next generation's eldorado.
 
 In 2036, they'll call 2026 the **start**.
 
@@ -806,27 +858,13 @@ Note:
 - Historia się rymuje: gdy wchodziłem (depresja po 2008), pisano, że to koniec branży i wolności inżyniera - agile, managerowie, proces wszędzie. A pokolenie, które weszło w tym narzekaniu, zobaczyło jako eldorado dokładnie to, co poprzednicy nazywali końcem.
 - W 2036 napiszą, że eldorado się skończyło, a 2026 nazwą jego początkiem - to samo malkontenctwo, zregenerowane. Nie daj się.
 - Ja: nerd, kochałem assembler i ręczną pamięć, nienawidziłem nudnej pracy po 2008 (frameworki, wysoki poziom) - ale zmieniłem nastawienie i znalazłem nowe specjalizacje do opanowania. Mówię to jako ktoś, kto za miesiąc kończy 40 i "ze stereotypu" powinien narzekać najbardziej.
-(przejście -> IT is the front line of the future)
-
----
-
-## IT is the front line of the future
-<!-- .slide: class="new-world" -->
-
-We live with AI before anyone - a **glimpse of the future**.
-
-That seat lets IT **prepare better than any other field**.
-
-Note:
-**IT widzi przyszłość pierwsze - i dzięki temu może przygotować się najlepiej na rynku.**
-- Z natury pracy programiści używają AI/LLM/agentów najwięcej i najgłębiej - mają podgląd na to, co dopiero nadejdzie.
-- Ten "front-row seat" to realna przewaga: nie chodzi o dźwignię czy przepaść, tylko o to, że MOŻEMY przygotować się na przyszłość wcześniej i lepiej niż ktokolwiek inny.
-- Użyj tego: patrz, eksperymentuj, ustawiaj się pod to, co widzisz nadchodzące.
 (przejście -> It will stabilize again)
 
 ---
 
 ## It will stabilize again
+
+### The chaos in between is your **window**
 
 ![](images/stability.svg)
 
@@ -836,26 +874,41 @@ Note:
 - Środek to nie tylko chaos - to okazja: kto wchodzi wcześnie, zbiera owoce później (jak w każdej fali). Nad chaosem świeci "opportunity".
 - Chaos się wygładzi, gdy pojawią się nowe wzorce, role, wymagania, praktyki, narzędzia - nowa stabilność.
 - Jesteśmy w środku przejścia, nie na końcu świata.
+(przejście -> We are in the front seat)
+
+---
+
+## We are in the front seat
+<!-- .slide: class="new-world" -->
+
+We see AI first - a **glimpse of the future**.
+
+That lets us prepare better than any other field.
+
+Note:
+**MY (IT) siedzimy w pierwszym rzędzie - widzimy przyszłość pierwsi i dzięki temu możemy przygotować się najlepiej.**
+- Z natury pracy programiści używają AI/LLM/agentów najwięcej i najgłębiej - mają podgląd na to, co dopiero nadejdzie.
+- Ten "front-row seat" to realna przewaga: nie chodzi o dźwignię czy przepaść, tylko o to, że MOŻEMY przygotować się na przyszłość wcześniej i lepiej niż ktokolwiek inny.
+- Użyj tego: patrz, eksperymentuj, ustawiaj się pod to, co widzisz nadchodzące.
 (przejście -> Quo Vadis IT?)
 
 ---
 
 ## Quo Vadis IT?
 
-The **market** changes. The **roles** change.
+### It's all **evolution**
 
-**Soft skills** matter more. **Engineering practices** change.
+The market changes. The roles change. The practices change.
 
-But it's all **evolution**.
+What stays yours: responsibility · ownership · agency.
 
-We already know how to handle it - and how to get ready. :)
-
-Thanks · Q & A · **mfranc.com**
+Thanks · Q & A · mfranc.com
 
 Note:
-**Domknięcie = STRESZCZENIE tego, co powiedziałem. Cztery rzeczy się zmienią, ale to EWOLUCJA - zostaw salę z ulgą, nie ze strachem.**
-- Powtórz cztery punkty spokojnie na głos: RYNEK się zmieni, ROLE się zmienią, SOFT SKILLE zyskają na wadze, wiele PRAKTYK software engineering się zmieni.
+**Domknięcie = STRESZCZENIE tego, co powiedziałem. Trzy rzeczy się zmienią, ale to EWOLUCJA - i jedna rzecz zostaje twoja. Zostaw salę z ulgą, nie ze strachem.**
+- Powtórz trzy punkty spokojnie na głos (jak na slajdzie): RYNEK się zmienia, ROLE się zmieniają, PRAKTYKI się zmieniają.
 - Puenta (kluczowa, ciepło): to nie rewolucja ani koniec - to EWOLUCJA. A ewolucję już wielokrotnie przerabialiśmy (asembler -> frameworki -> chmura...) - umiemy sobie z nią radzić i wiemy, jak się na nią przygotować. Kierunek jest czytelny, nawet jeśli szczegóły nie.
+- NOWE ZAMKNIĘCIE (slajd): "It's all evolution" + "What stays yours: responsibility · ownership · agency." - zamknij na TRIADZIE, tak jak otworzyłeś na niej slajd tytułowy (pełne koło). Ostatnie zdanie przed "dziękuję": to, co zostaje TWOJE, to odpowiedzialność, ownership i sprawczość - i tam inwestuj.
 - Dziękuję - mfranc.com - a teraz z chęcią odpowiem na pytania. :)
 
                 </script>
@@ -880,6 +933,94 @@ Note:
            Force a fresh load if the page is restored from the bf-cache, so
            dropping the ?hidden param always returns to the clean deck.
            ============================================================ */
+        /* ============================================================
+           Light theme recoloring (?theme=light).
+           One color map for every diagram, so the SVGs and d3 code stay
+           dark-first and there is no second copy to keep in sync:
+             - saturated mid-tones (orange/teal/green/...) keep their hue,
+               capped a bit darker so they read on white;
+             - everything else (greys, dark fills, light text) flips
+               lightness, keeping hue - black fills -> light panels,
+               light labels -> dark text.
+           OVERRIDES pin the few text-on-fill pairs the rule gets wrong.
+           ============================================================ */
+        const LIGHT = document.documentElement.getAttribute('data-theme') === 'light';
+        const themeColor = (function () {
+            const OVERRIDES = {
+                '#241206': '#241206',   // dark text on orange fills - keep dark
+                '#F6E3D2': '#FFFFFF',   // light text on the brown (Staff) step
+                '#000000': '#FFFFFF', '#FFFFFF': '#15181C',
+            };
+            const cache = {};
+            const hex2 = n => Math.round(n).toString(16).padStart(2, '0');
+            function mapRGB(r, g, b) {
+                r /= 255; g /= 255; b /= 255;
+                const mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+                let h = 0, s = 0, l = (mx + mn) / 2;
+                if (mx !== mn) {
+                    const d = mx - mn;
+                    s = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn);
+                    h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
+                    h /= 6;
+                }
+                if (s >= 0.35 && l >= 0.3 && l <= 0.72) l = Math.min(l, 0.46);   // accent
+                else l = Math.max(0.04, Math.min(0.98, 0.97 - 0.92 * l));        // flip
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;
+                const f = t => { t = (t + 1) % 1; return t < 1 / 6 ? p + (q - p) * 6 * t : t < 1 / 2 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p; };
+                return '#' + hex2(f(h + 1 / 3) * 255) + hex2(f(h) * 255) + hex2(f(h - 1 / 3) * 255);
+            }
+            function mapHex(hex) {
+                let H = hex.toUpperCase();
+                if (H.length === 4) H = '#' + H[1] + H[1] + H[2] + H[2] + H[3] + H[3];
+                if (cache[H]) return cache[H];
+                return (cache[H] = OVERRIDES[H] || mapRGB(parseInt(H.slice(1, 3), 16), parseInt(H.slice(3, 5), 16), parseInt(H.slice(5, 7), 16)).toUpperCase());
+            }
+            function map(v) {
+                if (!LIGHT || typeof v !== 'string') return v;
+                return v
+                    .replace(/(?<!url\()#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b/g, m => mapHex(m))
+                    .replace(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(,[^)]*)?\)/g,
+                        (m, r, g, b) => mapHex('#' + hex2(+r) + hex2(+g) + hex2(+b)));
+            }
+            return map;
+        })();
+
+        if (LIGHT) {
+            // d3 animations: route every fill/stroke through the map
+            const COLOR_PROPS = /^(fill|stroke|stop-color|color)$/;
+            const wrap = v => typeof v === 'function' ? function () { return themeColor(v.apply(this, arguments)); } : themeColor(v);
+            const _attr = d3.selection.prototype.attr, _style = d3.selection.prototype.style;
+            d3.selection.prototype.attr = function (name, value) {
+                return arguments.length > 1 && COLOR_PROPS.test(name) ? _attr.call(this, name, wrap(value)) : _attr.apply(this, arguments);
+            };
+            d3.selection.prototype.style = function (name, value, priority) {
+                return arguments.length > 1 && COLOR_PROPS.test(name) ? _style.call(this, name, wrap(value), priority) : _style.apply(this, arguments);
+            };
+        }
+
+        // Recolor SVG source, leaving <!-- theme:keep --> ... <!-- /theme:keep -->
+        // blocks untouched (brand logos, photos' frames - anything that must not change).
+        function recolorSvgText(txt) {
+            return txt.split(/(<!--\s*theme:keep[\s\S]*?<!--\s*\/theme:keep\s*-->)/)
+                // recolor attribute values only - never text content (e.g. a "#123" ticket label is not a color)
+                .map((part, i) => i % 2 ? part : part.replace(/="([^"]*)"/g, (m, v) => '="' + themeColor(v) + '"')).join('');
+        }
+
+        // SVG images: fetch, recolor, swap to a blob URL (once per file)
+        function recolorSvgImages() {
+            if (!LIGHT) return;
+            const blobs = {};
+            document.querySelectorAll('.reveal section img').forEach(img => {
+                const src = img.getAttribute('src') || '';
+                if (!/\.svg(\?|$)/i.test(src)) return;
+                const show = () => { img.style.visibility = 'visible'; };
+                (blobs[src] = blobs[src] || fetch(src).then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+                    .then(txt => URL.createObjectURL(new Blob([recolorSvgText(txt)], { type: 'image/svg+xml' }))))
+                    .then(url => { img.src = url; show(); })
+                    .catch(e => { console.warn('[theme] recolor failed', src, e); show(); });
+            });
+        }
+
         window.addEventListener('pageshow', (e) => { if (e.persisted) location.reload(); });
 
         const EDIT_HIDDEN = (function () {
@@ -915,6 +1056,20 @@ Note:
             margin: 0.04,
             plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
         });
+        Reveal.on('ready', recolorSvgImages);
+
+        /* Diagrams fit the space left under the text: markdown wraps each image in
+           <p>; lift a lone image out and mark it r-stretch so reveal sizes it to the
+           remaining slide height. Bigger text never pushes a diagram off the slide. */
+        Reveal.on('ready', () => {
+            document.querySelectorAll('.reveal .slides section > p').forEach(p => {
+                const img = p.querySelector(':scope > img');
+                if (!img || p.children.length !== 1 || p.textContent.trim()) return;
+                img.classList.add('r-stretch');
+                p.replaceWith(img);
+            });
+            Reveal.layout();
+        });
 
         if (EDIT_HIDDEN) {
             const st = document.createElement('style');
@@ -934,6 +1089,22 @@ Note:
             });
         }
 
+        /* Animation hosts size by width; shrink one if the slide's text leaves it
+           too little height, so the d3 diagram never runs off the bottom. */
+        function fitAnimHost(host) {
+            requestAnimationFrame(() => {
+                const section = host.closest('section');
+                const H = Reveal.getConfig().height, pad = 12;
+                const other = section.scrollHeight - host.offsetHeight;
+                const avail = H - other - pad;
+                if (host.offsetHeight > avail && avail > 80) {
+                    host.style.width = Math.floor(avail * host.offsetWidth / host.offsetHeight) + 'px';
+                    host.style.maxWidth = 'none';
+                }
+                Reveal.layout();
+            });
+        }
+
         /* ============================================================
            "Truth in the middle" spectrum (2026 slide)
            Slides opt in with: <!-- .slide: data-spectrum="true" -->
@@ -948,9 +1119,9 @@ Note:
                 if (section.__spectrum) return section.__spectrum;
                 const host = document.createElement('div');
                 host.className = 'spectrum-anim';
-                host.style.cssText = 'width:82%;max-width:920px;margin:1.4em auto 0;';
-                section.appendChild(host);
-                const svg = d3.select(host).append('svg').attr('viewBox', '0 0 1160 240')
+                host.style.cssText = 'width:100%;max-width:1100px;margin:1.2em auto 0;';
+                section.appendChild(host); fitAnimHost(host);
+                const svg = d3.select(host).append('svg').attr('viewBox', '0 0 1160 290')
                     .style('width', '100%').style('display', 'block').style('overflow', 'visible');
                 svg.append('line').attr('x1', x0).attr('y1', Y).attr('x2', xA).attr('y2', Y).attr('stroke', LINE).attr('stroke-width', 3);
                 svg.append('line').attr('x1', xA).attr('y1', Y).attr('x2', xB).attr('y2', Y).attr('stroke', LINE).attr('stroke-width', 3).attr('stroke-dasharray', '2 12').attr('stroke-linecap', 'round');
@@ -958,14 +1129,16 @@ Note:
                 [xA, xB].forEach(x => svg.append('line').attr('x1', x).attr('y1', Y - 16).attr('x2', x).attr('y2', Y + 16).attr('stroke', SEP).attr('stroke-width', 2));
                 [x0, x1].forEach(x => svg.append('line').attr('x1', x).attr('y1', Y - 20).attr('x2', x).attr('y2', Y + 20).attr('stroke', SEP).attr('stroke-width', 3));
                 const cap = (x, anchor, l1, l2) => {
-                    svg.append('text').attr('x', x).attr('y', Y + 52).attr('text-anchor', anchor).attr('fill', DIM).style('font-family', MONO).style('font-size', '15px').text('extreme');
-                    svg.append('text').attr('x', x).attr('y', Y + 80).attr('text-anchor', anchor).attr('fill', LIGHT).style('font-family', MONO).style('font-size', '19px').text(l1);
-                    svg.append('text').attr('x', x).attr('y', Y + 104).attr('text-anchor', anchor).attr('fill', LIGHT).style('font-family', MONO).style('font-size', '19px').text(l2);
+                    svg.append('text').attr('x', x).attr('y', Y + 54).attr('text-anchor', anchor).attr('fill', DIM).style('font-family', MONO).style('font-size', '19px').text('extreme');
+                    svg.append('text').attr('x', x).attr('y', Y + 88).attr('text-anchor', anchor).attr('fill', LIGHT).style('font-family', MONO).style('font-size', '25px').text(l1);
+                    svg.append('text').attr('x', x).attr('y', Y + 118).attr('text-anchor', anchor).attr('fill', LIGHT).style('font-family', MONO).style('font-size', '25px').text(l2);
+                    // both extremes end in the same place: doing nothing
+                    svg.append('text').attr('x', x).attr('y', Y + 154).attr('text-anchor', anchor).attr('fill', DIM).style('font-family', MONO).style('font-style', 'italic').style('font-size', '19px').text('-> do nothing');
                 };
                 cap(x0, 'start', 'AI is a bubble -', 'it will collapse');
                 cap(x1, 'end', 'AI takes', 'all the jobs');
-                svg.append('text').attr('x', (xA + xB) / 2).attr('y', Y + 52).attr('text-anchor', 'middle').attr('fill', DIM).style('font-family', MONO).style('font-size', '14px').text('the truth is somewhere in here');
-                const lbl = svg.append('text').attr('y', Y - 34).attr('text-anchor', 'middle').attr('fill', '#E07B39').style('font-family', MONO).style('font-weight', 700).style('font-size', '18px').text('the truth?');
+                svg.append('text').attr('x', (xA + xB) / 2).attr('y', Y + 52).attr('text-anchor', 'middle').attr('fill', DIM).style('font-family', MONO).style('font-size', '18px').text('the truth is somewhere in here');
+                const lbl = svg.append('text').attr('y', Y - 34).attr('text-anchor', 'middle').attr('fill', '#E07B39').style('font-family', MONO).style('font-weight', 700).style('font-size', '23px').text('the truth?');
                 const ring = svg.append('circle').attr('cy', Y).attr('r', 12).attr('fill', 'none').attr('stroke', '#E07B39').attr('stroke-width', 2);
                 const dot = svg.append('circle').attr('cy', Y).attr('r', 6).attr('fill', '#E07B39');
                 const stem = svg.append('line').attr('y1', Y - 22).attr('y2', Y - 12).attr('stroke', '#E07B39').attr('stroke-width', 1.5);
@@ -1013,7 +1186,7 @@ Note:
                     .attr('fill', (d, i) => d3.rgb(spectrum[i]).darker(1.6) + '').attr('fill-opacity', 0.85)
                     .attr('stroke', (d, i) => spectrum[i]).attr('stroke-width', 3);
                 capStyle(svg.append('text').attr('x', CX).attr('y', 26).attr('text-anchor', 'middle')
-                    .attr('fill', '#FFFFFF').style('letter-spacing', '0.14em').style('font-size', '15px').text('center of gravity'));
+                    .attr('fill', '#FFFFFF').style('letter-spacing', '0.14em').style('font-size', '15px').text('center of attention'));
                 const link = svg.append('line').attr('x1', CX).attr('y1', 34).attr('stroke', '#8A9098').attr('stroke-width', 1).attr('opacity', 0.5);
                 const dot = svg.append('circle').attr('r', 6).attr('fill', '#FFFFFF');
                 svg.selectAll('text.stop').data(pts).enter().append('text').attr('class', 'stop')
@@ -1032,24 +1205,28 @@ Note:
 
             function buildHowWhy(parent) {
                 const svg = d3.select(parent).append('svg')
-                    .attr('viewBox', '0 0 380 350')
+                    .attr('viewBox', '0 80 520 245')
                     .style('width', '100%').style('display', 'block').style('overflow', 'visible');
-                svg.append('line').attr('x1', 100).attr('y1', 190).attr('x2', 295).attr('y2', 190).attr('stroke', '#5B6672').attr('stroke-width', 3);
+                svg.append('line').attr('x1', 100).attr('y1', 190).attr('x2', 420).attr('y2', 190).attr('stroke', '#5B6672').attr('stroke-width', 3);
                 const how = svg.append('circle').attr('cx', 100).attr('cy', 190).attr('fill', d3.rgb('#565B61').darker(1.4) + '').attr('stroke', '#565B61').attr('stroke-width', 3);
-                const why = svg.append('circle').attr('cx', 295).attr('cy', 190).attr('fill', d3.rgb('#C6CBD1').darker(1.3) + '').attr('stroke', '#C6CBD1').attr('stroke-width', 3);
-                capStyle(svg.append('text').attr('x', 197).attr('y', 26).attr('text-anchor', 'middle')
-                    .attr('fill', '#FFFFFF').style('letter-spacing', '0.14em').style('font-size', '15px').text('center of gravity'));
-                const link = svg.append('line').attr('x1', 197).attr('y1', 34).attr('stroke', '#8A9098').attr('stroke-width', 1).attr('opacity', 0.5);
+                const why = svg.append('circle').attr('cx', 420).attr('cy', 190).attr('fill', d3.rgb('#E07B39').darker(1.2) + '').attr('stroke', '#E07B39').attr('stroke-width', 3);
                 const dot = svg.append('circle').attr('r', 6).attr('fill', '#FFFFFF');
-                capStyle(svg.append('text').attr('x', 100).attr('y', 262).attr('text-anchor', 'middle').attr('fill', '#C7CED6').style('letter-spacing', '0.06em').style('font-size', '15px').text('implementation'));
-                capStyle(svg.append('text').attr('x', 295).attr('y', 262).attr('text-anchor', 'middle').attr('fill', '#C7CED6').style('letter-spacing', '0.06em').style('font-size', '18px').text('how & why'));
-                svg.append('text').attr('x', 100).attr('y', 284).attr('text-anchor', 'middle').attr('fill', '#8A92A0').style('font-size', '12px').text('writing the code');
-                svg.append('text').attr('x', 295).attr('y', 284).attr('text-anchor', 'middle').attr('fill', '#8A92A0').style('font-size', '12px').text('decisions & value');
+                // the label rides with the dot: an orange "attention" tag above it
+                const tag = svg.append('g');
+                tag.append('rect').attr('x', -62).attr('y', -18).attr('width', 124).attr('height', 34).attr('rx', 17).attr('fill', '#E07B39');
+                capStyle(tag.append('text').attr('text-anchor', 'middle').attr('y', 6).attr('fill', '#1A0F07').style('font-weight', 700).style('font-size', '18px').text('attention'));
+                tag.append('path').attr('d', 'M-7,16 L0,26 L7,16 Z').attr('fill', '#E07B39');
+                capStyle(svg.append('text').attr('x', 100).attr('y', 266).attr('text-anchor', 'middle').attr('fill', '#C7CED6').style('font-size', '20px').text('implementation'));
+                capStyle(svg.append('text').attr('x', 420).attr('y', 266).attr('text-anchor', 'middle').attr('fill', '#E8955A').style('font-weight', 700).style('font-size', '24px').text('how & why'));
+                capStyle(svg.append('text').attr('x', 100).attr('y', 292).attr('text-anchor', 'middle').attr('fill', '#8A92A0').style('font-size', '16px').text('code, frameworks,'));
+                capStyle(svg.append('text').attr('x', 100).attr('y', 312).attr('text-anchor', 'middle').attr('fill', '#8A92A0').style('font-size', '16px').text('language details'));
+                capStyle(svg.append('text').attr('x', 420).attr('y', 292).attr('text-anchor', 'middle').attr('fill', '#8A92A0').style('font-size', '16px').text('decisions & value'));
                 return function (e) {
                     how.attr('r', 34 * (1 - 0.4 * e)).attr('opacity', 0.35 + 0.5 * (1 - e));
                     why.attr('r', 22 + 22 * e).attr('opacity', 0.5 + 0.5 * e);
-                    const gx = 100 + 195 * e;
-                    dot.attr('cx', gx).attr('cy', 190); link.attr('x2', gx).attr('y2', 190);
+                    const gx = 100 + 320 * e;
+                    dot.attr('cx', gx).attr('cy', 190);
+                    tag.attr('transform', `translate(${gx},${190 - 74})`);
                 };
             }
 
@@ -1057,19 +1234,15 @@ Note:
                 if (section.__cog) return section.__cog;
                 const host = document.createElement('div');
                 host.className = 'cog-anim';
-                host.style.cssText = 'width:94%;max-width:880px;margin:0.2em auto 0;display:flex;gap:2%;align-items:center;justify-content:center;';
-                section.appendChild(host);
-                const left = document.createElement('div'); left.style.cssText = 'flex:0 1 300px;';
-                const right = document.createElement('div'); right.style.cssText = 'flex:0 1 360px;';
-                host.appendChild(left); host.appendChild(right);
-                const rFrame = buildRosette(left);
-                const hFrame = buildHowWhy(right);
+                host.style.cssText = 'width:100%;max-width:700px;margin:0.4em auto 0;';
+                section.appendChild(host); fitAnimHost(host);
+                // one big implementation -> how & why panel (the rosette read as a blur from the room)
+                const hFrame = buildHowWhy(host);
                 const period = 8000;
                 const timer = d3.timer((elapsed) => {
                     const t = (elapsed % (period * 2)) / period;
                     const tri = t < 1 ? t : 2 - t;
                     const e = tri < 0.5 ? 4 * tri ** 3 : 1 - Math.pow(-2 * tri + 2, 3) / 2;
-                    rFrame((CX - 72) + 144 * e);
                     hFrame(0.34 + 0.60 * e);
                 });
                 section.__cog = { timer, host };
@@ -1152,7 +1325,7 @@ Note:
                 const host = document.createElement('div');
                 host.className = 'merge-anim';
                 host.style.cssText = 'width:64%;max-width:640px;margin:0.2em auto 0;';
-                section.appendChild(host);
+                section.appendChild(host); fitAnimHost(host);
 
                 const svg = d3.select(host).append('svg')
                     .attr('viewBox', '0 0 920 420')
@@ -1217,11 +1390,11 @@ Note:
             // simple programs -> desktop -> web -> mobile -> distributed systems;
             // each stage bigger and warmer than the last (complexity rises).
             const STAGES = [
-                { title: 'Simple programs', sub: 'scripts, Excel', cx: 105, cy: 235, w: 190, h: 110, ts: 15, fill: '#151515', stroke: '#4A4A4A', tc: '#9AA0A6', sc: '#6A6F76', stage: 0 },
-                { title: 'Desktop apps', sub: 'one machine', cx: 355, cy: 225, w: 190, h: 130, ts: 15, fill: '#1A1A1A', stroke: '#585858', tc: '#B0B5BB', sc: '#7A7F86', stage: 1 },
-                { title: 'Web apps', sub: 'reach everyone', cx: 605, cy: 215, w: 190, h: 150, ts: 15, fill: '#1F1F1F', stroke: '#6E6E6E', tc: '#C6CBD1', sc: '#8A9098', stage: 2 },
-                { title: 'Mobile apps', sub: 'in every pocket', cx: 855, cy: 206, w: 190, h: 168, ts: 15, fill: '#262626', stroke: '#9A7A55', tc: '#D6C0A5', sc: '#A08A70', stage: 3 },
-                { title: 'Distributed systems', sub: 'global, always-on', cx: 1105, cy: 196, w: 190, h: 188, ts: 13, fill: '#2C2C2C', stroke: '#E07B39', tc: '#E8955A', sc: '#C6CBD1', stage: 4 },
+                { title: 'Simple programs', sub: 'scripts, Excel', cx: 105, cy: 235, w: 190, h: 110, ts: 18, fill: '#151515', stroke: '#4A4A4A', tc: '#9AA0A6', sc: '#6A6F76', stage: 0 },
+                { title: 'Desktop apps', sub: 'one machine', cx: 355, cy: 225, w: 190, h: 130, ts: 20, fill: '#1A1A1A', stroke: '#585858', tc: '#B0B5BB', sc: '#7A7F86', stage: 1 },
+                { title: 'Web apps', sub: 'reach everyone', cx: 605, cy: 215, w: 190, h: 150, ts: 20, fill: '#1F1F1F', stroke: '#6E6E6E', tc: '#C6CBD1', sc: '#8A9098', stage: 2 },
+                { title: 'Mobile apps', sub: 'in every pocket', cx: 855, cy: 206, w: 190, h: 168, ts: 20, fill: '#262626', stroke: '#9A7A55', tc: '#D6C0A5', sc: '#A08A70', stage: 3 },
+                { title: 'Distributed\nsystems', sub: 'global, always-on', cx: 1105, cy: 196, w: 190, h: 188, ts: 20, fill: '#2C2C2C', stroke: '#E07B39', tc: '#E8955A', sc: '#C6CBD1', stage: 4 },
             ];
             const ARROWS = [
                 { x1: 205, x2: 255, y: 232, label: '', stage: 1 },
@@ -1235,10 +1408,10 @@ Note:
                 const host = document.createElement('div');
                 host.className = 'shift-anim';
                 host.style.cssText = 'width:94%;max-width:1040px;margin:0.6em auto 0;';
-                section.appendChild(host);
+                section.appendChild(host); fitAnimHost(host);
 
                 const svg = d3.select(host).append('svg')
-                    .attr('viewBox', '0 0 1200 470')
+                    .attr('viewBox', '0 85 1200 385')   // top band was empty - cropped
                     .style('width', '100%').style('display', 'block').style('overflow', 'visible');
 
                 // growth chart BELOW the cards: users on the systems and the size of
@@ -1267,11 +1440,11 @@ Note:
                 (function () {
                     const leg = svg.append('g');
                     const row = (y, col, txt) => {
-                        leg.append('rect').attr('x', 24).attr('y', y - 9).attr('width', 14).attr('height', 6).attr('rx', 3).attr('fill', col);
-                        leg.append('text').attr('x', 46).attr('y', y).attr('fill', '#9AA0A6').style('font-size', '15px').style('font-family', MONO).text(txt);
+                        leg.append('rect').attr('x', 24).attr('y', y - 11).attr('width', 18).attr('height', 7).attr('rx', 3.5).attr('fill', col);
+                        leg.append('text').attr('x', 52).attr('y', y).attr('fill', '#9AA0A6').style('font-size', '19px').style('font-family', MONO).text(txt);
                     };
-                    row(330, '#E07B39', 'digital economy $');
-                    row(354, '#57A2B2', 'users on the systems');
+                    row(334, '#E07B39', 'digital economy $');
+                    row(364, '#57A2B2', 'users on the systems');
                 })();
 
                 const arrowSel = ARROWS.map(a => {
@@ -1292,10 +1465,12 @@ Note:
                     const g = svg.append('g').attr('opacity', 0);
                     g.append('rect').attr('x', s.cx - s.w / 2).attr('y', s.cy - s.h / 2).attr('width', s.w).attr('height', s.h).attr('rx', 16)
                         .attr('fill', s.fill).attr('stroke', s.stroke).attr('stroke-width', 2);
-                    g.append('text').attr('x', s.cx).attr('y', s.cy - 4).attr('text-anchor', 'middle')
-                        .attr('fill', s.tc).style('font-weight', 700).style('font-size', s.ts + 'px').style('font-family', MONO).text(s.title);
-                    g.append('text').attr('x', s.cx).attr('y', s.cy + 22).attr('text-anchor', 'middle')
-                        .attr('fill', s.sc).style('font-size', '12px').style('font-family', MONO).text(s.sub);
+                    // title may be two lines ('\n'); sub-label sits under the last line
+                    const lines = s.title.split('\n'), lh = s.ts + 4, y0 = s.cy - 2 - (lines.length - 1) * lh / 2;
+                    lines.forEach((ln, k) => g.append('text').attr('x', s.cx).attr('y', y0 + k * lh).attr('text-anchor', 'middle')
+                        .attr('fill', s.tc).style('font-weight', 700).style('font-size', s.ts + 'px').style('font-family', MONO).text(ln));
+                    g.append('text').attr('x', s.cx).attr('y', y0 + (lines.length - 1) * lh + 28).attr('text-anchor', 'middle')
+                        .attr('fill', s.sc).style('font-size', '16px').style('font-family', MONO).text(s.sub);
                     return { g, s };
                 });
 
@@ -1349,8 +1524,8 @@ Note:
                 if (section.__accel) return section.__accel;
                 const host = document.createElement('div');
                 host.className = 'accel-anim';
-                host.style.cssText = 'width:92%;max-width:960px;margin:0.6em auto 0;';
-                section.appendChild(host);
+                host.style.cssText = 'width:100%;max-width:1100px;margin:0.8em auto 0;';
+                section.appendChild(host); fitAnimHost(host);
 
                 const svg = d3.select(host).append('svg')
                     .attr('viewBox', '0 0 1100 300')
@@ -1365,11 +1540,11 @@ Note:
                 // AI marker in the middle
                 const aiGlow = svg.append('circle').attr('cx', xAI).attr('cy', Y).attr('r', 26).attr('fill', 'none').attr('stroke', ACC).attr('stroke-width', 3).attr('opacity', 0);
                 svg.append('line').attr('x1', xAI).attr('y1', Y - 34).attr('x2', xAI).attr('y2', Y + 34).attr('stroke', ACC).attr('stroke-width', 4).attr('stroke-linecap', 'round');
-                svg.append('text').attr('x', xAI).attr('y', Y - 46).attr('text-anchor', 'middle').attr('fill', ACC).style('font-weight', 700).style('font-size', '26px').style('font-family', "'JetBrains Mono', ui-monospace, monospace").text('AI');
+                svg.append('text').attr('x', xAI).attr('y', Y - 46).attr('text-anchor', 'middle').attr('fill', ACC).style('font-weight', 700).style('font-size', '34px').style('font-family', "'JetBrains Mono', ui-monospace, monospace").text('AI');
 
-                svg.append('text').attr('x', X0).attr('y', Y + 46).attr('fill', MUTED).style('font-size', '16px').style('font-family', "'JetBrains Mono', ui-monospace, monospace").text('slow, for decades');
-                svg.append('text').attr('x', X1).attr('y', Y + 46).attr('text-anchor', 'end').attr('fill', ACC).style('font-weight', 700).style('font-size', '16px').style('font-family', "'JetBrains Mono', ui-monospace, monospace").text('big speed-up');
-                svg.append('text').attr('x', (X0 + X1) / 2).attr('y', Y - 82).attr('text-anchor', 'middle').attr('fill', MUTED).style('font-size', '18px').style('font-family', "'JetBrains Mono', ui-monospace, monospace").text('the pace of change accelerates');
+                svg.append('text').attr('x', X0).attr('y', Y + 52).attr('fill', MUTED).style('font-size', '22px').style('font-family', "'JetBrains Mono', ui-monospace, monospace").text('slow, for decades');
+                svg.append('text').attr('x', X1).attr('y', Y + 52).attr('text-anchor', 'end').attr('fill', ACC).style('font-weight', 700).style('font-size', '22px').style('font-family', "'JetBrains Mono', ui-monospace, monospace").text('big speed-up');
+                svg.append('text').attr('x', (X0 + X1) / 2).attr('y', Y - 108).attr('text-anchor', 'middle').attr('fill', MUTED).style('font-size', '24px').style('font-family', "'JetBrains Mono', ui-monospace, monospace").text('the pace of change accelerates');
 
                 const trail = svg.append('line').attr('stroke', GLOW).attr('stroke-width', 6).attr('stroke-linecap', 'round').attr('opacity', 0.4);
                 const glow = svg.append('circle').attr('cy', Y).attr('r', 14).attr('fill', 'none').attr('stroke', GLOW).attr('stroke-width', 3).attr('opacity', 0.6);
@@ -1425,7 +1600,7 @@ Note:
                 const host = document.createElement('div');
                 host.className = 'horizon-anim';
                 host.style.cssText = 'width:92%;max-width:1000px;margin:0.6em auto 0;';
-                section.appendChild(host);
+                section.appendChild(host); fitAnimHost(host);
                 const svg = d3.select(host).append('svg').attr('viewBox', '0 0 1160 380')
                     .style('width', '100%').style('display', 'block').style('overflow', 'visible');
                 const MONO = "'JetBrains Mono', ui-monospace, monospace";

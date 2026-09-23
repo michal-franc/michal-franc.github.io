@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 470" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 10 1080 540" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
   <!-- the cohesive whole: orange = the engineer as glue + water, filling every gap -->
   <rect x="310" y="50" width="580" height="330" rx="20" fill="#E07B39"/>
 
@@ -18,21 +18,11 @@
   <!-- labels -->
   <text x="600" y="34" text-anchor="middle" fill="#E8955A" font-size="18" font-weight="700" letter-spacing="2">ONE COHESIVE SYSTEM</text>
 
-  <!-- callout: the pieces -->
-  <line x1="150" y1="150" x2="322" y2="120" stroke="#8A9098" stroke-width="2"/>
-  <text x="70" y="140" text-anchor="start" fill="#B4BAC0" font-size="16" font-weight="700">the pieces</text>
-  <text x="70" y="162" text-anchor="start" fill="#8A9098" font-size="13">AI makes them -</text>
-  <text x="70" y="180" text-anchor="start" fill="#8A9098" font-size="13">half-baked alone</text>
 
-  <!-- callout: the cracks = you -->
-  <line x1="1050" y1="235" x2="874" y2="220" stroke="#E07B39" stroke-width="2"/>
-  <text x="1130" y="222" text-anchor="end" fill="#E8955A" font-size="16" font-weight="700">YOU</text>
-  <text x="1130" y="244" text-anchor="end" fill="#C99B6E" font-size="13">glue that binds them</text>
-  <text x="1130" y="262" text-anchor="end" fill="#C99B6E" font-size="13">+ water in the cracks</text>
 
   <!-- legend -->
-  <rect x="330" y="410" width="16" height="16" rx="3" fill="#33373C" stroke="#565B61" stroke-width="2"/>
-  <text x="356" y="423" fill="#B4BAC0" font-size="15">the LLM's pieces - they don't hold together on their own</text>
-  <rect x="330" y="438" width="16" height="16" rx="3" fill="#E07B39"/>
-  <text x="356" y="451" fill="#E8955A" font-size="15">you - the glue between them and the water filling the gaps</text>
+  <rect x="330" y="405" width="22" height="22" rx="4" fill="#33373C" stroke="#565B61" stroke-width="2"/>
+  <text x="364" y="423" fill="#B4BAC0" font-size="21">AI's pieces - don't hold together alone</text>
+  <rect x="330" y="441" width="22" height="22" rx="4" fill="#E07B39"/>
+  <text x="364" y="459" fill="#E8955A" font-size="21">you - the glue + water in the gaps</text>
 </svg>

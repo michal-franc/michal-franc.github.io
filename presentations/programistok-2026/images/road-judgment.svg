@@ -8,13 +8,13 @@
   <!-- the road: defined by the engineer -->
   <rect x="80" y="126" width="1050" height="48" rx="4" fill="#191D22" stroke="#3A3F45" stroke-width="1.5"/>
   <line x1="100" y1="150" x2="1085" y2="150" stroke="#565B61" stroke-width="2" stroke-dasharray="18 16"/>
-  <text x="235" y="112" fill="#8A9098" font-size="14">the road you set - goals &amp; direction</text>
-  <text x="100" y="200" text-anchor="middle" fill="#8A9098" font-size="14">now</text>
+  <text x="235" y="106" fill="#8A9098" font-size="20">the road you set - goals &amp; direction</text>
+  <text x="100" y="208" text-anchor="middle" fill="#8A9098" font-size="20">now</text>
 
   <!-- goal: the long horizon -->
   <circle cx="1105" cy="150" r="10" fill="#57A2B2"/>
   <circle cx="1105" cy="150" r="18" fill="none" stroke="#57A2B2" stroke-width="1.5" stroke-opacity="0.5"/>
-  <text x="1105" y="102" text-anchor="middle" fill="#8FC6D3" font-size="15" font-weight="700">the long horizon</text>
+  <text x="1190" y="100" text-anchor="end" fill="#8FC6D3" font-size="21" font-weight="700">the long horizon</text>
 
   <!-- trajectory: on road -> drift -> correct, x3 (small, big, medium) -->
   <path d="M 100 150 L 240 150" fill="none" stroke="#8A9098" stroke-width="4"/>
@@ -38,8 +38,8 @@
   <path d="M 996 150 L 1083 150" fill="none" stroke="#8A9098" stroke-width="4" marker-end="url(#rj-grey)"/>
 
   <!-- legend -->
-  <line x1="270" y1="350" x2="304" y2="350" stroke="#C0504A" stroke-width="3.5" stroke-dasharray="8 7"/>
-  <text x="316" y="355" fill="#C0504A" font-size="15" font-weight="700">AI drifts off - short horizon</text>
-  <line x1="720" y1="350" x2="754" y2="350" stroke="#E07B39" stroke-width="4.5"/>
-  <text x="766" y="355" fill="#E8955A" font-size="15" font-weight="700">you steer it back on track</text>
+  <line x1="200" y1="350" x2="234" y2="350" stroke="#C0504A" stroke-width="3.5" stroke-dasharray="8 7"/>
+  <text x="246" y="357" fill="#C0504A" font-size="21" font-weight="700">AI drifts off - short horizon</text>
+  <line x1="680" y1="350" x2="714" y2="350" stroke="#E07B39" stroke-width="4.5"/>
+  <text x="726" y="357" fill="#E8955A" font-size="21" font-weight="700">you steer it back on track</text>
 </svg>

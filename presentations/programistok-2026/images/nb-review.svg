@@ -26,7 +26,7 @@
     <path d="M486 211 L491 217 L501 204"/>
     <path d="M486 239 L491 245 L501 232"/>
   </g>
-  <text x="310" y="300" text-anchor="middle" fill="#C7CED6" font-size="18">read every line of the diff</text>
+  <text x="310" y="306" text-anchor="middle" fill="#C7CED6" font-size="23">read every line of the diff</text>
 
   <!-- arrow -->
   <line x1="558" y1="167" x2="642" y2="167" stroke="#E07B39" stroke-width="3.5" marker-end="url(#nb-ar)"/>
@@ -46,6 +46,9 @@
     <rect x="954" y="118" width="78" height="34" rx="8" fill="#1E242A" stroke="#8A9098" stroke-width="2"/>
     <line x1="790" y1="135" x2="827" y2="135" stroke="#E07B39" stroke-width="2.5" marker-end="url(#nb-sys)"/>
     <line x1="913" y1="135" x2="950" y2="135" stroke="#E07B39" stroke-width="2.5" marker-end="url(#nb-sys)"/>
+    <text x="747" y="141" text-anchor="middle" fill="#C7CED6" font-size="15" font-weight="700">deploy</text>
+    <text x="870" y="141" text-anchor="middle" fill="#C7CED6" font-size="15" font-weight="700">canary</text>
+    <text x="993" y="141" text-anchor="middle" fill="#C7CED6" font-size="15" font-weight="700">A/B</text>
   </g>
 
   <!-- metrics chart: watch behaviour over time -->
@@ -55,6 +58,6 @@
   <g fill="#E38A4E">
     <circle cx="716" cy="242" r="3.2"/><circle cx="800" cy="236" r="3.2"/><circle cx="888" cy="218" r="3.2"/><circle cx="984" cy="178" r="3.2"/><circle cx="1032" cy="166" r="3.2"/>
   </g>
-  <text x="1052" y="171" fill="#8A9098" font-size="13">metrics</text>
-  <text x="890" y="300" text-anchor="middle" fill="#C7CED6" font-size="18">watch the whole system - by <tspan fill="#E8955A" font-weight="700">metrics</tspan></text>
+  <text x="718" y="176" fill="#8A9098" font-size="16">metrics</text>
+  <text x="890" y="306" text-anchor="middle" fill="#C7CED6" font-size="23">watch the whole system - by <tspan fill="#E8955A" font-weight="700">metrics</tspan></text>
 </svg>

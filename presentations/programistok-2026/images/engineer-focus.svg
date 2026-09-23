@@ -1,50 +1,39 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 560" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
-<rect x="40" y="30" width="6" height="26" rx="2" fill="#E07B39"/>
-<text x="58" y="50" font-size="22" font-weight="700" fill="#D7DCE3">Software Engineer Evolution: Focus of Software Engineers</text>
-<text x="235.6" y="98" text-anchor="middle" font-size="13" letter-spacing="1.5" fill="#8A9098">DESKTOP</text>
-<line x1="331.1" y1="104" x2="331.1" y2="430" stroke="#565B61" stroke-width="1.5" stroke-dasharray="4 6"/>
-<text x="426.7" y="98" text-anchor="middle" font-size="13" letter-spacing="1.5" fill="#8A9098">WEB</text>
-<line x1="522.2" y1="104" x2="522.2" y2="430" stroke="#565B61" stroke-width="1.5" stroke-dasharray="4 6"/>
-<text x="646.4" y="98" text-anchor="middle" font-size="13" letter-spacing="1.5" fill="#8A9098">CLOUD &amp; MOBILE</text>
-<line x1="770.7" y1="104" x2="770.7" y2="430" stroke="#565B61" stroke-width="1.5" stroke-dasharray="4 6"/>
-<rect x="770.7" y="118" width="229.3" height="312" fill="#E07B39" fill-opacity="0.05"/>
-<text x="885.3" y="98" text-anchor="middle" font-size="13" letter-spacing="1.5" fill="#8A9098">AI</text>
-<line x1="140" y1="430.0" x2="1000" y2="430.0" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
-<text x="128" y="435.0" text-anchor="end" font-size="13" fill="#8A9098">0%</text>
-<line x1="140" y1="367.6" x2="1000" y2="367.6" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
-<text x="128" y="372.6" text-anchor="end" font-size="13" fill="#8A9098">20%</text>
-<line x1="140" y1="305.2" x2="1000" y2="305.2" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
-<text x="128" y="310.2" text-anchor="end" font-size="13" fill="#8A9098">40%</text>
-<line x1="140" y1="242.8" x2="1000" y2="242.8" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
-<text x="128" y="247.8" text-anchor="end" font-size="13" fill="#8A9098">60%</text>
-<line x1="140" y1="180.4" x2="1000" y2="180.4" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
-<text x="128" y="185.4" text-anchor="end" font-size="13" fill="#8A9098">80%</text>
-<line x1="140" y1="118.0" x2="1000" y2="118.0" stroke="#2A2E33" stroke-width="1.5" stroke-dasharray="3 6"/>
-<text x="128" y="123.0" text-anchor="end" font-size="13" fill="#8A9098">100%</text>
-<text x="140.0" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">1990</text>
-<text x="235.6" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">1995</text>
-<text x="331.1" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">2000</text>
-<text x="426.7" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">2005</text>
-<text x="522.2" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">2010</text>
-<text x="617.8" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">2015</text>
-<text x="713.3" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">2020</text>
-<text x="808.9" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">2025</text>
-<text x="904.4" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">2030</text>
-<text x="1000.0" y="456" text-anchor="middle" font-size="14" fill="#9AA0A6">2035</text>
-<path d="M 140.0,252.2 L 235.6,336.4 L 331.1,398.8 L 426.7,398.8 L 522.2,398.8 L 617.8,398.8 L 713.3,398.8 L 808.9,398.8 L 904.4,398.8 L 1000.0,398.8 L 1000.0,430.0 L 904.4,430.0 L 808.9,430.0 L 713.3,430.0 L 617.8,430.0 L 522.2,430.0 L 426.7,430.0 L 331.1,430.0 L 235.6,430.0 L 140.0,430.0 Z" fill="#4C9A8A" fill-opacity="0.82" stroke="#4C9A8A" stroke-width="1" stroke-opacity="0.9"/>
-<path d="M 140.0,149.2 L 235.6,167.9 L 331.1,199.1 L 426.7,217.8 L 522.2,236.6 L 617.8,252.2 L 713.3,274.0 L 808.9,305.2 L 904.4,330.2 L 1000.0,352.0 L 1000.0,398.8 L 904.4,398.8 L 808.9,398.8 L 713.3,398.8 L 617.8,398.8 L 522.2,398.8 L 426.7,398.8 L 331.1,398.8 L 235.6,336.4 L 140.0,252.2 Z" fill="#4A90C2" fill-opacity="0.82" stroke="#4A90C2" stroke-width="1" stroke-opacity="0.9"/>
-<path d="M 140.0,149.2 L 235.6,161.7 L 331.1,167.9 L 426.7,180.4 L 522.2,199.1 L 617.8,214.7 L 713.3,230.3 L 808.9,255.3 L 904.4,283.4 L 1000.0,299.0 L 1000.0,352.0 L 904.4,330.2 L 808.9,305.2 L 713.3,274.0 L 617.8,252.2 L 522.2,236.6 L 426.7,217.8 L 331.1,199.1 L 235.6,167.9 L 140.0,149.2 Z" fill="#9B7EDD" fill-opacity="0.82" stroke="#9B7EDD" stroke-width="1" stroke-opacity="0.9"/>
-<path d="M 140.0,143.0 L 235.6,143.0 L 331.1,136.7 L 426.7,143.0 L 522.2,155.4 L 617.8,164.8 L 713.3,180.4 L 808.9,199.1 L 904.4,211.6 L 1000.0,211.6 L 1000.0,299.0 L 904.4,283.4 L 808.9,255.3 L 713.3,230.3 L 617.8,214.7 L 522.2,199.1 L 426.7,180.4 L 331.1,167.9 L 235.6,161.7 L 140.0,149.2 Z" fill="#6AA84F" fill-opacity="0.82" stroke="#6AA84F" stroke-width="1" stroke-opacity="0.9"/>
-<path d="M 140.0,118.0 L 235.6,118.0 L 331.1,118.0 L 426.7,118.0 L 522.2,118.0 L 617.8,118.0 L 713.3,118.0 L 808.9,118.0 L 904.4,118.0 L 1000.0,118.0 L 1000.0,211.6 L 904.4,211.6 L 808.9,199.1 L 713.3,180.4 L 617.8,164.8 L 522.2,155.4 L 426.7,143.0 L 331.1,136.7 L 235.6,143.0 L 140.0,143.0 Z" fill="#E07B39" fill-opacity="0.82" stroke="#E07B39" stroke-width="1" stroke-opacity="0.9"/>
-<rect x="140" y="461" width="16" height="6" rx="3" fill="#4C9A8A"/>
-<text x="164" y="468" font-size="15" fill="#9AA0A6">Algorithms/DS</text>
-<rect x="304" y="461" width="16" height="6" rx="3" fill="#4A90C2"/>
-<text x="328" y="468" font-size="15" fill="#9AA0A6">Coding</text>
-<rect x="407" y="461" width="16" height="6" rx="3" fill="#9B7EDD"/>
-<text x="431" y="468" font-size="15" fill="#9AA0A6">Testing</text>
-<rect x="520" y="461" width="16" height="6" rx="3" fill="#6AA84F"/>
-<text x="544" y="468" font-size="15" fill="#9AA0A6">System Design</text>
-<rect x="683" y="461" width="16" height="6" rx="3" fill="#E07B39"/>
-<text x="707" y="468" font-size="15" fill="#9AA0A6">Domain Expertise</text>
-<text x="140" y="502" font-size="13" font-style="italic" fill="#B98A5E">* Illustrative - how the composition of "what it means to be an engineer" shifts over time   ·   mfranc.com/blog/ai-2026</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 450" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+<!-- Engineer focus over time (illustrative, from mfranc.com/blog/ai-2026). Slide title lives in slides.md. -->
+<text x="224.4" y="32" text-anchor="middle" font-size="18" letter-spacing="1.5" fill="#8A9098">DESKTOP</text>
+<text x="433.3" y="32" text-anchor="middle" font-size="18" letter-spacing="1.5" fill="#8A9098">WEB</text>
+<text x="673.6" y="32" text-anchor="middle" font-size="18" letter-spacing="1.5" fill="#8A9098">CLOUD &amp; MOBILE</text>
+<text x="934.7" y="32" text-anchor="middle" font-size="18" letter-spacing="1.5" fill="#8A9098">AI</text>
+<text x="108" y="376.0" text-anchor="end" font-size="17" fill="#8A9098">0%</text>
+<text x="108" y="312.0" text-anchor="end" font-size="17" fill="#8A9098">20%</text>
+<text x="108" y="248.0" text-anchor="end" font-size="17" fill="#8A9098">40%</text>
+<text x="108" y="184.0" text-anchor="end" font-size="17" fill="#8A9098">60%</text>
+<text x="108" y="120.0" text-anchor="end" font-size="17" fill="#8A9098">80%</text>
+<text x="108" y="56.0" text-anchor="end" font-size="17" fill="#8A9098">100%</text>
+<text x="120.0" y="402" text-anchor="middle" font-size="18" fill="#9AA0A6">1990</text>
+<text x="224.4" y="402" text-anchor="middle" font-size="18" fill="#9AA0A6">1995</text>
+<text x="328.9" y="402" text-anchor="middle" font-size="18" fill="#9AA0A6">2000</text>
+<text x="433.3" y="402" text-anchor="middle" font-size="18" fill="#9AA0A6">2005</text>
+<text x="537.8" y="402" text-anchor="middle" font-size="18" fill="#9AA0A6">2010</text>
+<text x="642.2" y="402" text-anchor="middle" font-size="18" fill="#9AA0A6">2015</text>
+<text x="746.7" y="402" text-anchor="middle" font-size="18" fill="#9AA0A6">2020</text>
+<text x="851.1" y="402" text-anchor="middle" font-size="18" fill="#9AA0A6">2025</text>
+<text x="955.6" y="402" text-anchor="middle" font-size="18" fill="#9AA0A6">2030</text>
+<text x="1060.0" y="402" text-anchor="middle" font-size="18" fill="#9AA0A6">2035</text>
+<!-- theme:keep - bands + their white labels keep dark-mode colors in both themes -->
+<polygon points="120.0,187.6 224.4,274.0 328.9,338.0 433.3,338.0 537.8,338.0 642.2,338.0 746.7,338.0 851.1,338.0 955.6,338.0 1060.0,338.0 1060.0,370.0 955.6,370.0 851.1,370.0 746.7,370.0 642.2,370.0 537.8,370.0 433.3,370.0 328.9,370.0 224.4,370.0 120.0,370.0" fill="#4C9A8A" fill-opacity="1" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<polygon points="120.0,82.0 224.4,101.2 328.9,133.2 433.3,152.4 537.8,171.6 642.2,187.6 746.7,210.0 851.1,242.0 955.6,267.6 1060.0,290.0 1060.0,338.0 955.6,338.0 851.1,338.0 746.7,338.0 642.2,338.0 537.8,338.0 433.3,338.0 328.9,338.0 224.4,274.0 120.0,187.6" fill="#4A90C2" fill-opacity="1" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<polygon points="120.0,82.0 224.4,94.8 328.9,101.2 433.3,114.0 537.8,133.2 642.2,149.2 746.7,165.2 851.1,190.8 955.6,219.6 1060.0,235.6 1060.0,290.0 955.6,267.6 851.1,242.0 746.7,210.0 642.2,187.6 537.8,171.6 433.3,152.4 328.9,133.2 224.4,101.2 120.0,82.0" fill="#9B7EDD" fill-opacity="1" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<polygon points="120.0,75.6 224.4,75.6 328.9,69.2 433.3,75.6 537.8,88.4 642.2,98.0 746.7,114.0 851.1,133.2 955.6,146.0 1060.0,146.0 1060.0,235.6 955.6,219.6 851.1,190.8 746.7,165.2 642.2,149.2 537.8,133.2 433.3,114.0 328.9,101.2 224.4,94.8 120.0,82.0" fill="#6AA84F" fill-opacity="1" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<polygon points="120.0,50.0 224.4,50.0 328.9,50.0 433.3,50.0 537.8,50.0 642.2,50.0 746.7,50.0 851.1,50.0 955.6,50.0 1060.0,50.0 1060.0,146.0 955.6,146.0 851.1,133.2 746.7,114.0 642.2,98.0 537.8,88.4 433.3,75.6 328.9,69.2 224.4,75.6 120.0,75.6" fill="#E07B39" fill-opacity="1" stroke="#000000" stroke-opacity="0.25" stroke-width="1"/>
+<line x1="328.9" y1="40" x2="328.9" y2="370" stroke="#D7DCE3" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="4 6"/>
+<line x1="537.8" y1="40" x2="537.8" y2="370" stroke="#D7DCE3" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="4 6"/>
+<line x1="809.3" y1="40" x2="809.3" y2="370" stroke="#D7DCE3" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="4 6"/>
+<text x="1046" y="361.0" text-anchor="end" font-size="20" font-weight="700" fill="#FFFFFF">Algorithms/DS</text>
+<text x="1046" y="315.4" text-anchor="end" font-size="20" font-weight="700" fill="#FFFFFF">Coding</text>
+<text x="1046" y="260.2" text-anchor="end" font-size="20" font-weight="700" fill="#FFFFFF">Testing</text>
+<text x="1046" y="193.8" text-anchor="end" font-size="20" font-weight="700" fill="#FFFFFF">System Design</text>
+<text x="1046" y="105.0" text-anchor="end" font-size="20" font-weight="700" fill="#FFFFFF">Domain Expertise</text>
+<!-- /theme:keep -->
+<text x="120" y="442" font-size="15" font-style="italic" fill="#B98A5E">* Illustrative - how "what it means to be an engineer" shifts over time   ·   mfranc.com/blog/ai-2026</text>
 </svg>

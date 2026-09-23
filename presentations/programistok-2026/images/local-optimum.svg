@@ -8,29 +8,29 @@
   <!-- axes -->
   <line x1="90" y1="410" x2="90" y2="70" stroke="#8A9098" stroke-width="2.5" marker-end="url(#lo-ax)"/>
   <line x1="90" y1="410" x2="1120" y2="410" stroke="#8A9098" stroke-width="2.5" marker-end="url(#lo-ax)"/>
-  <text x="56" y="240" text-anchor="middle" fill="#B4BAC0" font-size="17" font-weight="700" transform="rotate(-90 56 240)">value / leverage</text>
-  <text x="1120" y="440" text-anchor="end" fill="#B4BAC0" font-size="15" font-weight="700">rethinking the work -&gt;</text>
+  <text x="56" y="240" text-anchor="middle" fill="#B4BAC0" font-size="20" font-weight="700" transform="rotate(-90 56 240)">value / leverage</text>
+  <text x="1120" y="444" text-anchor="end" fill="#B4BAC0" font-size="19" font-weight="700">rethinking the work -&gt;</text>
 
   <!-- the landscape curve -->
   <path d="M 110 372 C 200 372 292 235 360 230 C 432 226 540 292 604 300 C 706 312 852 152 950 132 C 990 126 1020 124 1050 122" fill="none" stroke="#8A9098" stroke-width="3.5" stroke-linejoin="round"/>
 
   <!-- local optimum: Software 1.0 + AI (the trap) -->
   <circle cx="360" cy="230" r="11" fill="#C0504A" stroke="#E7B0AB" stroke-width="2"/>
-  <text x="360" y="193" text-anchor="middle" fill="#EDF0F3" font-size="17" font-weight="700">Software 1.0 + AI</text>
-  <text x="360" y="213" text-anchor="middle" fill="#D4726B" font-size="13" font-weight="700">a temporary boost - local optimum</text>
+  <text x="360" y="178" text-anchor="middle" fill="#EDF0F3" font-size="22" font-weight="700">Software 1.0 + AI</text>
+  <text x="360" y="204" text-anchor="middle" fill="#D4726B" font-size="17" font-weight="700">a temporary boost - local optimum</text>
 
   <!-- valley -->
-  <text x="604" y="335" text-anchor="middle" fill="#8A9098" font-size="13">rethink how you build</text>
+  <text x="640" y="345" text-anchor="middle" fill="#8A9098" font-size="18">rethink how you build</text>
 
   <!-- global optimum: Software 2.0 -->
   <circle cx="950" cy="132" r="13" fill="#E07B39"/>
   <circle cx="950" cy="132" r="21" fill="none" stroke="#E07B39" stroke-width="1.5" stroke-opacity="0.5"/>
-  <text x="950" y="95" text-anchor="middle" fill="#E8955A" font-size="18" font-weight="700">Software 2.0</text>
-  <text x="950" y="115" text-anchor="middle" fill="#C7CED6" font-size="13">the future - real leverage</text>
+  <text x="950" y="66" text-anchor="middle" fill="#E8955A" font-size="24" font-weight="700">Software 2.0</text>
+  <text x="950" y="92" text-anchor="middle" fill="#C7CED6" font-size="17">the future - real leverage</text>
 
-  <!-- you are here: just past the local optimum, barely scratching the surface -->
-  <circle cx="445" cy="246" r="7" fill="#EDF0F3" stroke="#1F2429" stroke-width="2"/>
-  <line x1="486" y1="352" x2="453" y2="258" stroke="#EDF0F3" stroke-width="2.5" marker-end="url(#lo-here)"/>
-  <text x="470" y="374" fill="#EDF0F3" font-size="14" font-weight="700">we are ~here</text>
-  <text x="470" y="393" fill="#8A9098" font-size="12">industry barely scratching the surface</text>
+  <!-- we are here: still on the upslope of the quick boost - the trap is ahead -->
+  <circle cx="293" cy="263" r="8" fill="#EDF0F3" stroke="#1F2429" stroke-width="2"/>
+  <line x1="300" y1="352" x2="295" y2="276" stroke="#EDF0F3" stroke-width="2.5" marker-end="url(#lo-here)"/>
+  <text x="250" y="376" fill="#EDF0F3" font-size="19" font-weight="700">we are ~here</text>
+  <text x="250" y="398" fill="#8A9098" font-size="16">most still chasing the quick boost</text>
 </svg>

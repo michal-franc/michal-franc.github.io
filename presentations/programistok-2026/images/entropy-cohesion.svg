@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="560 8 510 512" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="252 10 1120 580" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
   <!-- entropy pulling the system apart -->
   <line x1="812" y1="250" x2="884.0" y2="250.0" stroke="#57A2B2" stroke-width="3" opacity="0.7"/>
   <line x1="812" y1="250" x2="848.0" y2="312.4" stroke="#57A2B2" stroke-width="3" opacity="0.7"/>
@@ -33,7 +33,7 @@
   <line x1="630.1" y1="145.0" x2="689.0" y2="179.0" stroke="#E07B39" stroke-width="6" stroke-linecap="round"/><path d="M708.1,190.0 L686.2,187.7 L695.2,172.2 Z" fill="#E07B39"/>
   <line x1="993.9" y1="145.0" x2="935.0" y2="179.0" stroke="#E07B39" stroke-width="6" stroke-linecap="round"/><path d="M915.9,190.0 L928.8,172.2 L937.8,187.7 Z" fill="#E07B39"/>
   <text x="812" y="42" text-anchor="middle" font-size="23" font-weight="700" fill="#C0504A" letter-spacing="1">ENTROPY · CHAOS</text>
-  <text x="812" y="64" text-anchor="middle" font-size="14" fill="#8A9098">AI over time, left alone, drifts apart</text>
+  <text x="812" y="68" text-anchor="middle" font-size="18" fill="#8A9098">AI over time, left alone, drifts apart</text>
   <text x="812" y="476" text-anchor="middle" font-size="23" font-weight="700" fill="#E07B39" letter-spacing="1">YOU · HOLD COHESION</text>
-  <text x="812" y="498" text-anchor="middle" font-size="14" fill="#8A9098">design · context · course-correction - the counter-force</text>
+  <text x="812" y="502" text-anchor="middle" font-size="18" fill="#8A9098">design · context · course-correction - the counter-force</text>
 </svg>

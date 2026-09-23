@@ -1,41 +1,53 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 250" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 290" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
   <defs>
     <marker id="std-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#E07B39"/></marker>
   </defs>
 
   <!-- ===== LEFT: silos of skills (one discipline per team) ===== -->
-  <text x="180" y="24" text-anchor="middle" fill="#8A9098" font-size="14" font-weight="700" letter-spacing="1">SILOED BY SKILL</text>
+  <text x="180" y="24" text-anchor="middle" fill="#8A9098" font-size="17" font-weight="700" letter-spacing="1">SILOED BY SKILL</text>
   <!-- QA silo (teal) -->
   <rect x="46" y="40" width="84" height="150" rx="9" fill="#14181D" stroke="#2E3742" stroke-width="1.5"/>
   <rect x="55" y="50" width="66" height="26" rx="4" fill="#57A2B2"/><rect x="55" y="82" width="66" height="26" rx="4" fill="#57A2B2"/><rect x="55" y="114" width="66" height="26" rx="4" fill="#57A2B2"/><rect x="55" y="146" width="66" height="26" rx="4" fill="#57A2B2"/>
-  <text x="88" y="212" text-anchor="middle" fill="#7FC1CE" font-size="15" font-weight="700">QA</text>
+  <text x="88" y="212" text-anchor="middle" fill="#7FC1CE" font-size="17" font-weight="700">QA</text>
   <!-- DEV silo (orange) -->
   <rect x="140" y="40" width="84" height="150" rx="9" fill="#14181D" stroke="#2E3742" stroke-width="1.5"/>
   <rect x="149" y="50" width="66" height="26" rx="4" fill="#E07B39"/><rect x="149" y="82" width="66" height="26" rx="4" fill="#E07B39"/><rect x="149" y="114" width="66" height="26" rx="4" fill="#E07B39"/><rect x="149" y="146" width="66" height="26" rx="4" fill="#E07B39"/>
-  <text x="182" y="212" text-anchor="middle" fill="#E8955A" font-size="15" font-weight="700">DEV</text>
+  <text x="182" y="212" text-anchor="middle" fill="#E8955A" font-size="17" font-weight="700">DEV</text>
   <!-- DevOps silo (grey) -->
   <rect x="234" y="40" width="84" height="150" rx="9" fill="#14181D" stroke="#2E3742" stroke-width="1.5"/>
   <rect x="243" y="50" width="66" height="26" rx="4" fill="#7E8894"/><rect x="243" y="82" width="66" height="26" rx="4" fill="#7E8894"/><rect x="243" y="114" width="66" height="26" rx="4" fill="#7E8894"/><rect x="243" y="146" width="66" height="26" rx="4" fill="#7E8894"/>
-  <text x="276" y="212" text-anchor="middle" fill="#A8B0B8" font-size="15" font-weight="700">DEVOPS</text>
-  <text x="182" y="236" text-anchor="middle" fill="#8A9098" font-size="12">one discipline per team</text>
+  <text x="276" y="212" text-anchor="middle" fill="#A8B0B8" font-size="17" font-weight="700">DEVOPS</text>
+  <text x="182" y="242" text-anchor="middle" fill="#8A9098" font-size="18">one discipline per team</text>
 
   <!-- ===== arrow ===== -->
-  <text x="405" y="104" text-anchor="middle" fill="#8A9098" font-size="12.5">regroup</text>
+  <text x="405" y="102" text-anchor="middle" fill="#8A9098" font-size="17">regroup</text>
   <line x1="356" y1="118" x2="454" y2="118" stroke="#E07B39" stroke-width="3" marker-end="url(#std-ar)"/>
 
   <!-- ===== RIGHT: silos of domain (cross-functional per domain) ===== -->
-  <text x="700" y="24" text-anchor="middle" fill="#8A9098" font-size="14" font-weight="700" letter-spacing="1">GROUPED BY DOMAIN</text>
+  <text x="700" y="24" text-anchor="middle" fill="#8A9098" font-size="17" font-weight="700" letter-spacing="1">GROUPED BY DOMAIN</text>
   <!-- PAYMENTS -->
   <rect x="486" y="40" width="128" height="150" rx="9" fill="#14181D" stroke="#3A4550" stroke-width="1.5"/>
   <rect x="496" y="50" width="108" height="40" rx="4" fill="#57A2B2"/><rect x="496" y="96" width="108" height="40" rx="4" fill="#E07B39"/><rect x="496" y="142" width="108" height="40" rx="4" fill="#7E8894"/>
-  <text x="550" y="212" text-anchor="middle" fill="#C7CED6" font-size="14" font-weight="700">PAYMENTS</text>
+  <text x="550" y="212" text-anchor="middle" fill="#C7CED6" font-size="17" font-weight="700">PAYMENTS</text>
   <!-- CHECKOUT -->
   <rect x="632" y="40" width="128" height="150" rx="9" fill="#14181D" stroke="#3A4550" stroke-width="1.5"/>
   <rect x="642" y="50" width="108" height="40" rx="4" fill="#57A2B2"/><rect x="642" y="96" width="108" height="40" rx="4" fill="#E07B39"/><rect x="642" y="142" width="108" height="40" rx="4" fill="#7E8894"/>
-  <text x="696" y="212" text-anchor="middle" fill="#C7CED6" font-size="14" font-weight="700">CHECKOUT</text>
+  <text x="696" y="212" text-anchor="middle" fill="#C7CED6" font-size="17" font-weight="700">CHECKOUT</text>
   <!-- SEARCH -->
   <rect x="778" y="40" width="128" height="150" rx="9" fill="#14181D" stroke="#3A4550" stroke-width="1.5"/>
   <rect x="788" y="50" width="108" height="40" rx="4" fill="#57A2B2"/><rect x="788" y="96" width="108" height="40" rx="4" fill="#E07B39"/><rect x="788" y="142" width="108" height="40" rx="4" fill="#7E8894"/>
-  <text x="842" y="212" text-anchor="middle" fill="#C7CED6" font-size="14" font-weight="700">SEARCH</text>
-  <text x="696" y="236" text-anchor="middle" fill="#8A9098" font-size="12">every skill, inside each domain</text>
+  <text x="842" y="212" text-anchor="middle" fill="#C7CED6" font-size="17" font-weight="700">SEARCH</text>
+  <text x="696" y="242" text-anchor="middle" fill="#8A9098" font-size="18">every skill, inside each domain</text>
+  <text x="696" y="276" text-anchor="middle" fill="#6E747C" font-size="16" font-style="italic">specialists absorbed: DBA · manual QA · sysadmin</text>
+  <!-- theme:keep - white role labels on the colored blocks, both themes -->
+  <text x="550" y="76" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="700">QA</text>
+  <text x="550" y="122" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="700">DEV</text>
+  <text x="550" y="168" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="700">OPS</text>
+  <text x="696" y="76" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="700">QA</text>
+  <text x="696" y="122" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="700">DEV</text>
+  <text x="696" y="168" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="700">OPS</text>
+  <text x="842" y="76" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="700">QA</text>
+  <text x="842" y="122" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="700">DEV</text>
+  <text x="842" y="168" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="700">OPS</text>
+  <!-- /theme:keep -->
 </svg>

@@ -1,6 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
-  <text x="600" y="70" text-anchor="middle" fill="#8A9098" font-size="19">Doing tasks = <tspan font-style="italic">someone else</tspan> owns the problem and the outcome.</text>
-  <text x="600" y="98" text-anchor="middle" fill="#F4F4F4" font-size="16" font-weight="700">You need all three - together:</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 112 1200 492" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
 
   <!-- JUDGMENT: dotted frame wrapping the whole triad -->
   <rect x="344" y="138" width="512" height="420" rx="26" fill="none" stroke="#C6CBD1" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/>
@@ -14,15 +12,17 @@
 
   <!-- labels, centered in each circle -->
   <text x="600" y="248" text-anchor="middle" fill="#EDF0F3" font-size="20" font-weight="700">RESPONSIBILITY</text>
-  <text x="600" y="270" text-anchor="middle" fill="#C6CBD1" font-size="14">on the hook for the outcome</text>
+  <text x="600" y="272" text-anchor="middle" fill="#C6CBD1" font-size="17">on the hook</text>
+  <text x="600" y="292" text-anchor="middle" fill="#C6CBD1" font-size="17">for the outcome</text>
 
-  <text x="500" y="446" text-anchor="middle" fill="#EDF0F3" font-size="20" font-weight="700">OWNERSHIP</text>
-  <text x="500" y="466" text-anchor="middle" fill="#C6CBD1" font-size="13">carry the problem</text>
-  <text x="500" y="483" text-anchor="middle" fill="#C6CBD1" font-size="13">end-to-end</text>
+  <text x="478" y="446" text-anchor="middle" fill="#EDF0F3" font-size="20" font-weight="700">OWNERSHIP</text>
+  <text x="478" y="468" text-anchor="middle" fill="#C6CBD1" font-size="17">carry the problem</text>
+  <text x="478" y="488" text-anchor="middle" fill="#C6CBD1" font-size="17">end-to-end</text>
 
-  <text x="700" y="446" text-anchor="middle" fill="#EDF0F3" font-size="20" font-weight="700">AGENCY</text>
-  <text x="700" y="466" text-anchor="middle" fill="#C6CBD1" font-size="13">you push for change -</text>
-  <text x="700" y="483" text-anchor="middle" fill="#C6CBD1" font-size="13">don't wait to be told</text>
+  <text x="724" y="446" text-anchor="middle" fill="#EDF0F3" font-size="20" font-weight="700">AGENCY</text>
+  <text x="724" y="468" text-anchor="middle" fill="#C6CBD1" font-size="16">push for change,</text>
+  <text x="724" y="487" text-anchor="middle" fill="#C6CBD1" font-size="16">don't wait</text>
+  <text x="724" y="506" text-anchor="middle" fill="#C6CBD1" font-size="16">to be told</text>
 
   <!-- drive value: opaque, at the forefront, on top of everything -->
   <circle cx="600" cy="372" r="56" fill="#E07B39" fill-opacity="0.25"/>
@@ -30,7 +30,7 @@
   <text x="600" y="368" text-anchor="middle" fill="#241206" font-size="18" font-weight="700">drive</text>
   <text x="600" y="388" text-anchor="middle" fill="#241206" font-size="18" font-weight="700">value</text>
 
-  <text x="600" y="585" text-anchor="middle" fill="#9AA0A6" font-size="19">Connected, and <tspan fill="#F4F4F4" font-weight="700">all required</tspan> - together they turn a problem into delivered value.</text>
+  <text x="600" y="592" text-anchor="middle" fill="#9AA0A6" font-size="22">Connected, and <tspan fill="#F4F4F4" font-weight="700">all required</tspan> - together they turn a problem into delivered value.</text>
 
   <!-- JUDGMENT frame label; black chip breaks the dotted line -->
   <rect x="370" y="126" width="160" height="24" fill="#000000"/>
