@@ -1058,6 +1058,36 @@ Note:
         });
         Reveal.on('ready', recolorSvgImages);
 
+        /* Speaker notes: bold the label of every "- Label: text" bullet, so each
+           note scans as bold summary -> bold point -> detail in presenter view.
+           Runs on the rendered notes, so any new note gets it automatically
+           (whether or not slides.md already has **...**). Asides that start
+           with "(" or "[" are left plain; brackets/quotes must be balanced. */
+        Reveal.on('ready', () => {
+            const labelEnd = (t) => {
+                if (/^\s*[(\[]/.test(t)) return -1;
+                let depth = 0, q = false;
+                for (let i = 0; i < Math.min(t.length, 95); i++) {
+                    const c = t[i];
+                    if (c === '(' || c === '[') depth++;
+                    else if (c === ')' || c === ']') depth--;
+                    else if (c === '"') q = !q;
+                    else if (c === ':' && depth === 0 && !q && t[i + 1] === ' ' && i >= 2) return i + 1;
+                }
+                return -1;
+            };
+            document.querySelectorAll('.reveal aside.notes li').forEach(li => {
+                const first = li.firstChild;
+                if (!first || first.nodeType !== Node.TEXT_NODE) return;   // already starts with <strong> etc.
+                const t = first.nodeValue, e = labelEnd(t);
+                if (e < 0) return;
+                const strong = document.createElement('strong');
+                strong.textContent = t.slice(0, e);
+                first.nodeValue = t.slice(e);
+                li.insertBefore(strong, first);
+            });
+        });
+
         /* Diagrams fit the space left under the text: markdown wraps each image in
            <p>; lift a lone image out and mark it r-stretch so reveal sizes it to the
            remaining slide height. Bigger text never pushes a diagram off the slide. */
