@@ -4,7 +4,7 @@
   </defs>
   <line x1="100" y1="478" x2="1225" y2="478" stroke="#8A9098" stroke-width="2.5" marker-end="url(#ax)"/>
   <line x1="100" y1="478" x2="100" y2="12" stroke="#8A9098" stroke-width="2.5" marker-end="url(#ax)"/>
-  <text x="1225" y="508" text-anchor="end" fill="#B4BAC0" font-size="22" font-weight="700">complexity -&gt;</text>
+  <text x="1225" y="508" text-anchor="end" fill="#B4BAC0" font-size="22" font-weight="700">complexity</text>
   <text x="68" y="250" text-anchor="middle" fill="#B4BAC0" font-size="22" font-weight="700" transform="rotate(-90 68 250)">abstraction</text>
 
   <rect x="120" y="402" width="210" height="56" rx="8" fill="#1C2024" stroke="#4A4F55" stroke-width="2"/>

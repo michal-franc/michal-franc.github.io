@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 290" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 256" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
   <defs>
     <marker id="std-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#E07B39"/></marker>
   </defs>
@@ -38,7 +38,6 @@
   <rect x="788" y="50" width="108" height="40" rx="4" fill="#57A2B2"/><rect x="788" y="96" width="108" height="40" rx="4" fill="#E07B39"/><rect x="788" y="142" width="108" height="40" rx="4" fill="#7E8894"/>
   <text x="842" y="212" text-anchor="middle" fill="#C7CED6" font-size="17" font-weight="700">SEARCH</text>
   <text x="696" y="242" text-anchor="middle" fill="#8A9098" font-size="18">every skill, inside each domain</text>
-  <text x="696" y="276" text-anchor="middle" fill="#6E747C" font-size="16" font-style="italic">specialists absorbed: DBA · manual QA · sysadmin</text>
   <!-- theme:keep - white role labels on the colored blocks, both themes -->
   <text x="550" y="76" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="700">QA</text>
   <text x="550" y="122" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="700">DEV</text>

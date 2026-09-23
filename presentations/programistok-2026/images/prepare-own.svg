@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 70 1200 430" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+  <defs>
+    <marker id="ps-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#E07B39"/></marker>
+  </defs>
+
+  <!-- axis: seniority = scope & impact -->
+  <line x1="56" y1="440" x2="56" y2="96" stroke="#E07B39" stroke-width="2.5" marker-end="url(#ps-ar)"/>
+  <text transform="translate(40 268) rotate(-90)" text-anchor="middle" fill="#E8955A" font-size="13" font-weight="700" letter-spacing="2">SCOPE &amp; IMPACT</text>
+
+  <!-- the steps: grey (old) -> orange (new) -->
+  <rect x="90"  y="380" width="250" height="60"  rx="6" fill="#3A3F45"/>
+  <rect x="360" y="310" width="250" height="130" rx="6" fill="#5A4A3E"/>
+  <rect x="630" y="240" width="250" height="200" rx="6" fill="#9A5E36"/>
+  <rect x="900" y="170" width="250" height="270" rx="6" fill="#E07B39"/>
+
+  <!-- level labels, inside each step -->
+  <text x="104" y="418" fill="#C7CED6" font-size="19" font-weight="700" letter-spacing="2">JUNIOR</text>
+  <text x="374" y="348" fill="#E3D3C3" font-size="19" font-weight="700" letter-spacing="2">MID</text>
+  <text x="644" y="278" fill="#F6E3D2" font-size="19" font-weight="700" letter-spacing="2">SENIOR</text>
+  <text x="914" y="208" fill="#241206" font-size="19" font-weight="700" letter-spacing="2">STAFF+</text>
+  <!-- "Own ..." pattern: each step owns a bigger scope; line 1 = how you work, line 2 = how you use AI -->
+  <text x="104" y="314" fill="#D7DCE3" font-size="19" font-weight="700">Own a problem</text>
+  <text x="104" y="340" fill="#8A9098" font-size="16">fundamentals, not stack</text>
+  <text x="104" y="362" fill="#8A9098" font-size="16"><tspan fill="#E07B39" font-weight="700">AI:</tspan> master it + intuition</text>
+  <text x="374" y="244" fill="#E3D3C3" font-size="19" font-weight="700">Own the outcome</text>
+  <text x="374" y="270" fill="#A89C90" font-size="16">focus on why before how</text>
+  <text x="374" y="292" fill="#A89C90" font-size="16"><tspan fill="#E07B39" font-weight="700">AI:</tspan> delegate the how</text>
+  <text x="644" y="174" fill="#EFC9A6" font-size="19" font-weight="700">Own system health</text>
+  <text x="644" y="200" fill="#C99B6E" font-size="16">make the trade-offs</text>
+  <text x="644" y="222" fill="#C99B6E" font-size="16"><tspan fill="#E07B39" font-weight="700">AI:</tspan> join · contain · steer</text>
+  <text x="914" y="104" fill="#E8955A" font-size="19" font-weight="700">Own the direction</text>
+  <text x="914" y="130" fill="#C99B6E" font-size="16">connect tech + business</text>
+  <text x="914" y="152" fill="#C99B6E" font-size="16"><tspan fill="#E07B39" font-weight="700">AI:</tspan> build the harness</text>
+
+  <!-- the AI track under the stairs: quiet grey text, one phrase per step -->
+  <text x="215" y="474" text-anchor="middle" fill="#9AA0A6" font-size="17">learn it</text>
+  <text x="485" y="474" text-anchor="middle" fill="#9AA0A6" font-size="17">delegate to it</text>
+  <text x="755" y="474" text-anchor="middle" fill="#9AA0A6" font-size="17">contain it</text>
+  <text x="1025" y="474" text-anchor="middle" fill="#9AA0A6" font-size="17">build a system around it</text>
+
+</svg>

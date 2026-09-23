@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="150 60 900 480" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+  <!-- Molecule: AI artifacts are the atoms, you are the bonds; bonded, they become a working product. -->
+  <!-- bonds = you (drawn first, atoms sit on top) -->
+  <line x1="517.4" y1="294.6" x2="697.4" y2="209.6" stroke="#E07B39" stroke-width="5" stroke-linecap="round"/>
+  <line x1="522.6" y1="305.4" x2="702.6" y2="220.4" stroke="#E07B39" stroke-width="5" stroke-linecap="round"/>
+  <line x1="520.0" y1="300.0" x2="705.0" y2="390.0" stroke="#E07B39" stroke-width="7" stroke-linecap="round"/>
+  <line x1="520.0" y1="300.0" x2="345.0" y2="215.0" stroke="#E07B39" stroke-width="7" stroke-linecap="round"/>
+  <line x1="520.0" y1="300.0" x2="350.0" y2="395.0" stroke="#E07B39" stroke-width="7" stroke-linecap="round"/>
+  <line x1="345.0" y1="215.0" x2="350.0" y2="395.0" stroke="#E07B39" stroke-width="7" stroke-linecap="round"/>
+  <line x1="700.0" y1="215.0" x2="860.0" y2="300.0" stroke="#E07B39" stroke-width="7" stroke-linecap="round"/>
+  <line x1="702.0" y1="384.8" x2="857.0" y2="294.8" stroke="#E07B39" stroke-width="5" stroke-linecap="round"/>
+  <line x1="708.0" y1="395.2" x2="863.0" y2="305.2" stroke="#E07B39" stroke-width="5" stroke-linecap="round"/>
+  <line x1="700.0" y1="215.0" x2="705.0" y2="390.0" stroke="#E07B39" stroke-width="7" stroke-linecap="round"/>
+  <!-- atoms = AI artifacts -->
+  <circle cx="520" cy="300" r="70" fill="#3E4A55" stroke="#6A7888" stroke-width="2.5"/>
+  <text x="520" y="308" text-anchor="middle" fill="#E4E7EB" font-size="22" font-weight="700">code</text>
+  <circle cx="700" cy="215" r="44" fill="#4B4560" stroke="#7A6F99" stroke-width="2.5"/>
+  <text x="700" y="221" text-anchor="middle" fill="#E4E7EB" font-size="18" font-weight="700">API</text>
+  <circle cx="705" cy="390" r="56" fill="#3F5540" stroke="#648A65" stroke-width="2.5"/>
+  <text x="705" y="397" text-anchor="middle" fill="#E4E7EB" font-size="19" font-weight="700">data</text>
+  <circle cx="345" cy="215" r="52" fill="#5A4A3E" stroke="#8C7462" stroke-width="2.5"/>
+  <text x="345" y="222" text-anchor="middle" fill="#E4E7EB" font-size="19" font-weight="700">UI</text>
+  <circle cx="350" cy="395" r="40" fill="#3E5A5C" stroke="#5E8A8C" stroke-width="2.5"/>
+  <text x="350" y="401" text-anchor="middle" fill="#E4E7EB" font-size="16" font-weight="700">tests</text>
+  <circle cx="860" cy="300" r="34" fill="#55504A" stroke="#8A8278" stroke-width="2.5"/>
+  <text x="860" y="305" text-anchor="middle" fill="#E4E7EB" font-size="15" font-weight="700">infra</text>
+  <line x1="318" y1="168" x2="262" y2="112" stroke="#8A9098" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/>
+  <text x="170" y="96" fill="#C7CED6" font-size="22" font-weight="700">AI artifacts = the atoms</text>
+  <line x1="790" y1="330" x2="850" y2="162" stroke="#E07B39" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/>
+  <text x="808" y="96" fill="#E8955A" font-size="22" font-weight="700">you = the bonds</text>
+  <text x="808" y="122" fill="#C99B6E" font-size="17">contracts · tests</text>
+  <text x="808" y="144" fill="#C99B6E" font-size="17">integration · judgment</text>
+  <text x="600" y="515" text-anchor="middle" fill="#9AA0A6" font-size="19">bonded = <tspan fill="#F4F4F4" font-weight="700">a working product</tspan></text>
+</svg>

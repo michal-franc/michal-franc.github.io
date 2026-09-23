@@ -29,8 +29,13 @@
   <text x="644" y="200" fill="#C99B6E" font-size="16">define "good enough"</text>
   <text x="644" y="222" fill="#C99B6E" font-size="16">drive value with AI</text>
   <text x="914" y="104" fill="#E8955A" font-size="19" font-weight="700">Set direction</text>
-  <text x="914" y="130" fill="#C99B6E" font-size="16">intent architect</text>
-  <text x="914" y="152" fill="#C99B6E" font-size="16">managing up</text>
+  <text x="914" y="130" fill="#C99B6E" font-size="16">the top of the stairs</text>
+  <!-- STAFF+ climax: fill the block with the role facets (dark ink on orange) -->
+  <line x1="914" y1="228" x2="1136" y2="228" stroke="#241206" stroke-width="1.5" opacity="0.3"/>
+  <text x="914" y="264" fill="#241206" font-size="16" font-weight="700">the intent architect</text>
+  <text x="914" y="298" fill="#3A1E0C" font-size="15">sets goals + AI's loops</text>
+  <text x="914" y="330" fill="#3A1E0C" font-size="15">managing up, cross-team</text>
+  <text x="914" y="362" fill="#3A1E0C" font-size="15">owns direction + outcome</text>
 
   <text x="620" y="480" text-anchor="middle" fill="#9AA0A6" font-size="19">same tools at every level - what grows is <tspan fill="#F4F4F4" font-weight="700">the problem you own</tspan></text>
 </svg>

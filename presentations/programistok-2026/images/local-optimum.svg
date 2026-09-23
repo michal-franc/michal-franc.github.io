@@ -9,7 +9,7 @@
   <line x1="90" y1="410" x2="90" y2="70" stroke="#8A9098" stroke-width="2.5" marker-end="url(#lo-ax)"/>
   <line x1="90" y1="410" x2="1120" y2="410" stroke="#8A9098" stroke-width="2.5" marker-end="url(#lo-ax)"/>
   <text x="56" y="240" text-anchor="middle" fill="#B4BAC0" font-size="20" font-weight="700" transform="rotate(-90 56 240)">value / leverage</text>
-  <text x="1120" y="444" text-anchor="end" fill="#B4BAC0" font-size="19" font-weight="700">rethinking the work -&gt;</text>
+  <text x="1120" y="444" text-anchor="end" fill="#B4BAC0" font-size="19" font-weight="700">rethinking the work</text>
 
   <!-- the landscape curve -->
   <path d="M 110 372 C 200 372 292 235 360 230 C 432 226 540 292 604 300 C 706 312 852 152 950 132 C 990 126 1020 124 1050 122" fill="none" stroke="#8A9098" stroke-width="3.5" stroke-linejoin="round"/>

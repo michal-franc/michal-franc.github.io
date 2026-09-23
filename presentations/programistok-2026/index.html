@@ -130,7 +130,8 @@
         .reveal section.two-col .col2 { break-before: column; }
 
         /* chrome */
-        .reveal .slide-number { font-size: 0.5em; color: var(--fg-faint); background: transparent; }
+        .reveal .slide-number { font-size: 0.5em; color: var(--fg-faint); background: transparent; left: 14px; right: auto; bottom: 12px; }  /* bottom-left: clear of the nav arrows */
+        .reveal .slide-number a { color: var(--fg-faint); text-decoration: none; }
         .reveal .progress { color: var(--fg-faint); }
         .reveal .controls { color: var(--fg-faint); }
     </style>
@@ -156,7 +157,7 @@
 
 Michal Franc · **mfranc.com**
 
-*yes, we call it Super-Intelligence now, apparently (Reuters, 22 Sep 2026)*
+*yes, we call it Super-Intelligence now (Reuters, 22 Sep 2026)*
 <!-- .element: class="plate-label" -->
 
 Note:
@@ -315,7 +316,7 @@ Note:
 - **Lewo (siloed by skill):** jedna dyscyplina na zespół - osobny team QA, osobny Dev, osobny DevOps. Przy prostych systemach działało; przy złożonych handoffy między silosami stają się wąskim gardłem.
 - **Prawo (grouped by domain):** zespół domenowy (Payments, Checkout, Search) trzyma CAŁĄ wartość end-to-end - ma w środku QA, Dev i Ops. To Team Topologies / stream-aligned teams / DDD bounded contexts - odpowiedź właśnie na złożoność.
 - **Puenta (spina z tezą):** to nie moda organizacyjna - to złożoność software'u wymusza przegrupowanie wokół WARTOŚCI i DOMENY, nie wokół umiejętności. Ta sama ewolucja co przez całą prelekcję, tylko widziana od strony struktury organizacji.
-- **Dół slajdu, "specialists absorbed: DBA · manual QA · sysadmin":** wzorzec się powtarza - specjaliści mówili "tego nie da się zautomatyzować", potem przyszła chmura/automatyzacja. Rola nie znika - kurczy się i wchodzi do zespołu (callback do linii DBA na wykresie). Następne w kolejce: ręczne pisanie i czytanie kodu.
+- **Powiedz (tylko ustnie, już nie ma na slajdzie) - specjaliści wchłonięci: DBA · manual QA · sysadmin:** wzorzec się powtarza - specjaliści mówili "tego nie da się zautomatyzować", potem przyszła chmura/automatyzacja. Rola nie znika - kurczy się i wchodzi do zespołu (callback do linii DBA na wykresie). Następne w kolejce: ręczne pisanie i czytanie kodu.
 (przejście -> Evolution, not revolution)
 
 ---
@@ -688,7 +689,7 @@ Note:
 
 ### **Join** - AI makes the pieces, you make them hold
 
-![](images/engineer-glue.svg)
+![](images/engineer-molecule.svg)
 
 Note:
 **TRIADA (1/3): JOIN - pierwszy z trzech czasowników (JOIN / Contain / Steer). Mów je jako jeden ruch w trzech aktach, nie jako jeden długi wywód.**
@@ -697,6 +698,7 @@ Note:
 - **Weryfikacja się przesuwa:** z czytania każdej linii kodu na TESTY i KONTRAKTY - sprawdzasz, czy całość działa, nie każdy klocek z osobna.
 - **Anegdota do opowiedzenia:** mod do Quasimorph - AI zrobiło kawałki, człowiek spiął je w działającą całość (klej + woda).
 - **Predykcja:** ~2036 to domyślny tryb pracy inżyniera.
+- **NA SLAJDZIE (cząsteczka):** atomy to AI ARTIFACTS - code, tests, API, UI, data, infra; każdy osobno to tylko część. Pomarańczowe WIĄZANIA to TY - kontrakty, testy, integracja, osąd. Dopiero związane tworzą cząsteczkę o nowych własnościach: działający produkt. (Most do następnego slajdu: taką cząsteczkę trzeba jeszcze utrzymać przeciw entropii.)
 (przejście -> ...and it holds against entropy)
 
 ---
@@ -755,6 +757,8 @@ Note:
 ---
 
 ## How to prepare
+<!-- .slide: data-visibility="hidden" -->
+<!-- original staircase - replaced by the "Own ..." version (prepare-own.svg) -->
 
 ### Grow your ability to own more **scope**
 
@@ -767,6 +771,24 @@ Note:
 - **SENIOR - osąd i wynik:** to ty definiujesz "good enough", AI tego nie zrobi. Prowadź wartość z AI (Software 2.0), nie tylko szybciej odhaczaj taski.
 - **STAFF+ - ustawiasz kierunek:** intent architect, cele i pętle, w których działa AI, na poziomie organizacji. Managing up, relacje, patrzenie poza własną bańkę. To tu mieszczą się role Staff i Principal - różnią się scope'em i impactem, nie rzemiosłem.
 - **Puenta:** te same narzędzia na każdym poziomie - rośnie problem, który bierzesz na siebie. Okno jest otwarte TERAZ, kto zacznie wcześnie, zbierze owoce.
+(przejście -> Don't give in to the negativism)
+
+---
+
+## How to prepare
+
+### Grow your ability to own more **scope**
+
+![](images/prepare-own.svg)
+
+Note:
+**Jak się przygotować: każdy stopień to większy zakres, który bierzesz na siebie ("Own ..."). Pod każdym - jak pracujesz i jeden nawyk z AI.**
+- JUNIOR - Own a problem: nawet mały, ale end-to-end - od początku jesteś ownerem. Fundamenty zamiast przywiązania do stacku. AI: opanuj je i zbuduj intuicję, gdzie działa, a gdzie zawodzi - to rzemiosło, nie magia.
+- MID - Own the outcome: skup się na "po co", zanim przejdziesz do "jak". AI: oddaj mu "jak" (delegate the how) - wtedy masz czas na "po co".
+- SENIOR - Own system health: podejmujesz trade-offy - co oddajemy, żeby dowieźć (jak te 0.01% na slajdzie Determinism). Mid pyta "po co", senior DECYDUJE, co wymienić. AI: join · contain · steer - callback do trzech poprzednich slajdów.
+- STAFF+ - Own the direction: łączysz technologię z biznesem - tłumaczysz jedno na drugie i ustawiasz kierunek ponad zespołami (managing up, relacje, patrzenie poza własną bańkę). AI: budujesz harness - środowisko, kontekst i zabezpieczenia, w których zespoły bezpiecznie pracują z AI (callback do "Harness engineering" w kolumnie NEW na slajdzie Practices).
+- **Łuk AI (pomarańczowy wiersz pod schodkami):** learn it -> delegate to it -> contain it -> build a system around it. Powiedz to jako jedno zdanie: najpierw uczysz się AI, potem mu delegujesz, potem trzymasz je w ryzach, a na górze budujesz wokół niego system.
+- Puenta: rośnie problem, który bierzesz na siebie - i to, jak używasz AI.
 (przejście -> Don't give in to the negativism)
 
 ---
@@ -878,7 +900,7 @@ Note:
 **Turbulencja się ustabilizuje - a ten środek to OKAZJA dla early movers.**
 - Było stabilnie, od ~2024 turbulencja (destabilizacja), potem znów stabilizacja (203?). To ok.
 - **Środek to nie tylko chaos - to okazja:** kto wchodzi wcześnie, zbiera owoce później (jak w każdej fali). Nad chaosem świeci "opportunity".
-- Chaos się wygładzi, gdy pojawią się nowe wzorce, role, wymagania, praktyki, narzędzia - nowa stabilność.
+- **Co porządkuje chaos (na slajdzie):** nowe narzędzia, nowe praktyki, nowe wzorce - i COLLECTIVE INTELLIGENCE: branża uczy się razem (konferencje, społeczność, dzielenie się tym, co działa - jak dziś tutaj). Nikt nie ogarnie tego sam.
 - Jesteśmy w środku przejścia, nie na końcu świata.
 (przejście -> We are in the front seat)
 
