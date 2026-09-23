@@ -107,7 +107,7 @@
 <body>
     <div class="reveal">
         <div class="slides">
-            <section data-markdown
+            <section data-markdown=""
                      data-separator="^\r?\n---\r?\n$"
                      data-separator-vertical="^\r?\n--\r?\n$"
                      data-separator-notes="^Note:">
@@ -121,17 +121,23 @@
 # Quo Vadis IT
 
 #### Responsibility, ownership & agency
-#### where the engineer role is heading
+#### where the roles & software engineering are heading, in the face of ~~AI~~ **SI**
 
 Michal Franc · **mfranc.com**
 
+*yes, we call it Super-Intelligence now, apparently (Reuters, 22 Sep 2026)*
+<!-- .element: class="plate-label" -->
+
 Note:
-**Przywitanie + rapport: kim jestem i po co ten temat.**
+**Przywitanie + rapport + jedno-zdaniowe streszczenie całości.**
 - Michał Franc, z Wrocławia (Politechnika Wrocławska), pierwszy raz w Białymstoku; otwieram ścieżkę IT. (mów "z Wrocławia" / "w Białymstoku")
-- Rapport: dobre wspomnienia z Białegostoku, znajomi stąd; słyszałem dużo dobrego o tutejszym IT i Politechnice Białostockiej. (uwaga: TY jesteś z Wrocławskiej - Białostocką tylko chwal jako gospodarza, nie pomyl)
+- Rapport: dobre wspomnienia z Białegostoku, znajomi stąd; słyszałem dużo dobrego o tutejszym IT i Politechnice Białostockiej. (uwaga: TY jesteś z Politechniki Wrocławskiej - Białostocką tylko chwal jako gospodarza, nie pomyl)
+- STRESZCZENIE (powiedz na wejściu - to teza całej prelekcji): baza zawodu przesuwa się z pisania kodu ku ODPOWIEDZIALNOŚCI, OWNERSHIPOWI i SPRAWCZOŚCI. To ewolucja, nie rewolucja - technologia (AI) tylko przyspiesza, nie jest przyczyną.
+- ŻART (SI): na slajdzie "AI" jest skreślone i zamienione na "SI" (Super Intelligence). Nawiązanie do newsa (Reuters, 22.09.2026: Trump - USA ma odtąd nazywać AI "super intelligence"). Rzuć z przymrużeniem oka: "w obliczu AI... przepraszam, teraz mówimy SI". Rozluźnia salę i od razu ustawia ton: mniej hype'u, więcej dystansu.
+- BONUS (dwujęzyczny zbieg - podkreśl, bo jest naprawdę fajny): skrót "SI" działa IDENTYCZNIE po angielsku i po polsku. Super-Intelligence = Superinteligencja, a po polsku "SI" i tak od zawsze znaczy Sztuczną Inteligencję. Te same dwie litery niosą ten sam żart w obu językach - polska sala łapie go PODWÓJNIE: skreślam "AI", piszę "SI", a to jednocześnie i nasze zwykłe SI (sztuczna inteligencja), i nowa "superinteligencja". Po angielsku by tak nie zaskoczyło, po polsku tak - i to jest w tym cool.
 - Oczekiwania: mało technologii i narzędzi - bardziej o karierze i zmianach w IT.
 - Stąd tytuł: Quo Vadis IT - dokąd zmierzamy.
-(przejście -> 2025/2026)
+(przejście -> 2026 -> ??)
 
 ---
 
@@ -148,7 +154,7 @@ Note:
 - Maksymaliści: "nie ma sensu nic robić, załamać ręce i czekać, bo AI zabierze pracę".
 - PASSIVITY ANGLE: oba ekstrema kończą w tym samym miejscu - w pasywności. Środek to jedyne miejsce, gdzie realnie działasz.
 - Nasze zadanie: ustalić, gdzie jest ten środek i gdzie się zatrzyma - żeby wiedzieć, dokąd zmierzamy i jak się przygotować.
-(haczyk do "it will take effort" na kolejnym slajdzie) (przejście -> pozytywna przyszłość)
+(haczyk do "it will take effort" na kolejnym slajdzie) (przejście -> 2026 -> 203X)
 
 ---
 
@@ -232,7 +238,7 @@ Note:
 - Skład tego, co znaczy być inżynierem, w czasie (ilustracyjnie, z bloga). Pola od dołu: Algorithms/DS, Coding, Testing, System Design, Domain Expertise.
 - Kiedyś dominowały algorytmy i samo pisanie kodu (wielki niebieski pas). Ten pas się kurczy, rosną System Design i Domain Expertise (pomarańczowy).
 - To ta sama teza całej prelekcji jako wykres: środek ciężkości z "jak napisać kod" ku domenie/wartości. Kod nie znika - przestaje być większością. (seed - wróci na "center of gravity")
-(przejście -> Evolution, not revolution)
+(przejście -> From skill silos to domain silos)
 
 ---
 
@@ -253,6 +259,21 @@ Note:
 
 ---
 
+## From skill silos to domain silos
+
+### Rising software **complexity** regroups teams around the domain, not the discipline
+
+![](images/skills-to-domain.svg)
+
+Note:
+**DLACZEGO to się stało - napędziła to ZŁOŻONOŚĆ software'u (callback do "complexity forces changes"). Gdy systemy zrobiły się złożone, silosy dyscyplin (QA / Dev / DevOps, handoffy "przez ściany", kolejki) przestały nadążać - trzeba było przegrupować zespoły wokół DOMENY, żeby ktoś ogarniał złożoność end-to-end.**
+- Lewo (siloed by skill): jedna dyscyplina na zespół - osobny team QA, osobny Dev, osobny DevOps. Przy prostych systemach działało; przy złożonych handoffy między silosami stają się wąskim gardłem.
+- Prawo (grouped by domain): zespół domenowy (Payments, Checkout, Search) trzyma CAŁĄ wartość end-to-end - ma w środku QA, Dev i Ops. To Team Topologies / stream-aligned teams / DDD bounded contexts - odpowiedź właśnie na złożoność.
+- Puenta (spina z tezą): to nie moda organizacyjna - to złożoność software'u wymusza przegrupowanie wokół WARTOŚCI i DOMENY, nie wokół umiejętności. Ta sama ewolucja co przez całą prelekcję, tylko widziana od strony struktury organizacji.
+(przejście -> Evolution, not revolution)
+
+---
+
 ## Evolution, not revolution
 <!-- .slide: data-accel="true" -->
 
@@ -269,7 +290,7 @@ Note:
 - KLUCZOWY ANGLE: AI to NATURALNA KONSEKWENCJA tych samych sił - presji rynku i rosnącej złożoności - które działają 20+ lat. Nie przypadek, nie rewolucja: nieunikniony kolejny krok tej samej ewolucji.
 - Szybki callback (NIE tłumacz od nowa - to było na slajdzie "complexity forces tech"): asembler -> niski/wysoki poziom -> frameworki -> Kubernetes... i teraz AI. AI to po prostu kolejne takie narzędzie.
 - (animacja data-accel: tempo przyspiesza - "slow, for decades" -> "big speed-up", AI)
-(przejście -> So what does it change for me?)
+(przejście -> So how will the evolution look going forward?)
 
 ---
 
@@ -319,7 +340,7 @@ Note:
 
 ## Code
 
-### To go **faster**, we stop hand-writing every line
+### To go **faster**, do we stop hand-writing every line of code?
 
 ![](images/nb-code.svg)
 
@@ -334,7 +355,7 @@ Note:
 
 ## Review
 
-### To go **faster**, we stop reviewing every line
+### To go **faster**, do we stop reviewing every line of code and focus on system health?
 
 ![](images/nb-review.svg)
 
@@ -350,7 +371,7 @@ Note:
 
 ## Determinism
 
-### To go **faster**, we accept non-determinism and design around it
+### To go **faster**, do we accept non-determinism and design around it?
 
 ![](images/nb-determinism.svg)
 
@@ -359,24 +380,47 @@ Note:
 - Runs na slajdzie: 1.0 zawsze 5->42 (100% identyczne). 2.0 najczęściej 5->42 (też się zgadza), ale rzadko 5->43 (źle). Model bywa zgodny, ale nie zawsze - i o to chodzi.
 - LICZBY (kluczowy kadr): 1.0 = 100.00% deterministyczne. 2.0 = 99.99% - pytanie do sali: czy jesteśmy OK z tym 0.01%, że nie jest w pełni deterministyczne? Odpowiedź: TAK, jeśli te 0.01% obsłuży warstwa wokół - ARCHITEKTURA, SYSTEM DESIGN, UX. To one łapią odchylenie i dają stabilny PRODUKT. Stabilizujemy CAŁY system, nie każdą pojedynczą odpowiedź.
 - PRECEDENS (mocny, opowiedz): już to przerabialiśmy w systemach rozproszonych. Żeby przyspieszyć i skalować, ŚWIADOMIE zrezygnowaliśmy z gwarancji i zbudowaliśmy rzeczy wokół tego. Najlepszy przykład to NoSQL: oddaliśmy ACID (i inne gwarancje), przeszliśmy na eventual consistency - i nauczyliśmy się to obudowywać. Ta sama wymiana: mniej gwarancji za większą szybkość, potem inżynieria wokół. Teraz robimy to na warstwie modelu.
+- CPU / SCHEDULER (dorzuć w tym samym duchu co NoSQL - "to już robiliśmy"): nawet 1.0 nie jest w pełni deterministyczne. Wielowątkowość bez synchronizacji - kolejność ustala scheduler: A: x+=1, B: x*=2 daje 2 albo 1. Ten sam kod, ten sam CPU, dwa wyniki (do tego CPU wykonuje instrukcje out-of-order, µops, spekulatywnie). Determinizm ZAWSZE był inżynierowany na wierzchu chaosu, tylko warstwę niżej (memory model, locki). AI nie wprowadza niedeterminizmu do idealnego świata - przesuwa go W GÓRĘ, do logiki aplikacji, gdzie teraz potrzebna ta sama dyscyplina. (Te "100%" dla 1.0 to "100% na kontrakcie logiki, dla programu deterministycznego" - nie na każdej warstwie.)
 - Predykcja: tak jak nauczyliśmy się budować niezawodne produkty na zawodnej infrastrukturze rozproszonej, tak nauczymy się budować stabilne produkty na niedeterministycznych modelach.
-(przejście -> Determinism is actually a lie)
+(przejście -> Engineering good practices still matter)
 
 ---
 
 ## Determinism is actually a lie
+<!-- .slide: data-visibility="hidden" -->
 
-### Even one CPU never runs your program in order
+### We already live with non-determinism - we just engineered around it
 
 ![](images/determinism-lie.svg)
 
 Note:
-**HERO = CPU (feedback od kolegi: "daj samo CPU, dowozi tezę"). Piszesz sekwencję instrukcji (1..5). x86 dekoduje je na µops i wykonuje POZA KOLEJNOŚCIĄ i spekulatywnie - realnie leci np. 5,1,2,(4*),3. Wynik dla jednego wątku i tak się zgadza (retirement w kolejności programu), ale to znaczy, że "determinizm" to KONTRAKT utrzymywany na wierzchu chaosu, nie fakt fizyczny.**
-- Puenta (spina z poprzednim slajdem): niedeterminizm nie jest nowy - ZAWSZE był, tylko WARSTWĘ NIŻEJ i obudowany (ISA trzyma wynik dla wątku; my dokładamy memory model, locki). AI nie wprowadza niedeterminizmu do idealnego świata - przesuwa go W GÓRĘ, do logiki aplikacji, gdzie teraz potrzebna ta sama dyscyplina.
+**"Determinizm" w 1.0 to już uproszczenie. Determinizm mieliśmy realnie tylko na poziomie KONTRAKTU języka, dla grzecznego, jednowątkowego kodu. Pod spodem od zawsze jest chaos, który OBUDOWALIŚMY. Cztery przykłady, które już mamy:**
+- 1 · WĄTKI (no linearization): bez synchronizacji kolejność zależy od schedulera. A: x+=1, B: x*=2 → zależnie od kolejności wychodzi 2 albo 1. Ten sam kod, ten sam CPU, dwa wyniki. (Java Memory Model / happens-before to właśnie obudowa tego chaosu.)
+- 2 · JIT (C2): ten sam bytecode kompiluje się w RUNTIME - a optymalizacje zależą od RUNTIME i WĄTKÓW (feedback od kolegi) - raz jedna wersja natywna, raz inna (plus deoptymalizacja). "Ten sam program" to za każdym razem inny kod maszynowy.
+- 3 · CPU (out-of-order): x86 dekoduje instrukcje na µops i wykonuje je poza kolejnością, spekulatywnie. ISA trzyma wynik dla jednego wątku, ale timing i kolejność (między rdzeniami) nie są twoje. (To był ulubiony panel kolegi - "dowozi tezę".)
+- 4 · BUILDS: ten sam source bywa różną binarką (timestampy, kolejność plików, ścieżki) - dlatego "reproducible builds" to osobny ruch i wysiłek.
+- PUENTA (spina z poprzednim slajdem): determinizm ZAWSZE był inżynierowany na wierzchu chaosu - tylko radziliśmy sobie z nim WARSTWĘ NIŻEJ (memory model, locki, strictfp, pinowanie toolchaina). AI nie wprowadza niedeterminizmu do idealnego świata - przesuwa go W GÓRĘ, do logiki aplikacji, gdzie teraz potrzebna ta sama dyscyplina.
 - Uczciwe doprecyzowanie do poprzedniego slajdu: te "100%" dla 1.0 to "100% na kontrakcie logiki, dla programu deterministycznego" - nie na każdej warstwie.
-- Dodatkowe przykłady (na głos, jeśli ktoś dopytuje - NIE na slajdzie): WĄTKI/JMM (bez synchronizacji brak linearyzacji, kolejność od schedulera - dwa wyniki); JIT C2 (optymalizacje zależą od RUNTIME i WĄTKÓW - ten sam bytecode to za każdym razem inny kod natywny); REPRODUCIBLE BUILDS (ten sam source → różna binarka: timestampy, kolejność, ścieżki).
-- (Inspiracja + feedback: rozmowa na Discordzie. Dobra amunicja na "mądralę z trzeciego rzędu".)
-(przejście -> So many potential changes / Engineering practices)
+- (Inspiracja + feedback: rozmowa na Discordzie - wątki/JMM, C2 (runtime+wątki), µops, reproducible builds. Dobra amunicja na "mądralę z trzeciego rzędu".)
+(przejście -> Engineering good practices still matter)
+
+---
+
+## Engineering good practices still matter
+
+### To go **faster**, which practices do we keep, rethink, add?
+
+![](images/good-practices-alt.svg)
+
+Note:
+**(Ten slajd wchłonął dawny slajd "Practices" - jeden spójny obraz zamiast dwóch podobnych. Trzy kubełki: KEEP / RETHINK / NEW.)**
+**Teza: mnóstwo dobrych praktyk inżynierskich zostaje - ale część była zbudowana POD LUDZI i trzeba je przeprojektować, a do tego dochodzą nowe, agent-first.**
+- KEEP (zostaje, zielone ✓): kanon operacyjny - 12-Factor, CI/CD, Observability, Reliability/SRE, Continuous Delivery. To praktyki w dużej mierze NIEZALEŻNE od tego, kto pisze kod (człowiek czy agent) - dlatego trzymają. Serce tej kolumny to SRE: SLO, error budgets, blast radius, graceful degradation - język o niedoskonałych systemach (spina się BEZPOŚREDNIO z poprzednim slajdem: determinizm, NoSQL/ACID - dlatego ten slajd stoi tuż po "determinism is a lie").
+- RETHINK (do przemyślenia, bursztynowe kółka): Clean Code, KISS, YAGNI, SOLID, OOP - to były zasady pisane POD CZŁOWIEKA czytającego kod. Część zostanie, część przeprojektujemy. Ważne: czystszy kod NADAL pomaga modelowi (modele trenowane na takim kodzie) - ale "po co" się przesuwa.
+- NEW (nowe, kropkowane, agent-first): Context engineering, Harness engineering, Spec-driven development - plus znaki zapytania, bo dyscyplina dopiero się wyłania. To propozycje, nie pewniki.
+- Puenta: to nie "zasady znikają" - to KEEP + RETHINK + NEW naraz. Rzemiosło dalej ważne, tylko zmienia kształt.
+- [Wariant "świątynia" (good-practices.svg) pozostaje UKRYTY. Dawny slajd "Practices" (nb-practices.svg) został usunięty i wchłonięty tutaj.]
+(przejście -> So many potential changes)
 
 ---
 
@@ -387,7 +431,7 @@ Note:
 
 Note:
 **Frontend. 1.0: obsesja na punkcie wojen frameworków UI i piksel-perfect ekranów w "frameworku jutra". 2.0: mniej tego - jako inżynier skupiamy się na doświadczeniu użytkownika (UX).**
-(przejście -> The biggest change for engineers)
+(przejście -> So many potential changes)
 
 ---
 
@@ -445,42 +489,22 @@ Note:
 - AI zabiera najwięcej z "jak" (robienia), więc człowiek dokłada najwięcej tam, gdzie AI pomaga najmniej - WHY, domena, wartość. Tam przenosi się środek ciężkości.
 - Animacje: środek ciężkości od maszyny/kodu ku wartości; z IMPLEMENTACJI ku HOW & WHY (decyzje).
 - To nie jest "AI zabiera pracę" - to nierówność augmentacji przesuwa, gdzie leży twoja wartość.
-(przejście -> Soft skills = twój mnożnik / triada)
+(przejście -> From ticket machine to owner)
 
 ---
 
-## Hard skills will be not enough
-<!-- .slide: data-visibility="hidden" -->
+## From ticket machine to owner
 
-Used to mean **"knows the framework."**
+### Not a station on someone else's line - part of the **product decisions**
 
-Now: **"can take a problem and deliver it on a given scope."**
-
-![](images/skills-curve.svg)
+![](images/ticket-to-owner.svg)
 
 Note:
-**Seniority = delivery + odpowiedzialność, nie narzędzia i staż.**
-- Takeaway #2. Zmienia ścieżki wzrostu ORAZ rekrutację: zatrudniaj i awansuj za dowożenie, nie za tenurę.
-- Wykres: hard skills rosną szybko i wypłaszczają się już na seniorze - nie one różnicują wyżej. Soft skills rosną później (senior/staff). Business skills stają się kluczowe dopiero na staff/principal - to one robią różnicę na górze.
-(przejście -> Soft skills = twój mnożnik / triada)
-
----
-
-## Seniority, redefined - Scope and Impact
-<!-- .slide: data-visibility="hidden" -->
-
-**Scope** - the size of problem you're trusted to own.
-
-**Impact** - how far your decisions reach.
-
-![](images/scope-impact.svg)
-
-Note:
-**Seniority na dwóch osiach: scope (jaki problem) x impact (jak szeroki wpływ).**
-- SCOPE: jaki problem ogarniasz - od "add index" (junior) po "business metrics" (principal).
-- IMPACT: jak daleko sięga twój wpływ - od komponentu po całą firmę/branżę.
-- Oba rosną razem: od tactical (dół) do strategic (góra).
-(przejście -> Responsibility · Ownership · Agency)
+**Z maszyny do ticketów w ownera: przestajesz być stanowiskiem na cudzej linii montażowej - stajesz w środku decyzji produktowych.**
+- Lewo (stary świat): ktoś inny decyduje CO i PO CO, ktoś inny jest właścicielem wyniku. Ty w środku taśmy: ticket wchodzi, kod wychodzi. Wartość składa ktoś inny.
+- Prawo (nowy świat): TY w środku pętli - problem -> decyzja -> budowa -> wynik -> i znowu. Budowę coraz częściej robi AI; twoja robota to decyzje i wynik.
+- Puenta: to jest różnica między "robieniem tasków" a sprawczością. Task = ktoś inny jest właścicielem problemu. Sprawczość = bierzesz problem na siebie i dowozisz wartość.
+(przejście -> Soft skills are your multiplier)
 
 ---
 
@@ -499,7 +523,59 @@ Note:
 - Nad tym OSĄD (kropkowana ramka): ocena, co jest dobrym rozwiązaniem; spina triadę i decyduje, JAK ją zastosować. Wciąż robota inżyniera, tylko wyżej: mniej klepania, więcej decyzji.
 - Razem zamieniają problem w dostarczoną wartość - to one, nie narzędzia, rozdzielą ludzi na rynku.
 - Mnożnik: technologia × ta triada (soft skills + osąd) => dużo więcej wartości. Sama technika bez tego mnoży się przez ~1.
-(przejście -> Your engineering experience and fundamentals still matter)
+(przejście -> Seniority, redefined)
+
+---
+
+## Seniority, redefined
+
+### Used to mean *"knows the framework"*
+### Now: **can take a problem and deliver it on a given scope**
+
+![](images/seniority-merged.svg)
+
+Note:
+**Seniority = scope x impact, nie narzędzia i staż.**
+- Takeaway #2. Kiedyś seniority znaczyło "zna framework". Dziś: potrafi wziąć problem i go dowieźć na danym scope. Zmienia to ścieżki wzrostu ORAZ rekrutację: zatrudniaj i awansuj za dowożenie, nie za tenurę.
+- SCOPE (lewo, czytaj od góry): "metryki biznesowe spadają" (principal) -> bounce rate (staff) -> czas ładowania strony (senior) -> p99 API (mid) -> "dodaj index w bazie" (junior). Ten sam problem, różna wysokość.
+- IMPACT (prawo): od komponentu po całą firmę/branżę. Oba rosną razem - od tactical (dół) do strategic (góra).
+- SKILL MIX (pasek pod każdym poziomem): hard skills dominują na starcie, ale wypłaszczają się już na seniorze. Wyżej różnicę robią soft skills, a na staff/principal - wiedza domenowa (domain knowledge). Hard skills cię wprowadzają, ale nie wynoszą w górę.
+(przejście -> The engineer is the glue)
+
+---
+
+## Hard skills will be not enough
+<!-- .slide: data-visibility="hidden" -->
+
+Used to mean **"knows the framework."**
+
+Now: **"can take a problem and deliver it on a given scope."**
+
+![](images/skills-curve.svg)
+
+Note:
+**Seniority = delivery + odpowiedzialność, nie narzędzia i staż.**
+- Takeaway #2. Zmienia ścieżki wzrostu ORAZ rekrutację: zatrudniaj i awansuj za dowożenie, nie za tenurę.
+- Wykres: hard skills rosną szybko i wypłaszczają się już na seniorze - nie one różnicują wyżej. Soft skills rosną później (senior/staff). Business skills stają się kluczowe dopiero na staff/principal - to one robią różnicę na górze.
+(przejście -> Seniority, redefined - Scope and Impact)
+
+---
+
+## Seniority, redefined - Scope and Impact
+<!-- .slide: data-visibility="hidden" -->
+
+**Scope** - the size of problem you're trusted to own.
+
+**Impact** - how far your decisions reach.
+
+![](images/scope-impact.svg)
+
+Note:
+**Seniority na dwóch osiach: scope (jaki problem) x impact (jak szeroki wpływ).**
+- SCOPE: jaki problem ogarniasz - od "add index" (junior) po "business metrics" (principal).
+- IMPACT: jak daleko sięga twój wpływ - od komponentu po całą firmę/branżę.
+- Oba rosną razem: od tactical (dół) do strategic (góra).
+(przejście -> The engineer is the glue)
 
 ---
 
@@ -553,24 +629,6 @@ Note:
 
 ---
 
-## Engineering good practices still matter
-
-### Keep the good · rethink what was built for humans · add what's **agent-first**
-
-![](images/good-practices-alt.svg)
-
-Note:
-**(Ten slajd wchłonął dawny slajd "Practices" - jeden spójny obraz zamiast dwóch podobnych. Trzy kubełki: KEEP / RETHINK / NEW.)**
-**Teza: mnóstwo dobrych praktyk inżynierskich zostaje - ale część była zbudowana POD LUDZI i trzeba je przeprojektować, a do tego dochodzą nowe, agent-first.**
-- KEEP (zostaje, zielone ✓): kanon operacyjny - 12-Factor, CI/CD, Observability, Reliability/SRE, Continuous Delivery. To praktyki w dużej mierze NIEZALEŻNE od tego, kto pisze kod (człowiek czy agent) - dlatego trzymają. Serce tej kolumny to SRE: SLO, error budgets, blast radius, graceful degradation - język o niedoskonałych systemach (spina się z poprzednim slajdem: determinizm, NoSQL/ACID).
-- RETHINK (do przemyślenia, bursztynowe kółka): Clean Code, KISS, YAGNI, SOLID, OOP - to były zasady pisane POD CZŁOWIEKA czytającego kod. Część zostanie, część przeprojektujemy. Ważne: czystszy kod NADAL pomaga modelowi (modele trenowane na takim kodzie) - ale "po co" się przesuwa.
-- NEW (nowe, kropkowane, agent-first): Context engineering, Harness engineering, Spec-driven development - plus znaki zapytania, bo dyscyplina dopiero się wyłania. To propozycje, nie pewniki.
-- Puenta: to nie "zasady znikają" - to KEEP + RETHINK + NEW naraz. Rzemiosło dalej ważne, tylko zmienia kształt.
-- [Wariant "świątynia" (good-practices.svg) pozostaje UKRYTY. Dawny slajd "Practices" (nb-practices.svg) został usunięty i wchłonięty tutaj.]
-(przejście -> The engineer is the glue)
-
----
-
 ## The engineer is the glue
 
 AI is evolution, not revolution - **you** make the pieces cohesive.
@@ -615,11 +673,12 @@ Note:
 - AI jest świetne w "teraz", w pojedynczych zadaniach (może się zmieni - dziś tak jest), więc samo zjeżdża z drogi; my raz za razem sprowadzamy je na tor.
 - Dlaczego: modele są trenowane pod KRÓTKI horyzont - optymalizują "za 5-30 minut", nie "za 2 lata", i głównie chcą zadowolić operatora. Im dłużej działają, tym bardziej dryfują z kursu.
 - Dlatego stare zasady wciąż obowiązują: system design, architektura, clean code. Bonus: im lepszy design (lepiej wytyczona droga), tym lepsze efekty AI.
-(przejście -> We own the judgment)
+(przejście -> How to prepare)
 
 ---
 
 ## We own the judgment
+<!-- .slide: data-visibility="hidden" -->
 
 **You** define *good enough* - AI can't. And **you** judge the answers it hands you.
 
@@ -633,6 +692,23 @@ Note:
 - Nie działa też "zrób coś good enough" rzucone do AI: bez naszej definicji AI dowiezie coś przypadkowego. To MY ustalamy, co "wystarczająco dobrze" znaczy w tym kontekście.
 - AI nie wie, jakie ryzyko biznes akceptuje ani gdzie wolno ciąć zakręty. Nasz osąd to poprzeczka, do której AI buduje.
 - KRYTYCZNE MYŚLENIE + AMBIGUITY (z wchłoniętego slajdu): świat coraz bardziej niejednoznaczny, AI sypie odpowiedziami - wartość jest w tym, żeby je OCENIĆ i zadać właściwe pytania. Im więcej "odpowiedzi", tym ważniejszy osąd, które są dobre. Komfort w niejednoznaczności to kluczowa umiejętność przyszłości.
+(przejście -> How to prepare)
+
+---
+
+## How to prepare
+
+### Seniority = the **scope** you can own, not the tools you know
+
+![](images/prepare-stairs.svg)
+
+Note:
+**Jak się przygotować - po jednym zdaniu na poziom. Schody = nowa definicja seniority: rośnie scope i impact, nie znajomość narzędzi.**
+- JUNIOR - idź w głąb: fundamenty (pamięć, HTTP, algorytmy) to twoja kontrola entropii, nawet jeśli stack je ukrywa. Traktuj AI jak rzemiosło do opanowania. Bierz małe problemy end-to-end.
+- MID - problemy, nie tickety: sprawczość, pchaj zmianę, nie czekaj aż ktoś powie. Buduj wyczucie domeny i biznesu (T-shape).
+- SENIOR - osąd i wynik: to ty definiujesz "good enough", AI tego nie zrobi. Prowadź wartość z AI (Software 2.0), nie tylko szybciej odhaczaj taski.
+- STAFF+ - ustawiasz kierunek: intent architect, cele i pętle, w których działa AI, na poziomie organizacji. Managing up, relacje, patrzenie poza własną bańkę. To tu mieszczą się role Staff i Principal - różnią się scope'em i impactem, nie rzemiosłem.
+- Puenta: te same narzędzia na każdym poziomie - rośnie problem, który bierzesz na siebie. Okno jest otwarte TERAZ, kto zacznie wcześnie, zbierze owoce.
 (przejście -> Don't give in to the negativism)
 
 ---
@@ -718,7 +794,7 @@ Every generation is told the industry is **ending**.
 
 Post-2008's "end" became the next generation's **eldorado**.
 
-In 2040, they'll call 2026 the **start**.
+In 2036, they'll call 2026 the **start**.
 
 Note:
 **Mów to od siebie, nie czytaj - to slajd do opowiedzenia.**
@@ -728,8 +804,9 @@ Note:
 - AI-burnout i utrata radości są realne - ale spytaj, skąd: z intensywności czy ze zmiany charakteru pracy i nowych ról? Za kilka lat temat wygaśnie, bo się przyzwyczaimy.
 - Pytanie jest indywidualne: znajdź radość w nowych obszarach; niebezpieczeństwo to negatywizm i bańki, w których praca zaczyna obrzydzać.
 - Historia się rymuje: gdy wchodziłem (depresja po 2008), pisano, że to koniec branży i wolności inżyniera - agile, managerowie, proces wszędzie. A pokolenie, które weszło w tym narzekaniu, zobaczyło jako eldorado dokładnie to, co poprzednicy nazywali końcem.
-- W 2040 napiszą, że eldorado się skończyło, a 2026 nazwą jego początkiem - to samo malkontenctwo, zregenerowane. Nie daj się.
+- W 2036 napiszą, że eldorado się skończyło, a 2026 nazwą jego początkiem - to samo malkontenctwo, zregenerowane. Nie daj się.
 - Ja: nerd, kochałem assembler i ręczną pamięć, nienawidziłem nudnej pracy po 2008 (frameworki, wysoki poziom) - ale zmieniłem nastawienie i znalazłem nowe specjalizacje do opanowania. Mówię to jako ktoś, kto za miesiąc kończy 40 i "ze stereotypu" powinien narzekać najbardziej.
+(przejście -> IT is the front line of the future)
 
 ---
 
@@ -763,35 +840,23 @@ Note:
 
 ---
 
-## Beyond Software 2.0?
-
-### From logic-driven to **incentive-driven** systems
-
-![](images/local-optimum-future.svg)
-
-*"Software 3.0" term: Andrej Karpathy - [Software Is Changing (Again)](https://www.youtube.com/watch?v=LCEmiRjPEtQ)*
-<!-- .element: class="plate-label" -->
-
-Note:
-**Callback do "local-optimum trap" - powtarzamy TEN slajd i dorysowujemy trzeci szczyt. To domknięcie na pokorę: mapa na najbliższe lata jest, ale daleki horyzont jest otwarty.**
-- Rozpoznanie: "pamiętacie ten wykres?" - ten sam krajobraz co wcześniej (Software 1.0 + AI -> dolina -> Software 2.0). Wracamy do niego na koniec.
-- Dwustopniowy reveal (opowiedz na głos): (1) zakładamy, że drabina wspina się dalej - kolejny szczyt, "Software 3.0", następny poziom dźwigni i wartości. (2) A potem: skreśl to. W naprawdę długim horyzoncie to może w ogóle nie być "software". Może to "Model 1.0?" - RESET do 1.0, nowa krzywa S, inny rodzaj rzeczy.
-- Pointa (klucz): za horyzontem mapa się kończy - świat za 10-20 lat może wyglądać zupełnie inaczej niż dziś. Nie wiem, jak. I to jest uczciwa odpowiedź.
-- Podtytuł (o co chodzi): być może przejdziemy z systemów STEROWANYCH LOGIKĄ (piszemy deterministyczne reguły, krok po kroku) do systemów STEROWANYCH BODŹCAMI/CELAMI (ustawiasz cele i nagrody, a model sam dochodzi do zachowania). To właśnie sens "Model 1.0" - nie programujesz logiki, kształtujesz incentywy. Stąd skreślone "Software" - to już nie byłoby pisanie software'u w dzisiejszym sensie.
-- To nie podważa reszty prelekcji: na najbliższe lata kierunek jest czytelny (triada, wartość, sprawczość). Ale daleki horyzont zostawiamy otwarty - i dokładnie dlatego następne pytanie brzmi "Quo Vadis IT?".
-- Źródło terminu "Software 3.0": Andrej Karpathy, "Software Is Changing (Again)" (link na slajdzie). Uczciwie: moje 1.0/2.0 to nie dokładnie jego definicje (u niego 2.0 = sieci/wagi, 3.0 = LLM/prompting) - pożyczam nazewnictwo i skręcam je po swojemu (dlatego skreślam 3.0 i pytam "Model 1.0?"). Gdyby ktoś dopytał na backstage'u - to jest ten trop.
-(przejście -> Quo Vadis IT?)
-
----
-
 ## Quo Vadis IT?
 
-### Q & A after the talk :)
+The **market** changes. The **roles** change.
+
+**Soft skills** matter more. **Engineering practices** change.
+
+But it's all **evolution**.
+
+We already know how to handle it - and how to get ready. :)
+
+Thanks · Q & A · **mfranc.com**
 
 Note:
-**Domknięcie tezy: baza przesuwa się z kodu ku odpowiedzialności, ownership i sprawczości - AI to przyspiesza.**
-- Zmniejsz niepewność: kierunek jest czytelny, nawet jeśli szczegóły nie.
-- Inwestuj w triadę już teraz. mfranc.com. Dziękuję - otwieram na pytania.
+**Domknięcie = STRESZCZENIE tego, co powiedziałem. Cztery rzeczy się zmienią, ale to EWOLUCJA - zostaw salę z ulgą, nie ze strachem.**
+- Powtórz cztery punkty spokojnie na głos: RYNEK się zmieni, ROLE się zmienią, SOFT SKILLE zyskają na wadze, wiele PRAKTYK software engineering się zmieni.
+- Puenta (kluczowa, ciepło): to nie rewolucja ani koniec - to EWOLUCJA. A ewolucję już wielokrotnie przerabialiśmy (asembler -> frameworki -> chmura...) - umiemy sobie z nią radzić i wiemy, jak się na nią przygotować. Kierunek jest czytelny, nawet jeśli szczegóły nie.
+- Dziękuję - mfranc.com - a teraz z chęcią odpowiem na pytania. :)
 
                 </script>
             </section>
@@ -815,16 +880,29 @@ Note:
            Force a fresh load if the page is restored from the bf-cache, so
            dropping the ?hidden param always returns to the clean deck.
            ============================================================ */
-        // Self-contained deploy: slides are inlined. ?hidden=show / ?edit=1 reveals hidden slides.
+        window.addEventListener('pageshow', (e) => { if (e.persisted) location.reload(); });
+
         const EDIT_HIDDEN = (function () {
             const q = new URLSearchParams(location.search);
             const edit = q.get('hidden') === 'show' || q.get('edit') === '1';
-            if (edit) {
-                const tpl = document.querySelector('section[data-markdown] script[type="text/template"]');
-                if (tpl) tpl.textContent = tpl.textContent.replace(
-                    /^[ \t]*<!--[ \t]*\.slide:[ \t]*data-visibility="hidden"[ \t]*-->[ \t]*$/gm,
-                    '<!-- .slide: class="was-hidden" -->');
-            }
+            try {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', 'slides.md?_=' + Date.now(), false); // sync + cache-bust
+                xhr.send();
+                if (xhr.status && (xhr.status < 200 || xhr.status >= 300)) return edit; // fall back to external load
+                let md = xhr.responseText;
+                if (edit) {
+                    md = md.replace(
+                        /^[ \t]*<!--[ \t]*\.slide:[ \t]*data-visibility="hidden"[ \t]*-->[ \t]*$/gm,
+                        '<!-- .slide: class="was-hidden" -->');
+                }
+                const sec = document.querySelector('section[data-markdown]');
+                sec.setAttribute('data-markdown', ''); // empty -> use inline template
+                const tpl = document.createElement('script');
+                tpl.setAttribute('type', 'text/template');
+                tpl.textContent = md;
+                sec.appendChild(tpl);
+            } catch (e) { console.warn('inline slide load failed, using external file', e); }
             return edit;
         })();
 

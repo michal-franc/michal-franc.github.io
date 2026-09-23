@@ -1,41 +1,86 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 470" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
   <defs>
-    <marker id="dl-aro" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#E07B39"/></marker>
+    <marker id="dl-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8A9098"/></marker>
+    <marker id="dl-aro" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#E07B39"/></marker>
   </defs>
 
-  <!-- WHAT YOU WROTE -->
-  <text x="206" y="44" fill="#8A9098" font-size="14" font-weight="700" letter-spacing="1">WHAT YOU WROTE  ·  program order</text>
-  <g font-size="16">
-    <rect x="206" y="56" width="140" height="42" rx="7" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="276" y="83" text-anchor="middle" fill="#C7CED6">1  mov</text>
-    <rect x="368" y="56" width="140" height="42" rx="7" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="438" y="83" text-anchor="middle" fill="#C7CED6">2  add</text>
-    <rect x="530" y="56" width="140" height="42" rx="7" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="600" y="83" text-anchor="middle" fill="#C7CED6">3  cmp</text>
-    <rect x="692" y="56" width="140" height="42" rx="7" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="762" y="83" text-anchor="middle" fill="#C7CED6">4  jne</text>
-    <rect x="854" y="56" width="140" height="42" rx="7" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="924" y="83" text-anchor="middle" fill="#C7CED6">5  mul</text>
+  <!-- ============ 1 · THREADS ============ -->
+  <rect x="40" y="20" width="545" height="210" rx="12" fill="#171C22" stroke="#2E3742" stroke-width="2"/>
+  <text x="62" y="52" fill="#E8955A" font-size="18" font-weight="700">1 · THREADS</text>
+  <text x="62" y="72" fill="#8A9098" font-size="12.5">no linearization - order is not guaranteed</text>
+  <line x1="60" y1="84" x2="565" y2="84" stroke="#2E3742" stroke-width="1.5"/>
+  <rect x="66" y="104" width="150" height="34" rx="6" fill="#1E242A" stroke="#57A2B2" stroke-width="2"/>
+  <text x="141" y="126" text-anchor="middle" fill="#C7CED6" font-size="14">A:  x += 1</text>
+  <rect x="66" y="146" width="150" height="34" rx="6" fill="#1E242A" stroke="#C9A24E" stroke-width="2"/>
+  <text x="141" y="168" text-anchor="middle" fill="#C7CED6" font-size="14">B:  x *= 2</text>
+  <text x="250" y="126" fill="#8A9098" font-size="13">run 1  A→B</text>
+  <rect x="392" y="106" width="86" height="30" rx="6" fill="none" stroke="#6FB86F" stroke-width="2"/>
+  <text x="435" y="126" text-anchor="middle" fill="#6FB86F" font-size="14" font-weight="700">x = 2</text>
+  <text x="250" y="168" fill="#8A9098" font-size="13">run 2  B→A</text>
+  <rect x="392" y="148" width="86" height="30" rx="6" fill="none" stroke="#C0504A" stroke-width="2"/>
+  <text x="435" y="168" text-anchor="middle" fill="#E0685C" font-size="14" font-weight="700">x = 1</text>
+  <text x="512" y="150" text-anchor="middle" fill="#C0504A" font-size="26" font-weight="700">≠</text>
+  <text x="62" y="212" fill="#8A9098" font-size="12.5">same code, same CPU - two runs, two answers.</text>
+
+  <!-- ============ 2 · JIT ============ -->
+  <rect x="615" y="20" width="545" height="210" rx="12" fill="#171C22" stroke="#2E3742" stroke-width="2"/>
+  <text x="637" y="52" fill="#E8955A" font-size="18" font-weight="700">2 · JIT  (Java / C2)</text>
+  <text x="637" y="72" fill="#8A9098" font-size="12.5">depends on runtime + threads</text>
+  <line x1="635" y1="84" x2="1140" y2="84" stroke="#2E3742" stroke-width="1.5"/>
+  <rect x="641" y="124" width="118" height="36" rx="6" fill="#1E242A" stroke="#8A9098" stroke-width="2"/>
+  <text x="700" y="147" text-anchor="middle" fill="#C7CED6" font-size="14">bytecode</text>
+  <line x1="761" y1="142" x2="795" y2="142" stroke="#8A9098" stroke-width="2" marker-end="url(#dl-ar)"/>
+  <rect x="799" y="124" width="96" height="36" rx="6" fill="#241F1A" stroke="#E07B39" stroke-width="2"/>
+  <text x="847" y="147" text-anchor="middle" fill="#E8955A" font-size="14" font-weight="700">C2 JIT</text>
+  <line x1="897" y1="138" x2="936" y2="116" stroke="#E07B39" stroke-width="2" marker-end="url(#dl-aro)"/>
+  <line x1="897" y1="146" x2="936" y2="168" stroke="#E07B39" stroke-width="2" marker-end="url(#dl-aro)"/>
+  <rect x="940" y="100" width="188" height="30" rx="6" fill="none" stroke="#6FB86F" stroke-width="2"/>
+  <text x="1034" y="120" text-anchor="middle" fill="#C7CED6" font-size="13">native v1  (hot path)</text>
+  <rect x="940" y="152" width="188" height="30" rx="6" fill="none" stroke="#C9A24E" stroke-width="2"/>
+  <text x="1034" y="172" text-anchor="middle" fill="#C7CED6" font-size="13">native v2  (cold / deopt)</text>
+  <text x="637" y="212" fill="#8A9098" font-size="12.5">same bytecode - different native code each run.</text>
+
+  <!-- ============ 3 · CPU ============ -->
+  <rect x="40" y="250" width="545" height="210" rx="12" fill="#171C22" stroke="#2E3742" stroke-width="2"/>
+  <text x="62" y="282" fill="#E8955A" font-size="18" font-weight="700">3 · CPU  (out-of-order)</text>
+  <text x="62" y="302" fill="#8A9098" font-size="12.5">CISC → µops, executed speculatively</text>
+  <line x1="60" y1="314" x2="565" y2="314" stroke="#2E3742" stroke-width="1.5"/>
+  <text x="66" y="340" fill="#8A9098" font-size="12">program order</text>
+  <g font-size="15" font-weight="700">
+    <rect x="200" y="326" width="34" height="30" rx="5" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="217" y="347" text-anchor="middle" fill="#C7CED6">1</text>
+    <rect x="242" y="326" width="34" height="30" rx="5" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="259" y="347" text-anchor="middle" fill="#C7CED6">2</text>
+    <rect x="284" y="326" width="34" height="30" rx="5" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="301" y="347" text-anchor="middle" fill="#C7CED6">3</text>
+    <rect x="326" y="326" width="34" height="30" rx="5" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="343" y="347" text-anchor="middle" fill="#C7CED6">4</text>
   </g>
-
-  <!-- into the core -->
-  <line x1="600" y1="102" x2="600" y2="146" stroke="#E07B39" stroke-width="2.5" marker-end="url(#dl-aro)"/>
-
-  <!-- the core -->
-  <rect x="250" y="150" width="700" height="86" rx="14" fill="#241F1A" stroke="#E07B39" stroke-width="2.5"/>
-  <text x="600" y="184" text-anchor="middle" fill="#E8955A" font-size="20" font-weight="700">x86 CORE</text>
-  <text x="600" y="214" text-anchor="middle" fill="#C7CED6" font-size="15">decode → µops → out-of-order + speculative execution</text>
-
-  <!-- out to execution -->
-  <line x1="600" y1="238" x2="600" y2="286" stroke="#E07B39" stroke-width="2.5" marker-end="url(#dl-aro)"/>
-
-  <!-- WHAT ACTUALLY RUNS -->
-  <text x="206" y="304" fill="#E8955A" font-size="14" font-weight="700" letter-spacing="1">WHAT ACTUALLY RUNS  ·  out-of-order + speculative</text>
-  <g font-size="16">
-    <rect x="206" y="316" width="140" height="42" rx="7" fill="#241F1A" stroke="#E07B39" stroke-width="2"/><text x="276" y="343" text-anchor="middle" fill="#EDF0F3">5  mul</text>
-    <rect x="368" y="316" width="140" height="42" rx="7" fill="#241F1A" stroke="#E07B39" stroke-width="2"/><text x="438" y="343" text-anchor="middle" fill="#EDF0F3">1  mov</text>
-    <rect x="530" y="316" width="140" height="42" rx="7" fill="#241F1A" stroke="#E07B39" stroke-width="2"/><text x="600" y="343" text-anchor="middle" fill="#EDF0F3">2  add</text>
-    <rect x="692" y="316" width="140" height="42" rx="7" fill="#241F1A" stroke="#E07B39" stroke-width="2" stroke-dasharray="5 4"/><text x="762" y="343" text-anchor="middle" fill="#EDF0F3">4  jne*</text>
-    <rect x="854" y="316" width="140" height="42" rx="7" fill="#241F1A" stroke="#E07B39" stroke-width="2"/><text x="924" y="343" text-anchor="middle" fill="#EDF0F3">3  cmp</text>
+  <line x1="290" y1="364" x2="290" y2="392" stroke="#E07B39" stroke-width="2" marker-end="url(#dl-aro)"/>
+  <text x="66" y="418" fill="#8A9098" font-size="12">executed</text>
+  <g font-size="15" font-weight="700">
+    <rect x="200" y="402" width="34" height="30" rx="5" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="217" y="423" text-anchor="middle" fill="#C7CED6">1</text>
+    <rect x="242" y="402" width="34" height="30" rx="5" fill="#241F1A" stroke="#E07B39" stroke-width="2"/><text x="259" y="423" text-anchor="middle" fill="#E8955A">3</text>
+    <rect x="284" y="402" width="34" height="30" rx="5" fill="#241F1A" stroke="#E07B39" stroke-width="2"/><text x="301" y="423" text-anchor="middle" fill="#E8955A">2</text>
+    <rect x="326" y="402" width="34" height="30" rx="5" fill="#1E242A" stroke="#8A9098" stroke-width="2"/><text x="343" y="423" text-anchor="middle" fill="#C7CED6">4</text>
   </g>
-  <text x="762" y="378" text-anchor="middle" fill="#8A9098" font-size="11.5">* speculative - discarded on mispredict</text>
+  <text x="410" y="378" fill="#8A9098" font-size="12">reordered</text>
+  <text x="62" y="446" fill="#8A9098" font-size="12.5">the ISA keeps the result; timing + ordering are not yours.</text>
 
-  <!-- the honest nuance + punch -->
-  <text x="600" y="416" text-anchor="middle" fill="#8A9098" font-size="13">retires in program order → the single-thread result still matches.</text>
-  <text x="600" y="452" text-anchor="middle" fill="#C7CED6" font-size="15.5">You never run your program in order - "deterministic" is a contract upheld on top of chaos.</text>
+  <!-- ============ 4 · BUILDS ============ -->
+  <rect x="615" y="250" width="545" height="210" rx="12" fill="#171C22" stroke="#2E3742" stroke-width="2"/>
+  <text x="637" y="282" fill="#E8955A" font-size="18" font-weight="700">4 · BUILDS</text>
+  <text x="637" y="302" fill="#8A9098" font-size="12.5">not reproducible by default</text>
+  <line x1="635" y1="314" x2="1140" y2="314" stroke="#2E3742" stroke-width="1.5"/>
+  <rect x="645" y="356" width="120" height="36" rx="6" fill="#1E242A" stroke="#8A9098" stroke-width="2"/>
+  <text x="705" y="379" text-anchor="middle" fill="#C7CED6" font-size="14">source</text>
+  <line x1="767" y1="366" x2="838" y2="344" stroke="#8A9098" stroke-width="2" marker-end="url(#dl-ar)"/>
+  <line x1="767" y1="382" x2="838" y2="404" stroke="#8A9098" stroke-width="2" marker-end="url(#dl-ar)"/>
+  <rect x="842" y="330" width="212" height="30" rx="6" fill="none" stroke="#57A2B2" stroke-width="2"/>
+  <text x="948" y="350" text-anchor="middle" fill="#C7CED6" font-size="13">binary A   #a1b2f7</text>
+  <rect x="842" y="388" width="212" height="30" rx="6" fill="none" stroke="#C9A24E" stroke-width="2"/>
+  <text x="948" y="408" text-anchor="middle" fill="#C7CED6" font-size="13">binary B   #9f3c02</text>
+  <text x="1088" y="382" text-anchor="middle" fill="#C0504A" font-size="26" font-weight="700">≠</text>
+  <text x="637" y="446" fill="#8A9098" font-size="12.5">same source - different bytes (time · order · paths).</text>
+
+  <!-- ============ banner ============ -->
+  <rect x="40" y="478" width="1120" height="38" rx="10" fill="#14181D" stroke="#57A2B2" stroke-width="1.5"/>
+  <rect x="40" y="478" width="6" height="38" rx="3" fill="#57A2B2"/>
+  <text x="600" y="502" text-anchor="middle" fill="#C7CED6" font-size="14.5">Determinism was always engineered on top of chaos - we handled it a layer down. AI just moves it up.</text>
 </svg>

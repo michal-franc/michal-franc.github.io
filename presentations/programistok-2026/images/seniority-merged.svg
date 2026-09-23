@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 580" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">
+  <defs><marker id="si-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5B6672"/></marker></defs>
+  <!-- column headers -->
+  <text x="440" y="40" text-anchor="end" fill="#F4F4F4" font-size="20" font-weight="700">SCOPE</text>
+  <text x="440" y="62" text-anchor="end" fill="#8A9098" font-size="13">the problem you own</text>
+  <text x="720" y="40" fill="#F4F4F4" font-size="20" font-weight="700">IMPACT</text>
+  <text x="720" y="62" fill="#8A9098" font-size="13">how far it reaches</text>
+  <text x="580" y="40" text-anchor="middle" fill="#F4F4F4" font-size="15" font-weight="700">SKILL MIX</text>
+  <text x="580" y="98" text-anchor="middle" fill="#9AA0A6" font-size="13" font-weight="700" letter-spacing="2">STRATEGIC</text>
+  <!-- Principal -->
+  <text x="440" y="133" text-anchor="end" font-size="15" font-style="italic" fill="#B4BAC0">Hey, our business metrics are going down</text>
+  <line x1="450" y1="128" x2="477" y2="128" stroke="#5B6672" stroke-width="1.5" marker-end="url(#si-ar)"/>
+  <rect x="485" y="111" width="190" height="34" rx="17" fill="#E07B39"/>
+  <text x="580" y="134" text-anchor="middle" font-size="17" font-weight="700" fill="#241206">Principal</text>
+  <line x1="679" y1="128" x2="712" y2="128" stroke="#5B6672" stroke-width="1.5" marker-end="url(#si-ar)"/>
+  <text x="720" y="133" font-size="16" fill="#C7CED6">company / industry-wide</text>
+  <rect x="495.0" y="152" width="25.5" height="10" fill="#57A2B2"/>
+  <rect x="520.5" y="152" width="59.5" height="10" fill="#E07B39"/>
+  <rect x="580.0" y="152" width="85.0" height="10" fill="#6AA84F"/>
+  <!-- Staff -->
+  <text x="440" y="213" text-anchor="end" font-size="15" font-style="italic" fill="#B4BAC0">...because our bounce rate is increasing</text>
+  <line x1="450" y1="208" x2="487" y2="208" stroke="#5B6672" stroke-width="1.5" marker-end="url(#si-ar)"/>
+  <rect x="495" y="191" width="170" height="34" rx="17" fill="#9A5E36"/>
+  <text x="580" y="214" text-anchor="middle" font-size="17" font-weight="700" fill="#F6E3D2">Staff</text>
+  <line x1="669" y1="208" x2="712" y2="208" stroke="#5B6672" stroke-width="1.5" marker-end="url(#si-ar)"/>
+  <text x="720" y="213" font-size="16" fill="#C7CED6">department / org-wide</text>
+  <rect x="495.0" y="232" width="42.5" height="10" fill="#57A2B2"/>
+  <rect x="537.5" y="232" width="68.0" height="10" fill="#E07B39"/>
+  <rect x="605.5" y="232" width="59.5" height="10" fill="#6AA84F"/>
+  <!-- Senior -->
+  <text x="440" y="293" text-anchor="end" font-size="15" font-style="italic" fill="#B4BAC0">...because page load time is increasing</text>
+  <line x1="450" y1="288" x2="497" y2="288" stroke="#5B6672" stroke-width="1.5" marker-end="url(#si-ar)"/>
+  <rect x="505" y="271" width="150" height="34" rx="17" fill="#5A4A3E"/>
+  <text x="580" y="294" text-anchor="middle" font-size="17" font-weight="700" fill="#E3D3C3">Senior</text>
+  <line x1="659" y1="288" x2="712" y2="288" stroke="#5B6672" stroke-width="1.5" marker-end="url(#si-ar)"/>
+  <text x="720" y="293" font-size="16" fill="#C7CED6">product-wide</text>
+  <rect x="495.0" y="312" width="68.0" height="10" fill="#57A2B2"/>
+  <rect x="563.0" y="312" width="68.0" height="10" fill="#E07B39"/>
+  <rect x="631.0" y="312" width="34.0" height="10" fill="#6AA84F"/>
+  <!-- Mid -->
+  <text x="440" y="373" text-anchor="end" font-size="15" font-style="italic" fill="#B4BAC0">...because this API p99 is not great</text>
+  <line x1="450" y1="368" x2="507" y2="368" stroke="#5B6672" stroke-width="1.5" marker-end="url(#si-ar)"/>
+  <rect x="515" y="351" width="130" height="34" rx="17" fill="#474A4C"/>
+  <text x="580" y="374" text-anchor="middle" font-size="17" font-weight="700" fill="#D7DCE3">Mid</text>
+  <line x1="649" y1="368" x2="712" y2="368" stroke="#5B6672" stroke-width="1.5" marker-end="url(#si-ar)"/>
+  <text x="720" y="373" font-size="16" fill="#C7CED6">service-wide</text>
+  <rect x="495.0" y="392" width="110.5" height="10" fill="#57A2B2"/>
+  <rect x="605.5" y="392" width="42.5" height="10" fill="#E07B39"/>
+  <rect x="648.0" y="392" width="17.0" height="10" fill="#6AA84F"/>
+  <!-- Junior -->
+  <text x="440" y="453" text-anchor="end" font-size="15" font-style="italic" fill="#B4BAC0">...so just add an index to this DB</text>
+  <line x1="450" y1="448" x2="517" y2="448" stroke="#5B6672" stroke-width="1.5" marker-end="url(#si-ar)"/>
+  <rect x="525" y="431" width="110" height="34" rx="17" fill="#3A3F45"/>
+  <text x="580" y="454" text-anchor="middle" font-size="17" font-weight="700" fill="#C7CED6">Junior</text>
+  <line x1="639" y1="448" x2="712" y2="448" stroke="#5B6672" stroke-width="1.5" marker-end="url(#si-ar)"/>
+  <text x="720" y="453" font-size="16" fill="#C7CED6">component-wide</text>
+  <rect x="495.0" y="472" width="144.5" height="10" fill="#57A2B2"/>
+  <rect x="639.5" y="472" width="20.4" height="10" fill="#E07B39"/>
+  <rect x="659.9" y="472" width="5.1" height="10" fill="#6AA84F"/>
+  <text x="580" y="500" text-anchor="middle" fill="#9AA0A6" font-size="13" font-weight="700" letter-spacing="2">TACTICAL</text>
+  <!-- legend -->
+  <rect x="440" y="513" width="11" height="11" rx="2" fill="#57A2B2"/>
+  <text x="456" y="523" font-size="12" fill="#B4BAC0">hard</text>
+  <rect x="508" y="513" width="11" height="11" rx="2" fill="#E07B39"/>
+  <text x="524" y="523" font-size="12" fill="#B4BAC0">soft</text>
+  <rect x="576" y="513" width="11" height="11" rx="2" fill="#6AA84F"/>
+  <text x="592" y="523" font-size="12" fill="#B4BAC0">domain knowledge</text>
+  <text x="580" y="556" text-anchor="middle" fill="#9AA0A6" font-size="15">seniority = <tspan fill="#F4F4F4" font-weight="700">scope x impact</tspan> - hard skills get you in, they don't get you up</text>
+</svg>
