@@ -1,0 +1,301 @@
+---
+layout: post
+title: "Quo Vadis IT - where engineering is heading"
+date: 2026-09-26 00:00
+author: Michal Franc
+comments: true
+categories: [career]
+tags: [ai, career, speaking, programistok, future-of-work]
+summary: "Written version of my Programistok 2026 talk - responsibility, ownership and agency as the new base of the engineering job."
+---
+
+<style>
+  .talk-slide { margin: 1.75em 0; padding: 1.25rem; background: #000; border-radius: 6px; }
+  .talk-slide img { display: block; width: 100%; height: auto; margin: 0 auto; border: 0; box-shadow: none; background: transparent; }
+  .talk-slide figcaption { margin-top: .75rem; color: #9AA0A6; font-size: .85em; text-align: center; }
+  .prepare-table { width: 100%; border-collapse: collapse; margin: 1.5em 0; font-size: .95em; }
+  .prepare-table th, .prepare-table td { padding: .6em .75em; border-bottom: 1px solid rgba(128,128,128,.3); vertical-align: top; text-align: left; }
+</style>
+
+<p><em>This is the written version of my talk at <strong>Programistok 2026</strong> in Białystok. You can click through the <a href="/presentations/programistok-2026/index.html">slides here</a>. The talk itself was light on tools and heavy on careers - where our profession is heading and how to get ready for it.</em></p>
+
+<div class="admonition ad-tldr">
+  <div class="admonition-title">Tldr</div>
+  <div class="admonition-content">
+    <p>The base of our job is moving away from writing code and towards <strong>responsibility, ownership and agency</strong>.</p>
+    <p>This is an evolution, not a revolution. AI didn't start it - it is just speeding up changes driven by the same forces that have shaped IT for decades: growing complexity, cost and scale.</p>
+    <p>If you want to be ready, grow the size of the problem you can own - and learn how to use AI inside that problem, not just to close tickets faster.</p>
+  </div>
+</div>
+
+<p>A small joke to start. On the title slide I crossed out "AI" and wrote "SI" - Super-Intelligence, as apparently we are supposed to call it now (Reuters, 22 Sep 2026). The fun part is that it works twice for a Polish audience: in Polish "SI" has always meant <em>Sztuczna Inteligencja</em> - artificial intelligence. Same two letters, same joke, two languages. It also sets the tone I wanted for the whole talk: less hype, more distance.</p>
+
+<h2>2026 - intense, chaotic, uncertain</h2>
+
+<p>2026 feels intense and chaotic. There are many possible scenarios and two very loud extremes:</p>
+
+<ul>
+  <li><strong>The deniers</strong> - "it's a bubble, it will pop, everything goes back to how it was. We don't need to do anything."</li>
+  <li><strong>The maximalists</strong> - "there is no point doing anything, AI will take our jobs anyway."</li>
+</ul>
+
+<p>What I find interesting is that both extremes end in exactly the same place: <strong>passivity</strong>. Do nothing and wait. The truth, as usual, is somewhere in the middle - and the middle is the only place where you can actually act.</p>
+
+<p>So what do I think is coming by 203X? The market will change. The roles will change. In 5-10 years we will look back at 2026 very differently than we see it today. Right now it's nervous because we are at the <strong>beginning of a journey</strong>. The future will be good - but it won't be free. It will take effort, and that effort means actively working alongside AI and the new tools, not waiting to see what happens.</p>
+
+<h3>Why listen to me?</h3>
+
+<p>~20 years in the industry, the full path from junior to senior staff engineer, mostly at UK and US product companies - JustEat, JustGiving, Form3 and now Affirm. These days I work as an architect of distributed systems <em>and</em> of organisations - scaling both systems and people, across teams, for products with tens of millions of users and billions of dollars flowing through them. That last part - working on the system <em>and</em> the organisation - is pretty much the thesis of this post.</p>
+
+<h2>The evolution that got us here</h2>
+
+<p>To talk about the future, let's first look at the direction we've been moving in. Software keeps getting more complex. We went from simple programs (scripts, Excel) to desktop, then web, then mobile, then globally distributed systems. We still build simple things - but the <strong>ceiling</strong> keeps going up, and what used to be exceptional becomes the norm.</p>
+
+<h3>Complexity forces technology changes</h3>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/complexity-layers.svg" alt="Stairs of abstraction layers: assembly, high-level languages, frameworks, cloud, orchestration, and a dashed 'AI - next?' step" loading="lazy">
+  <figcaption>Each layer makes yesterday's hard things cheap for everyone</figcaption>
+</figure>
+
+<p>When complexity grows, technology wraps it in something simpler so we can handle more. Assembly and manual memory management gave way to high-level languages, then frameworks, then the cloud, then orchestration like Kubernetes. Each layer hides the complexity of the one below.</p>
+
+<p>But a layer doesn't only hide complexity - it makes hard things <strong>cheap and accessible</strong>. Running your own data centre, managing memory by hand, scaling to millions of users: once elite work, now out-of-the-box for pennies. Technology democratises complexity, so more people can build more complicated things.</p>
+
+<p>I remember reading highscalability.com - articles about sharding, database partitioning, clever SQL - and it felt completely out of reach for me as an engineer at most companies. With the cloud and orchestration, all of that became widely available. AI is simply the next step on those stairs, following exactly the same logic.</p>
+
+<h3>Skills demand keeps shifting</h3>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/skills-demand.svg" alt="Illustrative chart of skill demand across the desktop, web, cloud and mobile, and AI eras" loading="lazy">
+  <figcaption>Illustrative data showing direction of change, from <a href="/blog/ai-2026/">my earlier post on AI in 2026</a></figcaption>
+</figure>
+
+<p>The same evolution, seen through the skills the market asks for. Every era - desktop, web, cloud &amp; mobile, AI - brings different skills to the top. Manual QA and the classic DBA/sysadmin got absorbed by automation and the cloud; you can literally see the DBA line drop as cloud rises around 2012-2015. OOP grew from 1995, peaked around 2010 and then declined - it didn't disappear, it became the baseline. When I started, OOP was <em>the</em> skill. Today it's just standard.</p>
+
+<p>The takeaway: <strong>don't tie your identity or your ego to one technology.</strong> Not "I'm a .NET developer". The demand curve moves, and your identity shouldn't be sitting on top of one line of it.</p>
+
+<h3>Less <em>how</em> - more <em>what</em> and <em>why</em></h3>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/engineer-focus.svg" alt="Stacked area chart of an engineer's focus over time: algorithms, coding, testing, system design, domain expertise" loading="lazy">
+  <figcaption>The engineer's focus shifts</figcaption>
+</figure>
+
+<p>Look at what being an engineer consisted of over time. Algorithms and writing code used to dominate. That band keeps shrinking, while system design and domain expertise grow. Code doesn't disappear - it just stops being the majority of the job. The centre of gravity moves from "how to write it" to "what are we building and why".</p>
+
+<h3>Complexity shifts the roles too</h3>
+
+<p>It's not only technology that moves - roles merge as well. Frontend + backend + QA became the <strong>full-stack engineer</strong>. Backend + IT ops became <strong>DevOps</strong>. DevOps + security became <strong>DevSecOps</strong>. Full-stack + business became the <strong>product engineer</strong> - and here the new dimension is business, not another technical discipline. And full-stack + DevOps? We don't even have a name for it yet. Not every merge has a name, which tells me we are in the <em>middle</em> of the transformation, not at the end.</p>
+
+<p>Specialisation doesn't stand on its own anymore. It sits on top of a broad shared base - a bit of everything with depth on top, the classic T-shape.</p>
+
+<h3>From skill silos to domain silos</h3>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/skills-to-domain.svg" alt="Left: teams siloed by skill (QA, Dev, DevOps). Right: teams grouped by domain (Payments, Checkout, Search), each with QA, Dev and Ops inside" loading="lazy">
+  <figcaption>Complexity regroups teams by domain, not discipline</figcaption>
+</figure>
+
+<p>The same force reshaped organisations. With simple systems, a separate QA team, a separate dev team and a separate ops team worked fine. With complex systems, the handoffs "over the wall" and the queues between silos became the bottleneck. So we regrouped teams around a <strong>domain</strong> - Payments, Checkout, Search - with QA, dev and ops inside, owning the value end-to-end. Team Topologies, stream-aligned teams, DDD bounded contexts - all answers to the same complexity problem.</p>
+
+<p>And the pattern keeps repeating. Specialists said "this can't be automated", then the cloud and automation arrived. The role didn't vanish - it shrank and moved into the team. Next in the queue: writing and reading code by hand.</p>
+
+<h3>Evolution, not revolution</h3>
+
+<p>Complexity + cost + more users → the industry builds a tool to manage it. That loop has been running for decades. AI is not an accident and it's not a revolution. It is the <strong>natural consequence</strong> of the same forces - market pressure and growing complexity - that have been at work for 20+ years. The only difference is speed: it moved slowly for decades, and now it's speeding up.</p>
+
+<h2>What comes next? Predictions, not promises</h2>
+
+<p>The direction is clear - so the question is no longer <em>whether</em>, but <em>how</em> this evolution will unfold. An honest disclaimer first: I don't claim any of this will happen for sure. Someone might say "in 10 years it will look nothing like this" - and they might be right. These are my bets, food for thought and for arguments over coffee. Vision and provocation, not a hard forecast.</p>
+
+<h3>The local-optimum trap</h3>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/local-optimum.svg" alt="Landscape with a small local peak labelled Software 1.0 plus agents, a valley, and a higher peak labelled Software 2.0, with a 'we are here' marker before the small peak" loading="lazy">
+  <figcaption>1.0 + agents: quick boost, then a dead end. Aim for Software 2.0.</figcaption>
+</figure>
+
+<p>Software 1.0 + AI - agents doing today's work, just faster - gives a quick, tempting boost. But it's only a small hill. It looks productive and it's short-sighted.</p>
+
+<p>This one is personal. 20 years of experience means very deeply trained "neural networks" in my head - I think about software in 1.0 mode. When I apply AI to <em>that</em> thinking, sure, I get more code and some extra value... and I walk straight into the local optimum. My brain is a model trained on old data.</p>
+
+<p>The real peak is higher: <strong>Software 2.0</strong>, where you aim at value and outcomes, not faster tasks. To get there you have to come down from the small hill, cross the valley (rethink <em>how</em> we build), and climb the right peak. The good news is that most of the industry is still climbing the small hill. The trap is still ahead of us, which gives us a window to aim for 2.0 directly.</p>
+
+<h3>Escaping it: question every 1.0 habit</h3>
+
+<p>This isn't about tools. It's about challenging our own habits and the way we learned to think. Four quick examples - each with the same question: <em>to go faster, do we have to...?</em></p>
+
+<p><strong>Code - do we stop hand-writing every line?</strong><br>
+In 1.0 we write most code by hand. In 2.0 we barely do, and hand-written code becomes a niche - like writing a native C++ extension for a Java library today: a small number of people do it, for critical cases. A year ago, saying "AI will write the code for us" made you sound detached from reality. Today most of the engineers I know have accepted it.</p>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/nb-review.svg" alt="Software 1.0 review reads every line of a PR; Software 2.0 review watches deploy, canary and A/B experiments over system metrics" loading="lazy">
+  <figcaption>To go faster, do we review system health instead of code?</figcaption>
+</figure>
+
+<p><strong>Review - do we review system health instead of code?</strong><br>
+This is the big one. Agents write the code, we don't fully trust them, so the temptation is to review every line <em>even more carefully</em>. Companies that do this discover that review becomes the next bottleneck and kills velocity.</p>
+
+<p>In 2.0 review moves up the stack: we look at the <strong>behaviour</strong> of the whole system, not the diff. We define measures - does this change (on staging or production) have a positive effect for users, or does it cause a regression or a business problem? A/B tests, experiments, canaries, watching real user behaviour. To be clear: 2.0 doesn't mean "we stop verifying". We move verification <em>higher</em>. Ownership stays with us.</p>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/nb-determinism.svg" alt="Software 1.0 always returns 42 for input 5; Software 2.0 returns 42 almost always and occasionally 43; 100.00% versus 99.99% deterministic" loading="lazy">
+  <figcaption>To go faster, do we accept non-determinism?</figcaption>
+</figure>
+
+<p><strong>Determinism - do we accept non-determinism?</strong><br>
+Software 1.0 is driven by logic: the same input always gives the same output, and our job is to decide what that output should be. 2.0 is a different world. We don't reason a model into an answer - we create an <em>incentive</em> for it to give us one. Input 5 gives 42 almost every time... and occasionally 43.</p>
+
+<p>So: 100.00% vs 99.99%. Are we OK with that 0.01%? I think yes - if the layer around it handles it. <strong>Architecture, system design and UX</strong> catch the deviation and deliver a stable product. We stabilise the whole system, not every single answer.</p>
+
+<p>We have done this before. Distributed systems and NoSQL consciously gave up guarantees - dropped ACID, moved to eventual consistency - to scale and go faster, and then we engineered around it. Same trade, now at the model layer.</p>
+
+<p>And honestly, determinism was always a bit of a lie. Unsynchronised threads: A does <code>x += 1</code>, B does <code>x *= 2</code>, and depending on the scheduler you get 2 or 1 - same code, same CPU, two results. JIT compilers produce different machine code for the same bytecode depending on runtime conditions. CPUs execute micro-ops out of order and speculatively. The same source can produce different binaries, which is why "reproducible builds" is its own movement. Determinism was always engineered on top of chaos - we just handled it a layer down, with memory models and locks. AI doesn't bring non-determinism into a perfect world. It moves it <em>up</em>, into application logic, where we now need the same discipline.</p>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/good-practices-alt.svg" alt="Three columns of engineering practices: keep, rethink and new" loading="lazy">
+  <figcaption>To go faster, which practices do we keep, rethink, add?</figcaption>
+</figure>
+
+<p><strong>Practices - which do we keep, rethink, add?</strong></p>
+<ul>
+  <li><strong>Keep:</strong> 12-Factor, CI/CD, observability, SRE, continuous delivery. These don't care much whether a human or an agent wrote the code. SRE in particular - SLOs, error budgets, blast radius, graceful degradation - is literally a language for imperfect systems, which is exactly where the 0.01% lives.</li>
+  <li><strong>Rethink:</strong> Clean Code, KISS, YAGNI, SOLID, OOP. Many of these were written for a <em>human</em> reading code. Some will stay, some will be redesigned. Cleaner code still helps models (they were trained on it), but the "why" behind the rules is shifting.</li>
+  <li><strong>New:</strong> context engineering, harness engineering, spec-driven development - plus a few question marks, because this discipline is only just emerging.</li>
+</ul>
+<p>So it's not "the principles are gone". It's keep + rethink + new, all at once. The craft still matters - it's just changing shape.</p>
+
+<h2>What does it mean for you?</h2>
+
+<p>The role itself is changing - not just the tools or the way you use AI. You need to shift how you approach the job towards <strong>impact and value</strong>, and become part of the decision process - what we build and why - not just the execution.</p>
+
+<h3>The centre of attention moves</h3>
+
+<p>AI is strongest at the "how". So human value moves to where AI is weakest: the <strong>what and why</strong>, the domain, the value. This isn't "AI takes our jobs" - it's the unevenness of augmentation that moves where your value lives.</p>
+
+<h3>From ticket machine to owner</h3>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/ticket-to-owner.svg" alt="Left: engineer in the middle of an assembly line, ticket in, code out. Right: engineer at the centre of a loop from problem to decision to build to outcome" loading="lazy">
+  <figcaption>From ticket machine to creator of value</figcaption>
+</figure>
+
+<p>Old world: someone else decides what and why, someone else owns the outcome. You sit in the middle of the line - ticket in, code out - and the value is assembled somewhere else. New world: you're in the middle of the loop - problem → decision → build → outcome → again. The build is increasingly done by AI. Your job is the decisions and the outcome.</p>
+
+<p>That's the difference between doing tasks and having agency. A task means someone else owns the problem. Agency means you take the problem on and deliver the value.</p>
+
+<h3>Soft skills are your multiplier</h3>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/triad.svg" alt="Triad of responsibility, ownership and agency, framed by judgment" loading="lazy">
+  <figcaption>How you deliver value is what sets you apart</figcaption>
+</figure>
+
+<p>Let me be clear, because "soft skills" is a cliché. I don't mean "a leader who's good at talking to people". I mean driving something from A to Z - roadmap, product, development - taking responsibility, and feeling like an <strong>owner</strong> of your slice of the company. You need the whole triad:</p>
+
+<ul>
+  <li><strong>Responsibility</strong> for the outcome - you're on the hook for the result.</li>
+  <li><strong>Ownership</strong> of the problem - you take it end-to-end.</li>
+  <li><strong>Agency</strong> - you push the change, you don't wait for someone to tell you what to do.</li>
+</ul>
+
+<p>Above it sits <strong>judgment</strong>: knowing what a good solution is and how to apply the triad. Still engineering work, just higher up - less typing, more deciding. Technology multiplied by this triad gives a lot more value. Technology without it multiplies by roughly one.</p>
+
+<h3>Seniority, redefined</h3>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/seniority-merged.svg" alt="Seniority ladder: scope of problem and impact growing together from junior to principal, with a skill-mix bar under each level" loading="lazy">
+  <figcaption><s>knows the framework</s> → delivers on a given scope</figcaption>
+</figure>
+
+<p>Seniority used to mean "knows the framework". Now it means "can take a problem and deliver it on a given scope". Same problem, different altitude:</p>
+
+<ul>
+  <li><strong>Junior</strong> - add an index to the database</li>
+  <li><strong>Mid</strong> - fix the API's p99 latency</li>
+  <li><strong>Senior</strong> - page load time</li>
+  <li><strong>Staff</strong> - bounce rate</li>
+  <li><strong>Principal</strong> - business metrics are dropping</li>
+</ul>
+
+<p>Scope and impact grow together, from tactical to strategic. Hard skills dominate at the start but flatten out around senior. Above that, soft skills make the difference, and at staff/principal it's domain knowledge. Hard skills get you in - they don't take you up. This should change how we grow people <em>and</em> how we hire: promote and hire for delivery, not tenure.</p>
+
+<h3>Join, contain, steer</h3>
+
+<p>Three verbs for what the engineer does around AI.</p>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/engineer-molecule.svg" alt="Molecule where atoms are AI artifacts (code, tests, API, UI, data, infra) and orange bonds are the engineer: contracts, tests, integration, judgment" loading="lazy">
+  <figcaption>Join - AI makes the pieces, you make them hold</figcaption>
+</figure>
+
+<p><strong>Join.</strong> AI produces pieces - code, tests, APIs, UI, data, infra. On their own they don't hold together. You are the glue that bonds them (contracts, tests, integration, judgment) and the water that fills the gaps. Only bonded do they become a molecule with new properties: a working product. Verification moves from reading every line to tests and contracts - checking the whole works, not each brick. I saw this first-hand building mods for Quasimorph: AI made the pieces, I made them into something that actually works. My bet is that by ~2036 this is the default way engineers work.</p>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/entropy-cohesion.svg" alt="Red forces pulling a system apart over time, orange counter-forces of design, context, experience and course-correction holding it together" loading="lazy">
+  <figcaption>Contain - AI adds entropy, you're the counter-force</figcaption>
+</figure>
+
+<p><strong>Contain.</strong> AI adds entropy. I've had projects where I let AI do everything - didn't read the code, didn't write any - and over time they drift apart and each change gets harder. Nothing new: neglected projects looked exactly the same 20 years ago. AI just <em>accelerates</em> the build-up of chaos. Good design, context, experience and course-correction are the counter-force. Cohesion doesn't maintain itself; someone has to hold it.</p>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/road-judgment.svg" alt="A road to a goal, with AI drifting off the road and the engineer steering it back" loading="lazy">
+  <figcaption>Steer - AI is short-sighted, you keep it on track</figcaption>
+</figure>
+
+<p><strong>Steer.</strong> The long horizon is ours. Models are trained for a short horizon - they optimise for "the next 5-30 minutes", not "two years from now", and mostly want to please the operator. The longer they run, the more they drift. Maybe that changes; today it's true. So you set the road - the goal, the direction, what "good" means - and keep bringing AI back onto it. That's why system design, architecture and clean code still matter. Bonus: the better the road is laid out, the better AI performs on it.</p>
+
+<p>And one more thing sits under all three: <strong>you define "good enough"</strong>. It can't be perfect - the market kills the slow. But "just make something good enough" thrown at an AI gives you something random. AI doesn't know what risk the business accepts or where it's OK to cut corners. The more answers AI hands you, the more valuable it becomes to judge them and ask the right questions. Comfort with ambiguity is a core skill for the future.</p>
+
+<h2>How to prepare</h2>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/prepare-own.svg" alt="Staircase: junior owns a problem, mid owns the outcome, senior owns system health, staff+ owns the direction, with an AI habit under each step" loading="lazy">
+  <figcaption>Grow your ability to own more scope</figcaption>
+</figure>
+
+<p>Each step up is a bigger scope you take on. Under each - how you work, and one habit with AI.</p>
+
+<table class="prepare-table">
+  <thead>
+    <tr><th>Level</th><th>Own...</th><th>How</th><th>With AI</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Junior</strong></td><td>a problem</td><td>Even a small one, but end-to-end - you're the owner from day one. Fundamentals (memory, HTTP, algorithms) over attachment to a stack; they are your entropy control, even when the stack hides them.</td><td><strong>Learn it.</strong> Treat it as a craft, not magic. Build intuition for where it works and where it fails - that takes hours of practice.</td></tr>
+    <tr><td><strong>Mid</strong></td><td>the outcome</td><td>Focus on the "why" before the "how". Problems, not tickets. Push for change; grow domain and business sense (T-shape).</td><td><strong>Delegate to it.</strong> Hand it the "how", so you have time for the "why".</td></tr>
+    <tr><td><strong>Senior</strong></td><td>system health</td><td>You make the trade-offs - what we give up to deliver (like that 0.01%). Mid asks "why"; senior <em>decides</em> what to trade.</td><td><strong>Contain it.</strong> Join, contain, steer.</td></tr>
+    <tr><td><strong>Staff+</strong></td><td>the direction</td><td>Connect technology with business, translate one into the other, set direction across teams. Managing up, relationships, looking past your own bubble.</td><td><strong>Build a system around it.</strong> The harness - environment, context and guardrails where teams can work with AI safely.</td></tr>
+  </tbody>
+</table>
+
+<p>Learn it → delegate to it → contain it → build a system around it. The tools are the same at every level. What grows is the problem you take on - and how you use AI inside it. The window is open <strong>now</strong>; those who start early will reap the benefits.</p>
+
+<h2>Don't give in to the negativism</h2>
+
+<p>Every generation is told the industry is ending. When I entered the market, in the depression after 2008, people wrote that it was the end of the engineer's freedom - agile, process and managers everywhere. And the generation that entered during that complaining saw as an eldorado exactly what the previous one called the end. In 2036 someone will write that the eldorado is over, and call 2026 its <strong>start</strong>.</p>
+
+<p>Another rhyme: when I started, Java was gatekept. "You're not a real engineer if you use Java - real ones use C/C++ and manage memory themselves." The gatekeepers were on the wrong side of history. We hear exactly the same gatekeeping about AI today.</p>
+
+<p>AI burnout and losing the joy of the job are real. But ask where it comes from - the intensity, or the changing nature of the work and new roles? In a few years this will fade as we get used to it. The real danger is negativism and bubbles where the work starts to disgust you. Speaking as a nerd who loved assembler and managing memory by hand, who hated the "boring" post-2008 work of frameworks and high-level everything - I changed my attitude and found new specialisations worth mastering. And as someone turning 40 soon, I'm apparently supposed to be the one complaining the most.</p>
+
+<h3>It will stabilise again</h3>
+
+<figure class="talk-slide">
+  <img src="/presentations/programistok-2026/images/stability.svg" alt="Timeline: stable period, turbulence from around 2024, stability again around 203X, with opportunity above the chaos" loading="lazy">
+  <figcaption>The chaos in between is your window</figcaption>
+</figure>
+
+<p>It was stable, since ~2024 it's turbulent, and at some point in the 2030s it will stabilise again. The middle isn't only chaos - it's an <strong>opportunity</strong>. Early movers reap the rewards, as in every wave. What brings order is new tools, new practices, new patterns - and collective intelligence: the industry learning together at conferences, in communities, by sharing what works. Nobody figures this out alone.</p>
+
+<h3>We are in the front seat</h3>
+
+<p>By the nature of our work, programmers use AI, LLMs and agents more and more deeply than anyone else. We get a glimpse of what's coming for everyone. That front-row seat is a real advantage: we can prepare earlier and better than any other field. Use it - watch, experiment, position yourself for what you can see coming.</p>
+
+<h2>Quo vadis IT?</h2>
+
+<p>It's all <strong>evolution</strong>. The market changes. The roles change. The practices change. We've been through this many times - assembler, frameworks, cloud - and we know how to handle it. The direction is readable even if the details aren't.</p>
+
+<p>What stays yours: <strong>responsibility · ownership · agency.</strong> That's where I'd invest.</p>
+
+<p>Thanks to the Programistok organisers and everyone who came to the talk and the hallway discussions after. If you disagree with any of these predictions - good, that was the point. Let me know in the comments.</p>
