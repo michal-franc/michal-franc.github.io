@@ -14,9 +14,9 @@
   <text x="650" y="123" text-anchor="middle" font-size="19" font-weight="700" fill="#241206">Principal</text>
   <line x1="761" y1="116" x2="855" y2="116" stroke="#8A9098" stroke-width="2" marker-end="url(#si-ar)"/>
   <text x="865" y="122" font-size="19" fill="#C7CED6">company / industry-wide</text>
-  <rect x="555.0" y="141" width="28.5" height="11" fill="#57A2B2"/>
-  <rect x="583.5" y="141" width="66.5" height="11" fill="#E07B39"/>
-  <rect x="650.0" y="141" width="95.0" height="11" fill="#6AA84F"/>
+  <rect x="555.0" y="141" width="76.0" height="11" fill="#57A2B2"/>
+  <rect x="631.0" y="141" width="57.0" height="11" fill="#E07B39"/>
+  <rect x="688.0" y="141" width="57.0" height="11" fill="#6AA84F"/>
   <!-- Staff -->
   <text x="435" y="200" text-anchor="end" font-size="18" font-style="italic" fill="#B4BAC0">...because our bounce rate is increasing</text>
   <line x1="445" y1="194" x2="548" y2="194" stroke="#8A9098" stroke-width="2" marker-end="url(#si-ar)"/>
@@ -24,9 +24,9 @@
   <text x="650" y="201" text-anchor="middle" font-size="19" font-weight="700" fill="#F6E3D2">Staff</text>
   <line x1="750" y1="194" x2="855" y2="194" stroke="#8A9098" stroke-width="2" marker-end="url(#si-ar)"/>
   <text x="865" y="200" font-size="19" fill="#C7CED6">department / org-wide</text>
-  <rect x="555.0" y="219" width="47.5" height="11" fill="#57A2B2"/>
-  <rect x="602.5" y="219" width="76.0" height="11" fill="#E07B39"/>
-  <rect x="678.5" y="219" width="66.5" height="11" fill="#6AA84F"/>
+  <rect x="555.0" y="219" width="114.0" height="11" fill="#57A2B2"/>
+  <rect x="669.0" y="219" width="41.8" height="11" fill="#E07B39"/>
+  <rect x="710.8" y="219" width="34.2" height="11" fill="#6AA84F"/>
   <!-- Senior -->
   <text x="435" y="278" text-anchor="end" font-size="18" font-style="italic" fill="#B4BAC0">...because page load time is increasing</text>
   <line x1="445" y1="272" x2="559" y2="272" stroke="#8A9098" stroke-width="2" marker-end="url(#si-ar)"/>
@@ -34,9 +34,9 @@
   <text x="650" y="279" text-anchor="middle" font-size="19" font-weight="700" fill="#E3D3C3">Senior</text>
   <line x1="739" y1="272" x2="855" y2="272" stroke="#8A9098" stroke-width="2" marker-end="url(#si-ar)"/>
   <text x="865" y="278" font-size="19" fill="#C7CED6">product-wide</text>
-  <rect x="555.0" y="297" width="76.0" height="11" fill="#57A2B2"/>
-  <rect x="631.0" y="297" width="76.0" height="11" fill="#E07B39"/>
-  <rect x="707.0" y="297" width="38.0" height="11" fill="#6AA84F"/>
+  <rect x="555.0" y="297" width="152.0" height="11" fill="#57A2B2"/>
+  <rect x="707.0" y="297" width="24.7" height="11" fill="#E07B39"/>
+  <rect x="731.7" y="297" width="13.3" height="11" fill="#6AA84F"/>
   <!-- Mid -->
   <text x="435" y="356" text-anchor="end" font-size="18" font-style="italic" fill="#B4BAC0">...because this API p99 is not great</text>
   <line x1="445" y1="350" x2="570" y2="350" stroke="#8A9098" stroke-width="2" marker-end="url(#si-ar)"/>
@@ -44,9 +44,9 @@
   <text x="650" y="357" text-anchor="middle" font-size="19" font-weight="700" fill="#D7DCE3">Mid</text>
   <line x1="728" y1="350" x2="855" y2="350" stroke="#8A9098" stroke-width="2" marker-end="url(#si-ar)"/>
   <text x="865" y="356" font-size="19" fill="#C7CED6">service-wide</text>
-  <rect x="555.0" y="375" width="123.5" height="11" fill="#57A2B2"/>
-  <rect x="678.5" y="375" width="47.5" height="11" fill="#E07B39"/>
-  <rect x="726.0" y="375" width="19.0" height="11" fill="#6AA84F"/>
+  <rect x="555.0" y="375" width="167.2" height="11" fill="#57A2B2"/>
+  <rect x="722.2" y="375" width="15.2" height="11" fill="#E07B39"/>
+  <rect x="737.4" y="375" width="7.6" height="11" fill="#6AA84F"/>
   <!-- Junior -->
   <text x="435" y="434" text-anchor="end" font-size="18" font-style="italic" fill="#B4BAC0">...so just add an index to this DB</text>
   <line x1="445" y1="428" x2="581" y2="428" stroke="#8A9098" stroke-width="2" marker-end="url(#si-ar)"/>
@@ -54,9 +54,9 @@
   <text x="650" y="435" text-anchor="middle" font-size="19" font-weight="700" fill="#C7CED6">Junior</text>
   <line x1="717" y1="428" x2="855" y2="428" stroke="#8A9098" stroke-width="2" marker-end="url(#si-ar)"/>
   <text x="865" y="434" font-size="19" fill="#C7CED6">component-wide</text>
-  <rect x="555.0" y="453" width="161.5" height="11" fill="#57A2B2"/>
-  <rect x="716.5" y="453" width="22.8" height="11" fill="#E07B39"/>
-  <rect x="739.3" y="453" width="5.7" height="11" fill="#6AA84F"/>
+  <rect x="555.0" y="453" width="180.5" height="11" fill="#57A2B2"/>
+  <rect x="735.5" y="453" width="7.6" height="11" fill="#E07B39"/>
+  <rect x="743.1" y="453" width="1.9" height="11" fill="#6AA84F"/>
   <text x="650" y="488" text-anchor="middle" fill="#9AA0A6" font-size="15" font-weight="700" letter-spacing="2">TACTICAL</text>
   <rect x="490" y="506" width="15" height="15" rx="3" fill="#57A2B2"/>
   <text x="512" y="519" font-size="17" fill="#B4BAC0">hard</text>

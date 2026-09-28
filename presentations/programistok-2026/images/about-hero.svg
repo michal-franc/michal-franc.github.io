@@ -21,14 +21,16 @@
   </svg>
   <!-- /theme:keep -->
   <line x1="400" y1="180" x2="950" y2="180" stroke="#333333" stroke-width="1.5"/>
-  <text x="400" y="228" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
-  <text x="426" y="228" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">20-something years in IT</text>
-  <text x="400" y="274" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
-  <text x="426" y="274" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">JustEat · JustGiving · Form3 · Affirm</text>
-  <text x="400" y="320" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
-  <text x="426" y="320" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">Backend · Frontend · DevOps/SRE</text>
-  <text x="400" y="366" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
-  <text x="426" y="366" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">Tens of millions of users · billions of $</text>
-  <text x="400" y="412" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
-  <text x="426" y="412" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">Now: <tspan fill="#D7DCE3" font-weight="700">System &amp; Organization Architect</tspan></text>
+  <text x="400" y="224" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
+  <text x="426" y="224" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">20-something years in IT</text>
+  <text x="400" y="266" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
+  <text x="426" y="266" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">JustEat · JustGiving · Form3 · Affirm</text>
+  <text x="400" y="308" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
+  <text x="426" y="308" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">Backend · Frontend · DevOps/SRE</text>
+  <text x="400" y="350" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
+  <text x="426" y="350" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">Tens of millions of users</text>
+  <text x="400" y="392" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
+  <text x="426" y="392" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">Big fan of <tspan fill="#D7DCE3" font-weight="700">AURORA</tspan> (singer) · <tspan fill="#D7DCE3" font-weight="700">vim</tspan></text>
+  <text x="400" y="434" font-size="22" fill="#6A6F76" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">-</text>
+  <text x="426" y="434" font-size="20" fill="#9AA0A6" font-family="'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace">Huge <tspan fill="#D7DCE3" font-weight="700">indie</tspan> gamer · hobby <tspan fill="#D7DCE3" font-weight="700">game dev</tspan></text>
 </svg>
